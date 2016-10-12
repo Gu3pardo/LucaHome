@@ -6,10 +6,10 @@ import sys
 from email.mime.text import MIMEText
 
 # account information to send the email
-Receiver = 'RECEIVER_MAIL'
-Sender = 'SENDER_MAIL'
+Receiver = 'YOUR_RECEIVER'
+Sender = 'YOUR_SENDER'
 Passphrase = 'YOUR_PASSPHRASE'
-smtpserver = smtplib.SMTP('MAIL_PROVIDER', 587)
+smtpserver = smtplib.SMTP('YOUR_PROVIDER', 587)
 smtpserver.ehlo()
 smtpserver.starttls()
 smtpserver.ehlo

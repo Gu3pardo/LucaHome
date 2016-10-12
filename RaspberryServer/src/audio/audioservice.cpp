@@ -23,7 +23,7 @@ void AudioService::play(std::string fileName) {
 	int pid;
 	pid = fork();
 	if (pid == 0) {
-		execlp("/usr/bin/omxplayer", " ", command, NULL);
+		execlp("/usr/bin/omxplayer", " ", command.str().c_str(), NULL);
 		_exit(0);
 	} else {
 		wait();

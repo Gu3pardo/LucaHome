@@ -36,7 +36,7 @@ public:
 	AudioService();
 	~AudioService();
 
-	void play();
+	void play(std::string);
 	bool stop();
 
 	void initialize(std::string);
