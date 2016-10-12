@@ -1,0 +1,85 @@
+body {
+	
+}
+
+input.nomargb {
+	margin-bottom: 0px;
+}
+
+input.fullwidth {
+	
+}
+
+td.add {
+	background-color: #EFF0F2 !important;
+}
+
+table.font-big th, td {
+	font-size: 18px;
+}
+
+ul.buttonlist {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 30px;
+}
+
+ul.buttonlist li {
+	margin-bottom: 10px;
+	list-style: none none;
+}
+
+.table th, .table td {
+	vertical-align: middle;
+}
+
+.dk_container {
+	margin-bottom: 0px;
+}
+
+.navbar .nav>li>a {
+	padding: 20px 10px;
+}
+
+.nav {
+	padding: 20px 10px;
+}
+
+.dk_options_inner {
+	
+}
+
+.notfound {
+	color: red;
+}
+
+.information_type {
+	
+}
+
+.information_value {
+	
+}
+
+.change_type {
+	
+}
+
+.change_time {
+	
+}
+
+.distance {
+	margin: 10px;
+}
+
+select {
+	cursor: pointer;
+	font-size: 16px;
+	background-color: #1ABC9C;
+	border-radius: 6px;
+	color: white;
+	padding: 20px 45px 20px 13px;
+	margin-bottom: 0px;
+}

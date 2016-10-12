@@ -1,0 +1,7 @@
+Code			Description
+
+0				Command not performed
+1				Command performed
+
+10				Temperature high. Really wanna enable heating?
+11				Temperature low. Really wanna disable heating?

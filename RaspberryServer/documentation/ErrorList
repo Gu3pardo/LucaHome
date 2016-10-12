@@ -1,0 +1,43 @@
+Code			Error
+
+0				Unknown Error
+
+10				Authentification Failed
+11				UserAction cannot be performed
+12				No password
+13				No username
+
+20				action not found
+21				statement too short
+22				invalid statement
+23				empty statement
+
+30				Could not add birthday
+31				Could not update birthday
+32				Could not delete birthday
+
+40				Could not add movie
+41				Could not update movie
+42				Could not delete movie
+
+50				Could not set gpio
+51				Could not add gpio
+52				Could not delete gpio
+53				Could not activate all gpios
+54				Could not deactivate all gpios
+
+60				Could not set schedule
+61				Could not add schedule
+62				Could not delete schedule
+63				Could not activate all schedules
+64				Could not deactivate all schedules
+
+70				Could not set socket
+71				Could not add socket
+72				Could not delete socket
+73				Could not activate all sockets
+74				Could not deactivate all sockets
+
+80				System command error. Pipe Error!
+
+90				Could not stop sound playing! Not initialized!

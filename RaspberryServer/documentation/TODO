@@ -1,0 +1,4 @@
+- add NFC module for authentification
+- add LEDs for temperature module for warning of high/low temperature
+- add 433MHz receiver for wireless communication
+- add module to play sound for wakeup or going to bed or as alarm -> perhaps implement in Schedules!
