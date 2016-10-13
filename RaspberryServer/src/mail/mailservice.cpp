@@ -8,7 +8,8 @@ MailService::~MailService() {
 
 //--------------------------Public-----------------------//
 
-void MailService::sendMail(std::string message) {int maxMessageLength = 256;
+void MailService::sendMail(std::string message) {
+	int maxMessageLength = 256;
 	std::string command = "usr/bin/python /etc/default/lucahome/mail.py";
 
 	if (command.length() + message.length() > maxMessageLength) {

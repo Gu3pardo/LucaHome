@@ -615,7 +615,11 @@ int main(void) {
 	_informationService.initialize(_fileController);
 	_movieService.initialize(_fileController);
 	_remoteService.initialize(_fileController);
-	_temperatureService.initialize(_mailService, _remoteService.getSensor());
+	_temperatureService.initialize(_mailService, _remoteService.getSensor(), _remoteService.getArea());
+
+	std::ostringstream startMessage;
+	startMessage << "Starting LucaHome at " << _remoteService.getArea();
+	_mailService.sendMail(startMessage.str());
 
 	schedules = _remoteService.getSchedules();
 

@@ -23,7 +23,7 @@ install:
 	cp ./assets/movies /etc/default/lucahome/movies
 	cp ./assets/settings /etc/default/lucahome/settings
 	cp ./assets/users /etc/default/lucahome/users
-	cp ./src/python/mail.py /etc/default/lucahome/mail.py
+	cp ./src/mail/python/mail.py /etc/default/lucahome/mail.py
 	cp ./bin/lucahome /bin/lucahome
 	chmod 777 /etc/default/lucahome/birthdays
 	chmod 777 /etc/default/lucahome/changes

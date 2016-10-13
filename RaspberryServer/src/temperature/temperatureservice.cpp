@@ -29,8 +29,8 @@ void TemperatureService::controlTemperature() {
 		syslog(LOG_INFO, "Temperature low! %d", currentTemperature);
 
 		std::ostringstream data;
-		data << "Current temperature is too low! " << currentTemperature
-				<< "°C!";
+		data << "Current temperature at " << _temperatureArea << " is too low! "
+				<< currentTemperature << "°C!";
 
 		sendWarningMail(data.str());
 		enableLED(LED_ERROR_LOW_TEMP);
@@ -38,12 +38,18 @@ void TemperatureService::controlTemperature() {
 		syslog(LOG_INFO, "Temperature high! %d", currentTemperature);
 
 		std::ostringstream data;
-		data << "Current temperature is too high! " << currentTemperature
-				<< "°C!";
+		data << "Current temperature at " << _temperatureArea
+				<< " is too high! " << currentTemperature << "°C!";
 
 		sendWarningMail(data.str());
 		enableLED(LED_ERROR_HIGH_TEMP);
 	} else {
+		if (_warningCount > 0) {
+			syslog(LOG_INFO,
+					"Temperature was for %d minutes not in normal values!",
+					_warningCount);
+		}
+
 		_warningCount = 0;
 		enableLED(LED_NORMAL_TEMP);
 	}
@@ -71,12 +77,14 @@ std::string TemperatureService::getCurrentTemperatureString() {
 }
 
 void TemperatureService::initialize(MailService mailService,
-		std::string sensorId) {
+		std::string sensorId, std::string temperatureArea) {
 	_mailService = mailService;
 
 	std::ostringstream path;
 	path << "/sys/bus/w1/devices/" << sensorId << "/w1_slave";
 	_sensorPath = path.str();
+
+	_temperatureArea = temperatureArea;
 
 	_warningCount = 0;
 	_isInitialized = true;
@@ -116,7 +124,8 @@ double TemperatureService::loadTemperature() {
 
 void TemperatureService::sendWarningMail(std::string warning) {
 	if (_warningCount % 5 != 0) {
-		syslog(LOG_INFO, "Already send a mail within the last five minutes!");
+		syslog(LOG_INFO,
+				"Already send a mail within the last five or more minutes!");
 		return;
 	}
 
@@ -126,7 +135,7 @@ void TemperatureService::sendWarningMail(std::string warning) {
 
 void TemperatureService::enableLED(int led) {
 	if (led == -1) {
-		syslog(LOG_INFO, "LED has wrong value! Cannot enable -1!");
+		//syslog(LOG_INFO, "LED has wrong value! Cannot enable -1!");
 		return;
 	}
 
