@@ -20,7 +20,7 @@ std::vector<Change> ChangeService::getChanges() {
 	return changes;
 }
 
-std::string ChangeService::getChangesRestString() {
+std::string ChangeService::getChangesWebsiteString() {
 	std::stringstream out;
 
 	for (int index = 0; index < changes.size(); index++) {
@@ -31,6 +31,26 @@ std::string ChangeService::getChangesRestString() {
 				<< Tools::convertIntToStr(changes[index].getMonth()) << ":"
 				<< Tools::convertIntToStr(changes[index].getYear()) << ":"
 				<< changes[index].getUser() << ";";
+	}
+
+	out << "\x00" << std::endl;
+
+	return out.str();
+}
+
+std::string ChangeService::getChangesRestString() {
+	std::stringstream out;
+
+	for (int index = 0; index < changes.size(); index++) {
+		out << "{change:"
+				<< "{Type:" <<changes[index].getType() << "};"
+				<< "{Hour:" << Tools::convertIntToStr(changes[index].getHour()) << "};"
+				<< "{Minute:" << Tools::convertIntToStr(changes[index].getMinute()) << "};"
+				<< "{Day:" << Tools::convertIntToStr(changes[index].getDay()) << "};"
+				<< "{Month:" << Tools::convertIntToStr(changes[index].getMonth()) << "};"
+				<< "{Year:" << Tools::convertIntToStr(changes[index].getYear()) << "};"
+				<< "{User:" << changes[index].getUser() << "};"
+				<< "};";
 	}
 
 	out << "\x00" << std::endl;

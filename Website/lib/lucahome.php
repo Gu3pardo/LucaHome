@@ -108,7 +108,7 @@ switch ($action) {
 	/* ---------------- Wireless Socket ---------------- */
 	
 	case 'getsockets' :
-		return Send ( "$authentificationaction:all" );
+		echo Send ( "$authentificationaction:all" );
 		break;
 	case 'addsocket' :
 		$name = Get ( 'name' );
@@ -132,6 +132,12 @@ switch ($action) {
 		}
 		break;
 	
+	/* --------------------- Sound --------------------- */
+	
+	case 'stopplaying' :
+		echo Send ( "$authentificationaction:all" );
+		break;
+	
 	/* -------------------- Different ------------------ */
 	
 	case 'activateAllGpios' :
@@ -142,14 +148,17 @@ switch ($action) {
 	
 	case 'activateAllSchedules' :
 	case 'deactivateAllSchedules' :
-	
+
 	case 'getchanges' :
+	case 'getchangesrest' :
 	case 'getinformations' :
+	case 'getinformationsrest' :
 		
 	case 'getraspberry' :
 	case 'getarea' :
-		
+
 	case 'getcurrenttemperature' :
+	case 'getcurrenttemperaturerest' :
 	case 'gettemperaturegraphurl' :
 		echo Send ( "$authentificationaction:data" );
 		break;
@@ -188,7 +197,6 @@ function GetValues($data, $type) {
 	return $values;
 }
 function Send($data) {
-	var2console ( $data );
 	$socket = fsockopen ( 'udp://127.0.0.1', LUCAHOMEPORT, $errno, $errstr, 10 );
 	$out = "";
 	if (! $socket) {

@@ -38,6 +38,7 @@ public:
 	std::string getChangesString();
 	std::vector<Change> getChanges();
 	std::string getChangesRestString();
+	std::string getChangesWebsiteString();
 
 	void updateChange(std::string);
 

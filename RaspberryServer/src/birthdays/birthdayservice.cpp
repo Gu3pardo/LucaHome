@@ -22,10 +22,12 @@ std::string BirthdayService::getBirthdaysRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _birthdays.size(); index++) {
-		out << "birthday:" << _birthdays[index].getName() << ":"
-				<< Tools::convertIntToStr(_birthdays[index].getDay()) << ":"
-				<< Tools::convertIntToStr(_birthdays[index].getMonth()) << ":"
-				<< Tools::convertIntToStr(_birthdays[index].getYear()) << ";";
+		out << "{birthday:"
+				<< "{name:" << _birthdays[index].getName() << "};"
+				<< "{day:" << Tools::convertIntToStr(_birthdays[index].getDay()) << "};"
+				<< "{month:" << Tools::convertIntToStr(_birthdays[index].getMonth()) << "};"
+				<< "{year:" << Tools::convertIntToStr(_birthdays[index].getYear()) << "};"
+				<< "};";
 	}
 
 	out << "\x00" << std::endl;
@@ -113,8 +115,8 @@ void BirthdayService::checkBirthday() {
 
 			std::stringstream information;
 			information << _birthdays[index].getName()
-					<< " has birthday today! It is the " << Tools::convertIntToStr(age)
-					<< "th birthday!";
+					<< " has birthday today! It is the "
+					<< Tools::convertIntToStr(age) << "th birthday!";
 
 			_mailService.sendMail(information.str());
 		}

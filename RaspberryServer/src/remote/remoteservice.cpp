@@ -78,9 +78,11 @@ std::string RemoteService::getGpiosRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _gpios.size(); index++) {
-		out << "gpio:" << _gpios[index].getName() << ":"
-				<< Tools::convertIntToStr(_gpios[index].getGpio()) << ":"
-				<< Tools::convertIntToStr(_gpios[index].getState()) << ";";
+		out << "{gpio:"
+				<< "{Name:" << _gpios[index].getName() << "};"
+				<< "{Gpio:" << Tools::convertIntToStr(_gpios[index].getGpio()) << "};"
+				<< "{State:" << Tools::convertIntToStr(_gpios[index].getState()) << "};"
+				<< "};";
 	}
 
 	out << "\x00" << std::endl;
@@ -172,15 +174,17 @@ std::string RemoteService::getSchedulesRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _schedules.size(); index++) {
-		out << "schedule:" << _schedules[index].getName() << ":"
-				<< _schedules[index].getSocket() << ":"
-				<< _schedules[index].getGpio() << ":"
-				<< Tools::convertIntToStr(_schedules[index].getWeekday()) << ":"
-				<< Tools::convertIntToStr(_schedules[index].getHour()) << ":"
-				<< Tools::convertIntToStr(_schedules[index].getMinute()) << ":"
-				<< Tools::convertIntToStr(_schedules[index].getOnoff()) << ":"
-				<< Tools::convertIntToStr(_schedules[index].getIsTimer()) << ":"
-				<< Tools::convertIntToStr(_schedules[index].getStatus()) << ";";
+		out << "{schedule:"
+				<< "{Name:" << _schedules[index].getName() << "};"
+				<< "{Socket:" << _schedules[index].getSocket() << "};"
+				<< "{Gpio:" << _schedules[index].getGpio() << "};"
+				<< "{Weekday:" << Tools::convertIntToStr(_schedules[index].getWeekday()) << "};"
+				<< "{Hour:" << Tools::convertIntToStr(_schedules[index].getHour()) << "};"
+				<< "{Minute:" << Tools::convertIntToStr(_schedules[index].getMinute()) << "};"
+				<< "{OnOff:" << Tools::convertIntToStr(_schedules[index].getOnoff()) << "};"
+				<< "{IsTimer:" << Tools::convertIntToStr(_schedules[index].getIsTimer()) << "};"
+				<< "{State:" << Tools::convertIntToStr(_schedules[index].getStatus()) << "};"
+				<< "};";
 	}
 
 	out << "\x00" << std::endl;
@@ -279,10 +283,12 @@ std::string RemoteService::getSocketsRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _sockets.size(); index++) {
-		out << "socket:" << _sockets[index].getName() << ":"
-				<< _sockets[index].getArea() << ":" << _sockets[index].getCode()
-				<< ":" << Tools::convertIntToStr(_sockets[index].getState())
-				<< ";";
+		out << "{socket:"
+				<<"{Name:" << _sockets[index].getName() << "};"
+				<<"{Area:" << _sockets[index].getArea() << "};"
+				<<"{Code:" << _sockets[index].getCode() << "};"
+				<<"{State:" << Tools::convertIntToStr(_sockets[index].getState()) << "};"
+				<< "};";
 	}
 
 	out << "\x00" << std::endl;

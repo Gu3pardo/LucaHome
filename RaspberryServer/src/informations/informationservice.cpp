@@ -16,7 +16,7 @@ Information InformationService::getInformation() {
 	return _information;
 }
 
-std::string InformationService::getInformationRestString() {
+std::string InformationService::getInformationWebsiteString() {
 	std::stringstream out;
 
 	out << "information:" << "Author:" << _information.getAuthor() << ";"
@@ -30,6 +30,23 @@ std::string InformationService::getInformationRestString() {
 			<< _information.getTemperatureLogVersion() << ";" << "information:"
 			<< "Android App Version:" << _information.getAndroidAppVersion()
 			<< ";" << "\x00" << std::endl;
+
+	return out.str();
+}
+
+std::string InformationService::getInformationRestString() {
+	std::stringstream out;
+
+	out << "{information:"
+			<< "{Author:" << _information.getAuthor() << "};"
+			<< "{Company:" << _information.getCompany() << "};"
+			<< "{Contact:" << _information.getContact() << "};"
+			<< "{Build Date:" << _information.getBuilddate() << "};"
+			<< "{Server Version:" << _information.getServerVersion() << "};"
+			<< "{Website Version:" << _information.getWebsiteVersion() << "};"
+			<< "{Temperature Log Version:" << _information.getTemperatureLogVersion() << "};"
+			<< "{Android App Version:" << _information.getAndroidAppVersion() << "};"
+			 << "};" << "\x00" << std::endl;
 
 	return out.str();
 }

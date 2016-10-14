@@ -10,7 +10,7 @@ MailService::~MailService() {
 
 void MailService::sendMail(std::string message) {
 	int maxMessageLength = 256;
-	std::string command = "usr/bin/python /etc/default/lucahome/mail.py";
+	std::string command = "python /etc/default/lucahome/mail.py";
 
 	if (command.length() + message.length() > maxMessageLength) {
 		syslog(LOG_INFO, "Error! Message too long! Message: %s; Length: %d",

@@ -59,6 +59,7 @@ public:
 
 	double getCurrentTemperature();
 	std::string getCurrentTemperatureString();
+	std::string getCurrentTemperatureRestString();
 
 	void initialize(MailService, std::string, std::string);
 };

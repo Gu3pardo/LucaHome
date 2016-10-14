@@ -42,6 +42,7 @@ public:
 	std::string getInformationString();
 	Information getInformation();
 	std::string getInformationRestString();
+	std::string getInformationWebsiteString();
 
 	void initialize(FileController);
 };

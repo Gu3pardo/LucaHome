@@ -128,11 +128,15 @@ string executeCmd(string cmd) {
 
 	//---------------------Changes--------------------
 	else if (action == "getchanges") {
+		return _changeService.getChangesWebsiteString();
+	} else if (action == "getchangesrest") {
 		return _changeService.getChangesRestString();
 	}
 
 	//------------------Informations------------------
 	else if (action == "getinformations") {
+		return _informationService.getInformationWebsiteString();
+	} else if (action == "getinformationsrest") {
 		return _informationService.getInformationRestString();
 	}
 
@@ -182,6 +186,8 @@ string executeCmd(string cmd) {
 	//--------------------Temperature-----------------
 	else if (action == "getcurrenttemperature") {
 		return _temperatureService.getCurrentTemperatureString();
+	} else if (action == "getcurrenttemperaturerest") {
+		return _temperatureService.getCurrentTemperatureRestString();
 	} else if (action == "gettemperaturegraphurl") {
 		return _remoteService.getTemperatureGraphUrl();
 	}
@@ -615,7 +621,8 @@ int main(void) {
 	_informationService.initialize(_fileController);
 	_movieService.initialize(_fileController);
 	_remoteService.initialize(_fileController);
-	_temperatureService.initialize(_mailService, _remoteService.getSensor(), _remoteService.getArea());
+	_temperatureService.initialize(_mailService, _remoteService.getSensor(),
+			_remoteService.getArea());
 
 	std::ostringstream startMessage;
 	startMessage << "Starting LucaHome at " << _remoteService.getArea();

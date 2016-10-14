@@ -22,11 +22,13 @@ std::string MovieService::getMoviesRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _movies.size(); index++) {
-		out << "movie:" << _movies[index].getTitle() << ":"
-				<< _movies[index].getGenre() << ":"
-				<< _movies[index].getDescription() << ":"
-				<< Tools::convertIntToStr(_movies[index].getRating()) << ":"
-				<< Tools::convertIntToStr(_movies[index].getWatched()) << ";";
+		out << "{movie:"
+				<< "{Title:" << _movies[index].getTitle() << "};"
+				<< "{Genre:" << _movies[index].getGenre() << "};"
+				<< "{Description:" << _movies[index].getDescription() << "};"
+				<< "{Rating:" << Tools::convertIntToStr(_movies[index].getRating()) << "};"
+				<< "{Watched:" << Tools::convertIntToStr(_movies[index].getWatched()) << "};"
+				<< "};";
 	}
 
 	out << "\x00" << std::endl;

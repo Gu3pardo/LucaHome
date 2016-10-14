@@ -76,6 +76,27 @@ std::string TemperatureService::getCurrentTemperatureString() {
 	return data.str();
 }
 
+std::string TemperatureService::getCurrentTemperatureRestString() {
+	if (!_isInitialized) {
+		syslog(LOG_INFO, "TemperatureService is not initialized!");
+		return "";
+	}
+
+	std::stringstream out;
+
+	for (int index = 0; index < _birthdays.size(); index++) {
+		out << "{temperature:"
+				<< "{value:" << loadTemperature() << "};"
+				<< "{area:" << _temperatureArea << "};"
+				<< "{sensorPath:" << _sensorPath << "};"
+				<< "};";
+	}
+
+	out << "\x00" << std::endl;
+
+	return out.str();
+}
+
 void TemperatureService::initialize(MailService mailService,
 		std::string sensorId, std::string temperatureArea) {
 	_mailService = mailService;
