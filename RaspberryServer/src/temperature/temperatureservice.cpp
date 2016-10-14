@@ -70,10 +70,11 @@ std::string TemperatureService::getCurrentTemperatureString() {
 		return "";
 	}
 
-	std::ostringstream data;
-	data << loadTemperature();
+	std::stringstream out;
+	out << loadTemperature();
+	out << std::endl;
 
-	return data.str();
+	return out.str();
 }
 
 std::string TemperatureService::getCurrentTemperatureRestString() {
@@ -83,15 +84,11 @@ std::string TemperatureService::getCurrentTemperatureRestString() {
 	}
 
 	std::stringstream out;
-
-	for (int index = 0; index < _birthdays.size(); index++) {
-		out << "{temperature:"
-				<< "{value:" << loadTemperature() << "};"
-				<< "{area:" << _temperatureArea << "};"
-				<< "{sensorPath:" << _sensorPath << "};"
-				<< "};";
-	}
-
+	out << "{temperature:"
+			<< "{value:" << loadTemperature() << "};"
+			<< "{area:" << _temperatureArea << "};"
+			<< "{sensorPath:" << _sensorPath << "};"
+			<< "};";
 	out << "\x00" << std::endl;
 
 	return out.str();
