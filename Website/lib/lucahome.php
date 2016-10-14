@@ -2,7 +2,6 @@
 define ( 'LUCAHOMEPORT', 6677 );
 
 $action = Get ( 'action' );
-
 $user = Get ( 'user' );
 $password = Get ( 'password' );
 $authentification = "$user:$password";
@@ -13,7 +12,7 @@ switch ($action) {
 	/* ------------------- Birthday -------------------- */
 	
 	case 'getbirthdays' :
-		return Send ( "$authentificationaction:all" );
+		echo Send ( "$authentificationaction:all" );
 		break;
 	case 'addbirthday' :
 	case 'updatebirthday' :
@@ -22,46 +21,46 @@ switch ($action) {
 		$month = Get ( 'month' );
 		$year = Get ( 'year' );
 		if ($name != '' && $day != '' && $month != '' && $year != '') {
-			return Send ( "$authentificationaction:$name:$day:$month:$year" );
+			echo Send ( "$authentificationaction:$name:$day:$month:$year" );
 		}
 		break;
 	case 'deletebirthday' :
 		$name = Get ( 'name' );
 		if ($name != '') {
-			return Send ( "$authentificationaction:$name" );
+			echo Send ( "$authentificationaction:$name" );
 		}
 		break;
 	
 	/* ---------------------- Gpio --------------------- */
 	
 	case 'getgpios' :
-		return Send ( "$authentificationaction:all" );
+		echo Send ( "$authentificationaction:all" );
 		break;
 	case 'addgpio' :
 		$name = Get ( 'name' );
 		$gpio = Get ( 'gpio' );
 		if ($name != '' && $gpio != '') {
-			return Send ( "$authentificationaction:$name:$gpio:0" );
+			echo Send ( "$authentificationaction:$name:$gpio:0" );
 		}
 		break;
 	case 'setgpio' :
 		$gpio = Get ( 'gpio' );
 		$state = Get ( 'state' );
 		if ($gpio != '' && $state != '') {
-			return Send ( "$authentificationaction:$gpio:$state" );
+			echo Send ( "$authentificationaction:$gpio:$state" );
 		}
 		break;
 	case 'deletegpio' :
 		$name = Get ( 'name' );
 		if ($name != '') {
-			return Send ( "$authentificationaction:$name" );
+			echo Send ( "$authentificationaction:$name" );
 		}
 		break;
 	
 	/* --------------------- Movie --------------------- */
 	
 	case 'getmovies' :
-		return Send ( "$authentificationaction:all" );
+		echo Send ( "$authentificationaction:all" );
 		break;
 	case 'addmovie' :
 	case 'updatemovie' :
@@ -71,20 +70,20 @@ switch ($action) {
 		$rating = Get ( 'rating' );
 		$watched = Get ( 'watched' );
 		if ($title != '') {
-			return Send ( "$authentificationaction:$title:$genre:$description:$rating:$watched" );
+			echo Send ( "$authentificationaction:$title:$genre:$description:$rating:$watched" );
 		}
 		break;
 	case 'deletemovie' :
 		$title = Get ( 'title' );
 		if ($title != '') {
-			return Send ( "$authentificationaction:$title" );
+			echo Send ( "$authentificationaction:$title" );
 		}
 		break;
 	
 	/* -------------------- Schedule ------------------- */
 	
 	case 'getschedules' :
-		return Send ( "$authentificationaction:all" );
+		echo Send ( "$authentificationaction:all" );
 		break;
 	case 'addschedule' :
 		$name = Get ( 'name' );
@@ -95,14 +94,14 @@ switch ($action) {
 		$onoff = Get ( 'onoff' );
 		$isTimer = Get ( 'isTimer' );
 		if ($name != '' && $socket != '' && $weekday != '' && $hour != '' && $minute != '' && $onoff != '' && $isTimer != '') {
-			return Send ( "$authentificationaction:$name:$socket:$weekday:$hour:$minute:$onoff:$isTimer:1" );
+			echo Send ( "$authentificationaction:$name:$socket:$weekday:$hour:$minute:$onoff:$isTimer:1" );
 		}
 		break;
 	case 'setschedule' :
 	case 'deleteschedule' :
 		$schedule = Get ( 'schedule' );
 		if ($schedule != '') {
-			return Send ( "$authentificationaction:$schedule" );
+			echo Send ( "$authentificationaction:$schedule" );
 		}
 		break;
 	
@@ -116,20 +115,20 @@ switch ($action) {
 		$area = Get ( 'area' );
 		$code = Get ( 'code' );
 		if ($name != '' && $code != '') {
-			return Send ( "$authentificationaction:$name:$area:$code:0" );
+			echo Send ( "$authentificationaction:$name:$area:$code:0" );
 		}
 		break;
 	case 'setsocket' :
 		$socket = Get ( 'socket' );
 		$state = Get ( 'state' );
 		if ($socket != '' && $state != '') {
-			return Send ( "$authentificationaction:$socket:$state" );
+			echo Send ( "$authentificationaction:$socket:$state" );
 		}
 		break;
 	case 'deletesocket' :
 		$socket = Get ( 'socket' );
 		if ($socket != '') {
-			return Send ( "$authentificationaction:$socket" );
+			echo Send ( "$authentificationaction:$socket" );
 		}
 		break;
 	
@@ -152,7 +151,13 @@ switch ($action) {
 		
 	case 'getcurrenttemperature' :
 	case 'gettemperaturegraphurl' :
-		return Send ( "$authentificationaction:data" );
+		echo Send ( "$authentificationaction:data" );
+		break;
+	
+	/* ---------------------- Pages -------------------- */
+		
+	case 'main' :
+		var2console ( "Navigated to $action page!" );
 		break;
 	
 	/* --------------------- Default ------------------- */
@@ -233,11 +238,6 @@ function ParseChanges($data) {
 		);
 	}
 	return $changes;
-}
-
-/* ==================== Get Raspberry ================== */
-function GetRaspberry() {
-	return Send ( "Website:0000:getraspberry:type" );
 }
 
 /* ======================= Get Area ==================== */

@@ -3,14 +3,14 @@ class Home {
 	var $app;
 	function Home(&$app) {
 		$this->app = $app;
-		
-		$this->app->Nav->AddPage ( 'informations' );
-		$this->app->Nav->AddAction ( 'informations', 'Information' );
-		$this->app->Nav->AddAction ( 'temperature', 'Temperature' );
-		$this->app->Nav->DefaultAction ( 'informations' );
+		$this->app->Nav->AddPage ( 'main' );
+		$this->app->Nav->AddAction ( 'main', 'Main' );
+		$this->app->Nav->DefaultAction ( 'main' );
 	}
-	function Information() {
+	function Main() {
 		include ('./lib/lucahome.php');
+		
+		// Informations
 		
 		$dataInformations = GetInformations ();
 		$informations = ParseInformations ( $dataInformations );
@@ -24,6 +24,8 @@ class Home {
                         </tr>";
 		}
 		$this->app->Tpl->Set ( 'INFORMATIONTABLE', $information_table );
+		
+		// Changes
 		
 		$dataChanges = GetChanges ();
 		$changes = ParseChanges ( $dataChanges );
@@ -39,11 +41,7 @@ class Home {
 		}
 		$this->app->Tpl->Set ( 'CHANGETABLE', $change_table );
 		
-		$this->app->Tpl->Set ( 'MENUINFORMATION', 'class="active"' );
-		$this->app->Tpl->Parse ( 'PAGE', 'page_informations.tpl' );
-	}
-	function Temperature() {
-		include ('./lib/lucahome.php');
+		// Temperature
 		
 		$area = GetArea ();
 		$temperature = GetTemperature ();
@@ -57,14 +55,16 @@ class Home {
 		
 		$temp_out = '';
 		$temp_out .= "<div class=\"button socket\">
-        					<div class=\"button_text temperature_value\">{$area}:   {$temperature} &#176;C</div>
-                      </div>";
+		<div class=\"button_text temperature_value\">{$area}:   {$temperature} &#176;C</div>
+		</div>";
 		
 		$this->app->Tpl->Set ( 'TEMPERATURE', $temp_out );
 		$this->app->Tpl->Set ( 'LINK_TEXT', $link_text );
 		$this->app->Tpl->Set ( 'LINK_VALUE', $link_value );
 		$this->app->Tpl->Set ( 'MENUTEMPERATURE', 'class="active"' );
-		$this->app->Tpl->Parse ( 'PAGE', 'page_temperature.tpl' );
+		
+		$this->app->Tpl->Set ( 'MENUINFORMATION', 'class="active"' );
+		$this->app->Tpl->Parse ( 'PAGE', 'page_main.tpl' );
 	}
 }
 ?>
