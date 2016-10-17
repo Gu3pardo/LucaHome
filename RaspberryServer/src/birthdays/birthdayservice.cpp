@@ -38,9 +38,13 @@ std::string BirthdayService::getBirthdaysRestString() {
 
 bool BirthdayService::addBirthday(std::vector<std::string> newBirthdayData,
 		ChangeService changeService) {
-	syslog(LOG_INFO, "Add birthday %s", newBirthdayData[3].c_str());
-	Birthday newBirthday(newBirthdayData[3], atoi(newBirthdayData[4].c_str()),
-			atoi(newBirthdayData[5].c_str()), atoi(newBirthdayData[6].c_str()));
+	syslog(LOG_INFO, "Add birthday %d", atoi(newBirthdayData[3].c_str()));
+	Birthday newBirthday(
+			atoi(newBirthdayData[3].c_str()),
+			newBirthdayData[4],
+			atoi(newBirthdayData[5].c_str()),
+			atoi(newBirthdayData[6].c_str()),
+			atoi(newBirthdayData[7].c_str()));
 	_birthdays.push_back(newBirthday);
 	saveBirthdays(changeService);
 	loadBirthdays();
@@ -50,13 +54,15 @@ bool BirthdayService::addBirthday(std::vector<std::string> newBirthdayData,
 bool BirthdayService::updateBirthday(
 		std::vector<std::string> updateBirthdayData,
 		ChangeService changeService) {
-	syslog(LOG_INFO, "Update birthday %s", updateBirthdayData[3].c_str());
-	Birthday updateBirthday(updateBirthdayData[3],
-			atoi(updateBirthdayData[4].c_str()),
+	syslog(LOG_INFO, "Update birthday %d", atoi(updateBirthdayData[3].c_str()));
+	Birthday updateBirthday(
+			atoi(updateBirthdayData[3].c_str()),
+			updateBirthdayData[4],
 			atoi(updateBirthdayData[5].c_str()),
-			atoi(updateBirthdayData[6].c_str()));
+			atoi(updateBirthdayData[6].c_str()),
+			atoi(updateBirthdayData[7].c_str()));
 	for (int index = 0; index < _birthdays.size(); index++) {
-		if (_birthdays[index].getName() == updateBirthday.getName()) {
+		if (_birthdays[index].getId() == updateBirthday.getId()) {
 			_birthdays[index] = updateBirthday;
 			saveBirthdays(changeService);
 			loadBirthdays();
@@ -66,12 +72,11 @@ bool BirthdayService::updateBirthday(
 	return false;
 }
 
-bool BirthdayService::deleteBirthday(std::string name,
-		ChangeService changeService) {
-	syslog(LOG_INFO, "Delete birthday %s", name.c_str());
+bool BirthdayService::deleteBirthday(int id, ChangeService changeService) {
+	syslog(LOG_INFO, "Delete birthday %d", id);
 	std::vector<Birthday>::iterator it = _birthdays.begin();
 	while (it != _birthdays.end()) {
-		if ((*it).getName() == name) {
+		if ((*it).getId() == id) {
 			it = _birthdays.erase(it);
 			saveBirthdays(changeService);
 			loadBirthdays();

@@ -28,7 +28,7 @@ public:
 	void setMonth(int);
 	void setYear(int);
 
-	std::string getId();
+	int getId();
 	std::string getName();
 	int getDay();
 	int getMonth();

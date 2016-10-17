@@ -48,7 +48,7 @@ public:
 
 	bool addBirthday(std::vector<std::string>, ChangeService);
 	bool updateBirthday(std::vector<std::string>, ChangeService);
-	bool deleteBirthday(std::string, ChangeService);
+	bool deleteBirthday(int, ChangeService);
 
 	void initialize(FileController, MailService);
 

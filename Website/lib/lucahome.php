@@ -16,18 +16,19 @@ switch ($action) {
 		break;
 	case 'addbirthday' :
 	case 'updatebirthday' :
+		$id = Get ( 'id' );
 		$name = Get ( 'name' );
 		$day = Get ( 'day' );
 		$month = Get ( 'month' );
 		$year = Get ( 'year' );
-		if ($name != '' && $day != '' && $month != '' && $year != '') {
-			echo Send ( "$authentificationaction:$name:$day:$month:$year" );
+		if ($id != '' && $name != '' && $day != '' && $month != '' && $year != '') {
+			echo Send ( "$authentificationaction:$id:$name:$day:$month:$year" );
 		}
 		break;
 	case 'deletebirthday' :
-		$name = Get ( 'name' );
+		$id = Get ( 'id' );
 		if ($name != '') {
-			echo Send ( "$authentificationaction:$name" );
+			echo Send ( "$authentificationaction:$id" );
 		}
 		break;
 	
@@ -148,15 +149,15 @@ switch ($action) {
 	
 	case 'activateAllSchedules' :
 	case 'deactivateAllSchedules' :
-
+	
 	case 'getchanges' :
 	case 'getchangesrest' :
 	case 'getinformations' :
 	case 'getinformationsrest' :
-		
+	
 	case 'getraspberry' :
 	case 'getarea' :
-
+	
 	case 'getcurrenttemperature' :
 	case 'getcurrenttemperaturerest' :
 	case 'gettemperaturegraphurl' :
@@ -164,7 +165,7 @@ switch ($action) {
 		break;
 	
 	/* ---------------------- Pages -------------------- */
-		
+	
 	case 'main' :
 		var2console ( "Navigated to $action page!" );
 		break;

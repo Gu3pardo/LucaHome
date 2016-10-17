@@ -106,20 +106,21 @@ string executeCmd(string cmd) {
 	//--------------------Birthday--------------------
 	else if (action == "getbirthdays") {
 		return _birthdayService.getBirthdaysRestString();
-	} else if (action == "addbirthday" && words.size() == 7) {
+	} else if (action == "addbirthday" && words.size() == 8) {
 		if (_birthdayService.addBirthday(words, _changeService)) {
 			return "addbirthday:1";
 		} else {
 			return "Error 30:Could not add birthday";
 		}
-	} else if (action == "updatebirthday" && words.size() == 7) {
+	} else if (action == "updatebirthday" && words.size() == 8) {
 		if (_birthdayService.updateBirthday(words, _changeService)) {
 			return "updatebirthday:1";
 		} else {
 			return "Error 31:Could not update birthday";
 		}
 	} else if (action == "deletebirthday") {
-		if (_birthdayService.deleteBirthday(name, _changeService)) {
+		if (_birthdayService.deleteBirthday(atoi(words[3].c_str()),
+				_changeService)) {
 			return "deletebirthday:1";
 		} else {
 			return "Error 32:Could not delete birthday";
