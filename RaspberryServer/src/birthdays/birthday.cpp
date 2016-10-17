@@ -3,7 +3,9 @@
 Birthday::Birthday() {
 }
 
-Birthday::Birthday(std::string _name, int _day, int _month, int _year) {
+Birthday::Birthday(int _id, std::string _name, int _day, int _month,
+		int _year) {
+	id = _id;
 	name = _name;
 	day = _day;
 	month = _month;
@@ -11,6 +13,10 @@ Birthday::Birthday(std::string _name, int _day, int _month, int _year) {
 }
 
 Birthday::~Birthday() {
+}
+
+void Birthday::setId(int _id) {
+	id = _id;
 }
 
 void Birthday::setName(std::string _name) {
@@ -27,6 +33,10 @@ void Birthday::setMonth(int _month) {
 
 void Birthday::setYear(int _year) {
 	year = _year;
+}
+
+int Birthday::getId() {
+	return id;
 }
 
 std::string Birthday::getName() {
@@ -46,7 +56,8 @@ int Birthday::getYear() {
 }
 
 std::string Birthday::toString() {
-	std::string str = std::string("Birthday { name: ") + name
+	std::string str = std::string("Birthday { id: ")
+			+ Tools::convertIntToStr(id) + std::string("; name: ") + name
 			+ std::string("; day: ") + Tools::convertIntToStr(day)
 			+ std::string("; month: ") + Tools::convertIntToStr(month)
 			+ std::string("; year: ") + Tools::convertIntToStr(year)

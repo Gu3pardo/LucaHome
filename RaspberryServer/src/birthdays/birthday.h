@@ -11,6 +11,7 @@
 class Birthday {
 
 private:
+	int id;
 	std::string name;
 	int day;
 	int month;
@@ -18,14 +19,16 @@ private:
 
 public:
 	Birthday();
-	Birthday(std::string, int, int, int);
+	Birthday(int, std::string, int, int, int);
 	~Birthday();
 
+	void setId(int);
 	void setName(std::string);
 	void setDay(int);
 	void setMonth(int);
 	void setYear(int);
 
+	std::string getId();
 	std::string getName();
 	int getDay();
 	int getMonth();

@@ -76,6 +76,7 @@ std::vector<Birthday> XmlParser::parseBirthdays() {
 				std::vector < std::string > words = Tools::explode(":",
 						lines[l]);
 				Birthday b;
+				b.setId(l);
 				for (int w = 0; w < words.size(); w++) {
 					if (typeid(words.at(0)) == typeid(std::string))
 						b.setName(words[0]);

@@ -205,7 +205,7 @@ function Send($data) {
 		exit ();
 	} else {
 		fwrite ( $socket, "$data" );
-		$out = fread ( $socket, 20000 );
+		$out = fread ( $socket, 65536 );
 		fclose ( $socket );
 	}
 	return $out;

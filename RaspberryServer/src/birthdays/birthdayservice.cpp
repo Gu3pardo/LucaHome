@@ -23,6 +23,7 @@ std::string BirthdayService::getBirthdaysRestString() {
 
 	for (int index = 0; index < _birthdays.size(); index++) {
 		out << "{birthday:"
+				<< "{id:" << Tools::convertIntToStr(_birthdays[index].getId()) << "};"
 				<< "{name:" << _birthdays[index].getName() << "};"
 				<< "{day:" << Tools::convertIntToStr(_birthdays[index].getDay()) << "};"
 				<< "{month:" << Tools::convertIntToStr(_birthdays[index].getMonth()) << "};"

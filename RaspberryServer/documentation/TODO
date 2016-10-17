@@ -1,4 +1,57 @@
-- add NFC module for authentification
-- add LEDs for temperature module for warning of high/low temperature
-- add 433MHz receiver for wireless communication
-- add module to play sound for wakeup or going to bed or as alarm -> perhaps implement in Schedules!
+Hardware
+[]		add NFC module for authentification
+[]		add LEDs for temperature module for warning of high/low temperature
+[]		add 433MHz receiver for wireless communication
+
+Server
+[]		add NFC module for authentification
+[]		implement real LEDs connections for temperature module for warning of high/low temperature
+[]		add 433MHz receiver module for wireless communication
+[]		add module to play sound for wakeup or going to bed or as alarm -> perhaps implement in Schedules!
+
+Website
+[x] 	raise data to send from server to client
+[] 		test: raise data to send from server to client
+
+Android Application
+[x] 	test communication to server
+
+[] 		implement everything
+[x]			- Call data on startup
+[]			- show notification of sockets
+[]			- show notification of temperature and upcoming weather
+[]			- more stuff...
+	
+[]		-> at startup
+[x]			show bootscreen with spinner and lucahome logo
+[x]			get birthdays, movies, gpios, temperature, sockets, schedules, timer (, changes & informations)
+[x]			get weather
+[]			show notifications
+	
+[]		-> at main view
+[x]			show button for sockets, schedules, timer, birthdays, movies, settings, user, temperature (, changes & informations)
+[]			click on button leads to corresponding fragment view
+	
+[]		-> at details view of above sections
+[x]			sockets, birthdays, movies, schedules, timer have an ADD button
+[]			ADD button leads to a dialog where data can be entered (SAVE, CANCEL)
+[]			listview of all entries contain every entry displaying all properties 
+				(left side image, main property in the middle, some minor properties after this and on the 
+				 right side an action button)
+[]			longpress on the entry leads to a dialog if user wish to change a property or to delete the entry
+				(three buttons: CHANGE, DELETE, CANCEL)
+[]				CHANGE leads to new dialog (similar to ADD dialog)
+[]				DELETE leads to new dialog if user really wants to delete entry (YES, NO)
+				
+[]			user details contains name and role and possibility to reset password to default or create new passphrase
+	
+[]			temperature shows temperature measured by smartphone sensor, temperature send by raspberry (get temperature here!)
+			and graphs of temperature over last month
+	
+[]			settings contains 
+[]				possibility to en-/disable notification and buttons of notification
+[]				choice of raspberry to get the data from
+[]				choice if i want to start audio/video apps while enabling the socket
+[]				duration of timer
+		
+[]			changes & informations contains just the data
