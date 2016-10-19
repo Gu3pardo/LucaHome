@@ -34,6 +34,7 @@ class TemperatureService {
 private:
 	std::string _sensorPath;
 	std::string _temperatureArea;
+	std::string _graphPath;
 	MailService _mailService;
 
 	int _warningCount;
@@ -61,7 +62,7 @@ public:
 	std::string getCurrentTemperatureString();
 	std::string getCurrentTemperatureRestString();
 
-	void initialize(MailService, std::string, std::string);
+	void initialize(MailService, std::string, std::string, std::string);
 };
 
 #endif

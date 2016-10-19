@@ -3,17 +3,14 @@
 Movie::Movie() {
 }
 
-Movie::Movie(
-		std::string _title,
-		std::string _genre,
-		std::string _description,
-		int _rating,
-		int _watched) {
-  title = _title;
-  genre = _genre;
-  description = _description;
-  rating = _rating;
-  watched = _watched;
+Movie::Movie(std::string _title, std::string _genre, std::string _description,
+		std::vector<std::string> _sockets, int _rating, int _watched) {
+	title = _title;
+	genre = _genre;
+	description = _description;
+	sockets = _sockets;
+	rating = _rating;
+	watched = _watched;
 }
 
 Movie::~Movie() {
@@ -31,6 +28,10 @@ void Movie::setDescription(std::string _description) {
 	description = _description;
 }
 
+void Movie::setSockets(std::vector<std::string> _sockets) {
+	sockets = _sockets;
+}
+
 void Movie::setRating(int _rating) {
 	rating = _rating;
 }
@@ -39,32 +40,51 @@ void Movie::setWatched(int _watched) {
 	watched = _watched;
 }
 
+void Movie::increaseWatched() {
+	watched++;
+}
+
 std::string Movie::getTitle() {
-  return title;
+	return title;
 }
 
 std::string Movie::getGenre() {
-  return genre;
+	return genre;
 }
 
 std::string Movie::getDescription() {
-  return description;
+	return description;
+}
+
+std::vector<std::string> Movie::getSockets() {
+	return sockets;
+}
+
+std::string Movie::getSocketsString() {
+	std::string socketString = "";
+
+	for (int index = 0; index < sockets.size(); index++) {
+		socketString += socketString[index] + "|";
+	}
+	socketString = socketString.substr(0, sockets.size() - 1);
+
+	return socketString;
 }
 
 int Movie::getRating() {
-  return rating;
+	return rating;
 }
 
 int Movie::getWatched() {
-  return watched;
+	return watched;
 }
 
 std::string Movie::toString() {
 	std::string str = std::string("Movie { title: ") + title
-			+ std::string("; genre: ") + genre
-			+ std::string("; description: ") + description
+			+ std::string("; genre: ") + genre + std::string("; description: ")
+			+ description + std::string("; sockets:") + getSocketsString()
 			+ std::string("; rating: ") + Tools::convertIntToStr(rating)
 			+ std::string("; watched: ") + Tools::convertIntToStr(watched)
 			+ std::string(" }");
-		return str;
+	return str;
 }

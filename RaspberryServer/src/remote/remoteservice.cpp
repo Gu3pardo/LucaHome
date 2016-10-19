@@ -78,10 +78,10 @@ std::string RemoteService::getGpiosRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _gpios.size(); index++) {
-		out << "{gpio:"
-				<< "{Name:" << _gpios[index].getName() << "};"
-				<< "{Gpio:" << Tools::convertIntToStr(_gpios[index].getGpio()) << "};"
-				<< "{State:" << Tools::convertIntToStr(_gpios[index].getState()) << "};"
+		out << "{gpio:" << "{Name:" << _gpios[index].getName() << "};"
+				<< "{Gpio:" << Tools::convertIntToStr(_gpios[index].getGpio())
+				<< "};" << "{State:"
+				<< Tools::convertIntToStr(_gpios[index].getState()) << "};"
 				<< "};";
 	}
 
@@ -174,16 +174,21 @@ std::string RemoteService::getSchedulesRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _schedules.size(); index++) {
-		out << "{schedule:"
-				<< "{Name:" << _schedules[index].getName() << "};"
+		out << "{schedule:" << "{Name:" << _schedules[index].getName() << "};"
 				<< "{Socket:" << _schedules[index].getSocket() << "};"
 				<< "{Gpio:" << _schedules[index].getGpio() << "};"
-				<< "{Weekday:" << Tools::convertIntToStr(_schedules[index].getWeekday()) << "};"
-				<< "{Hour:" << Tools::convertIntToStr(_schedules[index].getHour()) << "};"
-				<< "{Minute:" << Tools::convertIntToStr(_schedules[index].getMinute()) << "};"
-				<< "{OnOff:" << Tools::convertIntToStr(_schedules[index].getOnoff()) << "};"
-				<< "{IsTimer:" << Tools::convertIntToStr(_schedules[index].getIsTimer()) << "};"
-				<< "{State:" << Tools::convertIntToStr(_schedules[index].getStatus()) << "};"
+				<< "{Weekday:"
+				<< Tools::convertIntToStr(_schedules[index].getWeekday())
+				<< "};" << "{Hour:"
+				<< Tools::convertIntToStr(_schedules[index].getHour()) << "};"
+				<< "{Minute:"
+				<< Tools::convertIntToStr(_schedules[index].getMinute()) << "};"
+				<< "{OnOff:"
+				<< Tools::convertIntToStr(_schedules[index].getOnoff()) << "};"
+				<< "{IsTimer:"
+				<< Tools::convertIntToStr(_schedules[index].getIsTimer())
+				<< "};" << "{State:"
+				<< Tools::convertIntToStr(_schedules[index].getStatus()) << "};"
 				<< "};";
 	}
 
@@ -283,11 +288,10 @@ std::string RemoteService::getSocketsRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _sockets.size(); index++) {
-		out << "{socket:"
-				<<"{Name:" << _sockets[index].getName() << "};"
-				<<"{Area:" << _sockets[index].getArea() << "};"
-				<<"{Code:" << _sockets[index].getCode() << "};"
-				<<"{State:" << Tools::convertIntToStr(_sockets[index].getState()) << "};"
+		out << "{socket:" << "{Name:" << _sockets[index].getName() << "};"
+				<< "{Area:" << _sockets[index].getArea() << "};" << "{Code:"
+				<< _sockets[index].getCode() << "};" << "{State:"
+				<< Tools::convertIntToStr(_sockets[index].getState()) << "};"
 				<< "};";
 	}
 
@@ -363,6 +367,34 @@ bool RemoteService::setAllSockets(int state, ChangeService changeService) {
 
 	return success;
 }
+
+bool RemoteService::activateSockets(std::vector<std::string> socketList,
+		ChangeService changeService) {
+	bool success = false;
+
+	if (socketList.size() == 1) {
+		if (socketList[0] == "Error 44:No sockets available") {
+			return success;
+		}
+	}
+
+	for (int socketIndex = 0; socketIndex < socketList.size(); socketIndex++) {
+		for (int index = 0; index < _sockets.size(); index++) {
+			if (_sockets[index].getName() == socketList[socketIndex]) {
+				success = _sockets[index].setState(1, _datagpio);
+
+				saveSettings(changeService);
+				loadSettings();
+
+				break;
+			}
+		}
+	}
+
+	return success;
+}
+
+//----------------------initialize-----------------------//
 
 void RemoteService::initialize(FileController fileController) {
 	_fileController = fileController;

@@ -30,7 +30,8 @@ Android Application
 	
 []		-> at main view
 [x]			show button for sockets, schedules, timer, birthdays, movies, settings, user, temperature (, changes & informations)
-[]			click on button leads to corresponding fragment view
+[x]			click on button leads to corresponding fragment view
+[x]			confirm passed downloaded data is correct
 	
 []		-> at details view of above sections
 [x]			sockets, birthdays, movies, schedules, timer have an ADD button
@@ -48,10 +49,10 @@ Android Application
 []			temperature shows temperature measured by smartphone sensor, temperature send by raspberry (get temperature here!)
 			and graphs of temperature over last month
 	
-[]			settings contains 
-[]				possibility to en-/disable notification and buttons of notification
-[]				choice of raspberry to get the data from
-[]				choice if i want to start audio/video apps while enabling the socket
-[]				duration of timer
+[x]			settings contains 
+[x]				possibility to en-/disable notification and buttons of notification
+[-]				choice of raspberry to get the data from ->OBSOLETE (dynamic selection)
+[x]				choice if i want to start audio/video apps while enabling the socket
+[-]				duration of timer ->OBSOLETE (default set to 30minutes! perhaps changes in later version!)
 		
-[]			changes & informations contains just the data
+[x]			changes & informations contains just the data

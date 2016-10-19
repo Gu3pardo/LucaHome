@@ -88,6 +88,7 @@ std::string TemperatureService::getCurrentTemperatureRestString() {
 			<< "{value:" << loadTemperature() << "};"
 			<< "{area:" << _temperatureArea << "};"
 			<< "{sensorPath:" << _sensorPath << "};"
+			<< "{graphPath:" << _graphPath << "};"
 			<< "};";
 	out << "\x00" << std::endl;
 
@@ -95,7 +96,8 @@ std::string TemperatureService::getCurrentTemperatureRestString() {
 }
 
 void TemperatureService::initialize(MailService mailService,
-		std::string sensorId, std::string temperatureArea) {
+		std::string sensorId, std::string temperatureArea,
+		std::string graphPath) {
 	_mailService = mailService;
 
 	std::ostringstream path;
@@ -103,6 +105,8 @@ void TemperatureService::initialize(MailService mailService,
 	_sensorPath = path.str();
 
 	_temperatureArea = temperatureArea;
+
+	_graphPath = graphPath;
 
 	_warningCount = 0;
 	_isInitialized = true;

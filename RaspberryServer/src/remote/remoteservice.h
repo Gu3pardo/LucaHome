@@ -102,6 +102,7 @@ public:
 	bool updateSocket(Socket, ChangeService);
 	bool deleteSocket(std::string, ChangeService);
 	bool setAllSockets(int, ChangeService);
+	bool activateSockets(std::vector<std::string>, ChangeService);
 
 	void initialize(FileController);
 };

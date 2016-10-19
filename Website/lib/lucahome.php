@@ -70,10 +70,12 @@ switch ($action) {
 		$description = Get ( 'description' );
 		$rating = Get ( 'rating' );
 		$watched = Get ( 'watched' );
+		$sockets = Get ( 'sockets' );
 		if ($title != '') {
-			echo Send ( "$authentificationaction:$title:$genre:$description:$rating:$watched" );
+			echo Send ( "$authentificationaction:$title:$genre:$description:$rating:$watched:$sockets" );
 		}
 		break;
+	case 'startmovie' :
 	case 'deletemovie' :
 		$title = Get ( 'title' );
 		if ($title != '') {

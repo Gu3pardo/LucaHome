@@ -21,6 +21,8 @@
 #include "../controller/filecontroller.h"
 #include "../xml/xmlservice.h"
 
+#include "../common/tools.h"
+
 #ifndef MOVIESERVICE_H
 #define MOVIESERVICE_H
 
@@ -43,9 +45,12 @@ public:
 	std::vector<Movie> getMovies();
 	std::string getMoviesRestString();
 
+	std::vector<std::string> getMovieSockets(std::string);
+
 	bool addMovie(std::vector<std::string>, ChangeService);
 	bool updateMovie(std::vector<std::string>, ChangeService);
 	bool deleteMovie(std::string, ChangeService);
+	bool startMovie(std::string, ChangeService);
 
 	void initialize(FileController);
 };

@@ -19,6 +19,8 @@ Code			Error
 40				Could not add movie
 41				Could not update movie
 42				Could not delete movie
+43				Could not start movie
+44				No sockets available
 
 50				Could not set gpio
 51				Could not add gpio

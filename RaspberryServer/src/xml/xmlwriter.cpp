@@ -47,11 +47,13 @@ std::string XmlWriter::generateMoviesXml(std::vector<Movie> movies) {
 
 	xml << "<movies>" << std::endl;
 	for (int index = 0; index < movies.size(); index++) {
-		xml << movies[index].getTitle() << ":" << movies[index].getGenre()
-				<< ":" << movies[index].getDescription() << ":"
+
+		xml << movies[index].getTitle() << ":"
+				<< movies[index].getGenre() << ":"
+				<< movies[index].getDescription() << ":"
 				<< Tools::convertIntToStr(movies[index].getRating()) << ":"
-				<< Tools::convertIntToStr(movies[index].getWatched()) << ";"
-				<< std::endl;
+				<< Tools::convertIntToStr(movies[index].getWatched()) << ":"
+				<< movies[index].getSocketsString() << ";" << std::endl;
 	}
 	xml << "</movies>" << std::endl;
 

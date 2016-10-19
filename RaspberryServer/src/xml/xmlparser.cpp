@@ -161,20 +161,30 @@ std::vector<Movie> XmlParser::parseMovies() {
 			if (lines[l].length() > 0) {
 				std::vector < std::string > words = Tools::explode(":",
 						lines[l]);
-				Movie m;
+				Movie newMovie;
 				for (int w = 0; w < words.size(); w++) {
-					if (typeid(words.at(0)) == typeid(std::string))
-						m.setTitle(words[0]);
-					if (typeid(words.at(1)) == typeid(std::string))
-						m.setGenre(words[1]);
-					if (typeid(words.at(2)) == typeid(std::string))
-						m.setDescription(words[2]);
-					if (typeid(words.at(3)) == typeid(std::string))
-						m.setRating(atoi(words[3].c_str()));
-					if (typeid(words.at(4)) == typeid(std::string))
-						m.setWatched(atoi(words[4].c_str()));
+					if (typeid(words.at(0)) == typeid(std::string)) {
+						newMovie.setTitle(words[0]);
+					}
+					if (typeid(words.at(1)) == typeid(std::string)) {
+						newMovie.setGenre(words[1]);
+					}
+					if (typeid(words.at(2)) == typeid(std::string)) {
+						newMovie.setDescription(words[2]);
+					}
+					if (typeid(words.at(3)) == typeid(std::string)) {
+						newMovie.setRating(atoi(words[3].c_str()));
+					}
+					if (typeid(words.at(4)) == typeid(std::string)) {
+						newMovie.setWatched(atoi(words[4].c_str()));
+					}
+					if (typeid(words.at(5)) == typeid(std::string)) {
+						std::vector < std::string > socketList = Tools::explode(
+								"|", words.at(5));
+						newMovie.setSockets(socketList);
+					}
 				}
-				movies.push_back(m);
+				movies.push_back(newMovie);
 			}
 		}
 	}
@@ -255,12 +265,14 @@ std::vector<User> XmlParser::parseUsers() {
 				std::vector < std::string > words = Tools::explode(":",
 						lines[l]);
 				if (words.size() == 3) {
-					User user(words[0].c_str(), words[1], atoi(words[2].c_str()));
+					User user(words[0].c_str(), words[1],
+							atoi(words[2].c_str()));
 					users.push_back(user);
 					syslog(LOG_INFO, "new user: %s", user.toString().c_str());
 				} else {
 					syslog(LOG_INFO, "Line: %s", lines[l].c_str());
-					syslog(LOG_INFO, "Word size wrong to create new user: %d", words.size());
+					syslog(LOG_INFO, "Word size wrong to create new user: %d",
+							words.size());
 				}
 			}
 		}

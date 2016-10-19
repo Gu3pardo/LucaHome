@@ -144,23 +144,34 @@ string executeCmd(string cmd) {
 	//---------------------Movies---------------------
 	else if (action == "getmovies") {
 		return _movieService.getMoviesRestString();
-	} else if (action == "addmovie" && words.size() == 8) {
+	} else if (action == "addmovie" && words.size() == 9) {
 		if (_movieService.addMovie(words, _changeService)) {
 			return "addmovie:1";
 		} else {
 			return "Error 40:Could not add movie";
 		}
 	} else if (action == "deletemovie") {
-		if (_movieService.deleteMovie(name, _changeService)) {
+		if (_movieService.deleteMovie(words[3], _changeService)) {
 			return "deletemovie:1";
 		} else {
 			return "Error 41:Could not delete movie";
 		}
-	} else if (action == "updatemovie" && words.size() == 8) {
+	} else if (action == "updatemovie" && words.size() == 9) {
 		if (_movieService.updateMovie(words, _changeService)) {
 			return "updatemovie:1";
 		} else {
 			return "Error 42:Could not update movie";
+		}
+	} else if (action == "startmovie") {
+		if (_movieService.startMovie(words[3], _changeService)) {
+			if (_remoteService.activateSockets(
+					_movieService.getMovieSockets(words[3]), _changeService)) {
+				return "startmovie:1";
+			} else {
+				return "Error 44:No sockets available";
+			}
+		} else {
+			return "Error 43:Could not start movie";
 		}
 	}
 
@@ -623,7 +634,7 @@ int main(void) {
 	_movieService.initialize(_fileController);
 	_remoteService.initialize(_fileController);
 	_temperatureService.initialize(_mailService, _remoteService.getSensor(),
-			_remoteService.getArea());
+			_remoteService.getArea(), _remoteService.getTemperatureGraphUrl());
 
 	std::ostringstream startMessage;
 	startMessage << "Starting LucaHome at " << _remoteService.getArea();

@@ -16,6 +16,7 @@ getmovies
 addmovie
 deletemovie
 updatemovie
+startmovie
 
 getraspberry
 
@@ -69,6 +70,7 @@ getmovies
 addmovie
 updatemovie
 deletemovie
+startmovie
 
 getschedules
 addschedule
