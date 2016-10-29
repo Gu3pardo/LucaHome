@@ -15,6 +15,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
 import guepardoapps.common.Constants;
 import guepardoapps.common.classes.*;
 import guepardoapps.common.classes.controller.SocketController;
@@ -23,6 +24,7 @@ import guepardoapps.common.enums.TemperatureType;
 import guepardoapps.common.receiver.SocketActionReceiver;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.activities.ListActivity;
+
 import guepardoapps.toolset.controller.SharedPrefController;
 import guepardoapps.toolset.openweather.WeatherModel;
 
@@ -121,12 +123,23 @@ public class NotificationService extends Service {
 			return;
 		}
 
-		for (int index = 0; index < temperatureList.getSize(); index++) {
-			if (temperatureList.getValue(index).GetTemperatureType() == TemperatureType.CITY
-					|| temperatureList.getValue(index).GetTemperatureType() == TemperatureType.SMARTPHONE_SENSOR) {
-				temperatureList.removeValue(temperatureList.getValue(index));
+		boolean containsEntriesToRemove = true;
+		int removeCounts = 0;
+		int listSize = temperatureList.getSize();
+
+		while (containsEntriesToRemove && removeCounts < listSize) {
+			containsEntriesToRemove = false;
+			removeCounts++;
+
+			for (int index = 0; index < temperatureList.getSize(); index++) {
+				if (temperatureList.getValue(index).GetTemperatureType() == TemperatureType.CITY
+						|| temperatureList.getValue(index).GetTemperatureType() == TemperatureType.SMARTPHONE_SENSOR) {
+					temperatureList.removeValue(index);
+					containsEntriesToRemove = true;
+				}
 			}
 		}
+
 		Temperature currentTemperature = new Temperature(currentWeather.GetTemperature(), currentWeather.GetCity(),
 				currentWeather.GetLastUpdate(), "n.a.", TemperatureType.CITY, "n.a.");
 		temperatureList.addValue(currentTemperature);

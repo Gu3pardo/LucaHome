@@ -35,6 +35,14 @@ public class SerializableList<T> implements Serializable {
 		_dataList.remove(removeValue);
 	}
 
+	public void removeValue(int index) {
+		if (_dataList == null) {
+			_dataList = new ArrayList<T>();
+			return;
+		}
+		_dataList.remove(index);
+	}
+
 	public boolean HasValue(T checkValue) {
 		if (_dataList == null) {
 			_dataList = new ArrayList<T>();
