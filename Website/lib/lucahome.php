@@ -1,20 +1,30 @@
 <?php
 define ( 'LUCAHOMEPORT', 6677 );
 
-$action = Get ( 'action' );
 $user = Get ( 'user' );
 $password = Get ( 'password' );
-$authentification = "$user:$password";
-$authentificationaction = "$authentification:$action";
+$login = "$user:$password";
+
+$action = Get ( 'action' );
 
 switch ($action) {
 	
 	/* ------------------- Birthday -------------------- */
-	
 	case 'getbirthdays' :
-		echo Send ( "$authentificationaction:all" );
+		echo Send ( "$login:BIRTHDAY:GET:ALL" );
 		break;
 	case 'addbirthday' :
+		$id = Get ( 'id' );
+		$name = Get ( 'name' );
+		$day = Get ( 'day' );
+		$month = Get ( 'month' );
+		$year = Get ( 'year' );
+		if ($id != '' && $name != '' && $day != '' && $month != '' && $year != '') {
+			echo Send ( "$login:BIRTHDAY:ADD:$id:$name:$day:$month:$year" );
+		} else {
+			echo "Error 35:Parameter not found for birthday";
+		}
+		break;
 	case 'updatebirthday' :
 		$id = Get ( 'id' );
 		$name = Get ( 'name' );
@@ -22,48 +32,72 @@ switch ($action) {
 		$month = Get ( 'month' );
 		$year = Get ( 'year' );
 		if ($id != '' && $name != '' && $day != '' && $month != '' && $year != '') {
-			echo Send ( "$authentificationaction:$id:$name:$day:$month:$year" );
+			echo Send ( "$login:BIRTHDAY:UPDATE:$id:$name:$day:$month:$year" );
+		} else {
+			echo "Error 35:Parameter not found for birthday";
 		}
 		break;
 	case 'deletebirthday' :
 		$id = Get ( 'id' );
-		if ($name != '') {
-			echo Send ( "$authentificationaction:$id" );
+		if ($id != '') {
+			echo Send ( "$login:BIRTHDAY:DELETE:$id" );
+		} else {
+			echo "Error 35:Parameter not found for birthday";
 		}
 		break;
 	
-	/* ---------------------- Gpio --------------------- */
+	/* -------------------- Changes -------------------- */
+	case 'getchanges' :
+		echo Send ( "$login:CHANGE:GET:WEBSITE" );
+		break;
+	case 'getchangesrest' :
+		echo Send ( "$login:CHANGE:GET:REST" );
+		break;
 	
-	case 'getgpios' :
-		echo Send ( "$authentificationaction:all" );
+	/* ------------------ Informations ------------------ */
+	case 'getinformations' :
+		echo Send ( "$login:INFORMATION:GET:WEBSITE" );
 		break;
-	case 'addgpio' :
-		$name = Get ( 'name' );
-		$gpio = Get ( 'gpio' );
-		if ($name != '' && $gpio != '') {
-			echo Send ( "$authentificationaction:$name:$gpio:0" );
-		}
-		break;
-	case 'setgpio' :
-		$gpio = Get ( 'gpio' );
-		$state = Get ( 'state' );
-		if ($gpio != '' && $state != '') {
-			echo Send ( "$authentificationaction:$gpio:$state" );
-		}
-		break;
-	case 'deletegpio' :
-		$name = Get ( 'name' );
-		if ($name != '') {
-			echo Send ( "$authentificationaction:$name" );
-		}
+	case 'getinformationsrest' :
+		echo Send ( "$login:INFORMATION:GET:REST" );
 		break;
 	
 	/* --------------------- Movie --------------------- */
-	
 	case 'getmovies' :
-		echo Send ( "$authentificationaction:all" );
+		$movieCount = Send ( "$login:MOVIE:GET:COUNT" );
+		if (strpos ( $movieCount, 'Error' ) !== false) {
+			echo $movieCount;
+		} else {
+			$movies = "";
+			$startIndex = 0;
+			$endIndex = 25;
+			while ( $startIndex < $movieCount - 1 ) {
+				$response = Send ( "$login:MOVIE:GET:INDEX:$startIndex:$endIndex" );
+				if (strpos ( $response, 'Error' ) !== false) {
+					echo $response;
+					break;
+				} else {
+					$movies .= $response;
+					$startIndex += 25;
+					$endIndex += 25;
+				}
+			}
+			echo $movies;
+		}
 		break;
 	case 'addmovie' :
+		$title = Get ( 'title' );
+		$genre = Get ( 'genre' );
+		$description = Get ( 'description' );
+		$rating = Get ( 'rating' );
+		$watched = Get ( 'watched' );
+		$sockets = Get ( 'sockets' );
+		if ($title != '') {
+			echo Send ( "$login:MOVIE:ADD:$title:$genre:$description:$rating:$watched:$sockets" );
+		} else {
+			echo "Error 400:Parameter not found for movie";
+		}
+		break;
 	case 'updatemovie' :
 		$title = Get ( 'title' );
 		$genre = Get ( 'genre' );
@@ -72,108 +106,197 @@ switch ($action) {
 		$watched = Get ( 'watched' );
 		$sockets = Get ( 'sockets' );
 		if ($title != '') {
-			echo Send ( "$authentificationaction:$title:$genre:$description:$rating:$watched:$sockets" );
+			echo Send ( "$login:MOVIE:UPDATE:$title:$genre:$description:$rating:$watched:$sockets" );
+		} else {
+			echo "Error 400:Parameter not found for movie";
 		}
 		break;
-	case 'startmovie' :
 	case 'deletemovie' :
 		$title = Get ( 'title' );
 		if ($title != '') {
-			echo Send ( "$authentificationaction:$title" );
+			echo Send ( "$login:MOVIE:DELETE:$title" );
+		} else {
+			echo "Error 400:Parameter not found for movie";
+		}
+		break;
+	case 'startmovie' :
+		$title = Get ( 'title' );
+		if ($title != '') {
+			echo Send ( "$login:MOVIE:START:$title" );
+		} else {
+			echo "Error 400:Parameter not found for movie";
 		}
 		break;
 	
-	/* -------------------- Schedule ------------------- */
+	/* ---------------------- Gpio --------------------- */
+	case 'getgpios' :
+		echo Send ( "$login:REMOTE:GET:GPIO:ALL" );
+		break;
+	case 'addgpio' :
+		$name = Get ( 'name' );
+		$gpio = Get ( 'gpio' );
+		if ($name != '' && $gpio != '') {
+			echo Send ( "$login:REMOTE:ADD:GPIO:$name:$gpio:0" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
+		}
+		break;
+	case 'deletegpio' :
+		$name = Get ( 'name' );
+		if ($name != '') {
+			echo Send ( "$login:REMOTE:DELETE:GPIO:$name" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
+		}
+		break;
+	case 'setgpio' :
+		$gpio = Get ( 'gpio' );
+		$state = Get ( 'state' );
+		if ($gpio != '' && $state != '') {
+			echo Send ( "$login:REMOTE:SET:GPIO:$gpio:$state" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
+		}
+		break;
+	case 'activateAllGpios' :
+		echo Send ( "$login:REMOTE:SET:GPIO:ALL:1" );
+		break;
+	case 'deactivateAllGpios' :
+		echo Send ( "$login:REMOTE:SET:GPIO:ALL:0" );
+		break;
 	
+	/* -------------------- Schedule ------------------- */
 	case 'getschedules' :
-		echo Send ( "$authentificationaction:all" );
+		echo Send ( "$login:REMOTE:GET:SCHEDULE:ALL" );
 		break;
 	case 'addschedule' :
 		$name = Get ( 'name' );
 		$socket = Get ( 'socket' );
+		$gpio = Get ( 'gpio' );
 		$weekday = Get ( 'weekday' );
 		$hour = Get ( 'hour' );
 		$minute = Get ( 'minute' );
 		$onoff = Get ( 'onoff' );
 		$isTimer = Get ( 'isTimer' );
-		if ($name != '' && $socket != '' && $weekday != '' && $hour != '' && $minute != '' && $onoff != '' && $isTimer != '') {
-			echo Send ( "$authentificationaction:$name:$socket:$weekday:$hour:$minute:$onoff:$isTimer:1" );
+		if ($name != '' && ($socket != '' || $gpio != '') && $weekday != '' && $hour != '' && $minute != '' && $onoff != '' && $isTimer != '') {
+			echo Send ( "$login:REMOTE:ADD:SCHEDULE:$name:$socket:$gpio:$weekday:$hour:$minute:$onoff:$isTimer:1" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
 		}
 		break;
-	case 'setschedule' :
 	case 'deleteschedule' :
 		$schedule = Get ( 'schedule' );
 		if ($schedule != '') {
-			echo Send ( "$authentificationaction:$schedule" );
+			echo Send ( "$login:REMOTE:DELETE:SCHEDULE:$schedule" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
 		}
+		break;
+	case 'setschedule' :
+		$schedule = Get ( 'schedule' );
+		$state = Get ( 'state' );
+		if ($schedule != '' && $state != '') {
+			echo Send ( "$login:REMOTE:SET:SCHEDULE:$schedule:$state" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
+		}
+		break;
+	case 'activateAllSchedules' :
+		echo Send ( "$login:REMOTE:SET:SCHEDULE:ALL:1" );
+		break;
+	case 'deactivateAllSchedules' :
+		echo Send ( "$login:REMOTE:SET:SCHEDULE:ALL:0" );
 		break;
 	
 	/* ---------------- Wireless Socket ---------------- */
-	
 	case 'getsockets' :
-		echo Send ( "$authentificationaction:all" );
+		echo Send ( "$login:REMOTE:GET:SOCKET:ALL" );
 		break;
 	case 'addsocket' :
 		$name = Get ( 'name' );
 		$area = Get ( 'area' );
 		$code = Get ( 'code' );
 		if ($name != '' && $code != '') {
-			echo Send ( "$authentificationaction:$name:$area:$code:0" );
+			echo Send ( "$login:REMOTE:ADD:SOCKET:$name:$area:$code:0" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
+		}
+		break;
+	case 'deletesocket' :
+		$socket = Get ( 'socket' );
+		if ($socket != '') {
+			echo Send ( "$login:REMOTE:DELETE:SOCKET:$socket" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
 		}
 		break;
 	case 'setsocket' :
 		$socket = Get ( 'socket' );
 		$state = Get ( 'state' );
 		if ($socket != '' && $state != '') {
-			echo Send ( "$authentificationaction:$socket:$state" );
+			echo Send ( "$login:REMOTE:SET:SOCKET:$socket:$state" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
 		}
 		break;
-	case 'deletesocket' :
-		$socket = Get ( 'socket' );
-		if ($socket != '') {
-			echo Send ( "$authentificationaction:$socket" );
-		}
+	case 'activateAllSockets' :
+		echo Send ( "$login:REMOTE:SET:SOCKET:ALL:1" );
+		break;
+	case 'deactivateAllSockets' :
+		echo Send ( "$login:REMOTE:SET:SOCKET:ALL:0" );
 		break;
 	
 	/* --------------------- Sound --------------------- */
-	
+	case 'startplaying' :
+		$song = Get ( 'song' );
+		if ($song != '') {
+			echo Send ( "$login:SOUND:START:$song" );
+		} else {
+			echo "Error 94:Parameter not found for sound";
+		}
+		break;
 	case 'stopplaying' :
-		echo Send ( "$authentificationaction:all" );
+		echo Send ( "$login:SOUND:STOP:ALL" );
+		break;
+	case 'setvolume' :
+		$volume = Get ( 'volume' );
+		if ($volume != '') {
+			echo Send ( "$login:SOUND:SET:VOLUME:$volume" );
+		} else {
+			echo "Error 94:Parameter not found for sound";
+		}
 		break;
 	
-	/* -------------------- Different ------------------ */
-	
-	case 'activateAllGpios' :
-	case 'deactivateAllGpios' :
-	
-	case 'activateAllSockets' :
-	case 'deactivateAllSockets' :
-	
-	case 'activateAllSchedules' :
-	case 'deactivateAllSchedules' :
-	
-	case 'getchanges' :
-	case 'getchangesrest' :
-	case 'getinformations' :
-	case 'getinformationsrest' :
-	
-	case 'getraspberry' :
-	case 'getarea' :
-	
+	/* ------------------ Temperature ------------------ */
 	case 'getcurrenttemperature' :
+		echo Send ( "$login:TEMPERATURE:GET:WEBSITE" );
+		break;
 	case 'getcurrenttemperaturerest' :
+		echo Send ( "$login:TEMPERATURE:GET:REST" );
+		break;
 	case 'gettemperaturegraphurl' :
-		echo Send ( "$authentificationaction:data" );
+		echo Send ( "$login:REMOTE:GET:URL:TEMPERATURE" );
+		break;
+	
+	/* --------------------- Remote -------------------- */
+	case 'getraspberry' :
+		echo Send ( "$login:REMOTE:GET:RASPBERRY" );
+		break;
+	case 'getarea' :
+		echo Send ( "$login:REMOTE:GET:AREA" );
+		break;
+	
+	/* ---------------------- User --------------------- */
+	case 'validateuser' :
+		echo Send ( "$login:USER:VALIDATE:NOW" );
 		break;
 	
 	/* ---------------------- Pages -------------------- */
-	
 	case 'main' :
 		var2console ( "Navigated to $action page!" );
 		break;
 	
 	/* --------------------- Default ------------------- */
-	
 	default :
 		var2console ( "ERROR: " );
 		var2console ( $action );
@@ -216,7 +339,7 @@ function Send($data) {
 
 /* ================== Get Informations ================= */
 function GetInformations() {
-	return Send ( "Website:0000:getinformations:all" );
+	return Send ( "Website:234524:INFORMATION:GET:WEBSITE" );
 }
 function ParseInformations($data) {
 	$values = GetValues ( $data, 'information:' );
@@ -232,7 +355,7 @@ function ParseInformations($data) {
 
 /* ===================== Get Changes =================== */
 function GetChanges() {
-	return Send ( "Website:0000:getchanges:all" );
+	return Send ( "Website:234524:CHANGE:GET:WEBSITE" );
 }
 function ParseChanges($data) {
 	$values = GetValues ( $data, 'change:' );
@@ -253,17 +376,17 @@ function ParseChanges($data) {
 
 /* ======================= Get Area ==================== */
 function GetArea() {
-	return Send ( "Website:0000:getarea:region" );
+	return Send ( "Website:234524:REMOTE:GET:AREA" );
 }
 
 /* =================== Get Temperature ================= */
 function GetTemperature() {
-	return Send ( "Website:0000:getcurrenttemperature:value" );
+	return Send ( "Website:234524:TEMPERATURE:GET:WEBSITE" );
 }
 
 /* ============== Get Temperature Graph URL ============ */
 function GetTemperatureGraphUrl() {
-	return Send ( "Website:0000:gettemperaturegraphurl:url" );
+	return Send ( "Website:234524:REMOTE:GET:URL:TEMPERATURE" );
 }
 
 /* ================== Logger Functions ================= */
