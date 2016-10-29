@@ -82,7 +82,6 @@ public final class JsonDataToScheduleConverter {
 
 		if (!isTimer) {
 			Schedule newValue = new Schedule(Name, socket, weekday, time, action, isTimer, isActive);
-			_logger.Debug(newValue.toString());
 			return newValue;
 		} else {
 			return null;
