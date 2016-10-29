@@ -1,0 +1,169 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000" >
+
+    <GridLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:padding="10dp"
+        android:rowCount="7"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="vertical" >
+
+        <ImageButton
+            android:id="@+id/imageButtonSocket"
+            android:layout_width="310dp"
+            android:layout_height="310dp"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="start|top"
+            android:layout_margin="2dp"
+            android:layout_row="0"
+            android:layout_rowSpan="2"
+            android:background="@drawable/button_blank"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitXY"
+            android:src="@drawable/socket_hd" />
+
+        <ImageButton
+            android:id="@+id/imageButtonSchedule"
+            android:layout_width="153dp"
+            android:layout_height="153dp"
+            android:layout_column="2"
+            android:layout_gravity="start|top"
+            android:layout_margin="2dp"
+            android:layout_row="0"
+            android:background="@drawable/button_blank"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitXY"
+            android:src="@drawable/scheduler_hd" />
+
+        <ImageButton
+            android:id="@+id/imageButtonTimer"
+            android:layout_width="153dp"
+            android:layout_height="153dp"
+            android:layout_column="2"
+            android:layout_gravity="start|top"
+            android:layout_margin="2dp"
+            android:layout_row="1"
+            android:background="@drawable/button_blank"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitXY"
+            android:src="@drawable/timer_hd" />
+
+        <ImageButton
+            android:id="@+id/imageButtonTemperature"
+            android:layout_width="153dp"
+            android:layout_height="153dp"
+            android:layout_column="0"
+            android:layout_gravity="start|top"
+            android:layout_margin="2dp"
+            android:layout_row="2"
+            android:background="@drawable/button_blank"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitXY"
+            android:src="@drawable/temperature_hd" />
+
+        <TextView
+            android:id="@+id/textViewTemperature"
+            android:layout_width="153dp"
+            android:layout_height="153dp"
+            android:layout_column="0"
+            android:layout_margin="2dp"
+            android:layout_row="2"
+            android:clickable="true"
+            android:gravity="end|top"
+            android:onClick="TEMPERATURE"
+            android:padding="3dp"
+            android:text="@string/example"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/imageButtonMovie"
+            android:layout_width="310dp"
+            android:layout_height="310dp"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_gravity="start|top"
+            android:layout_margin="2dp"
+            android:layout_row="2"
+            android:layout_rowSpan="2"
+            android:background="@drawable/button_blank"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitXY"
+            android:src="@drawable/movie_hd" />
+
+        <ImageButton
+            android:id="@+id/imageButtonBirthday"
+            android:layout_width="153dp"
+            android:layout_height="153dp"
+            android:layout_column="0"
+            android:layout_gravity="start|top"
+            android:layout_margin="2dp"
+            android:layout_row="3"
+            android:background="@drawable/button_blank"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitXY"
+            android:src="@drawable/birthday_hd" />
+
+        <ImageButton
+            android:id="@+id/imageButtonSettings"
+            android:layout_width="153dp"
+            android:layout_height="153dp"
+            android:layout_column="2"
+            android:layout_gravity="start|top"
+            android:layout_margin="2dp"
+            android:layout_row="6"
+            android:background="@drawable/button_blank"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitXY"
+            android:src="@drawable/settings_hd" />
+
+        <LinearLayout
+            android:layout_width="153dp"
+            android:layout_height="153dp"
+            android:layout_column="0"
+            android:layout_row="6"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/informationTextView"
+                android:layout_width="153dp"
+                android:layout_height="51dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="INFORMATION"
+                android:text="@string/information"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/TextIcon"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/changeTextView"
+                android:layout_width="153dp"
+                android:layout_height="51dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="CHANGE"
+                android:text="@string/change"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/TextIcon"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/userTextView"
+                android:layout_width="153dp"
+                android:layout_height="51dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="USER"
+                android:text="@string/user"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/TextIcon"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </GridLayout>
+
+</ScrollView>
