@@ -52,17 +52,18 @@ private:
 	void sendWarningMail(std::string);
 	void enableLED(int);
 
+	double getValue();
+	std::string getString();
+	std::string getRestString();
+
 public:
 	TemperatureService();
 	~TemperatureService();
 
+	void initialize(MailService, std::string, std::string, std::string);
 	void controlTemperature();
 
-	double getCurrentTemperature();
-	std::string getCurrentTemperatureString();
-	std::string getCurrentTemperatureRestString();
-
-	void initialize(MailService, std::string, std::string, std::string);
+	std::string performAction(std::string, std::vector<std::string>);
 };
 
 #endif

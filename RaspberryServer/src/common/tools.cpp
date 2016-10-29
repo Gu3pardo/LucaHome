@@ -26,8 +26,17 @@ bool Tools::convertStrToBool(std::string str) {
 	return b;
 }
 
-std::vector<std::string> Tools::explode(
-		std::string delimiter,
+bool Tools::hasEnding(std::string fullString, std::string ending) {
+	if (fullString.length() >= ending.length()) {
+		return (0
+				== fullString.compare(fullString.length() - ending.length(),
+						ending.length(), ending));
+	} else {
+		return false;
+	}
+}
+
+std::vector<std::string> Tools::explode(std::string delimiter,
 		std::string str) {
 	std::vector < std::string > arr;
 	int strleng = str.length();
@@ -60,8 +69,7 @@ void Tools::sendSystemCommand(std::string commandString) {
 	system(command);
 }
 
-std::string Tools::sendSystemCommandGetResult (std::string commandString)
-{
+std::string Tools::sendSystemCommandGetResult(std::string commandString) {
 	const char * command = commandString.c_str();
 
 	FILE* pipe = popen(command, "r");
@@ -71,12 +79,11 @@ std::string Tools::sendSystemCommandGetResult (std::string commandString)
 
 	char buffer[128];
 	std::string result = "";
-	while(!feof(pipe))
-	{
-		if(fgets(buffer, 128, pipe) != NULL){
+	while (!feof(pipe)) {
+		if (fgets(buffer, 128, pipe) != NULL) {
 			result += buffer;
 		}
 	}
 	pclose(pipe);
-	return(result);
+	return (result);
 }

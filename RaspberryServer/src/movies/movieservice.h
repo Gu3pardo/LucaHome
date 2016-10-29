@@ -19,6 +19,7 @@
 #include "movie.h"
 #include "../changes/changeservice.h"
 #include "../controller/filecontroller.h"
+#include "../remote/remoteservice.h"
 #include "../xml/xmlservice.h"
 
 #include "../common/tools.h"
@@ -34,25 +35,30 @@ private:
 	FileController _fileController;
 	XmlService _xmlService;
 
-	void saveMovies(ChangeService);
+	void saveMovies(ChangeService, std::string);
 	void loadMovies();
+
+	std::string generateRestEntry(Movie);
+	int getCount();
+
+	std::string getRestString(int, int);
+
+	bool addMovie(std::vector<std::string>, ChangeService, std::string);
+	bool updateMovie(std::vector<std::string>, ChangeService, std::string);
+	bool deleteMovie(std::string, ChangeService, std::string);
+
+	bool startMovie(std::string, ChangeService, std::string);
 
 public:
 	MovieService();
 	~MovieService();
 
-	std::string getMoviesString();
-	std::vector<Movie> getMovies();
-	std::string getMoviesRestString();
+	void initialize(FileController);
+
+	std::string performAction(std::string, std::vector<std::string>,
+			ChangeService, std::string, RemoteService);
 
 	std::vector<std::string> getMovieSockets(std::string);
-
-	bool addMovie(std::vector<std::string>, ChangeService);
-	bool updateMovie(std::vector<std::string>, ChangeService);
-	bool deleteMovie(std::string, ChangeService);
-	bool startMovie(std::string, ChangeService);
-
-	void initialize(FileController);
 };
 
 #endif

@@ -51,60 +51,66 @@ private:
 	FileController _fileController;
 	XmlService _xmlService;
 
-	void saveSettings(ChangeService);
+	void saveSettings(ChangeService, std::string);
 	void loadSettings();
 
-public:
-	RemoteService();
-	~RemoteService();
-
-	int getPort();
 	int getDataGpio();
-	int getReceiverGpio();
 	int getRaspberry();
 
-	std::string getArea();
 	std::vector<std::string> getAreas();
-
-	std::string getSensor();
 	std::vector<std::string> getSensors();
 
-	std::string getUrl();
 	std::vector<std::string> getUrls();
-	std::string getTemperatureGraphUrl();
 
 	std::string getGpiosString();
 	std::vector<Gpio> getGpios();
 	std::string getGpiosRestString();
 
-	bool setGpio(std::string, int, ChangeService);
-	bool addGpio(std::vector<std::string>, ChangeService);
-	bool updateGpio(Gpio, ChangeService);
-	bool deleteGpio(std::string, ChangeService);
-	bool setAllGpios(int, ChangeService);
+	bool setGpio(std::string, int, ChangeService, std::string);
+	bool addGpio(std::vector<std::string>, ChangeService, std::string);
+	bool updateGpio(Gpio, ChangeService, std::string);
+	bool deleteGpio(std::string, ChangeService, std::string);
+	bool setAllGpios(int, ChangeService, std::string);
 
 	std::string getSchedulesString();
-	std::vector<Schedule> getSchedules();
 	std::string getSchedulesRestString();
 
-	bool setSchedule(std::string, int, ChangeService);
-	bool addSchedule(std::vector<std::string>, ChangeService);
-	bool updateSchedule(Schedule, ChangeService);
-	bool deleteSchedule(std::string, ChangeService);
-	bool setAllSchedules(int, ChangeService);
+	bool setSchedule(std::string, int, ChangeService, std::string);
+	bool addSchedule(std::vector<std::string>, ChangeService, std::string);
+	bool updateSchedule(Schedule, ChangeService, std::string);
+	bool deleteSchedule(std::string, ChangeService, std::string);
+	bool setAllSchedules(int, ChangeService, std::string);
 
 	std::string getSocketsString();
 	std::vector<Socket> getSockets();
 	std::string getSocketsRestString();
 
-	bool setSocket(std::string, int, ChangeService);
-	bool addSocket(std::vector<std::string>, ChangeService);
-	bool updateSocket(Socket, ChangeService);
-	bool deleteSocket(std::string, ChangeService);
-	bool setAllSockets(int, ChangeService);
-	bool activateSockets(std::vector<std::string>, ChangeService);
+	bool setSocket(std::string, int, ChangeService, std::string);
+	bool addSocket(std::vector<std::string>, ChangeService, std::string);
+	bool updateSocket(Socket, ChangeService, std::string);
+	bool deleteSocket(std::string, ChangeService, std::string);
+	bool setAllSockets(int, ChangeService, std::string);
+
+public:
+	RemoteService();
+	~RemoteService();
 
 	void initialize(FileController);
+
+	std::string performAction(std::string, std::vector<std::string>,
+			ChangeService, std::string);
+
+	bool activateSockets(std::vector<std::string>, ChangeService, std::string);
+
+	int getPort();
+	int getReceiverGpio();
+
+	std::vector<Schedule> getSchedules();
+
+	std::string getArea();
+	std::string getSensor();
+	std::string getUrl();
+	std::string getTemperatureGraphUrl();
 };
 
 #endif

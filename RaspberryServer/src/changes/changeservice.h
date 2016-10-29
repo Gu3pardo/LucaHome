@@ -31,18 +31,17 @@ private:
 	FileController fileController;
 	XmlService _xmlService;
 
+	std::string getRestString();
+	std::string getString();
+
 public:
 	ChangeService();
 	~ChangeService();
 
-	std::string getChangesString();
-	std::vector<Change> getChanges();
-	std::string getChangesRestString();
-	std::string getChangesWebsiteString();
-
-	void updateChange(std::string);
-
 	void initialize(FileController);
+	void updateChange(std::string, std::string);
+
+	std::string performAction(std::string, std::vector<std::string>);
 };
 
 #endif

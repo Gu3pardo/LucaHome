@@ -24,6 +24,8 @@
 #include <unistd.h>
 #include <syslog.h>
 
+#include "../common/tools.h"
+
 #ifndef AUDIOSERVICE_H
 #define AUDIOSERVICE_H
 
@@ -32,14 +34,17 @@ private:
 	std::string _audioPath;
 	bool _isInitialized;
 
+	void play(std::string);
+	bool stop();
+	bool setVolume(std::string);
+
 public:
 	AudioService();
 	~AudioService();
 
-	void play(std::string);
-	bool stop();
-
 	void initialize(std::string);
+
+	std::string performAction(std::string, std::vector<std::string>);
 };
 
 #endif

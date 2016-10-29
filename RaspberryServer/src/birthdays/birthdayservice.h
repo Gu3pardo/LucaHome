@@ -35,24 +35,24 @@ private:
 	MailService _mailService;
 	XmlService _xmlService;
 
-	void saveBirthdays(ChangeService);
+	void saveBirthdays(ChangeService, std::string);
 	void loadBirthdays();
+
+	std::string getBirthdays();
+
+	bool addBirthday(std::vector<std::string>, ChangeService, std::string);
+	bool updateBirthday(std::vector<std::string>, ChangeService, std::string);
+	bool deleteBirthday(int, ChangeService, std::string);
 
 public:
 	BirthdayService();
 	~BirthdayService();
 
-	std::string getBirthdaysString();
-	std::vector<Birthday> getBirthdays();
-	std::string getBirthdaysRestString();
-
-	bool addBirthday(std::vector<std::string>, ChangeService);
-	bool updateBirthday(std::vector<std::string>, ChangeService);
-	bool deleteBirthday(int, ChangeService);
-
 	void initialize(FileController, MailService);
-
 	void checkBirthday();
+
+	std::string performAction(std::string, std::vector<std::string>,
+			ChangeService, std::string);
 };
 
 #endif

@@ -1,91 +1,11 @@
 #include "birthdayservice.h"
 
+/*===============PUBLIC==============*/
+
 BirthdayService::BirthdayService() {
 }
 
 BirthdayService::~BirthdayService() {
-}
-
-std::string BirthdayService::getBirthdaysString() {
-	std::stringstream out;
-	for (int index = 0; index < _birthdays.size(); index++) {
-		out << _birthdays[index].toString();
-	}
-	return out.str();
-}
-
-std::vector<Birthday> BirthdayService::getBirthdays() {
-	return _birthdays;
-}
-
-std::string BirthdayService::getBirthdaysRestString() {
-	std::stringstream out;
-
-	for (int index = 0; index < _birthdays.size(); index++) {
-		out << "{birthday:"
-				<< "{id:" << Tools::convertIntToStr(_birthdays[index].getId()) << "};"
-				<< "{name:" << _birthdays[index].getName() << "};"
-				<< "{day:" << Tools::convertIntToStr(_birthdays[index].getDay()) << "};"
-				<< "{month:" << Tools::convertIntToStr(_birthdays[index].getMonth()) << "};"
-				<< "{year:" << Tools::convertIntToStr(_birthdays[index].getYear()) << "};"
-				<< "};";
-	}
-
-	out << "\x00" << std::endl;
-
-	return out.str();
-}
-
-bool BirthdayService::addBirthday(std::vector<std::string> newBirthdayData,
-		ChangeService changeService) {
-	syslog(LOG_INFO, "Add birthday %d", atoi(newBirthdayData[3].c_str()));
-	Birthday newBirthday(
-			atoi(newBirthdayData[3].c_str()),
-			newBirthdayData[4],
-			atoi(newBirthdayData[5].c_str()),
-			atoi(newBirthdayData[6].c_str()),
-			atoi(newBirthdayData[7].c_str()));
-	_birthdays.push_back(newBirthday);
-	saveBirthdays(changeService);
-	loadBirthdays();
-	return true;
-}
-
-bool BirthdayService::updateBirthday(
-		std::vector<std::string> updateBirthdayData,
-		ChangeService changeService) {
-	syslog(LOG_INFO, "Update birthday %d", atoi(updateBirthdayData[3].c_str()));
-	Birthday updateBirthday(
-			atoi(updateBirthdayData[3].c_str()),
-			updateBirthdayData[4],
-			atoi(updateBirthdayData[5].c_str()),
-			atoi(updateBirthdayData[6].c_str()),
-			atoi(updateBirthdayData[7].c_str()));
-	for (int index = 0; index < _birthdays.size(); index++) {
-		if (_birthdays[index].getId() == updateBirthday.getId()) {
-			_birthdays[index] = updateBirthday;
-			saveBirthdays(changeService);
-			loadBirthdays();
-			return true;
-		}
-	}
-	return false;
-}
-
-bool BirthdayService::deleteBirthday(int id, ChangeService changeService) {
-	syslog(LOG_INFO, "Delete birthday %d", id);
-	std::vector<Birthday>::iterator it = _birthdays.begin();
-	while (it != _birthdays.end()) {
-		if ((*it).getId() == id) {
-			it = _birthdays.erase(it);
-			saveBirthdays(changeService);
-			loadBirthdays();
-			return true;
-		} else {
-			++it;
-		}
-	}
-	return false;
 }
 
 void BirthdayService::initialize(FileController fileController,
@@ -96,8 +16,6 @@ void BirthdayService::initialize(FileController fileController,
 	_birthdaysFile = "/etc/default/lucahome/birthdays";
 
 	loadBirthdays();
-
-	syslog(LOG_INFO, "Birthdays: %s", getBirthdaysString().c_str());
 }
 
 void BirthdayService::checkBirthday() {
@@ -129,15 +47,131 @@ void BirthdayService::checkBirthday() {
 	}
 }
 
-void BirthdayService::saveBirthdays(ChangeService changeService) {
+std::string BirthdayService::performAction(std::string action,
+		std::vector<std::string> data, ChangeService changeService,
+		std::string username) {
+	if (action == "GET") {
+		return getBirthdays();
+	} else if (action == "ADD") {
+		if (data.size() == 9) {
+			if (addBirthday(data, changeService, username)) {
+				return "addbirthday:1";
+			} else {
+				return "Error 30:Could not add birthday";
+			}
+		} else {
+			return "Error 33:Wrong word size for birthday";
+		}
+	} else if (action == "UPDATE") {
+		if (data.size() == 9) {
+			if (updateBirthday(data, changeService, username)) {
+				return "updatebirthday:1";
+			} else {
+				return "Error 31:Could not update birthday";
+			}
+		} else {
+			return "Error 33:Wrong word size for birthday";
+		}
+	} else if (action == "DELETE") {
+		if (deleteBirthday(atoi(data[4].c_str()), changeService, username)) {
+			return "deletebirthday:1";
+		} else {
+			return "Error 32:Could not delete birthday";
+		}
+	} else {
+		return "Error 34:Action not found for birthday";
+	}
+}
+
+/*==============PRIVATE==============*/
+
+void BirthdayService::saveBirthdays(ChangeService changeService,
+		std::string username) {
 	std::string xmldata = _xmlService.generateBirthdaysXml(_birthdays);
 	_fileController.saveFile(_birthdaysFile, xmldata);
 
-	changeService.updateChange("Birthdays");
+	changeService.updateChange("Birthdays", username);
 }
 
 void BirthdayService::loadBirthdays() {
 	std::string birthdaysString = _fileController.readFile(_birthdaysFile);
 	_xmlService.setContent(birthdaysString);
+
 	_birthdays = _xmlService.getBirthdays();
+}
+
+std::string BirthdayService::getBirthdays() {
+	std::stringstream out;
+
+	for (int index = 0; index < _birthdays.size(); index++) {
+		out << "{birthday:"
+				<< "{id:" << Tools::convertIntToStr(_birthdays[index].getId()) << "};"
+				<< "{name:" << _birthdays[index].getName() << "};"
+				<< "{day:" << Tools::convertIntToStr(_birthdays[index].getDay()) << "};"
+				<< "{month:" << Tools::convertIntToStr(_birthdays[index].getMonth()) << "};"
+				<< "{year:" << Tools::convertIntToStr(_birthdays[index].getYear()) << "};"
+				<< "};";
+	}
+
+	out << "\x00" << std::endl;
+
+	return out.str();
+}
+
+bool BirthdayService::addBirthday(std::vector<std::string> newBirthdayData,
+		ChangeService changeService, std::string username) {
+	Birthday newBirthday(atoi(newBirthdayData[3].c_str()), newBirthdayData[4],
+			atoi(newBirthdayData[5].c_str()), atoi(newBirthdayData[6].c_str()),
+			atoi(newBirthdayData[7].c_str()));
+	_birthdays.push_back(newBirthday);
+
+	saveBirthdays(changeService, username);
+	loadBirthdays();
+
+	syslog(LOG_INFO, "Added birthday %d", atoi(newBirthdayData[3].c_str()));
+
+	return true;
+}
+
+bool BirthdayService::updateBirthday(
+		std::vector<std::string> updateBirthdayData,
+		ChangeService changeService, std::string username) {
+	Birthday updateBirthday(atoi(updateBirthdayData[3].c_str()),
+			updateBirthdayData[4], atoi(updateBirthdayData[5].c_str()),
+			atoi(updateBirthdayData[6].c_str()),
+			atoi(updateBirthdayData[7].c_str()));
+
+	for (int index = 0; index < _birthdays.size(); index++) {
+		if (_birthdays[index].getId() == updateBirthday.getId()) {
+			_birthdays[index] = updateBirthday;
+
+			saveBirthdays(changeService, username);
+			loadBirthdays();
+
+			syslog(LOG_INFO, "Updated birthday %d", atoi(updateBirthdayData[3].c_str()));
+
+			return true;
+		}
+	}
+	return false;
+}
+
+bool BirthdayService::deleteBirthday(int id, ChangeService changeService,
+		std::string username) {
+	std::vector<Birthday>::iterator it = _birthdays.begin();
+	while (it != _birthdays.end()) {
+		if ((*it).getId() == id) {
+			it = _birthdays.erase(it);
+
+			saveBirthdays(changeService, username);
+			loadBirthdays();
+
+			syslog(LOG_INFO, "Deleted birthday %d", id);
+
+			return true;
+		} else {
+			++it;
+		}
+	}
+	return false;
 }
