@@ -122,7 +122,8 @@ public class NotificationService extends Service {
 		}
 
 		for (int index = 0; index < temperatureList.getSize(); index++) {
-			if (temperatureList.getValue(index).GetTemperatureType() == TemperatureType.CITY) {
+			if (temperatureList.getValue(index).GetTemperatureType() == TemperatureType.CITY
+					|| temperatureList.getValue(index).GetTemperatureType() == TemperatureType.SMARTPHONE_SENSOR) {
 				temperatureList.removeValue(temperatureList.getValue(index));
 			}
 		}
@@ -220,7 +221,7 @@ public class NotificationService extends Service {
 				remoteViews.setViewVisibility(imageButtonArray[(visibilityIndex * 2) + 1], View.GONE);
 			}
 		}
-		
+
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 		builder.setSmallIcon(R.drawable.ic_launcher).setContentTitle(getString(R.string.app_name))
 				.setContentText("Set Sockets").setTicker("Set Sockets");
@@ -231,8 +232,8 @@ public class NotificationService extends Service {
 			}
 		}
 
-		//Hack for disabling all sockets at once!
-		
+		// Hack for disabling all sockets at once!
+
 		Intent allSocketsIntent = new Intent(this, SocketActionReceiver.class);
 		Bundle allSocketsData = new Bundle();
 		allSocketsData.putString(Constants.BUNDLE_ACTION, "ALL_SOCKETS");
@@ -244,8 +245,8 @@ public class NotificationService extends Service {
 				R.drawable.all_power_off, getString(R.string.all_sockets_off), allSocketsPendingIntent).build();
 		remoteViews.setOnClickPendingIntent(R.id.socket_all_off, allSocketsPendingIntent);
 		builder.addAction(action_all_sockets_off);
-		
-		//End Hack
+
+		// End Hack
 
 		Notification notification = builder.build();
 		notification.contentView = remoteViews;
