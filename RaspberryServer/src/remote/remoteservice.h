@@ -35,6 +35,8 @@ private:
 	int _receivergpio;
 	int _raspberry;
 
+	std::string _alarmSound;
+
 	std::string _area;
 	std::vector<std::string> _areas;
 
@@ -111,6 +113,7 @@ public:
 	std::string getSensor();
 	std::string getUrl();
 	std::string getTemperatureGraphUrl();
+	std::string getAlarmSound();
 };
 
 #endif

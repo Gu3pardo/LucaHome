@@ -31,7 +31,7 @@ public:
 	static std::string generateBirthdaysXml(std::vector<Birthday>);
 	static std::string generateChangesXml(std::vector<Change>);
 	static std::string generateMoviesXml(std::vector<Movie>);
-	static std::string generateSettingsXml(int, int, int, int,
+	static std::string generateSettingsXml(int, int, int, int, std::string,
 			std::vector<std::string>, std::vector<std::string>,
 			std::vector<std::string>, std::vector<Socket>, std::vector<Gpio>,
 			std::vector<Schedule>);

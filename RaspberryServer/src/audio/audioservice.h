@@ -25,8 +25,6 @@
 #include <syslog.h>
 #include <dirent.h>
 
-#include <alsa/asoundlib.h>
-
 #include "../common/tools.h"
 
 #ifndef AUDIOSERVICE_H
@@ -40,8 +38,9 @@ private:
 	bool _isPlaying;
 	int _volume;
 	std::vector<std::string> _soundFiles;
+	std::string _alarmSound;
 
-	void play(std::string);
+	bool play(std::string);
 	bool stop();
 	std::string setVolume(std::string);
 
@@ -54,7 +53,7 @@ public:
 	AudioService();
 	~AudioService();
 
-	void initialize(std::string);
+	void initialize(std::string, std::string);
 
 	std::string performAction(std::string, std::vector<std::string>);
 };

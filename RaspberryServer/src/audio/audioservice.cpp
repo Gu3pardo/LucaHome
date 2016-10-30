@@ -9,8 +9,9 @@ AudioService::AudioService() {
 AudioService::~AudioService() {
 }
 
-void AudioService::initialize(std::string audioPath) {
+void AudioService::initialize(std::string audioPath, std::string alarmSound) {
 	_audioPath = audioPath;
+	_alarmSound = alarmSound;
 
 	_isInitialized = true;
 	_isPlaying = false;
@@ -48,14 +49,22 @@ std::string AudioService::performAction(std::string action,
 			if (data[4].length() < 5) {
 				return "Error 93:Not a valid filename";
 			} else {
-				if (Tools::hasEnding(data[4], ".mp3")) {
-					if (play(data[4])) {
-						return "data[4]";
+				if (data[4] == "ALARM") {
+					if (play(_alarmSound)) {
+						return _alarmSound;
 					} else {
 						return "Error 96:Could not start playing sound!";
 					}
 				} else {
-					return "Error 93:Not a valid filename";
+					if (Tools::hasEnding(data[4], ".mp3")) {
+						if (play(data[4])) {
+							return data[4];
+						} else {
+							return "Error 96:Could not start playing sound!";
+						}
+					} else {
+						return "Error 93:Not a valid filename";
+					}
 				}
 			}
 		} else {
@@ -134,33 +143,34 @@ bool AudioService::stop() {
 	return true;
 }
 
-std::string AudioService::setVolume(std::string volume) {
+std::string AudioService::setVolume(std::string volumeAction) {
 	if (!_isInitialized) {
 		syslog(LOG_INFO, "AudioService is not initialized!");
 		return "Error 90:Could not stop sound playing! Not initialized!";
 	}
 
-	int newVolume = -1;
+	int volume;
 
-	if (volume == "+") {
-		newVolume = _volume + 5;
-	} else if (volume == "-") {
-		newVolume = _volume + 5;
+	if (volumeAction == "+") {
+		volume = _volume + 5;
+	} else if (volumeAction == "-") {
+		volume = _volume + 5;
 	} else {
 		return "Error 95:Volume not set";
 	}
 
-	if (newVolume > 0 && newVolume < 100) {
+	if (volume > 0 && volume < 100) {
 		std::stringstream command;
-		command << "amixer  sset PCM,0 " << newVolume << "%";
-		syslog(LOG_INFO, "Set volume to %d!", newVolume);
-
+		command << "amixer  sset PCM,0 " << volume << "%";
 		Tools::sendSystemCommand(command.str());
 
-		if (newVolume == readVolume()) {
-			std::stringstream out;
-			out << "{volume:" << newVolume << "};" << "\x00" << std::endl;
-			return out.str();
+		if (volume == readVolume()) {
+			_volume = volume;
+
+			std::stringstream response;
+			response << "{Volume:" << _volume << "};";
+
+			return response.str();
 		}
 	}
 
@@ -172,10 +182,12 @@ std::vector<std::string> AudioService::scanFolder() {
 	struct dirent *ent;
 	std::vector < std::string > musicEntries;
 
-	if ((dir = opendir(_audioPath)) != NULL) {
+	const char *audioPathChar = _audioPath.c_str();
+
+	if ((dir = opendir(audioPathChar)) != NULL) {
 		while ((ent = readdir(dir)) != NULL) {
 			std::string fileName = ent->d_name;
-			if (file_name[0] == '.') {
+			if (fileName[0] == '.') {
 				continue;
 			}
 			if (Tools::hasEnding(fileName, ".mp3")) {
@@ -192,8 +204,8 @@ std::string AudioService::getSoundFilesRestString() {
 	std::stringstream out;
 
 	out << "{Music:";
-	for (int index = 0; index < musicEntries.size(); index++) {
-		out << "{soundfile:" << musicEntries[index] << "};";
+	for (int index = 0; index < _soundFiles.size(); index++) {
+		out << "{soundfile:" << _soundFiles[index] << "};";
 	}
 	out << "};" << "\x00" << std::endl;
 
@@ -201,5 +213,31 @@ std::string AudioService::getSoundFilesRestString() {
 }
 
 int AudioService::readVolume() {
-	return snd_mixer_selem_get_playback_volume();
+	std::stringstream command;
+	command << "amixer  sget PCM";
+	std::string response = Tools::sendSystemCommandGetResult(command.str());
+
+	if (response.find("Mono: Playback") != std::string::npos) {
+		int startIndex = response.find("Mono: Playback");
+		if (response.find("%]") != std::string::npos) {
+			int endIndex = response.find("%]");
+			int length = endIndex - startIndex;
+
+			std::string data = response.substr(startIndex, length);
+			if (data.find("[") != std::string::npos) {
+				int newStartIndex = data.find("[") + 1;
+				int newLength = data.size() - newStartIndex;
+
+				std::string volume = data.substr(newStartIndex, newLength);
+				if (volume.find_first_not_of("0123456789")
+						== std::string::npos) {
+					return Tools::convertStrToInt(volume);
+				} else {
+					syslog(LOG_INFO, "failed volume is: %s", volume.c_str());
+				}
+			}
+		}
+	}
+
+	return -1;
 }

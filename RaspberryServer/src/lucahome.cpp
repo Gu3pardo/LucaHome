@@ -36,6 +36,7 @@ template<typename T> std::string to_string(const T& n) {
 #include "informations/informationservice.h"
 #include "mail/mailservice.h"
 #include "movies/movieservice.h"
+#include "receiver/receiverservice.h"
 #include "remote/schedule.h"
 #include "remote/remoteservice.h"
 #include "temperature/temperatureservice.h"
@@ -59,8 +60,12 @@ ChangeService _changeService;
 InformationService _informationService;
 MailService _mailService;
 MovieService _movieService;
+ReceiverService _receiverService;
 RemoteService _remoteService;
 TemperatureService _temperatureService;
+
+//TODO reactivate!
+//RCSwitch _receiverSwitch;
 
 pthread_mutex_t birthdaysMutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t changesMutex = PTHREAD_MUTEX_INITIALIZER;
@@ -353,7 +358,6 @@ void *scheduler(void *arg) {
 										<< _schedules[s].getSocket() << ":"
 										<< _schedules[s].getOnoff();
 
-								pthread_mutex_lock(&gpiosMutex);
 								pthread_mutex_lock(&socketsMutex);
 
 								string response = executeCmd(socket_out.str());
@@ -364,8 +368,6 @@ void *scheduler(void *arg) {
 								}
 
 								pthread_mutex_unlock(&socketsMutex);
-								pthread_mutex_unlock(&gpiosMutex);
-
 							}
 
 							if (_schedules[s].getGpio() != "") {
@@ -375,7 +377,6 @@ void *scheduler(void *arg) {
 										<< _schedules[s].getOnoff();
 
 								pthread_mutex_lock(&gpiosMutex);
-								pthread_mutex_lock(&socketsMutex);
 
 								string response = executeCmd(gpio_out.str());
 								if (response != "setgpio:1") {
@@ -384,11 +385,44 @@ void *scheduler(void *arg) {
 											_schedules[s].getGpio().c_str());
 								}
 
-								pthread_mutex_unlock(&socketsMutex);
 								pthread_mutex_unlock(&gpiosMutex);
 							}
 
+							if (_schedules[s].getPlaySound() == 1
+									&& _schedules[s].getIsTimer() != 1) {
+								if (_schedules[s].getPlayRaspberry()
+										== _remoteService.getRaspberry()) {
+									stringstream sound_out;
+									sound_out
+											<< "scheduler:435435:SOUND:PLAY:ALARM:";
+									string response = executeCmd(
+											sound_out.str());
+									if (response
+											!= _remoteService.getAlarmSound()) {
+										syslog(LOG_INFO,
+												"Playing alarm failed! %s",
+												_remoteService.getAlarmSound().c_str());
+									}
+								}
+							}
+
 							if (_schedules[s].getIsTimer() == 1) {
+								if (_schedules[s].getPlaySound() == 1) {
+									if (_schedules[s].getPlayRaspberry()
+											== _remoteService.getRaspberry()) {
+										stringstream sound_out;
+										sound_out
+												<< "scheduler:435435:SOUND:STOP:ALARM:";
+										string response = executeCmd(
+												sound_out.str());
+										if (response != "stopplaying:1") {
+											syslog(LOG_INFO,
+													"Stopping alarm failed! %s",
+													_remoteService.getAlarmSound().c_str());
+										}
+									}
+								}
+
 								stringstream schedule_delete_out;
 								schedule_delete_out
 										<< "scheduler:435435:REMOTE:DELETE:SCHEDULE:"
@@ -421,8 +455,13 @@ void *receiver(void *arg) {
 	int receivergpio = _remoteService.getReceiverGpio();
 
 	bool foundValidGpio = false;
+	//TODO: enable receiver later to test feature! only if receiver is mounted on RPi and store data to assets!
 	if (receivergpio > 0 && receivergpio < 30) {
 		foundValidGpio = true;
+
+		//TODO reactivate!
+		//_receiverSwitch = RCSwitch();
+		//_receiverSwitch.enableReceive(receivergpio);
 	} else {
 		syslog(LOG_INFO, "receivergpio has invalid value: %d", receivergpio);
 	}
@@ -432,13 +471,19 @@ void *receiver(void *arg) {
 		foundValidGpio = false;
 	}
 
-	//TODO: enable receiver later to test feature! only if receiver is mounted on RPi!
-	foundValidGpio = false;
-
 	while (foundValidGpio) {
-		//TODO: add some stuff here!
-		//like checking sockets or getting informed
-		//about someone entering the room (using motion sensors sending data to rpi via 433MHz)
+		//TODO reactivate!
+		/*if (_receiverSwitch.available()) {
+		 int value = _receiverSwitch.getReceivedValue();
+
+		 if (value == 0) {
+		 syslog(LOG_INFO, "Received value with unknown encoding!");
+		 } else {
+		 _receiverService.performAction(value);
+		 }
+
+		 _receiverSwitch.resetAvailable();
+		 }*/
 	}
 
 	syslog(LOG_INFO, "Exiting *receiver");
@@ -478,13 +523,14 @@ int main(void) {
 	time_t now = time(0);
 	syslog(LOG_INFO, "Current Scheduler-Time: %s", ctime(&now));
 
-	_audioService.initialize("/media/lucahome/");
 	_authentificationService.initialize(_fileController);
 	_birthdayService.initialize(_fileController, _mailService);
 	_changeService.initialize(_fileController);
 	_informationService.initialize(_fileController);
 	_movieService.initialize(_fileController);
 	_remoteService.initialize(_fileController);
+	_audioService.initialize("/media/lucahome/",
+			_remoteService.getAlarmSound());
 	_temperatureService.initialize(_mailService, _remoteService.getSensor(),
 			_remoteService.getArea(), _remoteService.getTemperatureGraphUrl());
 

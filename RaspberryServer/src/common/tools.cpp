@@ -77,13 +77,14 @@ std::string Tools::sendSystemCommandGetResult(std::string commandString) {
 		return "Error 80:System command error. Pipe Error!";
 	}
 
-	char buffer[128];
+	char buffer[256];
 	std::string result = "";
 	while (!feof(pipe)) {
-		if (fgets(buffer, 128, pipe) != NULL) {
+		if (fgets(buffer, 256, pipe) != NULL) {
 			result += buffer;
 		}
 	}
 	pclose(pipe);
-	return (result);
+
+	return result;
 }

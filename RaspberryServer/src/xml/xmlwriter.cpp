@@ -48,9 +48,8 @@ std::string XmlWriter::generateMoviesXml(std::vector<Movie> movies) {
 	xml << "<movies>" << std::endl;
 	for (int index = 0; index < movies.size(); index++) {
 
-		xml << movies[index].getTitle() << ":"
-				<< movies[index].getGenre() << ":"
-				<< movies[index].getDescription() << ":"
+		xml << movies[index].getTitle() << ":" << movies[index].getGenre()
+				<< ":" << movies[index].getDescription() << ":"
 				<< Tools::convertIntToStr(movies[index].getRating()) << ":"
 				<< Tools::convertIntToStr(movies[index].getWatched()) << ":"
 				<< movies[index].getSocketsString() << ";" << std::endl;
@@ -61,10 +60,10 @@ std::string XmlWriter::generateMoviesXml(std::vector<Movie> movies) {
 }
 
 std::string XmlWriter::generateSettingsXml(int port, int datagpio,
-		int receivergpio, int raspberry, std::vector<std::string> areas,
-		std::vector<std::string> sensors, std::vector<std::string> urls,
-		std::vector<Socket> sockets, std::vector<Gpio> gpios,
-		std::vector<Schedule> schedules) {
+		int receivergpio, int raspberry, std::string alarmsound,
+		std::vector<std::string> areas, std::vector<std::string> sensors,
+		std::vector<std::string> urls, std::vector<Socket> sockets,
+		std::vector<Gpio> gpios, std::vector<Schedule> schedules) {
 	std::stringstream xml;
 
 	xml << "<port>" << Tools::convertIntToStr(port) << "</port>" << std::endl
@@ -78,6 +77,9 @@ std::string XmlWriter::generateSettingsXml(int port, int datagpio,
 
 	xml << "<raspberry>" << Tools::convertIntToStr(raspberry) << "</raspberry>"
 			<< std::endl << std::endl;
+
+	xml << "<alarmsound>" << alarmsound << "</alarmsound>" << std::endl
+			<< std::endl;
 
 	xml << "<areas>" << std::endl;
 	for (int index = 0; index < areas.size(); index++) {
@@ -124,6 +126,8 @@ std::string XmlWriter::generateSettingsXml(int port, int datagpio,
 				<< Tools::convertIntToStr(schedules[index].getMinute()) << ":"
 				<< Tools::convertIntToStr(schedules[index].getOnoff()) << ":"
 				<< Tools::convertIntToStr(schedules[index].getIsTimer()) << ":"
+				<< Tools::convertIntToStr(schedules[index].getPlaySound()) << ":"
+				<< Tools::convertIntToStr(schedules[index].getPlayRaspberry()) << ":"
 				<< Tools::convertIntToStr(schedules[index].getStatus()) << ";"
 				<< std::endl;
 	}

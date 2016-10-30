@@ -14,6 +14,8 @@ Schedule::Schedule(
 		int _minute,
 		int _onoff,
 		int _isTimer,
+		int _playSound,
+		int _playRaspberry,
 		int _status) {
     name = _name;
     socket = _socket;
@@ -23,6 +25,8 @@ Schedule::Schedule(
     minute = _minute;
     onoff = _onoff;
     isTimer = _isTimer;
+    playSound = _playSound;
+    playRaspberry = _playRaspberry;
     status = _status;
 }
 
@@ -59,6 +63,14 @@ void Schedule::setOnoff(int _onoff) {
 
 void Schedule::setIsTimer(int _isTimer) {
 	isTimer = _isTimer;
+}
+
+void Schedule::setPlaySound(int _playSound) {
+    playSound = _playSound;
+}
+
+void Schedule::setPlayRaspberry(int _playRaspberry) {
+    playRaspberry = _playRaspberry;
 }
 
 bool Schedule::setStatus(int _status) {
@@ -98,6 +110,14 @@ int Schedule::getIsTimer() {
   return isTimer;
 }
 
+int Schedule::getPlaySound() {
+  return playSound;
+}
+
+int Schedule::getPlayRaspberry() {
+  return playRaspberry;
+}
+
 int Schedule::getStatus() {
   return status;
 }
@@ -112,6 +132,8 @@ std::string Schedule::toString() {
 			+ std::string(":") + Tools::convertIntToStr(minute)
 			+ std::string("; onoff: ") + Tools::convertIntToStr(onoff)
 			+ std::string("; isTimer: ") + Tools::convertIntToStr(isTimer)
+			+ std::string("; playSound: ") + Tools::convertIntToStr(playSound)
+			+ std::string("; playRaspberry: ") + Tools::convertIntToStr(playRaspberry)
 			+ std::string("; status: ") + Tools::convertIntToStr(status)
 			+ std::string(" }");
 	return str;

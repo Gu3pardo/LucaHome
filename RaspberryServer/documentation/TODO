@@ -77,8 +77,8 @@ ______________________________
 				(left side image, main property in the middle, some minor properties after this and on the 
 				 right side an action button)
 [x]			longpress on the entry leads to a dialog if user wish to change a property or to delete the entry
-				(three buttons: CHANGE, DELETE, CANCEL)
-[]				CHANGE leads to new dialog (similar to ADD dialog)
+				(three buttons: UPDATE, DELETE, CANCEL)
+[]				UPDATE leads to new dialog (similar to ADD dialog)
 [x]				DELETE leads to new dialog if user really wants to delete entry (YES, NO)
 				
 [-]			user details contains name and role (and possibility to reset password to default or create new passphrase 

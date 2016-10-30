@@ -21,12 +21,14 @@ private:
 	int minute;
 	int onoff;
 	bool isTimer;
+	int playSound;
+	int playRaspberry;
 	int status;
 
 public:
 	Schedule();
 	Schedule(std::string, std::string, std::string, int, int, int, int, int,
-			int);
+			int, int, int);
 	~Schedule();
 
 	void setName(std::string);
@@ -37,6 +39,8 @@ public:
 	void setMinute(int);
 	void setOnoff(int);
 	void setIsTimer(int);
+	void setPlaySound(int);
+	void setPlayRaspberry(int);
 	bool setStatus(int);
 
 	std::string getName();
@@ -47,6 +51,8 @@ public:
 	int getMinute();
 	int getOnoff();
 	int getIsTimer();
+	int getPlaySound();
+	int getPlayRaspberry();
 	int getStatus();
 
 	std::string toString();

@@ -27,13 +27,13 @@ std::string XmlService::generateMoviesXml(std::vector<Movie> movies) {
 }
 
 std::string XmlService::generateSettingsXml(int port, int datagpio,
-		int receivergpio, int raspberry, std::vector<std::string> areas,
-		std::vector<std::string> sensors, std::vector<std::string> urls,
-		std::vector<Socket> sockets, std::vector<Gpio> gpios,
-		std::vector<Schedule> schedules) {
+		int receivergpio, int raspberry, std::string alarmSound,
+		std::vector<std::string> areas, std::vector<std::string> sensors,
+		std::vector<std::string> urls, std::vector<Socket> sockets,
+		std::vector<Gpio> gpios, std::vector<Schedule> schedules) {
 	XmlWriter writer;
 	return writer.generateSettingsXml(port, datagpio, receivergpio, raspberry,
-			areas, sensors, urls, sockets, gpios, schedules);
+			alarmSound, areas, sensors, urls, sockets, gpios, schedules);
 }
 
 std::string XmlService::generateUsersXml(std::vector<User> users) {
@@ -92,6 +92,11 @@ int XmlService::getReceivergpio() {
 int XmlService::getRaspberry() {
 	XmlParser parser(content);
 	return atoi(parser.findTag("raspberry").c_str());
+}
+
+std::string XmlService::getAlarmSound() {
+	XmlParser parser(content);
+	return parser.findTag("alarmsound").c_str();
 }
 
 std::vector<std::string> XmlService::getAreas() {

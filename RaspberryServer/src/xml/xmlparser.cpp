@@ -219,7 +219,11 @@ std::vector<Schedule> XmlParser::parseSchedules() {
 					if (typeid(words.at(7)) == typeid(std::string))
 						s.setIsTimer(atoi(words[7].c_str()));
 					if (typeid(words.at(8)) == typeid(std::string))
-						s.setStatus(atoi(words[8].c_str()));
+						s.setPlaySound(atoi(words[8].c_str()));
+					if (typeid(words.at(9)) == typeid(std::string))
+						s.setPlayRaspberry(atoi(words[9].c_str()));
+					if (typeid(words.at(10)) == typeid(std::string))
+						s.setStatus(atoi(words[10].c_str()));
 				}
 				schedules.push_back(s);
 			}

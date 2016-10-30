@@ -178,8 +178,10 @@ switch ($action) {
 		$minute = Get ( 'minute' );
 		$onoff = Get ( 'onoff' );
 		$isTimer = Get ( 'isTimer' );
-		if ($name != '' && ($socket != '' || $gpio != '') && $weekday != '' && $hour != '' && $minute != '' && $onoff != '' && $isTimer != '') {
-			echo Send ( "$login:REMOTE:ADD:SCHEDULE:$name:$socket:$gpio:$weekday:$hour:$minute:$onoff:$isTimer:1" );
+		$playSound = Get ( 'playSound' );
+		$playRaspberry = Get ( 'playRaspberry' );
+		if ($name != '' && ($socket != '' || $gpio != '') && $weekday != '' && $hour != '' && $minute != '' && $onoff != '' && $isTimer != '' && $playSound != '' && $playRaspberry != '') {
+			echo Send ( "$login:REMOTE:ADD:SCHEDULE:$name:$socket:$gpio:$weekday:$hour:$minute:$onoff:$isTimer:$playSound:$playRaspberry:1" );
 		} else {
 			echo "Error 121:Parameter not found for remote";
 		}
