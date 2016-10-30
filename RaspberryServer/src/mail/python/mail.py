@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 
 # account information to send the email
 Receiver = 'YOUR_RECEIVER'
-Sender = 'YOUR_SENDER'
+Sender = 'YOUR_MAIL'
 Passphrase = 'YOUR_PASSPHRASE'
 smtpserver = smtplib.SMTP('YOUR_PROVIDER', 587)
 smtpserver.ehlo()

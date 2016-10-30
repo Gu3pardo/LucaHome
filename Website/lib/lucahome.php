@@ -258,13 +258,23 @@ switch ($action) {
 	case 'stopplaying' :
 		echo Send ( "$login:SOUND:STOP:ALL" );
 		break;
-	case 'setvolume' :
-		$volume = Get ( 'volume' );
-		if ($volume != '') {
-			echo Send ( "$login:SOUND:SET:VOLUME:$volume" );
-		} else {
-			echo "Error 94:Parameter not found for sound";
-		}
+	case 'increasevolume' :
+		echo Send ( "$login:SOUND:SET:VOLUME:INCREASE" );
+		break;
+	case 'decreasevolume' :
+		echo Send ( "$login:SOUND:SET:VOLUME:DECREASE" );
+		break;
+	case 'getvolume' :
+		echo Send ( "$login:SOUND:GET:VOLUME" );
+		break;
+	case 'getsounds' :
+		echo Send ( "$login:SOUND:GET:FILES" );
+		break;
+	case 'issoundplaying' :
+		echo Send ( "$login:SOUND:GET:PLAYING" );
+		break;
+	case 'getplayingfile' :
+		echo Send ( "$login:SOUND:GET:PLAYINGFILE" );
 		break;
 	
 	/* ------------------ Temperature ------------------ */

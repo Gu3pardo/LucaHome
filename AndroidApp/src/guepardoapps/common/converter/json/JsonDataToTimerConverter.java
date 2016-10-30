@@ -12,7 +12,6 @@ import guepardoapps.common.classes.WirelessSocket;;
 public final class JsonDataToTimerConverter {
 
 	private static String TAG = "JsonDataToTimerConverter";
-
 	private static Logger _logger;
 
 	public static Timer Get(String restString, SerializableList<WirelessSocket> socketList) {
@@ -34,6 +33,7 @@ public final class JsonDataToTimerConverter {
 
 		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 
@@ -116,6 +116,7 @@ public final class JsonDataToTimerConverter {
 
 		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 }

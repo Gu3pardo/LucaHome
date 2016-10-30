@@ -9,9 +9,11 @@ import android.os.IBinder;
 import guepardoapps.common.Constants;
 import guepardoapps.common.classes.Logger;
 import guepardoapps.common.classes.WirelessSocket;
+import guepardoapps.common.classes.controller.SocketController;
 import guepardoapps.common.controller.ReceiverController;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 
 public class SocketActionService extends Service {
 
@@ -23,6 +25,7 @@ public class SocketActionService extends Service {
 
 	private ReceiverController _receiverController;
 	private ServiceController _serviceController;
+	private SocketController _socketController;
 
 	private BroadcastReceiver _notificationReceiver = new BroadcastReceiver() {
 		@Override
@@ -42,13 +45,15 @@ public class SocketActionService extends Service {
 
 		_receiverController = new ReceiverController(_context);
 		_serviceController = new ServiceController(_context);
+		_socketController = new SocketController(_context);
 
 		WirelessSocket socket = (WirelessSocket) intent.getExtras().getSerializable(Constants.BUNDLE_SOCKET_DATA);
 		_logger.Debug("socket: " + socket.toString());
 
 		_receiverController.RegisterReceiver(_notificationReceiver, new String[] { socket.GetNotificationBroadcast() });
 		_serviceController.StartRestService(socket.GetName(), socket.GetCommandSet(!socket.GetIsActivated()),
-				socket.GetNotificationBroadcast(), LucaObject.WIRELESS_SOCKET);
+				socket.GetNotificationBroadcast(), LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
+		_socketController.CheckMedia(socket);
 
 		return 0;
 	}

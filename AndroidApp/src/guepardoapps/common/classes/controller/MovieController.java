@@ -1,12 +1,14 @@
 package guepardoapps.common.classes.controller;
 
 import android.content.Context;
+import android.content.Intent;
 
 import guepardoapps.common.Constants;
 import guepardoapps.common.classes.Logger;
 import guepardoapps.common.classes.Movie;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.service.PackageService;
 
 import guepardoapps.toolset.controller.SharedPrefController;
@@ -15,11 +17,11 @@ public class MovieController {
 
 	private static String TAG = "MovieController";
 
+	private Context _context;
+
 	private Logger _logger;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
-
-	private Context _context;
 
 	private PackageService _packageService;
 
@@ -35,8 +37,12 @@ public class MovieController {
 
 	public void StartMovie(Movie movie) {
 		_logger.Debug("Trying to start movie: " + movie.GetTitle());
+
 		String action = Constants.ACTION_START_MOVIE + movie.GetTitle();
-		_serviceController.StartRestService(movie.GetTitle(), action, null, LucaObject.MOVIE);
+		_serviceController.StartRestService(movie.GetTitle(), action, null, LucaObject.MOVIE, RaspberrySelection.BOTH);
+
+		_context.sendBroadcast(new Intent(Constants.BROADCAST_RELOAD_SOCKETS));
+
 		if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.START_OSMC_APP)) {
 			if (_packageService.IsPackageInstalled(Constants.PACKAGE_KORE)) {
 				_packageService.StartApplication(Constants.PACKAGE_KORE);

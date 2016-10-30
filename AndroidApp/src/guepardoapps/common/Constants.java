@@ -28,6 +28,7 @@ public class Constants {
 	public static String BUNDLE_BROADCAST = "BROADCAST";
 	public static String BUNDLE_NAME = "NAME";
 	public static String BUNDLE_LUCA_OBJECT = "LUCA_OBJECT";
+	public static String BUNDLE_RASPBERRY_SELETION = "RASPBERRY_SELETION";
 
 	public static String BUNDLE_SEND_ACTION = "SEND_ACTION";
 	public static String BUNDLE_SOCKET_DATA = "SOCKET_DATA";
@@ -73,6 +74,7 @@ public class Constants {
 	public static String BROADCAST_NOTIFICATION_SOCKET = "guepardoapps.lucahome.broadcast.notification.wirelesssocket.";
 	public static String BROADCAST_DELETE_SOCKET = "guepardoapps.lucahome.broadcast.delete.wirelesssocket.";
 	public static String BROADCAST_ADD_SOCKET = "guepardoapps.lucahome.broadcast.add.wirelesssocket";
+	public static String BROADCAST_RELOAD_SOCKETS = "guepardoapps.lucahome.broadcast.reload.wirelesssockets";
 
 	// _______________SCHEDULE_______________
 
@@ -189,10 +191,29 @@ public class Constants {
 
 	public static String BROADCAST_VALIDATE_USER = "guepardoapps.lucahome.broadcast.validate.user";
 
+	// __________________SOUND_______________
+
+	public static String ACTION_PLAY_SOUND = "startplaying&song=";
+	public static String ACTION_STOP_SOUND = "stopplaying";
+	public static String ACTION_INCREASE_VOLUME = "increasevolume";
+	public static String ACTION_DECREASE_VOLUME = "decreasevolume";
+	public static String ACTION_GET_VOLUME = "getvolume";
+	public static String ACTION_GET_SOUNDS = "getsounds";
+	public static String ACTION_IS_SOUND_PLAYING = "issoundplaying";
+	public static String ACTION_GET_PLAYING_FILE = "getplayingfile";
+
+	public static String BROADCAST_IS_SOUND_PLAYING = "guepardoapps.lucahome.broadcast.get.isplaying";
+	public static String BROADCAST_PLAYING_FILE = "guepardoapps.lucahome.broadcast.get.playingfile";
+	public static String BROADCAST_GET_SOUNDS = "guepardoapps.lucahome.broadcast.get.sounds";
+	public static String BROADCAST_GET_VOLUME = "guepardoapps.lucahome.broadcast.get.volume";
+	public static String BROADCAST_START_SOUND = "guepardoapps.lucahome.broadcast.start.sound";
+	public static String BROADCAST_STOP_SOUND = "guepardoapps.lucahome.broadcast.stop.sound";
+	public static String BROADCAST_SET_RASPBERRY = "guepardoapps.lucahome.broadcast.set.raspberry";
+
 	/********************** SharedPref *********************/
 
 	public static String SHARED_PREF_NAME = "LUCA_HOME";
-	public static String SHARED_PREF_INSTALLED = "APP_VERSION_0.9.0.161029_INSTALLED";
+	public static String SHARED_PREF_INSTALLED = "APP_VERSION_0.9.1.161030_INSTALLED";
 
 	public static String DISPLAY_SOCKET_NOTIFICATION = "DISPLAY_SOCKET_NOTIFICATION";
 	public static String DISPLAY_WEATHER_NOTIFICATION = "DISPLAY_WEATHER_NOTIFICATION";
@@ -204,6 +225,8 @@ public class Constants {
 	public static String USER_DATA_ENTERED = "USER_DATA_ENTERED";
 	public static String USER_NAME = "USER_NAME";
 	public static String USER_PASSPHRASE = "USER_PASSPHRASE";
+	
+	public static String SOUND_RASPBERRY_SELECTION = "SOUND_RASPBERRY_SELECTION";
 
 	/************************ Custom Broadcast ***********************/
 

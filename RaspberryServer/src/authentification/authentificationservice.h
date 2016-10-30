@@ -36,15 +36,19 @@ private:
 	void saveUsers();
 	void loadUsers();
 
+	int getActionId(std::string);
+
 public:
 	AuthentificationService();
 	~AuthentificationService();
+
+	void initialize(FileController);
 
 	std::string getUsersString();
 	std::vector<std::string> getUserNames();
 
 	bool authentificateUser(std::string, std::string);
-	bool authentificateUserAction(std::string, std::string, int);
+	bool authentificateUserAction(std::string, std::string, std::string);
 
 	bool updatePassword(std::string, std::string);
 	bool resetPassword(std::string);
@@ -52,7 +56,7 @@ public:
 	bool addUser(User);
 	bool deleteUser(std::string);
 
-	void initialize(FileController);
+	std::string performaAction(std::string, std::vector<std::string>);
 };
 
 #endif

@@ -17,7 +17,12 @@ import guepardoapps.toolset.openweather.OpenWeatherConstants;
 public class WIFIReceiver extends BroadcastReceiver {
 
 	private static String TAG = "WIFIReceiver";
+
 	private Logger _logger;
+
+	private DialogController _dialogController;
+	private NetworkController _networkController;
+	private ServiceController _serviceController;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -26,18 +31,18 @@ public class WIFIReceiver extends BroadcastReceiver {
 		int textColor = ContextCompat.getColor(context, R.color.TextIcon);
 		int backgroundColor = ContextCompat.getColor(context, R.color.Background);
 
-		DialogController dialogController = new DialogController(context, textColor, backgroundColor);
-		NetworkController networkController = new NetworkController(context, dialogController);
-		ServiceController serviceController = new ServiceController(context);
+		_dialogController = new DialogController(context, textColor, backgroundColor);
+		_networkController = new NetworkController(context, _dialogController);
+		_serviceController = new ServiceController(context);
 
-		if (networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
+		if (_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
 			_logger.Debug("We are in the homenetwork!");
-			serviceController.StartWifiDownload();
+			_serviceController.StartWifiDownload();
 		} else {
-			_logger.Debug("We are NOT in the homenetwork!");
-			serviceController.CloseNotification(Constants.ID_NOTIFICATION_TEMPERATURE);
-			serviceController.CloseNotification(Constants.ID_NOTIFICATION_WEAR);
-			serviceController.CloseNotification(OpenWeatherConstants.FORECAST_NOTIFICATION_ID);
+			_logger.Warn("We are NOT in the homenetwork!");
+			_serviceController.CloseNotification(Constants.ID_NOTIFICATION_TEMPERATURE);
+			_serviceController.CloseNotification(Constants.ID_NOTIFICATION_WEAR);
+			_serviceController.CloseNotification(OpenWeatherConstants.FORECAST_NOTIFICATION_ID);
 		}
 	}
 }

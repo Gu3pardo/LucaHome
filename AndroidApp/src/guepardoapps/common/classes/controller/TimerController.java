@@ -6,6 +6,7 @@ import guepardoapps.common.Constants;
 import guepardoapps.common.classes.Timer;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 
 public class TimerController {
 
@@ -20,8 +21,8 @@ public class TimerController {
 		_serviceController = new ServiceController(_context);
 	}
 
-	public void SetSchedule(Timer timer, boolean newState) {
-		_serviceController.StartRestService(timer.GetName(), timer.GetCommandSet(newState),
-				Constants.BROADCAST_RELOAD_TIMER, LucaObject.TIMER);
+	public void Delete(Timer timer) {
+		_serviceController.StartRestService(timer.GetName(), timer.GetCommandDelete(), Constants.BROADCAST_RELOAD_TIMER,
+				LucaObject.TIMER, RaspberrySelection.BOTH);
 	}
 }

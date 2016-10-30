@@ -171,6 +171,14 @@ public class MainActivity extends BaseActivity {
 			}
 		});
 
+		ImageButton sound = (ImageButton) findViewById(R.id.imageButtonSound);
+		sound.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_navigationService.NavigateTo(SoundActivity.class, null, false);
+			}
+		});
+
 		ImageButton settings = (ImageButton) findViewById(R.id.imageButtonSettings);
 		settings.setOnClickListener(new OnClickListener() {
 			@Override

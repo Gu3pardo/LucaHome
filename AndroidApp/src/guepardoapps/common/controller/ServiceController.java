@@ -15,6 +15,7 @@ import guepardoapps.common.classes.Temperature;
 import guepardoapps.common.classes.User;
 import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.service.DownloadService;
 import guepardoapps.common.service.NotificationService;
 import guepardoapps.common.service.RESTService;
@@ -48,7 +49,8 @@ public class ServiceController implements Serializable {
 		_userService = new UserService(_context);
 	}
 
-	public void StartRestService(String name, String action, String broadcast, LucaObject lucaObject) {
+	public void StartRestService(String name, String action, String broadcast, LucaObject lucaObject,
+			RaspberrySelection raspberrySelection) {
 		Intent serviceIntent = new Intent(_context, RESTService.class);
 		Bundle serviceData = new Bundle();
 
@@ -61,6 +63,7 @@ public class ServiceController implements Serializable {
 		serviceData.putString(Constants.BUNDLE_NAME, name);
 		serviceData.putString(Constants.BUNDLE_BROADCAST, broadcast);
 		serviceData.putSerializable(Constants.BUNDLE_LUCA_OBJECT, lucaObject);
+		serviceData.putSerializable(Constants.BUNDLE_RASPBERRY_SELETION, raspberrySelection);
 
 		serviceIntent.putExtras(serviceData);
 		_context.startService(serviceIntent);
@@ -79,8 +82,8 @@ public class ServiceController implements Serializable {
 		_context.startService(serviceIntent);
 	}
 
-	public void StartNotificationWithIconService(String title, String body, int notificationId,
-			int notificationIcon, LucaObject lucaObject) {
+	public void StartNotificationWithIconService(String title, String body, int notificationId, int notificationIcon,
+			LucaObject lucaObject) {
 		Intent serviceIntent = new Intent(_context, NotificationService.class);
 		Bundle serviceData = new Bundle();
 

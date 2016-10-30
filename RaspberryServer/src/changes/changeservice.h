@@ -25,24 +25,24 @@
 
 class ChangeService {
 private:
-	std::string changesFile;
-	std::vector<Change> changes;
+	std::string _changesFile;
+	std::vector<Change> _changes;
 
-	FileController fileController;
+	FileController _fileController;
 	XmlService _xmlService;
+
+	std::string getRestString();
+	std::string getString();
 
 public:
 	ChangeService();
 	~ChangeService();
 
-	std::string getChangesString();
-	std::vector<Change> getChanges();
-	std::string getChangesRestString();
-	std::string getChangesWebsiteString();
-
-	void updateChange(std::string);
-
 	void initialize(FileController);
+	void updateChange(std::string, std::string);
+	void reloadData();
+
+	std::string performAction(std::string, std::vector<std::string>);
 };
 
 #endif

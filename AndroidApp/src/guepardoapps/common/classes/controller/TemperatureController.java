@@ -14,6 +14,7 @@ import guepardoapps.common.classes.Temperature;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.converter.json.JsonDataToTemperatureConverter;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.enums.TemperatureType;
 
 import guepardoapps.toolset.openweather.OpenWeatherConstants;
@@ -91,7 +92,7 @@ public class TemperatureController {
 			_receiverController.RegisterReceiver(_downloadReceiver,
 					new String[] { Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED });
 			_serviceController.StartRestService(Constants.TEMPERATURE_DOWNLOAD, Constants.ACTION_GET_TEMPERATURES,
-					Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED, LucaObject.TEMPERATURE);
+					Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED, LucaObject.TEMPERATURE, RaspberrySelection.BOTH);
 			break;
 		case CITY:
 			_receiverController.RegisterReceiver(_downloadReceiver,

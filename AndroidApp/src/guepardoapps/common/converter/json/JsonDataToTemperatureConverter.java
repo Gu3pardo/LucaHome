@@ -11,19 +11,13 @@ import guepardoapps.common.enums.TemperatureType;
 public final class JsonDataToTemperatureConverter {
 
 	private static String TAG = "JsonDataToTemperatureConverter";
-
 	private static Logger _logger;
 
 	public static Temperature GetTemperature(String temperatureString) {
-		_logger = new Logger(TAG);
-		_logger.Debug(temperatureString);
-
 		if (temperatureString.contains("{temperature:")) {
 			temperatureString = temperatureString.replace("{temperature:", "").replace("};};", "");
-			_logger.Debug("new temperatureString: " + temperatureString);
 
 			String[] data = temperatureString.split("\\};");
-
 			if (data.length == 4) {
 				if (data[0].contains("{value:") && data[1].contains("{area:") && data[2].contains("{sensorPath:")
 						&& data[3].contains("{graphPath:")) {
@@ -33,30 +27,23 @@ public final class JsonDataToTemperatureConverter {
 			}
 		}
 
+		_logger = new Logger(TAG);
 		_logger.Error(temperatureString + " has an error!");
+
 		return null;
 	}
 
 	public static SerializableList<Temperature> GetTemperatureList(String[] temperatureStringArray) {
-		_logger = new Logger(TAG);
-		for (String entry : temperatureStringArray) {
-			_logger.Debug(entry);
-		}
-
 		SerializableList<Temperature> temperatureList = new SerializableList<Temperature>();
-
 		for (String entry : temperatureStringArray) {
-
 			if (entry == null || entry.length() == 0) {
 				continue;
 			}
 
 			if (entry.contains("{temperature:")) {
 				entry = entry.replace("{temperature:", "").replace("};};", "");
-				_logger.Debug("new temperatureString: " + entry);
 
 				String[] data = entry.split("\\};");
-
 				if (data.length == 4) {
 					if (data[0].contains("{value:") && data[1].contains("{area:") && data[2].contains("{sensorPath:")
 							&& data[3].contains("{graphPath:")) {
@@ -88,8 +75,6 @@ public final class JsonDataToTemperatureConverter {
 
 		Temperature newTemperature = new Temperature(temperature, area, time, sensorPath, TemperatureType.RASPBERRY,
 				graphPath);
-		_logger.Debug("newTemperature: " + newTemperature.toString());
-
 		return newTemperature;
 	}
 }

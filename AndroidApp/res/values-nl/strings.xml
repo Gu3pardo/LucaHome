@@ -69,4 +69,5 @@
     <string name="hint_enter_socket_code">Enter the code</string>
     <string name="dialog_schedule_title">Create a new schedule</string>
     <string name="hint_enter_schedule_name">Enter a name</string>
+    <string name="dialog_timer_title">Create a new timer</string>
 </resources>

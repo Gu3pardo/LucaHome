@@ -17,6 +17,7 @@ import guepardoapps.common.classes.*;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.converter.json.*;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.service.DialogService;
 import guepardoapps.common.service.NavigationService;
 import guepardoapps.common.service.OpenWeatherService;
@@ -266,6 +267,9 @@ public class BootActivity extends Activity {
 
 		_sharedPrefController.SaveBooleanValue(Constants.START_AUDIO_APP, true);
 		_sharedPrefController.SaveBooleanValue(Constants.START_OSMC_APP, true);
+
+		_sharedPrefController.SaveIntegerValue(Constants.SOUND_RASPBERRY_SELECTION,
+				RaspberrySelection.RASPBERRY_1.GetInt());
 	}
 
 	private void startDownload(LucaObject lucaObject) {
@@ -277,27 +281,29 @@ public class BootActivity extends Activity {
 			switch (lucaObject) {
 			case BIRTHDAY:
 				_serviceController.StartRestService(Constants.BIRTHDAY_DOWNLOAD, Constants.ACTION_GET_BIRTHDAYS,
-						Constants.BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED, LucaObject.BIRTHDAY);
+						Constants.BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED, LucaObject.BIRTHDAY, RaspberrySelection.BOTH);
 				break;
 			case CHANGE:
 				_serviceController.StartRestService(Constants.CHANGE_DOWNLOAD, Constants.ACTION_GET_CHANGES,
-						Constants.BROADCAST_DOWNLOAD_CHANGE_FINISHED, LucaObject.CHANGE);
+						Constants.BROADCAST_DOWNLOAD_CHANGE_FINISHED, LucaObject.CHANGE, RaspberrySelection.BOTH);
 				break;
 			case INFORMATION:
 				_serviceController.StartRestService(Constants.INFORMATION_DOWNLOAD, Constants.ACTION_GET_INFORMATIONS,
-						Constants.BROADCAST_DOWNLOAD_INFORMATION_FINISHED, LucaObject.INFORMATION);
+						Constants.BROADCAST_DOWNLOAD_INFORMATION_FINISHED, LucaObject.INFORMATION,
+						RaspberrySelection.BOTH);
 				break;
 			case MOVIE:
 				_serviceController.StartRestService(Constants.MOVIE_DOWNLOAD, Constants.ACTION_GET_MOVIES,
-						Constants.BROADCAST_DOWNLOAD_MOVIE_FINISHED, LucaObject.MOVIE);
+						Constants.BROADCAST_DOWNLOAD_MOVIE_FINISHED, LucaObject.MOVIE, RaspberrySelection.BOTH);
 				break;
 			case SCHEDULE:
 				_serviceController.StartRestService(Constants.SCHEDULE_DOWNLOAD, Constants.ACTION_GET_SCHEDULES,
-						Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED, LucaObject.SCHEDULE);
+						Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED, LucaObject.SCHEDULE, RaspberrySelection.BOTH);
 				break;
 			case TEMPERATURE:
 				_serviceController.StartRestService(Constants.TEMPERATURE_DOWNLOAD, Constants.ACTION_GET_TEMPERATURES,
-						Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED, LucaObject.TEMPERATURE);
+						Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED, LucaObject.TEMPERATURE,
+						RaspberrySelection.BOTH);
 				break;
 			case WEATHER_CURRENT:
 				_openWeatherController.loadCurrentWeather();
@@ -307,7 +313,8 @@ public class BootActivity extends Activity {
 				break;
 			case WIRELESS_SOCKET:
 				_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, Constants.ACTION_GET_SOCKETS,
-						Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, LucaObject.WIRELESS_SOCKET);
+						Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, LucaObject.WIRELESS_SOCKET,
+						RaspberrySelection.BOTH);
 				break;
 			case DUMMY:
 			default:

@@ -45,6 +45,7 @@ import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.classes.controller.SocketController;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.enums.Weekday;
 import guepardoapps.lucahome.R;
 
@@ -72,6 +73,10 @@ public class DialogService extends DialogController {
 	private String _scheduleWeekdayString;
 	private String _scheduleActionString;
 	private Time _scheduleTime;
+
+	private String _timerName;
+	private String _timerSocketString;
+	private Time _timerTime;
 
 	private boolean _isDialogOpen;
 	private Dialog _dialog;
@@ -203,7 +208,7 @@ public class DialogService extends DialogController {
 					return;
 				}
 				_serviceController.StartRestService(_birthday.GetName(), _birthday.GetCommandDelete(),
-						Constants.BROADCAST_RELOAD_BIRTHDAY, _lucaObject);
+						Constants.BROADCAST_RELOAD_BIRTHDAY, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			case MOVIE:
 				if (_movie == null) {
@@ -211,7 +216,7 @@ public class DialogService extends DialogController {
 					return;
 				}
 				_serviceController.StartRestService(_movie.GetTitle(), _movie.GetCommandDelete(),
-						Constants.BROADCAST_RELOAD_MOVIE, _lucaObject);
+						Constants.BROADCAST_RELOAD_MOVIE, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			case WIRELESS_SOCKET:
 				if (_socket == null) {
@@ -219,7 +224,7 @@ public class DialogService extends DialogController {
 					return;
 				}
 				_serviceController.StartRestService(_socket.GetName(), _socket.GetCommandDelete(),
-						Constants.BROADCAST_RELOAD_SOCKET, _lucaObject);
+						Constants.BROADCAST_RELOAD_SOCKET, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			case SCHEDULE:
 				if (_schedule == null) {
@@ -227,7 +232,7 @@ public class DialogService extends DialogController {
 					return;
 				}
 				_serviceController.StartRestService(_schedule.GetName(), _schedule.GetCommandDelete(),
-						Constants.BROADCAST_RELOAD_SCHEDULE, _lucaObject);
+						Constants.BROADCAST_RELOAD_SCHEDULE, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			case TIMER:
 				if (_timer == null) {
@@ -235,7 +240,7 @@ public class DialogService extends DialogController {
 					return;
 				}
 				_serviceController.StartRestService(_timer.GetName(), _timer.GetCommandDelete(),
-						Constants.BROADCAST_RELOAD_TIMER, _lucaObject);
+						Constants.BROADCAST_RELOAD_TIMER, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			default:
 				_logger.Warn("Still not possible to delete object " + _lucaObject.toString());
@@ -509,8 +514,7 @@ public class DialogService extends DialogController {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void ShowAddScheduleDialog(final boolean isTimer, final Runnable runnable,
-			final SerializableList<WirelessSocket> socketList) {
+	public void ShowAddScheduleDialog(final Runnable runnable, final SerializableList<WirelessSocket> socketList) {
 		checkOpenDialog();
 
 		createDialog("ShowAddScheduleDialog", R.layout.dialog_add_schedule);
@@ -640,16 +644,108 @@ public class DialogService extends DialogController {
 
 				runnable.run();
 
-				if (isTimer) {
-					Timer newTimer = new Timer(_scheduleName, socket, weekday, _scheduleTime, action, true);
-					_logger.Debug("new Timer: " + newTimer.toString());
-					sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.TIMER, newTimer.GetCommandAdd());
-				} else {
-					Schedule newSchedule = new Schedule(_scheduleName, socket, weekday, _scheduleTime, action, false,
-							true);
-					_logger.Debug("new Schedule: " + newSchedule.toString());
-					sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.SCHEDULE, newSchedule.GetCommandAdd());
+				Schedule newSchedule = new Schedule(_scheduleName, socket, weekday, _scheduleTime, action, false, true);
+				_logger.Debug("new Schedule: " + newSchedule.toString());
+				sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.SCHEDULE, newSchedule.GetCommandAdd());
+
+				_closeDialogCallback.run();
+			}
+		});
+
+		showDialog(true);
+	}
+
+	@SuppressWarnings("deprecation")
+	public void ShowAddTimerDialog(final Runnable runnable, final SerializableList<WirelessSocket> socketList) {
+		checkOpenDialog();
+
+		createDialog("ShowAddTimerDialog", R.layout.dialog_add_timer);
+
+		final EditText timerNameEdit = (EditText) _dialog.findViewById(R.id.dialog_timer_name_input);
+
+		final Spinner timerSocketSelect = (Spinner) _dialog.findViewById(R.id.dialog_timer_socket_select);
+		List<String> sockets = new ArrayList<String>();
+		for (int socketIndex = 0; socketIndex < socketList.getSize(); socketIndex++) {
+			sockets.add(socketList.getValue(socketIndex).GetName());
+		}
+		ArrayAdapter<String> socketDataAdapter = new ArrayAdapter<String>(_context,
+				android.R.layout.simple_spinner_item, sockets);
+		socketDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		timerSocketSelect.setAdapter(socketDataAdapter);
+		timerSocketSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				_timerSocketString = arg0.getItemAtPosition(arg2).toString();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+
+		final TimePicker timerTimePicker = (TimePicker) _dialog.findViewById(R.id.dialog_timer_time_picker);
+		final Calendar c = Calendar.getInstance();
+		final int currentDay = c.get(Calendar.DAY_OF_WEEK);
+		final int currentHour = c.get(Calendar.HOUR_OF_DAY);
+		final int currentMinute = c.get(Calendar.MINUTE);
+		timerTimePicker.setIs24HourView(true);
+		timerTimePicker.setCurrentHour(currentHour);
+		timerTimePicker.setCurrentMinute(currentMinute);
+
+		Button btnSave = (Button) _dialog.findViewById(R.id.dialog_timer_save_button);
+		btnSave.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				_timerName = timerNameEdit.getText().toString();
+				if (_timerName.length() < 3) {
+					Toast.makeText(_context, "Name too short!", Toast.LENGTH_LONG).show();
+					return;
 				}
+				if (_timerSocketString == null || _timerSocketString == "") {
+					Toast.makeText(_context, "Please select a socket!", Toast.LENGTH_LONG).show();
+					return;
+				}
+
+				WirelessSocket socket = null;
+				for (int socketIndex = 0; socketIndex < socketList.getSize(); socketIndex++) {
+					if (socketList.getValue(socketIndex).GetName().contains(_scheduleName)) {
+						socket = socketList.getValue(socketIndex);
+						break;
+					}
+				}
+				if (socket == null) {
+					Toast.makeText(_context, "Please select a valid socket!", Toast.LENGTH_LONG).show();
+					return;
+				}
+
+				int timerDay = currentDay;
+				int timerHour = currentHour + timerTimePicker.getCurrentHour();
+				int timerMinute = currentMinute + timerTimePicker.getCurrentMinute();
+
+				while (timerMinute > 60) {
+					timerMinute -= 60;
+					timerHour++;
+				}
+				while (timerHour > 24) {
+					timerHour -= 24;
+					timerDay++;
+				}
+				_timerTime = new Time(timerHour, timerMinute, 0);
+
+				while (timerDay > 7) {
+					timerDay -= 7;
+				}
+				Weekday weekday = Weekday.GetById(timerDay);
+
+				runnable.run();
+
+				_serviceController.StartRestService(socket.GetName(), socket.GetCommandSet(true),
+						Constants.BROADCAST_RELOAD_SOCKET, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
+
+				Timer newTimer = new Timer(_timerName, socket, weekday, _timerTime, false, true);
+				_logger.Debug("new Timer: " + _timerName.toString());
+				sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.TIMER, newTimer.GetCommandAdd());
+
 				_closeDialogCallback.run();
 			}
 		});

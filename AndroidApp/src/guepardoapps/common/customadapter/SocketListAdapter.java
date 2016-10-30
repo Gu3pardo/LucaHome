@@ -106,6 +106,7 @@ public class SocketListAdapter extends BaseAdapter {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				_socketController.SetSocket(_socketList.getValue(index), isChecked);
+				_socketController.CheckMedia(_socketList.getValue(index));
 			}
 		});
 

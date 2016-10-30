@@ -1,4 +1,4 @@
-package guepardoapps.common.receiver;
+package guepardoapps.common.receiver.sockets;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +10,7 @@ import guepardoapps.common.classes.Logger;
 import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.service.SocketActionService;
 
 public class SocketActionReceiver extends BroadcastReceiver {
@@ -31,7 +32,7 @@ public class SocketActionReceiver extends BroadcastReceiver {
 		if (action.contains("ALL_SOCKETS")) {
 			_serviceController = new ServiceController(context);
 			_serviceController.StartRestService("SHOW_NOTIFICATION_SOCKET", Constants.ACTION_DEACTIVATE_ALL_SOCKETS, "",
-					LucaObject.WIRELESS_SOCKET);
+					LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 		} else if (action.contains("SINGLE_SOCKET")) {
 			WirelessSocket socket = (WirelessSocket) details.getSerializable(Constants.BUNDLE_SOCKET_DATA);
 			_logger.Debug("socket: " + socket.toString());

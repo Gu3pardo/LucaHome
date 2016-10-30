@@ -7,29 +7,21 @@ import guepardoapps.common.classes.Information;
 public final class JsonDataToInformationConverter {
 
 	private static String TAG = "JsonDataToInformationConverter";
-
 	private static Logger _logger;
 
 	public static Information Get(String[] restStringArray) {
-		_logger = new Logger(TAG);
-		for (String entry : restStringArray) {
-			_logger.Debug(entry);
-		}
-
 		if (Tools.StringsAreEqual(restStringArray)) {
 			return ParseStringToInformation(restStringArray[0]);
 		} else {
 			String usedEntry = Tools.SelectString(restStringArray, "{information:");
 			return ParseStringToInformation(usedEntry);
 		}
-
 	}
 
 	private static Information ParseStringToInformation(String restString) {
 		if (Tools.GetStringCount(restString, "{information:") == 1) {
 			if (restString.contains("{information:")) {
 				restString = restString.replace("{information:", "").replace("};};", "");
-				_logger.Debug("new restString: " + restString);
 
 				String[] data = restString.split("\\};");
 				if (data.length == 8) {
@@ -50,7 +42,6 @@ public final class JsonDataToInformationConverter {
 
 						Information newValue = new Information(Author, Company, Contact, Build_Date, Server_Version,
 								Website_Version, Temperature_Log_Version, Android_App_Version);
-						_logger.Debug("newInformation: " + newValue.toString());
 
 						return newValue;
 					}
@@ -58,7 +49,9 @@ public final class JsonDataToInformationConverter {
 			}
 		}
 
+		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 }

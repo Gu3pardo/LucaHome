@@ -68,19 +68,19 @@ public class TimerListAdapter extends BaseAdapter {
 		private TextView _weekday;
 		private TextView _socket;
 		private TextView _action;
-		private Button _state;
+		private Button _delete;
 	}
 
 	@SuppressLint({ "InflateParams", "ViewHolder" })
 	@Override
 	public View getView(final int index, View convertView, ViewGroup parent) {
 		Holder holder = new Holder();
-		View rowView = _inflater.inflate(R.layout.list_schedule_item, null);
+		View rowView = _inflater.inflate(R.layout.list_timer_item, null);
 
-		holder._image = (ImageView) rowView.findViewById(R.id.scheduler_item_image);
+		holder._image = (ImageView) rowView.findViewById(R.id.timer_item_image);
 		holder._image.setImageResource(R.drawable.timer);
 
-		holder._name = (Button) rowView.findViewById(R.id.schedule_item_name);
+		holder._name = (Button) rowView.findViewById(R.id.timer_item_name);
 		holder._name.setText(_timerList.getValue(index).GetName());
 		holder._name.setOnClickListener(new OnClickListener() {
 			@Override
@@ -97,25 +97,24 @@ public class TimerListAdapter extends BaseAdapter {
 			}
 		});
 
-		holder._time = (TextView) rowView.findViewById(R.id.schedule_item_time);
+		holder._time = (TextView) rowView.findViewById(R.id.timer_item_time);
 		holder._time.setText(_timerList.getValue(index).GetTime().toString());
 
-		holder._weekday = (TextView) rowView.findViewById(R.id.schedule_item_weekday);
+		holder._weekday = (TextView) rowView.findViewById(R.id.timer_item_weekday);
 		holder._weekday.setText(_timerList.getValue(index).GetWeekday().toString());
 
-		holder._socket = (TextView) rowView.findViewById(R.id.schedule_item_socket);
+		holder._socket = (TextView) rowView.findViewById(R.id.timer_item_socket);
 		holder._socket.setText(_timerList.getValue(index).GetSocket().GetName());
 
-		holder._action = (TextView) rowView.findViewById(R.id.schedule_item_action);
+		holder._action = (TextView) rowView.findViewById(R.id.timer_item_action);
 		holder._action.setText(String.valueOf(_timerList.getValue(index).GetAction()));
 
-		holder._state = (Button) rowView.findViewById(R.id.schedule_item_state);
-		holder._state.setText(_timerList.getValue(index).GetIsActiveString());
-		holder._state.setOnClickListener(new OnClickListener() {
+		holder._delete = (Button) rowView.findViewById(R.id.timer_item_delete);
+		holder._delete.setText(_timerList.getValue(index).GetIsActiveString());
+		holder._delete.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				_logger.Debug("onClick _state button");
-				_timerController.SetSchedule(_timerList.getValue(index), !_timerList.getValue(index).GetIsActive());
+				_timerController.Delete(_timerList.getValue(index));
 			}
 		});
 

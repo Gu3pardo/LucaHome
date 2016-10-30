@@ -10,36 +10,72 @@ Code			Error
 20				action not found
 21				statement too short
 22				invalid statement
-23				empty statement
+23				no action
+24				no category
+25				no action parameter
 
 30				Could not add birthday
 31				Could not update birthday
 32				Could not delete birthday
+33				Wrong word size for birthday
+34				Action not found for birthday
+35				Parameter not found for birthday
 
 40				Could not add movie
 41				Could not update movie
 42				Could not delete movie
 43				Could not start movie
 44				No sockets available
+45				Start index higher then last index value
+46				End index higher then last index value
+47				Wrong word size for movie
+48				Action not found for movie
+49				Could not activate movie sockets
+400				Parameter not found for movie
 
 50				Could not set gpio
 51				Could not add gpio
 52				Could not delete gpio
 53				Could not activate all gpios
 54				Could not deactivate all gpios
+55				Wrong word size for gpio
+56				Invalid state for gpio
 
 60				Could not set schedule
 61				Could not add schedule
 62				Could not delete schedule
 63				Could not activate all schedules
 64				Could not deactivate all schedules
+65				Wrong word size for schedule
 
 70				Could not set socket
 71				Could not add socket
 72				Could not delete socket
 73				Could not activate all sockets
 74				Could not deactivate all sockets
+75				Wrong word size for socket
 
 80				System command error. Pipe Error!
 
 90				Could not stop sound playing! Not initialized!
+91				Action not found for sound
+92				Wrong data size for sound
+93				Not a valid filename
+94				Parameter not found for sound
+95				Volume not set
+96				Could not start playing sound!
+
+100				Action not found for change
+101				Wrong data size for change
+102				Wrong action parameter for change
+
+110				Action not found for information
+111				Wrong data size for information
+112				Wrong action parameter for information
+
+120				Action not found for remote
+121				Parameter not found for remote
+
+130				Action not found for temperature
+131				Wrong data size for temperature
+132				Wrong action parameter for temperature

@@ -31,6 +31,7 @@ import guepardoapps.common.converter.json.JsonDataToSocketConverter;
 import guepardoapps.common.converter.json.JsonDataToTimerConverter;
 import guepardoapps.common.customadapter.*;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.enums.TemperatureType;
 import guepardoapps.common.service.NavigationService;
 import guepardoapps.lucahome.R;
@@ -216,26 +217,26 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				_receiverController.RegisterReceiver(_startDownloadReceiver,
 						new String[] { Constants.BROADCAST_ADD_BIRTHDAY });
 				_serviceController.StartRestService(Constants.BIRTHDAY_DOWNLOAD, action,
-						Constants.BROADCAST_ADD_BIRTHDAY, lucaObject);
+						Constants.BROADCAST_ADD_BIRTHDAY, lucaObject, RaspberrySelection.BOTH);
 				break;
 			case MOVIE:
 				_receiverController.RegisterReceiver(_startDownloadReceiver,
 						new String[] { Constants.BROADCAST_ADD_MOVIE });
 				_serviceController.StartRestService(Constants.MOVIE_DOWNLOAD, action, Constants.BROADCAST_ADD_MOVIE,
-						lucaObject);
+						lucaObject, RaspberrySelection.BOTH);
 				break;
 			case SCHEDULE:
 			case TIMER:
 				_receiverController.RegisterReceiver(_startDownloadReceiver,
 						new String[] { Constants.BROADCAST_ADD_SCHEDULE });
 				_serviceController.StartRestService(Constants.SCHEDULE_DOWNLOAD, action,
-						Constants.BROADCAST_ADD_SCHEDULE, lucaObject);
+						Constants.BROADCAST_ADD_SCHEDULE, lucaObject, RaspberrySelection.BOTH);
 				break;
 			case WIRELESS_SOCKET:
 				_receiverController.RegisterReceiver(_startDownloadReceiver,
 						new String[] { Constants.BROADCAST_ADD_SOCKET });
 				_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, action, Constants.BROADCAST_ADD_SOCKET,
-						lucaObject);
+						lucaObject, RaspberrySelection.BOTH);
 				break;
 			default:
 				_logger.Error("Cannot add object: " + lucaObject.toString());
@@ -271,7 +272,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 					_receiverController.RegisterReceiver(_downloadReceiver,
 							new String[] { Constants.BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED });
 					_serviceController.StartRestService(Constants.BIRTHDAY_DOWNLOAD, Constants.ACTION_GET_BIRTHDAYS,
-							Constants.BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED, lucaObject);
+							Constants.BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED, lucaObject, RaspberrySelection.BOTH);
 				} else {
 					Toast.makeText(_context, "Add of birthday failed!", Toast.LENGTH_LONG).show();
 				}
@@ -290,7 +291,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 					_receiverController.RegisterReceiver(_downloadReceiver,
 							new String[] { Constants.BROADCAST_DOWNLOAD_MOVIE_FINISHED });
 					_serviceController.StartRestService(Constants.MOVIE_DOWNLOAD, Constants.ACTION_GET_MOVIES,
-							Constants.BROADCAST_DOWNLOAD_MOVIE_FINISHED, lucaObject);
+							Constants.BROADCAST_DOWNLOAD_MOVIE_FINISHED, lucaObject, RaspberrySelection.BOTH);
 				} else {
 					Toast.makeText(_context, "Add of movie failed!", Toast.LENGTH_LONG).show();
 				}
@@ -310,7 +311,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 					_receiverController.RegisterReceiver(_downloadReceiver,
 							new String[] { Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED });
 					_serviceController.StartRestService(Constants.SCHEDULE_DOWNLOAD, Constants.ACTION_GET_SCHEDULES,
-							Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED, lucaObject);
+							Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED, lucaObject, RaspberrySelection.BOTH);
 				} else {
 					Toast.makeText(_context, "Add of schedule failed!", Toast.LENGTH_LONG).show();
 				}
@@ -329,7 +330,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 					_receiverController.RegisterReceiver(_downloadReceiver,
 							new String[] { Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED });
 					_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, Constants.ACTION_GET_SOCKETS,
-							Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, lucaObject);
+							Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, lucaObject, RaspberrySelection.BOTH);
 				} else {
 					Toast.makeText(_context, "Add of socket failed!", Toast.LENGTH_LONG).show();
 				}
@@ -351,26 +352,27 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				_receiverController.RegisterReceiver(_downloadReceiver,
 						new String[] { Constants.BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED });
 				_serviceController.StartRestService(Constants.BIRTHDAY_DOWNLOAD, Constants.ACTION_GET_BIRTHDAYS,
-						Constants.BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED, _lucaObject);
+						Constants.BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			case MOVIE:
 				_receiverController.RegisterReceiver(_downloadReceiver,
 						new String[] { Constants.BROADCAST_DOWNLOAD_MOVIE_FINISHED });
 				_serviceController.StartRestService(Constants.MOVIE_DOWNLOAD, Constants.ACTION_GET_MOVIES,
-						Constants.BROADCAST_DOWNLOAD_MOVIE_FINISHED, _lucaObject);
+						Constants.BROADCAST_DOWNLOAD_MOVIE_FINISHED, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			case SCHEDULE:
 			case TIMER:
 				_receiverController.RegisterReceiver(_downloadReceiver,
 						new String[] { Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED });
 				_serviceController.StartRestService(Constants.SCHEDULE_DOWNLOAD, Constants.ACTION_GET_SCHEDULES,
-						Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED, _lucaObject);
+						Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			case WIRELESS_SOCKET:
 				_receiverController.RegisterReceiver(_downloadReceiver,
 						new String[] { Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED });
 				_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, Constants.ACTION_GET_SOCKETS,
-						Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, LucaObject.WIRELESS_SOCKET);
+						Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, LucaObject.WIRELESS_SOCKET,
+						RaspberrySelection.BOTH);
 				break;
 			default:
 				_logger.Debug("Nothing to do in _reloadReceiver for: " + _lucaObject.toString());
@@ -630,12 +632,12 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				case SCHEDULE:
 					_receiverController.RegisterReceiver(_addReceiver,
 							new String[] { Constants.BROADCAST_ADD_SCHEDULE });
-					_dialogService.ShowAddScheduleDialog(false, _showLoadingSpinner, _wirelessSocketList);
+					_dialogService.ShowAddScheduleDialog(_showLoadingSpinner, _wirelessSocketList);
 					break;
 				case TIMER:
 					_receiverController.RegisterReceiver(_addReceiver,
 							new String[] { Constants.BROADCAST_ADD_SCHEDULE });
-					_dialogService.ShowAddScheduleDialog(true, _showLoadingSpinner, _wirelessSocketList);
+					_dialogService.ShowAddTimerDialog(_showLoadingSpinner, _wirelessSocketList);
 					break;
 				case WIRELESS_SOCKET:
 					_receiverController.RegisterReceiver(_addReceiver, new String[] { Constants.BROADCAST_ADD_SOCKET });

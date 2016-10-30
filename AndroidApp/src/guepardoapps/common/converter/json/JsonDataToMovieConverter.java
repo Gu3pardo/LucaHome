@@ -8,7 +8,6 @@ import guepardoapps.common.classes.Movie;
 public final class JsonDataToMovieConverter {
 
 	private static String TAG = "JsonDataToMovieConverter";
-
 	private static Logger _logger;
 
 	public static Movie Get(String restString) {
@@ -30,6 +29,7 @@ public final class JsonDataToMovieConverter {
 
 		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 
@@ -65,13 +65,15 @@ public final class JsonDataToMovieConverter {
 
 		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 
 	private static Movie ParseStringToMovie(String[] data) {
-		_logger = new Logger(TAG);
 		if (data.length != 6) {
+			_logger = new Logger(TAG);
 			_logger.Error("data.length != 6 || Length: " + String.valueOf(data.length));
+
 			return null;
 		}
 
@@ -80,28 +82,15 @@ public final class JsonDataToMovieConverter {
 		String Description = data[2].replace("{Description:", "").replace("};", "");
 
 		String RatingString = data[3].replace("{Rating:", "").replace("};", "");
-		int rating;
-		try {
-			rating = Integer.parseInt(RatingString);
-		} catch (Exception ex) {
-			rating = 0;
-			_logger.Error(ex.toString());
-		}
+		int rating = Integer.parseInt(RatingString);
 
 		String WatchedString = data[4].replace("{Watched:", "").replace("};", "");
-		int watched;
-		try {
-			watched = Integer.parseInt(WatchedString);
-		} catch (Exception ex) {
-			watched = 0;
-			_logger.Error(ex.toString());
-		}
+		int watched = Integer.parseInt(WatchedString);
 
 		String SocketString = data[5].replace("{Sockets:", "").replace("};", "");
 		String[] sockets = SocketString.split("\\|");
 
 		Movie newValue = new Movie(Title, Genre, Description, rating, watched, sockets);
-
 		return newValue;
 	}
 }

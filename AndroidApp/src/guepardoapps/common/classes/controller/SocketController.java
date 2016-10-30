@@ -6,7 +6,10 @@ import guepardoapps.common.Constants;
 import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
+import guepardoapps.common.service.PackageService;
 import guepardoapps.lucahome.R;
+import guepardoapps.toolset.controller.SharedPrefController;
 
 public class SocketController {
 
@@ -15,15 +18,19 @@ public class SocketController {
 
 	private Context _context;
 	private ServiceController _serviceController;
+	private SharedPrefController _sharedPrefController;
+	private PackageService _packageService;
 
 	public SocketController(Context context) {
 		_context = context;
 		_serviceController = new ServiceController(_context);
+		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
+		_packageService = new PackageService(_context);
 	}
 
 	public void SetSocket(WirelessSocket socket, boolean newState) {
 		_serviceController.StartRestService(socket.GetName(), socket.GetCommandSet(newState),
-				Constants.BROADCAST_RELOAD_SOCKET, LucaObject.WIRELESS_SOCKET);
+				Constants.BROADCAST_RELOAD_SOCKET, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 	}
 
 	public boolean ValidateSocketCode(String code) {
@@ -110,5 +117,15 @@ public class SocketController {
 			}
 		}
 		return -1;
+	}
+
+	public void CheckMedia(WirelessSocket socket) {
+		if (socket.GetName().contains("Sound")) {
+			if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.START_AUDIO_APP)) {
+				if (_packageService.IsPackageInstalled(Constants.PACKAGE_BUBBLE_UPNP)) {
+					_packageService.StartApplication(Constants.PACKAGE_BUBBLE_UPNP);
+				}
+			}
+		}
 	}
 }

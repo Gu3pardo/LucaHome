@@ -11,13 +11,9 @@ import guepardoapps.common.classes.Change;
 public final class JsonDataToChangeConverter {
 
 	private static String TAG = "JsonDataToChangeConverter";
-
 	private static Logger _logger;
 
 	public static Change Get(String restString) {
-		_logger = new Logger(TAG);
-		_logger.Debug(restString);
-
 		if (Tools.GetStringCount(restString, "{change:") == 1) {
 			if (restString.contains("{change:")) {
 				restString = restString.replace("{change:", "").replace("};};", "");
@@ -34,16 +30,13 @@ public final class JsonDataToChangeConverter {
 			}
 		}
 
+		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 
 	public static SerializableList<Change> GetList(String[] restStringArray) {
-		_logger = new Logger(TAG);
-		for (String entry : restStringArray) {
-			_logger.Debug(entry);
-		}
-
 		if (Tools.StringsAreEqual(restStringArray)) {
 			return ParseStringToList(restStringArray[0]);
 		} else {
@@ -74,8 +67,6 @@ public final class JsonDataToChangeConverter {
 		String user = data[6].replace("{User:", "").replace("};", "");
 
 		Change newValue = new Change(type, date, time, user);
-		_logger.Debug("newChange: " + newValue.toString());
-
 		return newValue;
 	}
 
@@ -101,6 +92,9 @@ public final class JsonDataToChangeConverter {
 				return list;
 			}
 		}
+
+		_logger = new Logger(TAG);
+		_logger.Error(usedEntry + " has an error!");
 
 		return null;
 	}

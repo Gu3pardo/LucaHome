@@ -10,11 +10,9 @@ import guepardoapps.common.classes.Birthday;
 public final class JsonDataToBirthdayConverter {
 
 	private static String TAG = "JsonDataToBirthdayConverter";
-
 	private static Logger _logger;
 
 	public static Birthday Get(String birthdayString) {
-		_logger = new Logger(TAG);
 		if (!birthdayString.contains("Error")) {
 			if (Tools.GetStringCount(birthdayString, "{birthday:") == 1) {
 				if (birthdayString.contains("{birthday:")) {
@@ -29,11 +27,12 @@ public final class JsonDataToBirthdayConverter {
 						}
 					}
 				}
-			} else {
-				_logger.Error(birthdayString + " has an error!");
 			}
 		}
-		_logger.Error(birthdayString);
+
+		_logger = new Logger(TAG);
+		_logger.Error(birthdayString + " has an error!");
+
 		return null;
 	}
 
@@ -62,7 +61,6 @@ public final class JsonDataToBirthdayConverter {
 		Date birthday = new Date(year, month - 1, day);
 
 		Birthday newBirthday = new Birthday(name, birthday, id);
-
 		return newBirthday;
 	}
 
@@ -90,8 +88,10 @@ public final class JsonDataToBirthdayConverter {
 				}
 			}
 		}
+
 		_logger = new Logger(TAG);
-		_logger.Error(string);
+		_logger.Error(string + " has an error!");
+
 		return null;
 	}
 }

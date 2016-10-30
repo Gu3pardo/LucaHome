@@ -1,9 +1,18 @@
 #include "authentificationservice.h"
 
+/*===============PUBLIC==============*/
+
 AuthentificationService::AuthentificationService() {
 }
 
 AuthentificationService::~AuthentificationService() {
+}
+
+void AuthentificationService::initialize(FileController fileController) {
+	_fileController = fileController;
+	_usersFile = "/etc/default/lucahome/users";
+	_defaultPassword = "0000";
+	loadUsers();
 }
 
 std::string AuthentificationService::getUsersString() {
@@ -64,9 +73,15 @@ bool AuthentificationService::authentificateUser(std::string userName,
 }
 
 bool AuthentificationService::authentificateUserAction(std::string userName,
-		std::string password, int userAction) {
+		std::string password, std::string action) {
 	if (userName == "DUMMY" || password == "NO_PASSWORD") {
 		syslog(LOG_INFO, "Dummy user or password cannot be used!");
+		return false;
+	}
+
+	int actionId = -1;
+	actionId = getActionId(action);
+	if (actionId == -1) {
 		return false;
 	}
 
@@ -79,7 +94,7 @@ bool AuthentificationService::authentificateUserAction(std::string userName,
 			foundUser = true;
 
 			if ((*it).getPassword() == password) {
-				if ((*it).getRole() >= userAction) {
+				if ((*it).getRole() >= actionId) {
 					authentificationSuccess = true;
 				} else {
 					syslog(LOG_INFO, "Action not allowed for %s!",
@@ -219,12 +234,7 @@ bool AuthentificationService::deleteUser(std::string deleteUserName) {
 	return foundUser;
 }
 
-void AuthentificationService::initialize(FileController fileController) {
-	_fileController = fileController;
-	_usersFile = "/etc/default/lucahome/users";
-	_defaultPassword = "0000";
-	loadUsers();
-}
+/*==============PRIVATE==============*/
 
 void AuthentificationService::saveUsers() {
 	std::string xmldata = _xmlService.generateUsersXml(_users);
@@ -235,4 +245,18 @@ void AuthentificationService::loadUsers() {
 	std::string usersString = _fileController.readFile(_usersFile);
 	_xmlService.setContent(usersString);
 	_users = _xmlService.getUsers();
+}
+
+int AuthentificationService::getActionId(std::string action) {
+	if (action == "GET" || action == "VALIDATE") {
+		return 1;
+	} else if (action == "SET" || action == "START" || action == "PLAY"
+			|| action == "STOP") {
+		return 2;
+	} else if (action == "ADD" || action == "UPDATE") {
+		return 4;
+	} else if (action == "DELETE") {
+		return 5;
+	}
+	return -1;
 }

@@ -23,6 +23,11 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <syslog.h>
+#include <dirent.h>
+
+#include <alsa/asoundlib.h>
+
+#include "../common/tools.h"
 
 #ifndef AUDIOSERVICE_H
 #define AUDIOSERVICE_H
@@ -30,16 +35,28 @@
 class AudioService {
 private:
 	std::string _audioPath;
+	std::string _playingFile;
 	bool _isInitialized;
+	bool _isPlaying;
+	int _volume;
+	std::vector<std::string> _soundFiles;
+
+	void play(std::string);
+	bool stop();
+	std::string setVolume(std::string);
+
+	std::vector<std::string> scanFolder();
+	std::string getSoundFilesRestString();
+
+	int readVolume();
 
 public:
 	AudioService();
 	~AudioService();
 
-	void play(std::string);
-	bool stop();
-
 	void initialize(std::string);
+
+	std::string performAction(std::string, std::vector<std::string>);
 };
 
 #endif

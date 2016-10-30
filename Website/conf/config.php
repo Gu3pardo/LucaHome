@@ -16,7 +16,7 @@ class Config {
 				'home' 
 		);
 		// Meta
-		$this->META_TITLE = 'LucaHome 0.3.9.161029';
+		$this->META_TITLE = 'LucaHome 0.9.1.161030';
 		$this->META_DESCRIPTION = 'Control your tv, sound and more. Display temperature and show your movies via your android smartphone.';
 		$this->META_KEYWORDS_EN = 'SMART, HOME, RASPBERRY, MOVIE, SOCKET, BIRTHDAY';
 		$this->META_KEYWORDS_DE = 'SMART, HOME, RASPBERRY, FILM, STECKDOSE, GEBURTSTAG';

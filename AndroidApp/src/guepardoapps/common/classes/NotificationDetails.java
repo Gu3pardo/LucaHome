@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.receiver.SocketActionReceiver;
+import guepardoapps.common.receiver.sockets.SocketActionReceiver;
 
 public class NotificationDetails implements Serializable {
 

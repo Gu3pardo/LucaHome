@@ -1,53 +1,91 @@
-Hardware
+Arduino Hardware & Software
+______________________________
+
+[]		add arduino spots measuring temperature/humidity, detecting movements, 433MHz receiver and sender
+[]		on command arduino shall send current temperature/humidity to raspberry via 433MHz
+[]		below/above a temperature/humidity arduino shall send current temperature/humidity to raspberry via 433MHz
+[]		if a movement is detected arduino shall send informations to raspberry via 433MHz
+[]		powered by batteries
+[]		if the batteries are running low arduino shall send warning to raspberry via 433MHz
+
+==============================
+
+Raspberry Hardware
+______________________________
+
 []		add NFC module for authentification
+[]		add number pad for authorization
 []		add LEDs for temperature module for warning of high/low temperature
 []		add 433MHz receiver for wireless communication
+[]		add camera for making an image of a possible intruder
+[]		add humidity sensor
 
-Server
+==============================
+
+Raspberry Server
+______________________________
+
 []		add NFC module for authentification
 []		implement real LEDs connections for temperature module for warning of high/low temperature
 []		add 433MHz receiver module for wireless communication
-[]		add module to play sound for wakeup or going to bed or as alarm -> perhaps implement in Schedules!
+[o]		add module to play sound for wakeup or going to bed or as alarm -> perhaps implement in Schedules!
+[]		add module to warn about high traffic on way to work
+[]		add module to inform about events nearby
+[]		add module to warn about possible intruder sending a mail with an image of the possible intruder
+[]		add module to inform about humidity
+[]		add module to remote control osmc
 
-Website
+==============================
+
+Raspberry Website
+______________________________
+
 [x] 	raise data to send from server to client
-[] 		test: raise data to send from server to client
+[x] 	test: raise data to send from server to client
+
+==============================
 
 Android Application
+______________________________
+
 [x] 	test communication to server
 
-[] 		implement everything
+[x] 		implement below feature
 [x]			- Call data on startup
-[]			- show notification of sockets
-[]			- show notification of temperature and upcoming weather
-[]			- more stuff...
+[x]			- create notification of sockets
+[x]			- create notification of temperature
+[-]			- create notification of upcoming weather -> OBSOLETE (is done by library toolset!)
+
+[x]		entering home WIFI shows notifications (sockets, temperature), leaving dismisses notifications
 	
-[]		-> at startup
+[x]		-> at startup
 [x]			show bootscreen with spinner and lucahome logo
 [x]			get birthdays, movies, gpios, temperature, sockets, schedules, timer (, changes & informations)
 [x]			get weather
-[]			show notifications
+[x]			start notification creation
 	
-[]		-> at main view
-[x]			show button for sockets, schedules, timer, birthdays, movies, settings, user, temperature (, changes & informations)
+[x]		-> at main view
+[x]			show button for sockets, schedules, timer, birthdays, movies, settings, user, temperature 
+			(, changes & informations)
 [x]			click on button leads to corresponding fragment view
 [x]			confirm passed downloaded data is correct
 	
 []		-> at details view of above sections
 [x]			sockets, birthdays, movies, schedules, timer have an ADD button
-[]			ADD button leads to a dialog where data can be entered (SAVE, CANCEL)
-[]			listview of all entries contain every entry displaying all properties 
+[x]			ADD button leads to a dialog where data can be entered (SAVE, CANCEL)
+[x]			listview of all entries contain every entry displaying all properties 
 				(left side image, main property in the middle, some minor properties after this and on the 
 				 right side an action button)
-[]			longpress on the entry leads to a dialog if user wish to change a property or to delete the entry
+[x]			longpress on the entry leads to a dialog if user wish to change a property or to delete the entry
 				(three buttons: CHANGE, DELETE, CANCEL)
 []				CHANGE leads to new dialog (similar to ADD dialog)
-[]				DELETE leads to new dialog if user really wants to delete entry (YES, NO)
+[x]				DELETE leads to new dialog if user really wants to delete entry (YES, NO)
 				
-[]			user details contains name and role and possibility to reset password to default or create new passphrase
+[-]			user details contains name and role (and possibility to reset password to default or create new passphrase 
+			->OBSOLETE)
 	
-[]			temperature shows temperature measured by smartphone sensor, temperature send by raspberry (get temperature here!)
-			and graphs of temperature over last month
+[x]			temperature shows temperature measured by smartphone sensor, temperature send by raspberry 
+			(get temperature here!) and graphs of temperature over last month
 	
 [x]			settings contains 
 [x]				possibility to en-/disable notification and buttons of notification
@@ -56,3 +94,12 @@ Android Application
 [-]				duration of timer ->OBSOLETE (default set to 30minutes! perhaps changes in later version!)
 		
 [x]			changes & informations contains just the data
+
+[]		create a map of the flat containing all spots of raspberries/arduinos, but also speaker, lights and all other remote
+		devices
+[]			-> clicking on raspberrys shows informations (e.g. temperature/humidity) and possibilities to activate sockets,
+			movies, etc.
+[]			-> clicking on arduinos shows informations (e.g. temperature/humidity)
+[]			-> clicking on the remote devices shows a possibility to de/activate them
+
+[x]		module to start&stop sound & set volume

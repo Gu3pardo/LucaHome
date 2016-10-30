@@ -12,9 +12,8 @@ import guepardoapps.common.classes.*;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.converter.json.*;
 import guepardoapps.common.enums.LucaObject;
-
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.toolset.controller.SharedPrefController;
-import guepardoapps.toolset.openweather.ForecastModel;
 import guepardoapps.toolset.openweather.OpenWeatherConstants;
 import guepardoapps.toolset.openweather.OpenWeatherController;
 import guepardoapps.toolset.openweather.WeatherModel;
@@ -33,7 +32,6 @@ public class DownloadService extends Service {
 	private SharedPrefController _sharedPrefController;
 
 	private WeatherModel _currentWeather;
-	private ForecastModel _forecastWeather;
 	private OpenWeatherController _openWeatherController;
 
 	private SerializableList<Temperature> _temperatureList = null;
@@ -56,16 +54,6 @@ public class DownloadService extends Service {
 			_logger.Debug("Received weather broadcast...");
 			_currentWeather = (WeatherModel) intent
 					.getSerializableExtra(OpenWeatherConstants.BUNDLE_EXTRA_WEATHER_MODEL);
-			startDownload(LucaObject.WEATHER_FORECAST);
-		}
-	};
-
-	private BroadcastReceiver _forecastModelReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("Received forecast broadcast...");
-			_forecastWeather = (ForecastModel) intent
-					.getSerializableExtra(OpenWeatherConstants.BUNDLE_EXTRA_FORECAST_MODEL);
 			startDownload(LucaObject.WIRELESS_SOCKET);
 		}
 	};
@@ -109,17 +97,14 @@ public class DownloadService extends Service {
 		switch (lucaObject) {
 		case TEMPERATURE:
 			_serviceController.StartRestService(Constants.TEMPERATURE_DOWNLOAD, Constants.ACTION_GET_TEMPERATURES,
-					Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED, LucaObject.TEMPERATURE);
+					Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED, LucaObject.TEMPERATURE, RaspberrySelection.BOTH);
 			break;
 		case WEATHER_CURRENT:
 			_openWeatherController.loadCurrentWeather();
 			break;
-		case WEATHER_FORECAST:
-			_openWeatherController.loadForecastWeather();
-			break;
 		case WIRELESS_SOCKET:
 			_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, Constants.ACTION_GET_SOCKETS,
-					Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, LucaObject.WIRELESS_SOCKET);
+					Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 			break;
 		case DUMMY:
 		default:
@@ -184,13 +169,10 @@ public class DownloadService extends Service {
 				Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED });
 		_receiverController.RegisterReceiver(_weatherModelReceiver,
 				new String[] { OpenWeatherConstants.GET_CURRENT_WEATHER_JSON_FINISHED });
-		_receiverController.RegisterReceiver(_forecastModelReceiver,
-				new String[] { OpenWeatherConstants.GET_FORECAST_WEATHER_JSON_FINISHED });
 	}
 
 	private void unregisterReceiver() {
 		_receiverController.UnregisterReceiver(_downloadStateReceiver);
-		_receiverController.UnregisterReceiver(_forecastModelReceiver);
 		_receiverController.UnregisterReceiver(_weatherModelReceiver);
 	}
 
@@ -202,9 +184,8 @@ public class DownloadService extends Service {
 			_serviceController.StartTemperatureNotificationService(Constants.ID_NOTIFICATION_TEMPERATURE,
 					_temperatureList, _currentWeather);
 		}
-		if (_currentWeather != null && _forecastWeather != null) {
-			_serviceController.StartWeatherNotificationService(OpenWeatherConstants.FORECAST_NOTIFICATION_ID,
-					_currentWeather, _forecastWeather);
+		if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_WEATHER_NOTIFICATION)) {
+			_context.startService(new Intent(_context, OpenWeatherService.class));
 		}
 	}
 }

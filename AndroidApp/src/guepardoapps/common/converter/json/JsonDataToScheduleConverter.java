@@ -12,11 +12,9 @@ import guepardoapps.common.classes.Schedule;;
 public final class JsonDataToScheduleConverter {
 
 	private static String TAG = "JsonDataToScheduleConverter";
-
 	private static Logger _logger;
 
 	public static Schedule Get(String restString, SerializableList<WirelessSocket> socketList) {
-
 		if (Tools.GetStringCount(restString, "{schedule:") == 1) {
 			if (restString.contains("{schedule:")) {
 				restString = restString.replace("{schedule:", "").replace("};};", "");
@@ -35,6 +33,7 @@ public final class JsonDataToScheduleConverter {
 
 		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 
@@ -117,6 +116,7 @@ public final class JsonDataToScheduleConverter {
 
 		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 }

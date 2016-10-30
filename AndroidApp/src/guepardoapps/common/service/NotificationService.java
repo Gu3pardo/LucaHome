@@ -21,7 +21,7 @@ import guepardoapps.common.classes.*;
 import guepardoapps.common.classes.controller.SocketController;
 import guepardoapps.common.enums.LucaObject;
 import guepardoapps.common.enums.TemperatureType;
-import guepardoapps.common.receiver.SocketActionReceiver;
+import guepardoapps.common.receiver.sockets.SocketActionReceiver;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.activities.ListActivity;
 

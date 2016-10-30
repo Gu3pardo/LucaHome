@@ -8,7 +8,6 @@ import guepardoapps.common.classes.WirelessSocket;
 public final class JsonDataToSocketConverter {
 
 	private static String TAG = "JsonDataToSocketConverter";
-
 	private static Logger _logger;
 
 	public static WirelessSocket Get(String wirelessSocketString) {
@@ -29,6 +28,7 @@ public final class JsonDataToSocketConverter {
 
 		_logger = new Logger(TAG);
 		_logger.Error(wirelessSocketString + " has an error!");
+
 		return null;
 	}
 
@@ -78,6 +78,7 @@ public final class JsonDataToSocketConverter {
 
 		_logger = new Logger(TAG);
 		_logger.Error(restString + " has an error!");
+
 		return null;
 	}
 }

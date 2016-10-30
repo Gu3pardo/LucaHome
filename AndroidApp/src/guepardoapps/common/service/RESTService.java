@@ -17,6 +17,7 @@ import guepardoapps.common.Constants;
 import guepardoapps.common.classes.Logger;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 
 public class RESTService extends Service {
 
@@ -27,6 +28,7 @@ public class RESTService extends Service {
 	private String _name;
 	private String _broadcast;
 	private LucaObject _lucaObject;
+	private RaspberrySelection _raspberrySelection;
 
 	private String[] _answer;
 
@@ -50,10 +52,34 @@ public class RESTService extends Service {
 			return 102;
 		}
 
-		String url1 = Constants.REST_URL_RPI1 + user + "&password=" + password + "&action=" + _action;
-		String url2 = Constants.REST_URL_RPI2 + user + "&password=" + password + "&action=" + _action;
+		_raspberrySelection = (RaspberrySelection) data.getSerializable(Constants.BUNDLE_RASPBERRY_SELETION);
 
-		_actions = new String[] { url1, url2 };
+		if (_raspberrySelection == null) {
+			_logger.Error("_raspberrySelection is null!");
+			_raspberrySelection = RaspberrySelection.BOTH;
+		}
+
+		String url1 = "";
+		String url2 = "";
+
+		switch (_raspberrySelection) {
+		case RASPBERRY_1:
+			url1 = Constants.REST_URL_RPI1 + user + "&password=" + password + "&action=" + _action;
+			_actions = new String[] { url1 };
+			break;
+		case RASPBERRY_2:
+			url2 = Constants.REST_URL_RPI2 + user + "&password=" + password + "&action=" + _action;
+			_actions = new String[] { url2 };
+			break;
+		case BOTH:
+		case DUMMY:
+		default:
+			url1 = Constants.REST_URL_RPI1 + user + "&password=" + password + "&action=" + _action;
+			url2 = Constants.REST_URL_RPI2 + user + "&password=" + password + "&action=" + _action;
+			_actions = new String[] { url1, url2 };
+			break;
+		}
+
 		_name = data.getString(Constants.BUNDLE_NAME);
 		_broadcast = data.getString(Constants.BUNDLE_BROADCAST);
 		_lucaObject = (LucaObject) data.getSerializable(Constants.BUNDLE_LUCA_OBJECT);
@@ -115,16 +141,18 @@ public class RESTService extends Service {
 			}
 			// End hack
 			else {
-				Intent broadcastIntent = new Intent(_broadcast);
+				if (_broadcast != null && _broadcast != "") {
+					Intent broadcastIntent = new Intent(_broadcast);
 
-				Bundle broadcastData = new Bundle();
+					Bundle broadcastData = new Bundle();
 
-				broadcastData.putStringArray(_name, _answer);
-				broadcastData.putSerializable(Constants.BUNDLE_LUCA_OBJECT, _lucaObject);
+					broadcastData.putStringArray(_name, _answer);
+					broadcastData.putSerializable(Constants.BUNDLE_LUCA_OBJECT, _lucaObject);
 
-				broadcastIntent.putExtras(broadcastData);
+					broadcastIntent.putExtras(broadcastData);
 
-				sendBroadcast(broadcastIntent);
+					sendBroadcast(broadcastIntent);
+				}
 			}
 
 			stopSelf();

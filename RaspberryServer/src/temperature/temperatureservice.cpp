@@ -1,5 +1,7 @@
 #include "temperatureservice.h"
 
+/*===============PUBLIC==============*/
+
 TemperatureService::TemperatureService() {
 	_isInitialized = false;
 
@@ -15,7 +17,22 @@ TemperatureService::TemperatureService() {
 TemperatureService::~TemperatureService() {
 }
 
-//--------------------------Public-----------------------//
+void TemperatureService::initialize(MailService mailService,
+		std::string sensorId, std::string temperatureArea,
+		std::string graphPath) {
+	_mailService = mailService;
+
+	std::ostringstream path;
+	path << "/sys/bus/w1/devices/" << sensorId << "/w1_slave";
+	_sensorPath = path.str();
+
+	_temperatureArea = temperatureArea;
+
+	_graphPath = graphPath;
+
+	_warningCount = 0;
+	_isInitialized = true;
+}
 
 void TemperatureService::controlTemperature() {
 	if (!_isInitialized) {
@@ -55,64 +72,26 @@ void TemperatureService::controlTemperature() {
 	}
 }
 
-double TemperatureService::getCurrentTemperature() {
-	if (!_isInitialized) {
-		syslog(LOG_INFO, "TemperatureService is not initialized!");
-		return -1;
+std::string TemperatureService::performAction(std::string action,
+		std::vector<std::string> data) {
+	if (action == "GET") {
+		if (data.size() == 5) {
+			if (data[4] == "REST") {
+				return getRestString();
+			} else if (data[4] == "WEBSITE") {
+				return getString();
+			} else {
+				return "Error 132:Wrong action parameter for temperature";
+			}
+		} else {
+			return "Error 131:Wrong data size for temperature";
+		}
+	} else {
+		return "Error 130:Action not found for temperature";
 	}
-
-	return loadTemperature();
 }
 
-std::string TemperatureService::getCurrentTemperatureString() {
-	if (!_isInitialized) {
-		syslog(LOG_INFO, "TemperatureService is not initialized!");
-		return "";
-	}
-
-	std::stringstream out;
-	out << loadTemperature();
-	out << std::endl;
-
-	return out.str();
-}
-
-std::string TemperatureService::getCurrentTemperatureRestString() {
-	if (!_isInitialized) {
-		syslog(LOG_INFO, "TemperatureService is not initialized!");
-		return "";
-	}
-
-	std::stringstream out;
-	out << "{temperature:"
-			<< "{value:" << loadTemperature() << "};"
-			<< "{area:" << _temperatureArea << "};"
-			<< "{sensorPath:" << _sensorPath << "};"
-			<< "{graphPath:" << _graphPath << "};"
-			<< "};";
-	out << "\x00" << std::endl;
-
-	return out.str();
-}
-
-void TemperatureService::initialize(MailService mailService,
-		std::string sensorId, std::string temperatureArea,
-		std::string graphPath) {
-	_mailService = mailService;
-
-	std::ostringstream path;
-	path << "/sys/bus/w1/devices/" << sensorId << "/w1_slave";
-	_sensorPath = path.str();
-
-	_temperatureArea = temperatureArea;
-
-	_graphPath = graphPath;
-
-	_warningCount = 0;
-	_isInitialized = true;
-}
-
-//-------------------------Private-----------------------//
+/*==============PRIVATE==============*/
 
 double TemperatureService::loadTemperature() {
 	const char *charPath = _sensorPath.c_str();
@@ -174,4 +153,43 @@ void TemperatureService::enableLED(int led) {
 	} else {
 		syslog(LOG_INFO, "LED has wrong value! Cannot enable %d!", led);
 	}
+}
+
+double TemperatureService::getValue() {
+	if (!_isInitialized) {
+		syslog(LOG_INFO, "TemperatureService is not initialized!");
+		return -1;
+	}
+
+	return loadTemperature();
+}
+
+std::string TemperatureService::getString() {
+	if (!_isInitialized) {
+		syslog(LOG_INFO, "TemperatureService is not initialized!");
+		return "";
+	}
+
+	std::stringstream out;
+	out << loadTemperature();
+	out << std::endl;
+
+	return out.str();
+}
+
+std::string TemperatureService::getRestString() {
+	if (!_isInitialized) {
+		syslog(LOG_INFO, "TemperatureService is not initialized!");
+		return "";
+	}
+
+	std::stringstream out;
+
+	out << "{temperature:" << "{value:" << loadTemperature() << "};" << "{area:"
+			<< _temperatureArea << "};" << "{sensorPath:" << _sensorPath << "};"
+			<< "{graphPath:" << _graphPath << "};" << "};";
+
+	out << "\x00" << std::endl;
+
+	return out.str();
 }

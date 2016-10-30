@@ -6,6 +6,7 @@ import guepardoapps.common.Constants;
 import guepardoapps.common.classes.Schedule;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.enums.LucaObject;
+import guepardoapps.common.enums.RaspberrySelection;
 
 public class ScheduleController {
 
@@ -23,6 +24,6 @@ public class ScheduleController {
 
 	public void SetSchedule(Schedule schedule, boolean newState) {
 		_serviceController.StartRestService(schedule.GetName(), schedule.GetCommandSet(newState),
-				Constants.BROADCAST_RELOAD_SCHEDULE, LucaObject.SCHEDULE);
+				Constants.BROADCAST_RELOAD_SCHEDULE, LucaObject.SCHEDULE, RaspberrySelection.BOTH);
 	}
 }
