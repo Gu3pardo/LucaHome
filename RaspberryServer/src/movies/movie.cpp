@@ -61,13 +61,14 @@ std::vector<std::string> Movie::getSockets() {
 }
 
 std::string Movie::getSocketsString() {
-	std::stringstream socketString;
+	std::string socketString = "";
 
 	for (int index = 0; index < sockets.size(); index++) {
-		socketString << sockets[index] << "|";
+		socketString += socketString[index] + "|";
 	}
+	socketString = socketString.substr(0, sockets.size() - 1);
 
-	return socketString.str();
+	return socketString;
 }
 
 int Movie::getRating() {
@@ -79,11 +80,9 @@ int Movie::getWatched() {
 }
 
 std::string Movie::toString() {
-	std::string str =
-			std::string("Movie { title: ") + title
-			+ std::string("; genre: ") + genre
-			+ std::string("; description: ") + description
-			+ std::string("; sockets:") + getSocketsString()
+	std::string str = std::string("Movie { title: ") + title
+			+ std::string("; genre: ") + genre + std::string("; description: ")
+			+ description + std::string("; sockets:") + getSocketsString()
 			+ std::string("; rating: ") + Tools::convertIntToStr(rating)
 			+ std::string("; watched: ") + Tools::convertIntToStr(watched)
 			+ std::string(" }");

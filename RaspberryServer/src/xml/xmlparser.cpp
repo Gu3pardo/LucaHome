@@ -268,6 +268,11 @@ std::vector<User> XmlParser::parseUsers() {
 					User user(words[0].c_str(), words[1],
 							atoi(words[2].c_str()));
 					users.push_back(user);
+					syslog(LOG_INFO, "new user: %s", user.toString().c_str());
+				} else {
+					syslog(LOG_INFO, "Line: %s", lines[l].c_str());
+					syslog(LOG_INFO, "Word size wrong to create new user: %d",
+							words.size());
 				}
 			}
 		}

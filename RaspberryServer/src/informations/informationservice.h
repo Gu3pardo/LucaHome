@@ -35,16 +35,16 @@ private:
 
 	void loadInformations();
 
-	std::string getRestString();
-	std::string getString();
-
 public:
 	InformationService();
 	~InformationService();
 
-	void initialize(FileController);
+	std::string getInformationString();
+	Information getInformation();
+	std::string getInformationRestString();
+	std::string getInformationWebsiteString();
 
-	std::string performAction(std::string, std::vector<std::string>);
+	void initialize(FileController);
 };
 
 #endif

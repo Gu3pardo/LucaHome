@@ -27,8 +27,6 @@ public:
 	static std::string convertBoolToStr(bool);
 	static bool convertStrToBool(std::string);
 
-	static bool hasEnding(std::string, std::string);
-
 	static std::vector<std::string> explode(std::string, std::string);
 
 	static void sendSystemCommand(std::string);

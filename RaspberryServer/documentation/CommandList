@@ -13,9 +13,6 @@ getinformations
 getinformationsrest
 
 getmovies
-getmoviesstringlength
-getmoviescount
-getmoviesbyindex
 addmovie
 deletemovie
 updatemovie
@@ -54,11 +51,7 @@ deletesocket
 activateAllSockets
 deactivateAllSockets
 
-startplaying
 stopplaying
-setvolume
-
-validateuser
 
 ========================
 Website
@@ -89,9 +82,7 @@ addsocket
 setsocket
 deletesocket
 
-startplaying
 stopplaying
-setvolume
 
 activateAllGpios
 deactivateAllGpios
@@ -113,5 +104,3 @@ getarea
 getcurrenttemperature
 getcurrenttemperaturerest
 gettemperaturegraphurl
-
-validateuser

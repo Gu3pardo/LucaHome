@@ -46,9 +46,8 @@ template<typename T> std::string to_string(const T& n) {
 
 using namespace std;
 
-bool _updatedSchedules;
-vector<Schedule> _schedules;
-vector<ScheduleTask> _scheduleTasks;
+vector<Schedule> schedules;
+vector<ScheduleTask> scheduleTasks;
 
 FileController _fileController;
 
@@ -72,99 +71,258 @@ pthread_mutex_t socketsMutex = PTHREAD_MUTEX_INITIALIZER;
 string executeCmd(string cmd) {
 	syslog(LOG_INFO, "Received command: %s", cmd.c_str());
 
-	if (cmd.length() < 20) {
+	if (cmd.length() < 3) {
 		return "Error 21:statement too short";
 	}
 
-	vector < string > data = Tools::explode(":", cmd);
-	if (data.size() < 1) {
+	vector < string > words = Tools::explode(":", cmd);
+	if (words.size() < 1) {
 		return "Error 13:No username";
 	}
-	if (data.size() < 2) {
+	if (words.size() < 2) {
 		return "Error 12:No password";
 	}
-	if (data.size() < 3) {
-		return "Error 24:No category";
-	}
-	if (data.size() < 4) {
-		return "Error 23:No action";
-	}
 
-	string username = data[0];
-	string password = data[1];
-	string category = data[2];
-	string action = data[3];
+	string userName = words[0];
+	string userPassword = words[1];
 
-	if (username == "") {
-		return "Error 13:No username";
-	}
-	if (password == "") {
-		return "Error 12:No password";
-	}
-	if (category == "") {
-		return "Error 24:No category";
-	}
-	if (action == "") {
-		return "Error 23:No action";
-	}
-	if (data[4] == "") {
-		return "Error 25:No action parameter";
-	}
-
-	//---------------Authentificate user--------------
-	if (!_authentificationService.authentificateUser(username, password)) {
+	if (!_authentificationService.authentificateUser(userName, userPassword)) {
 		syslog(LOG_INFO, "executeCmd: %s failed! authentificateUser failed!",
 				cmd.c_str());
 		return "Error 10:Authentification Failed";
 	}
-	if (!_authentificationService.authentificateUserAction(username, password,
-			action)) {
-		syslog(LOG_INFO,
-				"executeCmd: %s failed! authentificateUserAction failed!",
-				cmd.c_str());
-		return "Error 11:UserAction cannot be performed";
+	if (words.size() < 4) {
+		return "Error 22:invalid statement";
+	}
+
+	string action = words[2];
+	string name = words[3];
+
+	//---------------------Error----------------------
+	if (action == "") {
+		return "Error 23:empty statement";
 	}
 
 	//--------------------Birthday--------------------
-	if (category == "BIRTHDAY") {
-		return _birthdayService.performAction(action, data, _changeService,
-				username);
-	}
-	//---------------------Changes--------------------
-	else if (category == "CHANGE") {
-		return _changeService.performAction(action, data);
-	}
-	//------------------Informations------------------
-	else if (category == "INFORMATION") {
-		return _informationService.performAction(action, data);
-	}
-	//---------------------Movies---------------------
-	else if (category == "MOVIE") {
-		return _movieService.performAction(action, data, _changeService,
-				username, _remoteService);
-	}
-	//---------------------Remote---------------------
-	else if (category == "REMOTE") {
-		if (data[4] == "SCHEDULE") {
-			if (action == "SET" || action == "ADD" || action == "DELETE") {
-				_updatedSchedules = true;
-			}
+	else if (action == "getbirthdays") {
+		return _birthdayService.getBirthdaysRestString();
+	} else if (action == "addbirthday" && words.size() == 8) {
+		if (_birthdayService.addBirthday(words, _changeService)) {
+			return "addbirthday:1";
+		} else {
+			return "Error 30:Could not add birthday";
 		}
-		return _remoteService.performAction(action, data, _changeService,
-				username);
+	} else if (action == "updatebirthday" && words.size() == 8) {
+		if (_birthdayService.updateBirthday(words, _changeService)) {
+			return "updatebirthday:1";
+		} else {
+			return "Error 31:Could not update birthday";
+		}
+	} else if (action == "deletebirthday") {
+		if (_birthdayService.deleteBirthday(atoi(words[3].c_str()),
+				_changeService)) {
+			return "deletebirthday:1";
+		} else {
+			return "Error 32:Could not delete birthday";
+		}
 	}
-	//----------------------Sound---------------------
-	else if (category == "SOUND") {
-		return _audioService.performAction(action, data);
+
+	//---------------------Changes--------------------
+	else if (action == "getchanges") {
+		return _changeService.getChangesWebsiteString();
+	} else if (action == "getchangesrest") {
+		return _changeService.getChangesRestString();
 	}
+
+	//------------------Informations------------------
+	else if (action == "getinformations") {
+		return _informationService.getInformationWebsiteString();
+	} else if (action == "getinformationsrest") {
+		return _informationService.getInformationRestString();
+	}
+
+	//---------------------Movies---------------------
+	else if (action == "getmovies") {
+		return _movieService.getMoviesRestString();
+	} else if (action == "addmovie" && words.size() == 9) {
+		if (_movieService.addMovie(words, _changeService)) {
+			return "addmovie:1";
+		} else {
+			return "Error 40:Could not add movie";
+		}
+	} else if (action == "deletemovie") {
+		if (_movieService.deleteMovie(words[3], _changeService)) {
+			return "deletemovie:1";
+		} else {
+			return "Error 41:Could not delete movie";
+		}
+	} else if (action == "updatemovie" && words.size() == 9) {
+		if (_movieService.updateMovie(words, _changeService)) {
+			return "updatemovie:1";
+		} else {
+			return "Error 42:Could not update movie";
+		}
+	} else if (action == "startmovie") {
+		if (_movieService.startMovie(words[3], _changeService)) {
+			if (_remoteService.activateSockets(
+					_movieService.getMovieSockets(words[3]), _changeService)) {
+				return "startmovie:1";
+			} else {
+				return "Error 44:No sockets available";
+			}
+		} else {
+			return "Error 43:Could not start movie";
+		}
+	}
+
+	//--------------------Raspberry-------------------
+	else if (action == "getraspberry") {
+		return Tools::convertIntToStr(_remoteService.getRaspberry());
+	}
+
+	//-----------------------Area---------------------
+	else if (action == "getarea") {
+		return _remoteService.getArea();
+	}
+
+	//----------------------Sensor--------------------
+	else if (action == "getsensor") {
+		return _remoteService.getSensor();
+	}
+
+	//------------------------Url---------------------
+	else if (action == "geturl") {
+		return _remoteService.getUrl();
+	}
+
 	//--------------------Temperature-----------------
-	else if (category == "TEMPERATURE") {
-		return _temperatureService.performAction(action, data);
+	else if (action == "getcurrenttemperature") {
+		return _temperatureService.getCurrentTemperatureString();
+	} else if (action == "getcurrenttemperaturerest") {
+		return _temperatureService.getCurrentTemperatureRestString();
+	} else if (action == "gettemperaturegraphurl") {
+		return _remoteService.getTemperatureGraphUrl();
 	}
-	//----------------------User----------------------
-	else if (category == "USER") {
-		if (action == "VALIDATE") {
-			return "validateuser:1";
+
+	//-----------------------Gpio---------------------
+	else if (action == "getgpios") {
+		return _remoteService.getGpiosRestString();
+	} else if (action == "setgpio" && words.size() == 5) {
+		if (_remoteService.setGpio(name, atoi(words[4].c_str()),
+				_changeService)) {
+			return "setgpio:1";
+		} else {
+			return "Error 50:Could not set gpio";
+		}
+	} else if (action == "addgpio" && words.size() == 6) {
+		if (_remoteService.addGpio(words, _changeService)) {
+			return "addgpio:1";
+		} else {
+			return "Error 51:Could not add gpio";
+		}
+	} else if (action == "deletegpio") {
+		if (_remoteService.deleteGpio(name, _changeService)) {
+			return "deletegpio:1";
+		} else {
+			return "Error 52:Could not delete gpio";
+		}
+	} else if (action == "activateAllGpios") {
+		if (_remoteService.setAllGpios(1, _changeService)) {
+			return "activateAllGpios:1";
+		} else {
+			return "Error 53:Could not activate all gpios";
+		}
+	} else if (action == "deactivateAllGpios") {
+		if (_remoteService.setAllGpios(0, _changeService)) {
+			return "deactivateAllGpios:1";
+		} else {
+			return "Error 54:Could not deactivate all gpios";
+		}
+	}
+
+	//---------------------Schedule-------------------
+	else if (action == "getschedules") {
+		return _remoteService.getSchedulesRestString();
+	} else if (action == "setschedule" && words.size() == 5) {
+		if (_remoteService.setSchedule(name, atoi(words[4].c_str()),
+				_changeService)) {
+			schedules = _remoteService.getSchedules();
+			return "setschedule:1";
+		} else {
+			return "Error 60:Could not set schedule";
+		}
+	} else if (action == "addschedule" && words.size() == 12) {
+		if (_remoteService.addSchedule(words, _changeService)) {
+			schedules = _remoteService.getSchedules();
+			return "addschedule:1";
+		} else {
+			return "Error 61:Could not add schedule";
+		}
+	} else if (action == "deleteschedule") {
+		if (_remoteService.deleteSchedule(name, _changeService)) {
+			schedules = _remoteService.getSchedules();
+			return "deleteschedule:1";
+		} else {
+			return "Error 62:Could not delete schedule";
+		}
+	} else if (action == "activateAllSchedules") {
+		if (_remoteService.setAllSchedules(1, _changeService)) {
+			schedules = _remoteService.getSchedules();
+			return "activateAllSchedules:1";
+		} else {
+			return "Error 63:Could not activate all schedules";
+		}
+	} else if (action == "deactivateAllSchedules") {
+		if (_remoteService.setAllSchedules(0, _changeService)) {
+			schedules = _remoteService.getSchedules();
+			return "deactivateAllSchedules:1";
+		} else {
+			return "Error 64:Could not deactivate all schedules";
+		}
+	}
+
+	//----------------------Socket--------------------
+	else if (action == "getsockets") {
+		return _remoteService.getSocketsRestString();
+	} else if (action == "setsocket" && words.size() == 5) {
+		if (_remoteService.setSocket(name, atoi(words[4].c_str()),
+				_changeService)) {
+			return "setsocket:1";
+		} else {
+			return "Error 70:Could not set socket";
+		}
+	} else if (action == "addsocket" && words.size() == 7) {
+		if (_remoteService.addSocket(words, _changeService)) {
+			return "addsocket:1";
+		} else {
+			return "Error 71:Could not add socket";
+		}
+	} else if (action == "deletesocket") {
+		if (_remoteService.deleteSocket(name, _changeService)) {
+			return "deletesocket:1";
+		} else {
+			return "Error 72:Could not delete socket";
+		}
+	} else if (action == "activateAllSockets") {
+		if (_remoteService.setAllSockets(1, _changeService)) {
+			return "activateAllSockets:1";
+		} else {
+			return "Error 73:Could not activate all sockets";
+		}
+	} else if (action == "deactivateAllSockets") {
+		if (_remoteService.setAllSockets(0, _changeService)) {
+			return "deactivateAllSockets:1";
+		} else {
+			return "Error 74:Could not deactivate all sockets";
+		}
+	}
+
+	//----------------------Sound---------------------
+	else if (action == "stopplaying") {
+		if (_audioService.stop()) {
+			return "stopplaying:1";
+		} else {
+			return "Error 90:Could not stop sound playing! Not initialized!";
 		}
 	}
 
@@ -221,11 +379,6 @@ void *server(void *arg) {
 			// Parse and execute request
 			string response = executeCmd(message);
 
-			if (_updatedSchedules) {
-				_schedules = _remoteService.getSchedules();
-				_updatedSchedules = false;
-			}
-
 			pthread_mutex_unlock(&socketsMutex);
 			pthread_mutex_unlock(&gpiosMutex);
 			pthread_mutex_unlock(&schedulesMutex);
@@ -267,16 +420,16 @@ void *scheduler(void *arg) {
 		pthread_mutex_lock(&schedulesMutex);
 
 		// Search for done, deleted and inactive Schedules
-		vector<ScheduleTask>::iterator it = _scheduleTasks.begin();
-		while (it != _scheduleTasks.end()) {
+		vector<ScheduleTask>::iterator it = scheduleTasks.begin();
+		while (it != scheduleTasks.end()) {
 			int found = 0;
 			int done = 0;
 			int active = 1;
 
-			for (int s = 0; s < _schedules.size(); s++) {
-				if (_schedules[s].getName() == (*it).getSchedule()) {
+			for (int s = 0; s < schedules.size(); s++) {
+				if (schedules[s].getName() == (*it).getSchedule()) {
 					found = 1;
-					if (!_schedules[s].getStatus()) {
+					if (!schedules[s].getStatus()) {
 						active = 0;
 					}
 				}
@@ -292,64 +445,62 @@ void *scheduler(void *arg) {
 			if (!found || !active || done) {
 				syslog(LOG_INFO, "Removing Task '%s'",
 						(*it).getSchedule().c_str());
-				it = _scheduleTasks.erase(it);
+				it = scheduleTasks.erase(it);
 			} else {
 				++it;
 			}
 		}
 
 		// Add Schedules to Tasklist
-		for (int s = 0; s < _schedules.size(); s++) {
+		for (int s = 0; s < schedules.size(); s++) {
 			int found = 0;
 
-			for (int st = 0; st < _scheduleTasks.size(); st++) {
-				if (_schedules[s].getName()
-						== _scheduleTasks[st].getSchedule()) {
+			for (int st = 0; st < scheduleTasks.size(); st++) {
+				if (schedules[s].getName() == scheduleTasks[st].getSchedule()) {
 					found = 1;
 				}
 			}
 
-			if (!found && _schedules[s].getStatus()) {
+			if (!found && schedules[s].getStatus()) {
 				time_t newtime = time(0);
 				struct tm tasktime;
 				localtime_r(&newtime, &tasktime);
-				tasktime.tm_hour = _schedules[s].getHour();
-				tasktime.tm_min = _schedules[s].getMinute();
+				tasktime.tm_hour = schedules[s].getHour();
+				tasktime.tm_min = schedules[s].getMinute();
 				tasktime.tm_sec = 0;
 
 				newtime = mktime(&tasktime);
-				ScheduleTask task(_schedules[s].getName(), newtime,
-						_schedules[s].getWeekday());
-				_scheduleTasks.push_back(task);
+				ScheduleTask task(schedules[s].getName(), newtime,
+						schedules[s].getWeekday());
+				scheduleTasks.push_back(task);
 				syslog(LOG_INFO, "Adding Task '%s'",
-						_schedules[s].getName().c_str());
+						schedules[s].getName().c_str());
 			}
 		}
 
 		// Execute Tasks
-		for (int st = 0; st < _scheduleTasks.size(); st++) {
-			time_t tasktime = _scheduleTasks[st].getTime();
+		for (int st = 0; st < scheduleTasks.size(); st++) {
+			time_t tasktime = scheduleTasks[st].getTime();
 			struct tm tasktime_info;
 			localtime_r(&tasktime, &tasktime_info);
 
-			int scheduleWeekday = _scheduleTasks[st].getWeekday();
-			string schedule = _scheduleTasks[st].getSchedule();
+			int scheduleWeekday = scheduleTasks[st].getWeekday();
+			string schedule = scheduleTasks[st].getSchedule();
 
-			if (_scheduleTasks[st].isDone() == 0 && scheduleWeekday == weekday
+			if (scheduleTasks[st].isDone() == 0 && scheduleWeekday == weekday
 					&& tasktime_info.tm_hour == now_info.tm_hour
 					&& tasktime_info.tm_min == now_info.tm_min) {
 
 				syslog(LOG_INFO, "Executing Task '%s'", schedule.c_str());
 
-				for (int s = 0; s < _schedules.size(); s++) {
-					if (schedule == _schedules[s].getName()) {
-						if (_schedules[s].getStatus()) {
-							if (_schedules[s].getSocket() != "") {
+				for (int s = 0; s < schedules.size(); s++) {
+					if (schedule == schedules[s].getName()) {
+						if (schedules[s].getStatus()) {
+							if (schedules[s].getSocket() != "") {
 								stringstream socket_out;
-								socket_out
-										<< "scheduler:435435:REMOTE:SET:SOCKET:"
-										<< _schedules[s].getSocket() << ":"
-										<< _schedules[s].getOnoff();
+								socket_out << "scheduler:0000:setsocket:"
+										<< schedules[s].getSocket() << ":"
+										<< schedules[s].getOnoff();
 
 								pthread_mutex_lock(&gpiosMutex);
 								pthread_mutex_lock(&socketsMutex);
@@ -358,7 +509,7 @@ void *scheduler(void *arg) {
 								if (response != "setsocket:1") {
 									syslog(LOG_INFO,
 											"Setting socket %s by scheduler failed!",
-											_schedules[s].getSocket().c_str());
+											schedules[s].getSocket().c_str());
 								}
 
 								pthread_mutex_unlock(&socketsMutex);
@@ -366,11 +517,11 @@ void *scheduler(void *arg) {
 
 							}
 
-							if (_schedules[s].getGpio() != "") {
+							if (schedules[s].getGpio() != "") {
 								stringstream gpio_out;
-								gpio_out << "scheduler:435435:REMOTE:SET:GPIO:"
-										<< _schedules[s].getGpio() << ":"
-										<< _schedules[s].getOnoff();
+								gpio_out << "scheduler:0000:setgpio:"
+										<< schedules[s].getGpio() << ":"
+										<< schedules[s].getOnoff();
 
 								pthread_mutex_lock(&gpiosMutex);
 								pthread_mutex_lock(&socketsMutex);
@@ -379,31 +530,31 @@ void *scheduler(void *arg) {
 								if (response != "setgpio:1") {
 									syslog(LOG_INFO,
 											"Setting gpio %s by scheduler failed!",
-											_schedules[s].getGpio().c_str());
+											schedules[s].getGpio().c_str());
 								}
 
 								pthread_mutex_unlock(&socketsMutex);
 								pthread_mutex_unlock(&gpiosMutex);
 							}
 
-							if (_schedules[s].getIsTimer() == 1) {
+							if (schedules[s].getIsTimer() == 1) {
 								stringstream schedule_delete_out;
 								schedule_delete_out
-										<< "scheduler:435435:REMOTE:DELETE:SCHEDULE:"
-										<< _schedules[s].getName();
+										<< "scheduler:0000:deleteschedule:"
+										<< schedules[s].getName();
 
 								string response = executeCmd(
 										schedule_delete_out.str());
 								if (response != "deleteschedule:1") {
 									syslog(LOG_INFO,
 											"Deleting schedule %s by scheduler failed!",
-											_schedules[s].getName().c_str());
+											schedules[s].getName().c_str());
 								}
 							}
 						}
 					}
 				}
-				_scheduleTasks[st].setDone(1);
+				scheduleTasks[st].setDone(1);
 			}
 		}
 		pthread_mutex_unlock(&schedulesMutex);
@@ -448,7 +599,6 @@ void *temperatureControl(void *arg) {
 
 	while (1) {
 		_temperatureService.controlTemperature();
-		//Check temperature every minute (60sec == 1min)
 		sleep(60);
 	}
 
@@ -490,8 +640,7 @@ int main(void) {
 	startMessage << "Starting LucaHome at " << _remoteService.getArea();
 	_mailService.sendMail(startMessage.str());
 
-	_updatedSchedules = false;
-	_schedules = _remoteService.getSchedules();
+	schedules = _remoteService.getSchedules();
 
 	pthread_t scheduleThread, serverThread, receiverThread, temperatureThread,
 			birthdayThread;
