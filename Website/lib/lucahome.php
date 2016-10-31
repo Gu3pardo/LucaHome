@@ -252,7 +252,7 @@ switch ($action) {
 	case 'startplaying' :
 		$song = Get ( 'song' );
 		if ($song != '') {
-			echo Send ( "$login:SOUND:START:$song" );
+			echo Send ( "$login:SOUND:PLAY:$song" );
 		} else {
 			echo "Error 94:Parameter not found for sound";
 		}
