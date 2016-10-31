@@ -28,7 +28,7 @@ ______________________________
 []		add NFC module for authentification
 []		implement real LEDs connections for temperature module for warning of high/low temperature
 []		add 433MHz receiver module for wireless communication
-[o]		add module to play sound for wakeup or going to bed or as alarm -> perhaps implement in Schedules!
+[x]		add module to play sound for wakeup or going to bed or as alarm -> perhaps implement in Schedules!
 []		add module to warn about high traffic on way to work
 []		add module to inform about events nearby
 []		add module to warn about possible intruder sending a mail with an image of the possible intruder

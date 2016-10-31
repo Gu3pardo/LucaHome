@@ -114,6 +114,8 @@ public:
 	std::string getUrl();
 	std::string getTemperatureGraphUrl();
 	std::string getAlarmSound();
+
+	void reloadData();
 };
 
 #endif

@@ -278,6 +278,10 @@ std::string RemoteService::getAlarmSound() {
 	return _alarmSound;
 }
 
+void RemoteService::reloadData() {
+	loadSettings();
+}
+
 /*==============PRIVATE==============*/
 
 void RemoteService::saveSettings(ChangeService changeService,

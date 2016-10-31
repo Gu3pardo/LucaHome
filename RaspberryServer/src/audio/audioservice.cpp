@@ -28,18 +28,15 @@ std::string AudioService::performAction(std::string action,
 			return getSoundFilesRestString();
 		} else if (data[4] == "VOLUME") {
 			std::stringstream out;
-			out << "{Volume:" << Tools::convertIntToStr(readVolume()) << "};"
-					<< "\x00" << std::endl;
+			out << "{Volume:" << Tools::convertIntToStr(readVolume()) << "};" << "\x00" << std::endl;
 			return out.str();
 		} else if (data[4] == "PLAYING") {
 			std::stringstream out;
-			out << "{IsPlaying:" << Tools::convertBoolToStr(_isPlaying) << "};"
-					<< "\x00" << std::endl;
+			out << "{IsPlaying:" << Tools::convertBoolToStr(_isPlaying) << "};" << "\x00" << std::endl;
 			return out.str();
 		} else if (data[4] == "PLAYINGFILE") {
 			std::stringstream out;
-			out << "{PlayingFile:" << _playingFile << "};" << "\x00"
-					<< std::endl;
+			out << "{PlayingFile:" << _playingFile << "};" << "\x00" << std::endl;
 			return out.str();
 		} else {
 			return "Error 91:Action not found for sound";
@@ -74,7 +71,7 @@ std::string AudioService::performAction(std::string action,
 		if (stop()) {
 			return "stopplaying:1";
 		} else {
-			return "Error 90:Could not stop sound playing! Not initialized!";
+			return "Error 90:Could not stop sound playing!";
 		}
 	} else if (action == "SET") {
 		if (data[4] == "VOLUME") {
@@ -83,7 +80,7 @@ std::string AudioService::performAction(std::string action,
 			} else if (data[5] == "DECREASE") {
 				return setVolume("-");
 			} else {
-				return "Error 95:Volume not set";
+				return "Error 97:Set sound volume command not found!";
 			}
 		} else {
 			return "Error 91:Action not found for sound";
@@ -117,12 +114,13 @@ bool AudioService::play(std::string fileName) {
 	pid = fork();
 	if (pid == 0) {
 		execlp("/usr/bin/omxplayer", " ", command.str().c_str(), NULL);
-		_isPlaying = true;
 		_playingFile = fileName;
 		_exit(0);
 	} else {
 		wait();
 	}
+
+	_isPlaying = true;
 
 	return true;
 }
@@ -136,7 +134,7 @@ bool AudioService::stop() {
 	syslog(LOG_INFO, "Stop playing!");
 
 	Tools::sendSystemCommand("killall omxplayer.bin");
-	//system("killall omxplayer.bin"); //TODO: check which is working!
+
 	_isPlaying = false;
 	_playingFile = "Nothing playing";
 
@@ -146,7 +144,7 @@ bool AudioService::stop() {
 std::string AudioService::setVolume(std::string volumeAction) {
 	if (!_isInitialized) {
 		syslog(LOG_INFO, "AudioService is not initialized!");
-		return "Error 90:Could not stop sound playing! Not initialized!";
+		return "Error 99:Could not set volume! Not initialized!";
 	}
 
 	int volume;
@@ -154,12 +152,12 @@ std::string AudioService::setVolume(std::string volumeAction) {
 	if (volumeAction == "+") {
 		volume = _volume + 5;
 	} else if (volumeAction == "-") {
-		volume = _volume + 5;
+		volume = _volume - 5;
 	} else {
-		return "Error 95:Volume not set";
+		return "Error 98:Volume action not valid!";
 	}
 
-	if (volume > 0 && volume < 100) {
+	if (volume >= 0 && volume <= 100) {
 		std::stringstream command;
 		command << "amixer  sset PCM,0 " << volume << "%";
 		Tools::sendSystemCommand(command.str());
@@ -229,8 +227,7 @@ int AudioService::readVolume() {
 				int newLength = data.size() - newStartIndex;
 
 				std::string volume = data.substr(newStartIndex, newLength);
-				if (volume.find_first_not_of("0123456789")
-						== std::string::npos) {
+				if (volume.find_first_not_of("0123456789") == std::string::npos) {
 					return Tools::convertStrToInt(volume);
 				} else {
 					syslog(LOG_INFO, "failed volume is: %s", volume.c_str());

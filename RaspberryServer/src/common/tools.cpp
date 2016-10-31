@@ -15,7 +15,11 @@ int Tools::convertStrToInt(std::string str) {
 
 std::string Tools::convertBoolToStr(bool Boolean) {
 	std::ostringstream ss;
-	ss << Boolean;
+	if (Boolean) {
+		ss << "1";
+	} else {
+		ss << "0";
+	}
 	return ss.str();
 }
 

@@ -231,6 +231,7 @@ void *server(void *arg) {
 				_updatedSchedules = false;
 			}
 
+			_remoteService.reloadData();
 			_changeService.reloadData();
 
 			pthread_mutex_unlock(&socketsMutex);

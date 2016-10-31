@@ -57,13 +57,16 @@ Code			Error
 
 80				System command error. Pipe Error!
 
-90				Could not stop sound playing! Not initialized!
+90				Could not stop sound playing!
 91				Action not found for sound
 92				Wrong data size for sound
 93				Not a valid filename
 94				Parameter not found for sound
 95				Volume not set
 96				Could not start playing sound!
+97				Set sound volume command not found!
+98				Volume action not valid!
+99				Could not set volume! Not initialized!
 
 100				Action not found for change
 101				Wrong data size for change

@@ -124,6 +124,8 @@ double TemperatureService::loadTemperature() {
 }
 
 void TemperatureService::sendWarningMail(std::string warning) {
+	_warningCount++;
+
 	if (_warningCount % 5 != 0) {
 		syslog(LOG_INFO,
 				"Already send a mail within the last five or more minutes!");
@@ -131,7 +133,6 @@ void TemperatureService::sendWarningMail(std::string warning) {
 	}
 
 	_mailService.sendMail(warning);
-	_warningCount++;
 }
 
 void TemperatureService::enableLED(int led) {
