@@ -8,9 +8,8 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Information;
-import guepardoapps.common.classes.Logger;
 import guepardoapps.common.service.DialogService;
 import guepardoapps.lucahome.R;
 

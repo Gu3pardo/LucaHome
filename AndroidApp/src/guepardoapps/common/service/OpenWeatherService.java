@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.controller.ReceiverController;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;

@@ -91,6 +91,19 @@
         android:textColor="@color/TextIcon"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/timer_item_playsound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/timer_item_socket"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/timer_item_action"
+        android:text="@string/time_example"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/TextIcon"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/timer_item_delete"
         android:layout_width="wrap_content"

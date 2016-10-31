@@ -10,8 +10,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Schedule;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.common.classes.controller.ScheduleController;
@@ -67,6 +66,7 @@ public class ScheduleListAdapter extends BaseAdapter {
 		private TextView _weekday;
 		private TextView _socket;
 		private TextView _action;
+		private TextView _playsound;
 		private Button _state;
 	}
 
@@ -88,7 +88,7 @@ public class ScheduleListAdapter extends BaseAdapter {
 			@Override
 			public boolean onLongClick(View arg0) {
 				_logger.Debug("onLongClick _name button: " + _scheduleList.getValue(index).GetName());
-				//_dialogService.ShowUpdateScheduleDialog(_scheduleList.getValue(index));
+				// _dialogService.ShowUpdateScheduleDialog(_scheduleList.getValue(index));
 				return true;
 			}
 		});
@@ -103,7 +103,18 @@ public class ScheduleListAdapter extends BaseAdapter {
 		holder._socket.setText(_scheduleList.getValue(index).GetSocket().GetName());
 
 		holder._action = (TextView) rowView.findViewById(R.id.schedule_item_action);
-		holder._action.setText(String.valueOf(_scheduleList.getValue(index).GetAction()));
+		if (_scheduleList.getValue(index).GetAction()) {
+			holder._action.setText(String.valueOf("Activate"));
+		} else {
+			holder._action.setText(String.valueOf("Deactivate"));
+		}
+
+		holder._playsound = (TextView) rowView.findViewById(R.id.schedule_item_playsound);
+		if (_scheduleList.getValue(index).GetPlaySound()) {
+			holder._playsound.setText(String.valueOf("Sound"));
+		} else {
+			holder._playsound.setText(String.valueOf("-/-"));
+		}
 
 		holder._state = (Button) rowView.findViewById(R.id.schedule_item_state);
 		holder._state.setText(_scheduleList.getValue(index).GetIsActiveString());

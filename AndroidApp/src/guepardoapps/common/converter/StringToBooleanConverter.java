@@ -1,6 +1,6 @@
 package guepardoapps.common.converter;
 
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 
 public final class StringToBooleanConverter {
 

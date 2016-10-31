@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import guepardoapps.common.BaseActivity;
 import guepardoapps.common.Constants;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.*;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.converter.json.JsonDataToBirthdayConverter;
@@ -93,8 +94,6 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _temperatureReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("Received broadcast in _temperatureReceiver...");
-
 			int id = intent.getIntExtra(Constants.BUNDLE_TEMPERATURE_ID, -1);
 			Temperature updatedEntry;
 			TemperatureType temperatureType = (TemperatureType) intent
@@ -128,7 +127,6 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _downloadReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("Received broadcast in _downloadReceiver...");
 			_receiverController.UnregisterReceiver(_downloadReceiver);
 
 			stopDownloadTimeout();
@@ -195,7 +193,6 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _addReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("Received broadcast in _addReceiver...");
 			_receiverController.UnregisterReceiver(_addReceiver);
 
 			LucaObject lucaObject = (LucaObject) intent.getSerializableExtra(Constants.BUNDLE_LUCA_OBJECT);
@@ -248,7 +245,6 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _startDownloadReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("Received broadcast in _startDownloadReceiver...");
 			_receiverController.UnregisterReceiver(_startDownloadReceiver);
 
 			LucaObject lucaObject = (LucaObject) intent.getSerializableExtra(Constants.BUNDLE_LUCA_OBJECT);
@@ -345,8 +341,6 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _reloadReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("Received broadcast in _reloadReceiver...");
-
 			switch (_lucaObject) {
 			case BIRTHDAY:
 				_receiverController.RegisterReceiver(_downloadReceiver,

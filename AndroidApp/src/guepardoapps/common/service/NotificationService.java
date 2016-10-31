@@ -17,13 +17,15 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import guepardoapps.common.Constants;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.*;
 import guepardoapps.common.classes.controller.SocketController;
 import guepardoapps.common.enums.LucaObject;
 import guepardoapps.common.enums.TemperatureType;
 import guepardoapps.common.receiver.sockets.SocketActionReceiver;
+import guepardoapps.common.receiver.sound.StopSoundReceiver;
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.activities.ListActivity;
+import guepardoapps.lucahome.activities.BootActivity;
 
 import guepardoapps.toolset.controller.SharedPrefController;
 import guepardoapps.toolset.openweather.WeatherModel;
@@ -58,7 +60,11 @@ public class NotificationService extends Service {
 			SerializableList<Birthday> birthdayList = (SerializableList<Birthday>) data
 					.getSerializable(Constants.BUNDLE_BIRTHDAY_LIST);
 
-			CreateBirthdayNotification(R.drawable.birthday, title, body, true, id, ListActivity.class, birthdayList);
+			CreateBirthdayNotification(R.drawable.birthday, title, body, true, id, BootActivity.class, birthdayList);
+			break;
+		case SOUND:
+			String soundFile = data.getString(Constants.BUNDLE_NOTIFICATION_BODY);
+			CreateSoundNotification(soundFile);
 			break;
 		case TEMPERATURE:
 			SerializableList<Temperature> temperatureList = (SerializableList<Temperature>) data
@@ -114,6 +120,34 @@ public class NotificationService extends Service {
 
 		Notification notification = builder.build();
 		notificationManager.notify(id, notification);
+	}
+
+	private void CreateSoundNotification(String soundFile) {
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sound_on);
+		NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
+				.setHintHideIcon(true).setBackground(bitmap);
+
+		Intent stopSoundIntent = new Intent(this, StopSoundReceiver.class);
+		PendingIntent stopSoundPendingIntent = PendingIntent.getBroadcast(this, 7452348, stopSoundIntent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
+
+		NotificationCompat.Action wearAction = new NotificationCompat.Action.Builder(R.drawable.sound_on, "Stop",
+				stopSoundPendingIntent).build();
+
+		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_playsound);
+		remoteViews.setTextViewText(R.id.notification_playsound_title, soundFile);
+		remoteViews.setOnClickPendingIntent(R.id.notification_playsound_stop, stopSoundPendingIntent);
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+		builder.setSmallIcon(R.drawable.sound_on).setContentTitle("Sound is playing").setContentText("Stop Sound")
+				.setTicker("Stop Sound").extend(wearableExtender).addAction(wearAction);
+
+		Notification notification = builder.build();
+		notification.contentView = remoteViews;
+		notification.bigContentView = remoteViews;
+
+		NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+		notificationManager.notify(Constants.ID_NOTIFICATION_SOUND, notification);
 	}
 
 	private void CreateTemperatureNotification(SerializableList<Temperature> temperatureList,

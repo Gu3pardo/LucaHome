@@ -1,6 +1,6 @@
 package guepardoapps.common.customadapter;
 
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.common.classes.Temperature;
 import guepardoapps.common.classes.controller.TemperatureController;

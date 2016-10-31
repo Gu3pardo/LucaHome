@@ -11,6 +11,7 @@ import android.widget.Switch;
 
 import guepardoapps.common.BaseActivity;
 import guepardoapps.common.Constants;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.*;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.lucahome.R;

@@ -1,4 +1,4 @@
-package guepardoapps.common.classes;
+package guepardoapps.common;
 
 import java.io.Serializable;
 
@@ -8,13 +8,12 @@ public class Logger implements Serializable {
 
 	private static final long serialVersionUID = -1816799824182252692L;
 
-	private static boolean DEBUG_ENABLED = true;
+	private static boolean DEBUG_ENABLED = false;
 
 	private String _tag;
 
 	public Logger(String tag) {
 		_tag = tag;
-		Info("New Logger for " + _tag);
 	}
 
 	public void Verbose(String message) {

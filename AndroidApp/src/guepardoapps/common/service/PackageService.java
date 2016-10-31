@@ -8,8 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.widget.Toast;
-
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 
 public class PackageService implements Serializable{
 

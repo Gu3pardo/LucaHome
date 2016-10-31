@@ -1,4 +1,4 @@
-package guepardoapps.common.service;
+package guepardoapps.common.service.sockets;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.classes.controller.SocketController;
 import guepardoapps.common.controller.ReceiverController;

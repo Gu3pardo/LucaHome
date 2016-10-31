@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import guepardoapps.common.BaseActivity;
 import guepardoapps.common.Constants;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.*;
 import guepardoapps.common.enums.LucaObject;
 import guepardoapps.common.enums.TemperatureType;
@@ -175,7 +176,7 @@ public class MainActivity extends BaseActivity {
 		sound.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(SoundActivity.class, null, false);
+				NavigateToChilds(SoundActivity.class, LucaObject.SOUND);
 			}
 		});
 

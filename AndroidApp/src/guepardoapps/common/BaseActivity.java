@@ -9,7 +9,7 @@ import guepardoapps.common.classes.*;
 import guepardoapps.common.enums.LucaObject;
 import guepardoapps.common.service.DialogService;
 import guepardoapps.common.service.NavigationService;
-import guepardoapps.common.service.UserService;
+import guepardoapps.common.service.authentification.UserService;
 import guepardoapps.lucahome.activities.MainActivity;
 
 import guepardoapps.toolset.controller.SharedPrefController;

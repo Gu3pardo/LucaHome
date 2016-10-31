@@ -3,17 +3,19 @@ package guepardoapps.common.enums;
 import java.io.Serializable;
 
 public enum RaspberrySelection implements Serializable {
-	BOTH("Both", 0), 
-	RASPBERRY_1("Raspberry_1", 1), 
-	RASPBERRY_2("Raspberry_2", 2), 
-	DUMMY("Dummy", -1);
+	BOTH("Both", 0, "Both"), 
+	RASPBERRY_1("Raspberry_1", 1, "Raspberry_1"), 
+	RASPBERRY_2("Raspberry_2", 2, "Raspberry_2"), 
+	DUMMY("Dummy", -1, "n.a.");
 
 	private String _string;
 	private int _int;
+	private String _area;
 
-	private RaspberrySelection(String stringValue, int intValue) {
+	private RaspberrySelection(String stringValue, int intValue, String area) {
 		_string = stringValue;
 		_int = intValue;
+		_area = area;
 	}
 
 	@Override
@@ -23,6 +25,18 @@ public enum RaspberrySelection implements Serializable {
 
 	public int GetInt() {
 		return _int;
+	}
+	public String GetArea() {
+		return _area;
+	}
+
+	public static RaspberrySelection GetByString(String string) {
+		for (RaspberrySelection e : values()) {
+			if (e._string.contains(string)) {
+				return e;
+			}
+		}
+		return null;
 	}
 
 	public static RaspberrySelection GetById(int intValue) {
@@ -34,9 +48,9 @@ public enum RaspberrySelection implements Serializable {
 		return null;
 	}
 
-	public static RaspberrySelection GetByString(String string) {
+	public static RaspberrySelection GetByArea(String area) {
 		for (RaspberrySelection e : values()) {
-			if (e._string.contains(string)) {
+			if (e._area.contains(area)) {
 				return e;
 			}
 		}

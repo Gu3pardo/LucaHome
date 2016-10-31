@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="guepardoapps.lucahome"
-    android:versionCode="91161030"
-    android:versionName="0.9.1.161030" >
+    android:versionCode="93161031"
+    android:versionName="0.9.3.161031" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -55,6 +55,10 @@
             </intent-filter>
         </receiver>
         <receiver
+            android:name="guepardoapps.common.receiver.sound.StopSoundReceiver"
+            android:exported="false" >
+        </receiver>
+        <receiver
             android:name="guepardoapps.common.receiver.WIFIReceiver"
             android:exported="false" >
             <intent-filter>
@@ -78,7 +82,7 @@
             android:name="guepardoapps.common.service.RESTService"
             android:enabled="true" />
         <service
-            android:name="guepardoapps.common.service.SocketActionService"
+            android:name="guepardoapps.common.service.sockets.SocketActionService"
             android:enabled="true" />
     </application>
 

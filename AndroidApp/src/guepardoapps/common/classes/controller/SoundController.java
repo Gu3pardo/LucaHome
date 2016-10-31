@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Sound;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
@@ -33,32 +33,38 @@ public class SoundController {
 	}
 
 	public void StartSound(Sound sound, RaspberrySelection raspberrySelection) {
-		_logger.Debug("Trying to start sound: " + sound.GetFileName());
+		Intent broadcastIntent = new Intent(Constants.BROADCAST_ACTIVATE_SOUND_SOCKET);
+		Bundle broadcastData = new Bundle();
+		broadcastData.putSerializable(Constants.BUNDLE_RASPBERRY_SELECTION, raspberrySelection);
+		broadcastIntent.putExtras(broadcastData);
+		_context.sendBroadcast(broadcastIntent);
+
 		_serviceController.StartRestService(TAG, sound.GetCommandStart(), Constants.BROADCAST_START_SOUND,
 				LucaObject.SOUND, raspberrySelection);
 	}
 
 	public void StopSound(RaspberrySelection raspberrySelection) {
-		_logger.Debug("Trying to stop sound");
+		Intent broadcastIntent = new Intent(Constants.BROADCAST_DEACTIVATE_SOUND_SOCKET);
+		Bundle broadcastData = new Bundle();
+		broadcastData.putSerializable(Constants.BUNDLE_RASPBERRY_SELECTION, raspberrySelection);
+		broadcastIntent.putExtras(broadcastData);
+		_context.sendBroadcast(broadcastIntent);
+		
 		_serviceController.StartRestService(TAG, Constants.ACTION_STOP_SOUND, Constants.BROADCAST_STOP_SOUND,
 				LucaObject.SOUND, raspberrySelection);
 	}
 
 	public void IncreaseVolume(RaspberrySelection raspberrySelection) {
-		_logger.Debug("Increase volume");
 		_serviceController.StartRestService(TAG, Constants.ACTION_INCREASE_VOLUME, Constants.BROADCAST_GET_VOLUME,
 				LucaObject.SOUND, raspberrySelection);
 	}
 
 	public void DecreaseVolume(RaspberrySelection raspberrySelection) {
-		_logger.Debug("Decrease volume");
 		_serviceController.StartRestService(TAG, Constants.ACTION_DECREASE_VOLUME, Constants.BROADCAST_GET_VOLUME,
 				LucaObject.SOUND, raspberrySelection);
 	}
 
 	public void SelectRaspberry(RaspberrySelection previousSelection, RaspberrySelection newSelection, Sound sound) {
-		_logger.Debug("Selecting raspberry: " + newSelection.toString());
-
 		if (previousSelection == newSelection) {
 			_logger.Warn("RaspberrySelection has to be different!");
 			return;
@@ -78,7 +84,7 @@ public class SoundController {
 
 		Intent broadcastIntent = new Intent(Constants.BROADCAST_SET_RASPBERRY);
 		Bundle broadcastData = new Bundle();
-		broadcastData.putSerializable(Constants.BUNDLE_RASPBERRY_SELETION, newSelection);
+		broadcastData.putSerializable(Constants.BUNDLE_RASPBERRY_SELECTION, newSelection);
 		broadcastIntent.putExtras(broadcastData);
 		_context.sendBroadcast(broadcastIntent);
 

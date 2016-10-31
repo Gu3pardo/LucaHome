@@ -2,8 +2,8 @@ package guepardoapps.common.classes.controller;
 
 import java.util.Calendar;
 
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Birthday;
-import guepardoapps.common.classes.Logger;
 
 @SuppressWarnings("deprecation")
 public class BirthdayController {

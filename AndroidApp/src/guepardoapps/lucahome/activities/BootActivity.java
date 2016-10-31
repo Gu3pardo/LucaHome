@@ -13,15 +13,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import guepardoapps.common.Constants;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.*;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.converter.json.*;
 import guepardoapps.common.enums.LucaObject;
 import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.service.DialogService;
+import guepardoapps.common.service.DownloadService;
 import guepardoapps.common.service.NavigationService;
 import guepardoapps.common.service.OpenWeatherService;
-import guepardoapps.common.service.UserService;
+import guepardoapps.common.service.authentification.UserService;
 import guepardoapps.lucahome.R;
 
 import guepardoapps.toolset.controller.*;
@@ -127,6 +129,7 @@ public class BootActivity extends Activity {
 		public void run() {
 			startDownload(LucaObject.BIRTHDAY);
 			startTimeout();
+			isPlayingSound();
 		}
 	};
 
@@ -236,6 +239,7 @@ public class BootActivity extends Activity {
 				} else {
 					startDownload(LucaObject.BIRTHDAY);
 					startTimeout();
+					isPlayingSound();
 				}
 			} else {
 				_logger.Warn("No LucaHome network! finishing...");
@@ -387,7 +391,7 @@ public class BootActivity extends Activity {
 		case TEMPERATURE:
 			String[] temperatureStringArray = intent.getStringArrayExtra(Constants.TEMPERATURE_DOWNLOAD);
 			if (temperatureStringArray != null) {
-				_temperatureList = JsonDataToTemperatureConverter.GetTemperatureList(temperatureStringArray);
+				_temperatureList = JsonDataToTemperatureConverter.GetList(temperatureStringArray);
 			}
 			startDownload(LucaObject.WEATHER_CURRENT);
 			break;
@@ -474,5 +478,15 @@ public class BootActivity extends Activity {
 		if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_WEATHER_NOTIFICATION)) {
 			_context.startService(new Intent(_context, OpenWeatherService.class));
 		}
+	}
+	
+	private void isPlayingSound(){
+		Intent serviceIntent = new Intent(_context, DownloadService.class);
+
+		Bundle serviceData = new Bundle();
+		serviceData.putSerializable(Constants.BUNDLE_LUCA_OBJECT, LucaObject.SOUND);
+		serviceIntent.putExtras(serviceData);
+
+		_context.startService(serviceIntent);
 	}
 }

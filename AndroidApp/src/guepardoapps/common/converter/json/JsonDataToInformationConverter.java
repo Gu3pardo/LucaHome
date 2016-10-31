@@ -1,33 +1,38 @@
 package guepardoapps.common.converter.json;
 
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.Tools;
 import guepardoapps.common.classes.Information;
 
 public final class JsonDataToInformationConverter {
 
 	private static String TAG = "JsonDataToInformationConverter";
+	private static String _searchParameter = "{information:";
 	private static Logger _logger;
 
-	public static Information Get(String[] restStringArray) {
-		if (Tools.StringsAreEqual(restStringArray)) {
-			return ParseStringToInformation(restStringArray[0]);
+	public static Information Get(String[] stringArray) {
+		if (Tools.StringsAreEqual(stringArray)) {
+			return ParseStringToValue(stringArray[0]);
 		} else {
-			String usedEntry = Tools.SelectString(restStringArray, "{information:");
-			return ParseStringToInformation(usedEntry);
+			String usedEntry = Tools.SelectString(stringArray, _searchParameter);
+			return ParseStringToValue(usedEntry);
 		}
 	}
 
-	private static Information ParseStringToInformation(String restString) {
-		if (Tools.GetStringCount(restString, "{information:") == 1) {
-			if (restString.contains("{information:")) {
-				restString = restString.replace("{information:", "").replace("};};", "");
+	private static Information ParseStringToValue(String value) {
+		if (Tools.GetStringCount(value, _searchParameter) == 1) {
+			if (value.contains(_searchParameter)) {
+				value = value.replace(_searchParameter, "").replace("};};", "");
 
-				String[] data = restString.split("\\};");
+				String[] data = value.split("\\};");
 				if (data.length == 8) {
-					if (data[0].contains("{Author:") && data[1].contains("{Company:") && data[2].contains("{Contact:")
-							&& data[3].contains("{Build Date:") && data[4].contains("{Server Version:")
-							&& data[5].contains("{Website Version:") && data[6].contains("{Temperature Log Version:")
+					if (data[0].contains("{Author:") 
+							&& data[1].contains("{Company:") 
+							&& data[2].contains("{Contact:")
+							&& data[3].contains("{Build Date:") 
+							&& data[4].contains("{Server Version:")
+							&& data[5].contains("{Website Version:") 
+							&& data[6].contains("{Temperature Log Version:")
 							&& data[7].contains("{Android App Version:")) {
 
 						String Author = data[0].replace("{Author:", "").replace("};", "");
@@ -49,8 +54,10 @@ public final class JsonDataToInformationConverter {
 			}
 		}
 
-		_logger = new Logger(TAG);
-		_logger.Error(restString + " has an error!");
+		if (_logger == null) {
+			_logger = new Logger(TAG);
+		}
+		_logger.Error(value + " has an error!");
 
 		return null;
 	}

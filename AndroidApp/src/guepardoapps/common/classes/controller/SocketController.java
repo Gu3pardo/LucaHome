@@ -121,6 +121,10 @@ public class SocketController {
 
 	public void CheckMedia(WirelessSocket socket) {
 		if (socket.GetName().contains("Sound")) {
+			if (socket.GetIsActivated()) {
+				return;
+			}
+
 			if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.START_AUDIO_APP)) {
 				if (_packageService.IsPackageInstalled(Constants.PACKAGE_BUBBLE_UPNP)) {
 					_packageService.StartApplication(Constants.PACKAGE_BUBBLE_UPNP);

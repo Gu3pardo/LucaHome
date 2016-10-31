@@ -1,7 +1,7 @@
 package guepardoapps.common.converter;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.toolset.classes.TimeString;
 
 public final class TimeToStringConverter {

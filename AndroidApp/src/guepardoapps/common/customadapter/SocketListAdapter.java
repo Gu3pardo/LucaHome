@@ -13,8 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.classes.controller.SocketController;

@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Change;
-import guepardoapps.common.classes.Logger;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.lucahome.R;
 

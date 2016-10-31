@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import guepardoapps.common.Constants;
 import guepardoapps.common.converter.BooleanToScheduleStateConverter;
+import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.enums.Weekday;
 
 public class Schedule implements Serializable {
@@ -21,19 +22,23 @@ public class Schedule implements Serializable {
 	protected Time _time;
 	protected boolean _action;
 	protected boolean _isTimer;
+	protected boolean _playSound;
+	protected RaspberrySelection _playRaspberry;
 	protected boolean _isActive;
 
 	private String _setBroadcastReceiverString;
 	protected String _deleteBroadcastReceiverString;
 
 	public Schedule(String name, WirelessSocket socket, Weekday weekday, Time time, boolean action, boolean isTimer,
-			boolean isActive) {
+			boolean playSound, RaspberrySelection playRaspberry, boolean isActive) {
 		_name = name;
 		_socket = socket;
 		_weekday = weekday;
 		_time = time;
 		_action = action;
 		_isTimer = isTimer;
+		_playSound = playSound;
+		_playRaspberry = playRaspberry;
 		_isActive = isActive;
 
 		_setBroadcastReceiverString = Constants.BROADCAST_SET_SCHEDULE + _name.toUpperCase(Locale.GERMAN);
@@ -64,6 +69,14 @@ public class Schedule implements Serializable {
 		return _isTimer;
 	}
 
+	public boolean GetPlaySound() {
+		return _playSound;
+	}
+
+	public RaspberrySelection GetPlayRaspberry() {
+		return _playRaspberry;
+	}
+
 	public boolean GetIsActive() {
 		return _isActive;
 	}
@@ -89,7 +102,8 @@ public class Schedule implements Serializable {
 		return Constants.ACTION_ADD_SCHEDULE + _name + "&socket=" + _socket.GetName() + "&gpio=" + "" + "&weekday="
 				+ String.valueOf(_weekday.GetInt()) + "&hour=" + String.valueOf(_time.getHours()) + "&minute="
 				+ String.valueOf(_time.getMinutes()) + "&onoff=" + String.valueOf(_isActive) + "&isTimer="
-				+ String.valueOf(_isTimer);
+				+ String.valueOf(_isTimer) + "&playSound=" + String.valueOf(_playSound) + "&playRaspberry="
+				+ String.valueOf(_playRaspberry.GetInt());
 	}
 
 	public String GetCommandDelete() {
@@ -99,7 +113,8 @@ public class Schedule implements Serializable {
 	public String toString() {
 		return "{Schedule: {Name: " + _name + "};{WirelessSocket: " + _socket.toString() + "};{Weekday: "
 				+ _weekday.toString() + "};{Time: " + _time.toString() + "};{Action: " + String.valueOf(_action)
-				+ "};{isTimer: " + String.valueOf(_isTimer) + "};{IsActive: "
+				+ "};{isTimer: " + String.valueOf(_isTimer) + "};{playSound: " + String.valueOf(_playSound)
+				+ "};{playRaspberry: " + _playRaspberry.toString() + "};{IsActive: "
 				+ BooleanToScheduleStateConverter.GetStringOfBoolean(_isActive) + "};{SetBroadcastReceiverString: "
 				+ _setBroadcastReceiverString + "};{DeleteBroadcastReceiverString: " + _deleteBroadcastReceiverString
 				+ "}}";

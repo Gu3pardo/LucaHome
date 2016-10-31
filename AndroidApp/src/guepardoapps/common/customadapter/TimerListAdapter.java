@@ -11,11 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import guepardoapps.common.classes.Logger;
 import guepardoapps.common.classes.Timer;
 import guepardoapps.common.classes.controller.TimerController;
 import guepardoapps.common.service.DialogService;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.lucahome.R;
 
@@ -68,6 +67,7 @@ public class TimerListAdapter extends BaseAdapter {
 		private TextView _weekday;
 		private TextView _socket;
 		private TextView _action;
+		private TextView _playsound;
 		private Button _delete;
 	}
 
@@ -107,7 +107,18 @@ public class TimerListAdapter extends BaseAdapter {
 		holder._socket.setText(_timerList.getValue(index).GetSocket().GetName());
 
 		holder._action = (TextView) rowView.findViewById(R.id.timer_item_action);
-		holder._action.setText(String.valueOf(_timerList.getValue(index).GetAction()));
+		if (_timerList.getValue(index).GetAction()) {
+			holder._action.setText(String.valueOf("Activate"));
+		} else {
+			holder._action.setText(String.valueOf("Deactivate"));
+		}
+
+		holder._playsound = (TextView) rowView.findViewById(R.id.timer_item_playsound);
+		if (_timerList.getValue(index).GetPlaySound()) {
+			holder._playsound.setText(String.valueOf("Sound"));
+		} else {
+			holder._playsound.setText(String.valueOf("-/-"));
+		}
 
 		holder._delete = (Button) rowView.findViewById(R.id.timer_item_delete);
 		holder._delete.setText(_timerList.getValue(index).GetIsActiveString());

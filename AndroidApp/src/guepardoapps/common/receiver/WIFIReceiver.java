@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.lucahome.R;
 

@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.common.classes.Temperature;
 import guepardoapps.common.controller.*;
@@ -46,7 +46,7 @@ public class TemperatureController {
 				String[] temperatureStringArray = intent.getStringArrayExtra(Constants.TEMPERATURE_DOWNLOAD);
 				if (temperatureStringArray != null) {
 					SerializableList<Temperature> temperatureList = JsonDataToTemperatureConverter
-							.GetTemperatureList(temperatureStringArray);
+							.GetList(temperatureStringArray);
 					Temperature updatedTemperature = temperatureList.getValue(_id);
 					SendBroadcast(updatedTemperature);
 				}

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 import guepardoapps.common.Constants;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.*;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.converter.json.*;
@@ -45,6 +46,23 @@ public class DownloadService extends Service {
 			} catch (Exception e) {
 				_logger.Error(e.getMessage());
 			}
+		}
+	};
+
+	private BroadcastReceiver _currentPlayingSoundReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			_receiverController.UnregisterReceiver(_currentPlayingSoundReceiver);
+
+			String[] playingFileStringArray = intent.getStringArrayExtra(TAG);
+			if (playingFileStringArray != null) {
+				if (playingFileStringArray[0] != null) {
+					String playingFileString = playingFileStringArray[0].replace("{PlayingFile:", "").replace("};", "");
+					_serviceController.StartNotificationService("", playingFileString, -1, LucaObject.SOUND);
+				}
+			}
+
+			stopSelf();
 		}
 	};
 
@@ -95,6 +113,10 @@ public class DownloadService extends Service {
 		_logger.Debug("Starting download of " + lucaObject.toString());
 
 		switch (lucaObject) {
+		case SOUND:
+			_serviceController.StartRestService(TAG, Constants.ACTION_IS_SOUND_PLAYING,
+					Constants.BROADCAST_IS_SOUND_PLAYING, LucaObject.SOUND, RaspberrySelection.BOTH);
+			break;
 		case TEMPERATURE:
 			_serviceController.StartRestService(Constants.TEMPERATURE_DOWNLOAD, Constants.ACTION_GET_TEMPERATURES,
 					Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED, LucaObject.TEMPERATURE, RaspberrySelection.BOTH);
@@ -122,10 +144,44 @@ public class DownloadService extends Service {
 		}
 
 		switch (lucaObject) {
+		case SOUND:
+			boolean isRPi1Playing = false;
+			boolean isRPi2Playing = false;
+			String[] isPlayingStringArray = intent.getStringArrayExtra(TAG);
+			if (isPlayingStringArray != null) {
+				if (isPlayingStringArray[0] != null) {
+					String isPlayingString = isPlayingStringArray[0].replace("{IsPlaying:", "").replace("};", "");
+					isRPi1Playing = isPlayingString.contains("1");
+				}
+				if (isPlayingStringArray[1] != null) {
+					String isPlayingString = isPlayingStringArray[1].replace("{IsPlaying:", "").replace("};", "");
+					isRPi2Playing = isPlayingString.contains("1");
+				}
+			}
+
+			if (isRPi1Playing) {
+				_receiverController.RegisterReceiver(_currentPlayingSoundReceiver,
+						new String[] { Constants.BROADCAST_PLAYING_FILE });
+				_serviceController.StartRestService(TAG, Constants.ACTION_GET_PLAYING_FILE,
+						Constants.BROADCAST_PLAYING_FILE, LucaObject.SOUND, RaspberrySelection.RASPBERRY_1);
+			}
+			if (isRPi2Playing) {
+				_receiverController.RegisterReceiver(_currentPlayingSoundReceiver,
+						new String[] { Constants.BROADCAST_PLAYING_FILE });
+				_serviceController.StartRestService(TAG, Constants.ACTION_GET_PLAYING_FILE,
+						Constants.BROADCAST_PLAYING_FILE, LucaObject.SOUND, RaspberrySelection.RASPBERRY_2);
+			}
+
+			unregisterReceiver();
+
+			if (!isRPi1Playing && !isRPi2Playing) {
+				stopSelf();
+			}
+			break;
 		case TEMPERATURE:
 			String[] temperatureStringArray = intent.getStringArrayExtra(Constants.TEMPERATURE_DOWNLOAD);
 			if (temperatureStringArray != null) {
-				_temperatureList = JsonDataToTemperatureConverter.GetTemperatureList(temperatureStringArray);
+				_temperatureList = JsonDataToTemperatureConverter.GetList(temperatureStringArray);
 			}
 			startDownload(LucaObject.WEATHER_CURRENT);
 			break;
@@ -165,8 +221,9 @@ public class DownloadService extends Service {
 	}
 
 	private void registerReceiver() {
-		_receiverController.RegisterReceiver(_downloadStateReceiver, new String[] {
-				Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED });
+		_receiverController.RegisterReceiver(_downloadStateReceiver,
+				new String[] { Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED,
+						Constants.BROADCAST_DOWNLOAD_TEMPERATURE_FINISHED, Constants.BROADCAST_IS_SOUND_PLAYING });
 		_receiverController.RegisterReceiver(_weatherModelReceiver,
 				new String[] { OpenWeatherConstants.GET_CURRENT_WEATHER_JSON_FINISHED });
 	}
@@ -179,10 +236,19 @@ public class DownloadService extends Service {
 	private void showNotifications() {
 		if (_wirelessSocketList != null) {
 			_serviceController.StartSocketNotificationService(Constants.ID_NOTIFICATION_WEAR, _wirelessSocketList);
+		} else {
+			_logger.Error("SocketList is null! Cannot display notification!");
 		}
 		if (_temperatureList != null && _currentWeather != null) {
 			_serviceController.StartTemperatureNotificationService(Constants.ID_NOTIFICATION_TEMPERATURE,
 					_temperatureList, _currentWeather);
+		} else {
+			if (_temperatureList == null) {
+				_logger.Error("TemperatureList is null! Cannot display notification!");
+			}
+			if (_currentWeather == null) {
+				_logger.Error("CurrentWeather is null! Cannot display notification!");
+			}
 		}
 		if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_WEATHER_NOTIFICATION)) {
 			_context.startService(new Intent(_context, OpenWeatherService.class));

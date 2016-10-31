@@ -7,8 +7,7 @@ import java.util.List;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
-import android.widget.Toast;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 
 public class ReceiverController implements Serializable {
 
@@ -48,7 +47,6 @@ public class ReceiverController implements Serializable {
 					_registeredReceiver.remove(index);
 				} catch (Exception e) {
 					_logger.Error(e.toString());
-					Toast.makeText(_context, e.toString(), Toast.LENGTH_LONG).show();
 				}
 				break;
 			}

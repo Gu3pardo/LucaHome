@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.common.classes.Temperature;
 import guepardoapps.common.classes.User;
@@ -19,8 +19,7 @@ import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.service.DownloadService;
 import guepardoapps.common.service.NotificationService;
 import guepardoapps.common.service.RESTService;
-import guepardoapps.common.service.UserService;
-
+import guepardoapps.common.service.authentification.UserService;
 import guepardoapps.toolset.controller.NetworkController;
 import guepardoapps.toolset.openweather.ForecastModel;
 import guepardoapps.toolset.openweather.WeatherModel;
@@ -63,7 +62,7 @@ public class ServiceController implements Serializable {
 		serviceData.putString(Constants.BUNDLE_NAME, name);
 		serviceData.putString(Constants.BUNDLE_BROADCAST, broadcast);
 		serviceData.putSerializable(Constants.BUNDLE_LUCA_OBJECT, lucaObject);
-		serviceData.putSerializable(Constants.BUNDLE_RASPBERRY_SELETION, raspberrySelection);
+		serviceData.putSerializable(Constants.BUNDLE_RASPBERRY_SELECTION, raspberrySelection);
 
 		serviceIntent.putExtras(serviceData);
 		_context.startService(serviceIntent);
@@ -184,5 +183,11 @@ public class ServiceController implements Serializable {
 		serviceIntent.putExtras(serviceData);
 
 		_context.startService(serviceIntent);
+	}
+
+	public void StopSound() {
+		StartRestService(TAG, Constants.ACTION_STOP_SOUND, Constants.BROADCAST_STOP_SOUND, LucaObject.SOUND,
+				RaspberrySelection.BOTH);
+		CloseNotification(Constants.ID_NOTIFICATION_SOUND);
 	}
 }

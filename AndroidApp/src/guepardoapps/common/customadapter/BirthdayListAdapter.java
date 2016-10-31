@@ -1,8 +1,8 @@
 package guepardoapps.common.customadapter;
 
 import guepardoapps.common.Constants;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Birthday;
-import guepardoapps.common.classes.Logger;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.common.classes.controller.BirthdayController;
 import guepardoapps.common.service.DialogService;

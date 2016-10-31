@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
 import guepardoapps.common.enums.RaspberrySelection;
@@ -25,12 +25,7 @@ public class RESTService extends Service {
 
 	private String _action;
 	private String[] _actions;
-	private String _name;
-	private String _broadcast;
-	private LucaObject _lucaObject;
 	private RaspberrySelection _raspberrySelection;
-
-	private String[] _answer;
 
 	private Logger _logger;
 
@@ -52,7 +47,7 @@ public class RESTService extends Service {
 			return 102;
 		}
 
-		_raspberrySelection = (RaspberrySelection) data.getSerializable(Constants.BUNDLE_RASPBERRY_SELETION);
+		_raspberrySelection = (RaspberrySelection) data.getSerializable(Constants.BUNDLE_RASPBERRY_SELECTION);
 
 		if (_raspberrySelection == null) {
 			_logger.Error("_raspberrySelection is null!");
@@ -80,13 +75,12 @@ public class RESTService extends Service {
 			break;
 		}
 
-		_name = data.getString(Constants.BUNDLE_NAME);
-		_broadcast = data.getString(Constants.BUNDLE_BROADCAST);
-		_lucaObject = (LucaObject) data.getSerializable(Constants.BUNDLE_LUCA_OBJECT);
-
-		_answer = new String[_actions.length];
+		String name = data.getString(Constants.BUNDLE_NAME);
+		String broadcast = data.getString(Constants.BUNDLE_BROADCAST);
+		LucaObject lucaObject = (LucaObject) data.getSerializable(Constants.BUNDLE_LUCA_OBJECT);
 
 		SendActionTask task = new SendActionTask();
+		task.setValues(name, broadcast, lucaObject, _actions.length);
 		task.execute(_actions);
 
 		return 0;
@@ -98,6 +92,25 @@ public class RESTService extends Service {
 	}
 
 	private class SendActionTask extends AsyncTask<String, Void, String> {
+		private static final String TAG = "RESTService";
+
+		private Logger _logger;
+
+		private String _name;
+		private String _broadcast;
+		private LucaObject _lucaObject;
+
+		private String[] _answer;
+
+		public void setValues(String name, String broadcast, LucaObject lucaObject, int answerSize) {
+			_logger = new Logger(TAG);
+
+			_name = name;
+			_broadcast = broadcast;
+			_lucaObject = lucaObject;
+			_answer = new String[answerSize];
+		}
+
 		@Override
 		protected String doInBackground(String... actions) {
 			String response = "";

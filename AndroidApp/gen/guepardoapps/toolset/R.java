@@ -68,9 +68,9 @@ public final class R {
 		public static final int custom_alert_dialog_btn_ok = 0x7f0a001b;
 		public static final int custom_alert_dialog_prompt = 0x7f0a001a;
 		public static final int custom_alert_dialog_title = 0x7f0a0019;
-		public static final int floating_message_background = 0x7f0a0047;
-		public static final int floating_message_text = 0x7f0a0049;
-		public static final int floating_message_title = 0x7f0a0048;
+		public static final int floating_message_background = 0x7f0a004b;
+		public static final int floating_message_text = 0x7f0a004d;
+		public static final int floating_message_title = 0x7f0a004c;
 	}
 	public static final class layout {
 		public static final int custom_dialog_1 = 0x7f030001;

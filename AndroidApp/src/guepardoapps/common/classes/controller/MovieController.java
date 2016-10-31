@@ -1,10 +1,9 @@
 package guepardoapps.common.classes.controller;
 
 import android.content.Context;
-import android.content.Intent;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Movie;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
@@ -41,7 +40,7 @@ public class MovieController {
 		String action = Constants.ACTION_START_MOVIE + movie.GetTitle();
 		_serviceController.StartRestService(movie.GetTitle(), action, null, LucaObject.MOVIE, RaspberrySelection.BOTH);
 
-		_context.sendBroadcast(new Intent(Constants.BROADCAST_RELOAD_SOCKETS));
+		_serviceController.StartSocketDownload();
 
 		if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.START_OSMC_APP)) {
 			if (_packageService.IsPackageInstalled(Constants.PACKAGE_KORE)) {

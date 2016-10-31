@@ -12,8 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Sound;
 import guepardoapps.common.classes.controller.SoundController;
 import guepardoapps.common.enums.RaspberrySelection;

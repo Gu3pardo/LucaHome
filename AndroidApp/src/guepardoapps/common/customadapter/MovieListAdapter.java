@@ -10,9 +10,8 @@ import android.view.View.OnLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Movie;
-import guepardoapps.common.classes.Logger;
 import guepardoapps.common.classes.SerializableList;
 import guepardoapps.common.classes.controller.MovieController;
 import guepardoapps.common.service.DialogService;

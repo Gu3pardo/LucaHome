@@ -22,8 +22,11 @@ import android.webkit.WebViewClient;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -34,19 +37,22 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import guepardoapps.common.Constants;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Birthday;
-import guepardoapps.common.classes.Logger;
 import guepardoapps.common.classes.Movie;
 import guepardoapps.common.classes.Schedule;
 import guepardoapps.common.classes.SerializableList;
+import guepardoapps.common.classes.Sound;
 import guepardoapps.common.classes.Timer;
 import guepardoapps.common.classes.User;
 import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.classes.controller.SocketController;
+import guepardoapps.common.classes.controller.SoundController;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
 import guepardoapps.common.enums.RaspberrySelection;
 import guepardoapps.common.enums.Weekday;
+import guepardoapps.common.service.authentification.UserService;
 import guepardoapps.lucahome.R;
 
 import guepardoapps.toolset.controller.DialogController;
@@ -73,10 +79,14 @@ public class DialogService extends DialogController {
 	private String _scheduleWeekdayString;
 	private String _scheduleActionString;
 	private Time _scheduleTime;
+	private boolean _schedulePlaySound = false;
+	private RaspberrySelection _schedulePlayRaspberry;
 
 	private String _timerName;
 	private String _timerSocketString;
 	private Time _timerTime;
+	private boolean _timerPlaySound = false;
+	private RaspberrySelection _timerPlayRaspberry;
 
 	private boolean _isDialogOpen;
 	private Dialog _dialog;
@@ -588,6 +598,40 @@ public class DialogService extends DialogController {
 		scheduleTimePicker.setCurrentHour(hour);
 		scheduleTimePicker.setCurrentMinute(minute);
 
+		CheckBox playSoundCheckbox = (CheckBox) _dialog.findViewById(R.id.dialog_schedule_playsound_select);
+		playSoundCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				_schedulePlaySound = isChecked;
+			}
+		});
+
+		final Spinner schedulePlayRaspberrySelect = (Spinner) _dialog
+				.findViewById(R.id.dialog_schedule_playraspberry_select);
+		List<String> raspberrys = new ArrayList<String>();
+		raspberrys.add("Living Room");
+		raspberrys.add("Sleeping Room");
+		ArrayAdapter<String> raspberrysDataAdapter = new ArrayAdapter<String>(_context,
+				android.R.layout.simple_spinner_item, raspberrys);
+		raspberrysDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		schedulePlayRaspberrySelect.setAdapter(raspberrysDataAdapter);
+		schedulePlayRaspberrySelect.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				if (arg0.getItemAtPosition(arg2).toString().contains("Living Room")) {
+					_schedulePlayRaspberry = RaspberrySelection.RASPBERRY_1;
+				} else if (arg0.getItemAtPosition(arg2).toString().contains("Sleeping Room")) {
+					_schedulePlayRaspberry = RaspberrySelection.RASPBERRY_2;
+				} else {
+					_schedulePlayRaspberry = RaspberrySelection.DUMMY;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+
 		Button btnSave = (Button) _dialog.findViewById(R.id.dialog_schedule_save_button);
 		btnSave.setOnClickListener(new OnClickListener() {
 			@Override
@@ -607,6 +651,10 @@ public class DialogService extends DialogController {
 				}
 				if (_scheduleActionString == null || _scheduleActionString == "") {
 					Toast.makeText(_context, "Please select an action!", Toast.LENGTH_LONG).show();
+					return;
+				}
+				if (_schedulePlayRaspberry == null || _schedulePlayRaspberry == RaspberrySelection.DUMMY) {
+					Toast.makeText(_context, "Please select a valid raspberry!", Toast.LENGTH_LONG).show();
 					return;
 				}
 
@@ -644,7 +692,8 @@ public class DialogService extends DialogController {
 
 				runnable.run();
 
-				Schedule newSchedule = new Schedule(_scheduleName, socket, weekday, _scheduleTime, action, false, true);
+				Schedule newSchedule = new Schedule(_scheduleName, socket, weekday, _scheduleTime, action, false,
+						_schedulePlaySound, _schedulePlayRaspberry, true);
 				_logger.Debug("new Schedule: " + newSchedule.toString());
 				sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.SCHEDULE, newSchedule.GetCommandAdd());
 
@@ -692,6 +741,39 @@ public class DialogService extends DialogController {
 		timerTimePicker.setCurrentHour(currentHour);
 		timerTimePicker.setCurrentMinute(currentMinute);
 
+		CheckBox timerPlaySoundCheckbox = (CheckBox) _dialog.findViewById(R.id.dialog_timer_playsound_select);
+		timerPlaySoundCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				_timerPlaySound = isChecked;
+			}
+		});
+
+		final Spinner timerPlayRaspberrySelect = (Spinner) _dialog.findViewById(R.id.dialog_timer_playraspberry_select);
+		List<String> raspberrys = new ArrayList<String>();
+		raspberrys.add("Living Room");
+		raspberrys.add("Sleeping Room");
+		ArrayAdapter<String> raspberrysDataAdapter = new ArrayAdapter<String>(_context,
+				android.R.layout.simple_spinner_item, raspberrys);
+		raspberrysDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		timerPlayRaspberrySelect.setAdapter(raspberrysDataAdapter);
+		timerPlayRaspberrySelect.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				if (arg0.getItemAtPosition(arg2).toString().contains("Living Room")) {
+					_timerPlayRaspberry = RaspberrySelection.RASPBERRY_1;
+				} else if (arg0.getItemAtPosition(arg2).toString().contains("Sleeping Room")) {
+					_timerPlayRaspberry = RaspberrySelection.RASPBERRY_2;
+				} else {
+					_timerPlayRaspberry = RaspberrySelection.DUMMY;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+
 		Button btnSave = (Button) _dialog.findViewById(R.id.dialog_timer_save_button);
 		btnSave.setOnClickListener(new OnClickListener() {
 			@Override
@@ -703,6 +785,10 @@ public class DialogService extends DialogController {
 				}
 				if (_timerSocketString == null || _timerSocketString == "") {
 					Toast.makeText(_context, "Please select a socket!", Toast.LENGTH_LONG).show();
+					return;
+				}
+				if (_timerPlayRaspberry == null || _timerPlayRaspberry == RaspberrySelection.DUMMY) {
+					Toast.makeText(_context, "Please select a valid raspberry!", Toast.LENGTH_LONG).show();
 					return;
 				}
 
@@ -742,7 +828,13 @@ public class DialogService extends DialogController {
 				_serviceController.StartRestService(socket.GetName(), socket.GetCommandSet(true),
 						Constants.BROADCAST_RELOAD_SOCKET, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 
-				Timer newTimer = new Timer(_timerName, socket, weekday, _timerTime, false, true);
+				if (_timerPlaySound && socket.GetName().contains("Sound")) {
+					SoundController soundController = new SoundController(_context);
+					soundController.StartSound(new Sound("ALARM", false), _timerPlayRaspberry);
+				}
+
+				Timer newTimer = new Timer(_timerName, socket, weekday, _timerTime, false, _timerPlaySound,
+						_timerPlayRaspberry, true);
 				_logger.Debug("new Timer: " + _timerName.toString());
 				sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.TIMER, newTimer.GetCommandAdd());
 

@@ -1,17 +1,19 @@
 <resources>
 
-    <color name="DarkPrimary">#1b5e20</color>
-    <color name="Primary">#69f0ae</color>
-    <color name="LightPrimary">#B2EBF2</color>
+    <color name="Background">#303f9f</color>
+    
+    <color name="DarkPrimary">#303f9f</color>
+    <color name="Primary">#3f51b5</color>
+    <color name="LightPrimary">#c5cae9</color>
     <color name="TextIcon">#FFFFFF</color>
-    <color name="Accent">#607D8B</color>
+    <color name="Accent">#448aff</color>
     <color name="PrimaryText">#212121</color>
     <color name="SecondaryText">#727272</color>
     <color name="Divider">#B6B6B6</color>
+    
     <color name="DarkRed">#D32F2F</color>
     <color name="LightRed">#F44336</color>
     <color name="DarkGreen">#388E3C</color>
     <color name="LightGreen">#4CAF50</color>
-    <color name="Background">#00bfa5</color>
 
 </resources>

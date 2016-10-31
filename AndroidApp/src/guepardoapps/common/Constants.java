@@ -10,6 +10,7 @@ public class Constants {
 	public static int ID_NOTIFICATION_WEAR = 120288;
 	public static int ID_NOTIFICATION_BIRTHDAY = 219000;
 	public static int ID_NOTIFICATION_TEMPERATURE = 111293;
+	public static int ID_NOTIFICATION_SOUND = 234854;
 
 	/********************* Package names ********************/
 
@@ -28,7 +29,7 @@ public class Constants {
 	public static String BUNDLE_BROADCAST = "BROADCAST";
 	public static String BUNDLE_NAME = "NAME";
 	public static String BUNDLE_LUCA_OBJECT = "LUCA_OBJECT";
-	public static String BUNDLE_RASPBERRY_SELETION = "RASPBERRY_SELETION";
+	public static String BUNDLE_RASPBERRY_SELECTION = "RASPBERRY_SELETION";
 
 	public static String BUNDLE_SEND_ACTION = "SEND_ACTION";
 	public static String BUNDLE_SOCKET_DATA = "SOCKET_DATA";
@@ -209,11 +210,13 @@ public class Constants {
 	public static String BROADCAST_START_SOUND = "guepardoapps.lucahome.broadcast.start.sound";
 	public static String BROADCAST_STOP_SOUND = "guepardoapps.lucahome.broadcast.stop.sound";
 	public static String BROADCAST_SET_RASPBERRY = "guepardoapps.lucahome.broadcast.set.raspberry";
+	public static String BROADCAST_ACTIVATE_SOUND_SOCKET = "guepardoapps.lucahome.broadcast.activate.sound.socket";
+	public static String BROADCAST_DEACTIVATE_SOUND_SOCKET = "guepardoapps.lucahome.broadcast.deactivate.sound.socket";
 
 	/********************** SharedPref *********************/
 
 	public static String SHARED_PREF_NAME = "LUCA_HOME";
-	public static String SHARED_PREF_INSTALLED = "APP_VERSION_0.9.1.161030_INSTALLED";
+	public static String SHARED_PREF_INSTALLED = "APP_VERSION_0.9.3.161031_INSTALLED";
 
 	public static String DISPLAY_SOCKET_NOTIFICATION = "DISPLAY_SOCKET_NOTIFICATION";
 	public static String DISPLAY_WEATHER_NOTIFICATION = "DISPLAY_WEATHER_NOTIFICATION";
@@ -225,7 +228,7 @@ public class Constants {
 	public static String USER_DATA_ENTERED = "USER_DATA_ENTERED";
 	public static String USER_NAME = "USER_NAME";
 	public static String USER_PASSPHRASE = "USER_PASSPHRASE";
-	
+
 	public static String SOUND_RASPBERRY_SELECTION = "SOUND_RASPBERRY_SELECTION";
 
 	/************************ Custom Broadcast ***********************/

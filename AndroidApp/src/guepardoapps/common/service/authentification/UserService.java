@@ -1,4 +1,4 @@
-package guepardoapps.common.service;
+package guepardoapps.common.service.authentification;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.User;
 import guepardoapps.common.controller.*;
 import guepardoapps.common.enums.LucaObject;
-
+import guepardoapps.common.service.RESTService;
 import guepardoapps.toolset.controller.SharedPrefController;
 
 public class UserService {

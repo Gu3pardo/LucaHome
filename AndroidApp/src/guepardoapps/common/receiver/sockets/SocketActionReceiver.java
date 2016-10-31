@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import guepardoapps.common.Constants;
-import guepardoapps.common.classes.Logger;
+import guepardoapps.common.Logger;
 import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.controller.ServiceController;
 import guepardoapps.common.enums.LucaObject;
 import guepardoapps.common.enums.RaspberrySelection;
-import guepardoapps.common.service.SocketActionService;
+import guepardoapps.common.service.sockets.SocketActionService;
 
 public class SocketActionReceiver extends BroadcastReceiver {
 
