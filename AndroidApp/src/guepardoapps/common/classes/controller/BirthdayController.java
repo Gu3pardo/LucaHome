@@ -5,42 +5,43 @@ import java.util.Calendar;
 import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Birthday;
 
-@SuppressWarnings("deprecation")
 public class BirthdayController {
 
 	private static String TAG = "BirthdayController";
-
-	@SuppressWarnings("unused")
 	private Logger _logger;
 
-	private Calendar _today;
+	private Calendar _calendar;
 
 	public BirthdayController() {
 		_logger = new Logger(TAG);
-
-		_today = Calendar.getInstance();
+		_calendar = Calendar.getInstance();
+		_logger.Debug("_calendar: " + _calendar.toString());
 	}
 
 	public boolean HasBirthday(Birthday birthday) {
-		if (birthday.GetBirthday().getDay() == _today.get(Calendar.DAY_OF_MONTH)
-				&& birthday.GetBirthday().getMonth() == _today.get(Calendar.MONTH)) {
+		_logger.Debug("HasBirthday");
+		_logger.Debug("Birthday: " + birthday.toString());
+		if ((birthday.GetBirthday().get(Calendar.DAY_OF_MONTH) == _calendar.get(Calendar.DAY_OF_MONTH))
+				&& (birthday.GetBirthday().get(Calendar.MONTH) == _calendar.get(Calendar.MONTH))) {
+			_logger.Debug("HasBirthday: " + String.valueOf(true));
 			return true;
 		}
+		_logger.Debug("HasBirthday: " + String.valueOf(false));
 		return false;
 	}
 
 	public int GetAge(Birthday birthday) {
+		_logger.Debug("GetAge");
+		_logger.Debug("Birthday: " + birthday.toString());
 		int age;
-
-		if ((_today.get(Calendar.MONTH) + 1) >= birthday.GetBirthday().getMonth()
-				&& _today.get(Calendar.DAY_OF_MONTH) >= birthday.GetBirthday().getDay()) {
-			age = _today.get(Calendar.YEAR) - birthday.GetBirthday().getYear();
+		if ((_calendar.get(Calendar.MONTH) + 1) > birthday.GetBirthday().get(Calendar.MONTH)
+				|| (_calendar.get(Calendar.MONTH) + 1) == birthday.GetBirthday().get(Calendar.MONTH)
+						&& _calendar.get(Calendar.DAY_OF_MONTH) >= birthday.GetBirthday().get(Calendar.DAY_OF_MONTH)) {
+			age = _calendar.get(Calendar.YEAR) - birthday.GetBirthday().get(Calendar.YEAR);
 		} else {
-			age = _today.get(Calendar.YEAR) - birthday.GetBirthday().getYear() - 1;
+			age = _calendar.get(Calendar.YEAR) - birthday.GetBirthday().get(Calendar.YEAR) - 1;
 		}
-
-		age -= 1900;
-
+		_logger.Debug("Age: " + String.valueOf(age));
 		return age;
 	}
 }

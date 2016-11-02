@@ -136,7 +136,7 @@ bool AudioService::stop() {
 	Tools::sendSystemCommand("killall omxplayer.bin");
 
 	_isPlaying = false;
-	_playingFile = "Nothing playing";
+	_playingFile = "-/-";
 
 	return true;
 }

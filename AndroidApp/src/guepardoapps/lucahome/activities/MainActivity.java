@@ -24,7 +24,6 @@ import guepardoapps.toolset.openweather.WeatherModel;
 public class MainActivity extends BaseActivity {
 
 	private static String TAG = "MainActivity";
-
 	private Logger _logger;
 
 	private TextView _temperatureErlangen;

@@ -88,7 +88,7 @@ public class SocketListAdapter extends BaseAdapter {
 			@Override
 			public boolean onLongClick(View arg0) {
 				_logger.Debug("onLongClick _name button: " + _socketList.getValue(index).GetName());
-				//_dialogService.ShowUpdateSocketDialog(_socketList.getValue(index));
+				_dialogService.ShowUpdateSocketDialog(_socketList.getValue(index));
 				return true;
 			}
 		});

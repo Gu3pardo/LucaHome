@@ -101,9 +101,18 @@ public class Schedule implements Serializable {
 	public String GetCommandAdd() {
 		return Constants.ACTION_ADD_SCHEDULE + _name + "&socket=" + _socket.GetName() + "&gpio=" + "" + "&weekday="
 				+ String.valueOf(_weekday.GetInt()) + "&hour=" + String.valueOf(_time.getHours()) + "&minute="
-				+ String.valueOf(_time.getMinutes()) + "&onoff=" + String.valueOf(_isActive) + "&isTimer="
-				+ String.valueOf(_isTimer) + "&playSound=" + String.valueOf(_playSound) + "&playRaspberry="
+				+ String.valueOf(_time.getMinutes()) + "&onoff=" + (_action ? "1" : "0") + "&isTimer="
+				+ (_isTimer ? "1" : "0") + "&playSound=" + (_playSound ? "1" : "0") + "&playRaspberry="
 				+ String.valueOf(_playRaspberry.GetInt());
+	}
+
+	@SuppressWarnings("deprecation")
+	public String GetCommandUpdate() {
+		return Constants.ACTION_UPDATE_SCHEDULE + _name + "&socket=" + _socket.GetName() + "&gpio=" + "" + "&weekday="
+				+ String.valueOf(_weekday.GetInt()) + "&hour=" + String.valueOf(_time.getHours()) + "&minute="
+				+ String.valueOf(_time.getMinutes()) + "&onoff=" + (_action ? "1" : "0") + "&isTimer="
+				+ (_isTimer ? "1" : "0") + "&playSound=" + (_playSound ? "1" : "0") + "&playRaspberry="
+				+ String.valueOf(_playRaspberry.GetInt()) + "&isactive=" + String.valueOf(_isActive);
 	}
 
 	public String GetCommandDelete() {

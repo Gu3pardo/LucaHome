@@ -156,15 +156,18 @@ public class RESTService extends Service {
 			else {
 				if (_broadcast != null && _broadcast != "") {
 					Intent broadcastIntent = new Intent(_broadcast);
-
 					Bundle broadcastData = new Bundle();
-
 					broadcastData.putStringArray(_name, _answer);
 					broadcastData.putSerializable(Constants.BUNDLE_LUCA_OBJECT, _lucaObject);
-
 					broadcastIntent.putExtras(broadcastData);
-
 					sendBroadcast(broadcastIntent);
+
+					if (_lucaObject == LucaObject.WIRELESS_SOCKET) {
+						if (!_broadcast.contains(Constants.BROADCAST_RELOAD_SOCKET)) {
+							Intent reloadBroadcastIntent = new Intent(Constants.BROADCAST_RELOAD_SOCKET);
+							sendBroadcast(reloadBroadcastIntent);
+						}
+					}
 				}
 			}
 

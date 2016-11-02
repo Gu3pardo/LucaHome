@@ -15,6 +15,16 @@
         android:text="@string/example"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <TextView
+        android:id="@+id/notification_playsound_raspberry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:layout_toStartOf="@+id/notification_playsound_stop"
+        android:text="@string/example"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <Button
         android:id="@+id/notification_playsound_stop"
         style="?android:attr/buttonStyleSmall"

@@ -69,7 +69,7 @@ private:
 
 	bool setGpio(std::string, int, ChangeService, std::string);
 	bool addGpio(std::vector<std::string>, ChangeService, std::string);
-	bool updateGpio(Gpio, ChangeService, std::string);
+	bool updateGpio(std::vector<std::string>, ChangeService, std::string);
 	bool deleteGpio(std::string, ChangeService, std::string);
 	bool setAllGpios(int, ChangeService, std::string);
 
@@ -78,7 +78,7 @@ private:
 
 	bool setSchedule(std::string, int, ChangeService, std::string);
 	bool addSchedule(std::vector<std::string>, ChangeService, std::string);
-	bool updateSchedule(Schedule, ChangeService, std::string);
+	bool updateSchedule(std::vector<std::string>, ChangeService, std::string);
 	bool deleteSchedule(std::string, ChangeService, std::string);
 	bool setAllSchedules(int, ChangeService, std::string);
 
@@ -88,7 +88,7 @@ private:
 
 	bool setSocket(std::string, int, ChangeService, std::string);
 	bool addSocket(std::vector<std::string>, ChangeService, std::string);
-	bool updateSocket(Socket, ChangeService, std::string);
+	bool updateSocket(std::vector<std::string>, ChangeService, std::string);
 	bool deleteSocket(std::string, ChangeService, std::string);
 	bool setAllSockets(int, ChangeService, std::string);
 

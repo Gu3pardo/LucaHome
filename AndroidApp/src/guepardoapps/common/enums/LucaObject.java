@@ -2,7 +2,7 @@ package guepardoapps.common.enums;
 
 import java.io.Serializable;
 
-public enum LucaObject implements Serializable{
+public enum LucaObject implements Serializable {
 	
 	WIRELESS_SOCKET("Wireless_Socket", 0), 
 	SCHEDULE("Schedule", 1), 

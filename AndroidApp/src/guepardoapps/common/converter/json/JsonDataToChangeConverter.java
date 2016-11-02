@@ -86,7 +86,7 @@ public final class JsonDataToChangeConverter {
 				String dayString = data[3].replace("{Day:", "").replace("};", "");
 				int day = Integer.parseInt(dayString);
 				String monthString = data[4].replace("{Month:", "").replace("};", "");
-				int month = Integer.parseInt(monthString);
+				int month = Integer.parseInt(monthString) - 1;
 				String yearString = data[5].replace("{Year:", "").replace("};", "");
 				int year = Integer.parseInt(yearString);
 				@SuppressWarnings("deprecation")

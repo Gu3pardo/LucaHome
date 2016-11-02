@@ -78,6 +78,11 @@ public class WirelessSocket implements Serializable {
 		return Constants.ACTION_ADD_SOCKET + _name + "&area=" + _area + "&code=" + _code;
 	}
 
+	public String GetCommandUpdate() {
+		return Constants.ACTION_UPDATE_SOCKET + _name + "&area=" + _area + "&code=" + _code + "&isactivated="
+				+ String.valueOf(_isActivated);
+	}
+
 	public String GetCommandDelete() {
 		return Constants.ACTION_DELETE_SOCKET + _name;
 	}

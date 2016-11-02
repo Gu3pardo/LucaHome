@@ -33,23 +33,13 @@ public class SoundController {
 	}
 
 	public void StartSound(Sound sound, RaspberrySelection raspberrySelection) {
-		Intent broadcastIntent = new Intent(Constants.BROADCAST_ACTIVATE_SOUND_SOCKET);
-		Bundle broadcastData = new Bundle();
-		broadcastData.putSerializable(Constants.BUNDLE_RASPBERRY_SELECTION, raspberrySelection);
-		broadcastIntent.putExtras(broadcastData);
-		_context.sendBroadcast(broadcastIntent);
-
+		sendBroadCast(Constants.BROADCAST_ACTIVATE_SOUND_SOCKET, raspberrySelection);
 		_serviceController.StartRestService(TAG, sound.GetCommandStart(), Constants.BROADCAST_START_SOUND,
 				LucaObject.SOUND, raspberrySelection);
 	}
 
 	public void StopSound(RaspberrySelection raspberrySelection) {
-		Intent broadcastIntent = new Intent(Constants.BROADCAST_DEACTIVATE_SOUND_SOCKET);
-		Bundle broadcastData = new Bundle();
-		broadcastData.putSerializable(Constants.BUNDLE_RASPBERRY_SELECTION, raspberrySelection);
-		broadcastIntent.putExtras(broadcastData);
-		_context.sendBroadcast(broadcastIntent);
-		
+		sendBroadCast(Constants.BROADCAST_DEACTIVATE_SOUND_SOCKET, raspberrySelection);
 		_serviceController.StartRestService(TAG, Constants.ACTION_STOP_SOUND, Constants.BROADCAST_STOP_SOUND,
 				LucaObject.SOUND, raspberrySelection);
 	}
@@ -82,12 +72,15 @@ public class SoundController {
 			StartSound(sound, newSelection);
 		}
 
-		Intent broadcastIntent = new Intent(Constants.BROADCAST_SET_RASPBERRY);
+		sendBroadCast(Constants.BROADCAST_SET_RASPBERRY, newSelection);
+		_sharedPrefController.SaveIntegerValue(Constants.SOUND_RASPBERRY_SELECTION, newSelection.GetInt());
+	}
+
+	private void sendBroadCast(String broadcast, RaspberrySelection selection) {
+		Intent broadcastIntent = new Intent(broadcast);
 		Bundle broadcastData = new Bundle();
-		broadcastData.putSerializable(Constants.BUNDLE_RASPBERRY_SELECTION, newSelection);
+		broadcastData.putSerializable(Constants.BUNDLE_RASPBERRY_SELECTION, selection);
 		broadcastIntent.putExtras(broadcastData);
 		_context.sendBroadcast(broadcastIntent);
-
-		_sharedPrefController.SaveIntegerValue(Constants.SOUND_RASPBERRY_SELECTION, newSelection.GetInt());
 	}
 }

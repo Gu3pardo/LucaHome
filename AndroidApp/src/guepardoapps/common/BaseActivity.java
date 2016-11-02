@@ -19,6 +19,7 @@ import guepardoapps.toolset.openweather.WeatherModel;
 public class BaseActivity extends Activity {
 
 	private static String TAG = "BaseActivity";
+	protected Logger _logger;
 
 	protected boolean _downloadSuccess;
 	protected boolean _extrasAvailable = false;
@@ -36,8 +37,6 @@ public class BaseActivity extends Activity {
 	protected SerializableList<WirelessSocket> _wirelessSocketList = null;
 
 	protected User _user = null;
-
-	protected Logger _logger;
 
 	protected Context _context;
 	protected SharedPrefController _sharedPrefController;

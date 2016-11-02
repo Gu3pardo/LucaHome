@@ -1,6 +1,5 @@
 package guepardoapps.common.service;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,8 +64,6 @@ public class DialogService extends DialogController {
 
 	private Logger _logger;
 
-	private Context _context;
-
 	private LucaObject _lucaObject;
 	private Birthday _birthday;
 	private Movie _movie;
@@ -74,12 +71,15 @@ public class DialogService extends DialogController {
 	private Schedule _schedule;
 	private Timer _timer;
 
+	private boolean _socketListInitialized;
+	private SerializableList<WirelessSocket> _socketList;
+
 	private String _scheduleName;
 	private String _scheduleSocketString;
 	private String _scheduleWeekdayString;
 	private String _scheduleActionString;
 	private Time _scheduleTime;
-	private boolean _schedulePlaySound = false;
+	private boolean _schedulePlaySound;
 	private RaspberrySelection _schedulePlayRaspberry;
 
 	private String _timerName;
@@ -87,9 +87,6 @@ public class DialogService extends DialogController {
 	private Time _timerTime;
 	private boolean _timerPlaySound = false;
 	private RaspberrySelection _timerPlayRaspberry;
-
-	private boolean _isDialogOpen;
-	private Dialog _dialog;
 
 	private MailController _mailController;
 	private ServiceController _serviceController;
@@ -100,28 +97,18 @@ public class DialogService extends DialogController {
 
 	private Runnable _storedRunnable = null;
 
-	private Runnable _closeDialogCallback = new Runnable() {
-		@Override
-		public void run() {
-			resetValues();
-			if (_dialog != null) {
-				_dialog.dismiss();
-			}
-			_isDialogOpen = false;
-		}
-	};
-
 	private Runnable _userValidationCallback = new Runnable() {
 		@Override
 		public void run() {
 			if (_userService.GetValidationResult()) {
 				_sharedPrefController.SaveBooleanValue(Constants.USER_DATA_ENTERED, true);
 
-				_closeDialogCallback.run();
+				closeDialogCallback.run();
 				if (_storedRunnable != null) {
 					_storedRunnable.run();
 					_storedRunnable = null;
 				}
+				resetValues();
 			} else {
 				final EditText userNameEdit = (EditText) _dialog.findViewById(R.id.dialog_user_input);
 				userNameEdit.setText("Invalid user!");
@@ -140,22 +127,58 @@ public class DialogService extends DialogController {
 	private Runnable _updateRunnable = new Runnable() {
 		@Override
 		public void run() {
-			// TODO implement
-
 			checkOpenDialog();
-			Toast.makeText(_context, "Update of objects not implemented!", Toast.LENGTH_LONG).show();
-			_logger.Warn("Update of objects not implemented!");
 
 			switch (_lucaObject) {
 			case BIRTHDAY:
+				if (_birthday != null) {
+					ShowAddBirthdayDialog(_birthday.GetId(), null, _birthday, false);
+				} else {
+					Toast.makeText(_context, "_birthday is null!", Toast.LENGTH_LONG).show();
+					_logger.Warn("_birthday is null!");
+				}
 				break;
 			case MOVIE:
+				if (_movie != null) {
+					ShowAddMovieDialog(null, _movie, false);
+				} else {
+					Toast.makeText(_context, "_movie is null!", Toast.LENGTH_LONG).show();
+					_logger.Warn("_movie is null!");
+				}
 				break;
 			case WIRELESS_SOCKET:
+				if (_socket != null) {
+					ShowAddSocketDialog(null, _socket, false);
+				} else {
+					Toast.makeText(_context, "_socket is null!", Toast.LENGTH_LONG).show();
+					_logger.Warn("_socket is null!");
+				}
 				break;
 			case SCHEDULE:
+				if (_schedule != null) {
+					if (_socketList != null) {
+						ShowAddScheduleDialog(null, _socketList, _schedule, false);
+					} else {
+						Toast.makeText(_context, "_socketList is null!", Toast.LENGTH_LONG).show();
+						_logger.Warn("_socketList is null!");
+					}
+				} else {
+					Toast.makeText(_context, "_schedule is null!", Toast.LENGTH_LONG).show();
+					_logger.Warn("_schedule is null!");
+				}
 				break;
 			case TIMER:
+				if (_timer != null) {
+					if (_socketList != null) {
+						ShowAddTimerDialog(null, _socketList, _timer, false);
+					} else {
+						Toast.makeText(_context, "_socketList is null!", Toast.LENGTH_LONG).show();
+						_logger.Warn("_socketList is null!");
+					}
+				} else {
+					Toast.makeText(_context, "_timer is null!", Toast.LENGTH_LONG).show();
+					_logger.Warn("_timer is null!");
+				}
 				break;
 			default:
 				_logger.Warn("Not possible to update object " + _lucaObject.toString());
@@ -171,34 +194,35 @@ public class DialogService extends DialogController {
 
 			if (_lucaObject == null) {
 				_logger.Error("_lucaObject is null!");
-				_closeDialogCallback.run();
+				closeDialogCallback.run();
+				resetValues();
 				return;
 			}
 
 			switch (_lucaObject) {
 			case BIRTHDAY:
 				ShowDialogDouble("Delete Birthday", "Do you really want to delete the birthday?", "Yes",
-						_deleteRunnable, "Cancel", _closeDialogCallback, false);
+						_deleteRunnable, "Cancel", closeDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			case MOVIE:
 				ShowDialogDouble("Delete Movie", "Do you really want to delete the movie?", "Yes", _deleteRunnable,
-						"Cancel", _closeDialogCallback, false);
+						"Cancel", closeDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			case WIRELESS_SOCKET:
 				ShowDialogDouble("Delete Socket", "Do you really want to delete the socket?", "Yes", _deleteRunnable,
-						"Cancel", _closeDialogCallback, false);
+						"Cancel", closeDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			case SCHEDULE:
 				ShowDialogDouble("Delete Schedule", "Do you really want to delete the schedule?", "Yes",
-						_deleteRunnable, "Cancel", _closeDialogCallback, false);
+						_deleteRunnable, "Cancel", closeDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			case TIMER:
 				ShowDialogDouble("Delete Timer", "Do you really want to delete the timer?", "Yes", _deleteRunnable,
-						"Cancel", _closeDialogCallback, false);
+						"Cancel", closeDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			default:
@@ -211,6 +235,13 @@ public class DialogService extends DialogController {
 	private Runnable _deleteRunnable = new Runnable() {
 		@Override
 		public void run() {
+			if (_lucaObject == null) {
+				_logger.Error("_lucaObject is null");
+				closeDialogCallback.run();
+				resetValues();
+				return;
+			}
+
 			switch (_lucaObject) {
 			case BIRTHDAY:
 				if (_birthday == null) {
@@ -257,7 +288,8 @@ public class DialogService extends DialogController {
 				break;
 			}
 
-			_closeDialogCallback.run();
+			closeDialogCallback.run();
+			resetValues();
 		}
 	};
 
@@ -269,6 +301,10 @@ public class DialogService extends DialogController {
 		_context = context;
 
 		_isDialogOpen = false;
+
+		_socketList = null;
+		_socketListInitialized = false;
+		_schedulePlaySound = false;
 
 		_mailController = new MailController(_context);
 		_serviceController = new ServiceController(_context);
@@ -308,7 +344,8 @@ public class DialogService extends DialogController {
 		btnOk.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				_closeDialogCallback.run();
+				closeDialogCallback.run();
+				resetValues();
 			}
 		});
 
@@ -376,7 +413,8 @@ public class DialogService extends DialogController {
 		btnClose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				_closeDialogCallback.run();
+				closeDialogCallback.run();
+				resetValues();
 			}
 		});
 
@@ -384,17 +422,19 @@ public class DialogService extends DialogController {
 		btnUpdate.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				_closeDialogCallback.run();
+				closeDialogCallback.run();
+				resetValues();
+
+				// ShowUserCredentialsDialog(user, updateUserRunnable, true);
 				Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
 				_logger.Warn("Update user not yet implemented!");
-				// ShowUserCredentialsDialog(user, updateUserRunnable, true);
 			}
 		});
 
 		showDialog(false);
 	}
 
-	public void ShowAddBirthdayDialog(final int id, final Runnable runnable) {
+	public void ShowAddBirthdayDialog(final int id, final Runnable runnable, Birthday birthday, final boolean add) {
 		checkOpenDialog();
 
 		createDialog("ShowAddBirthdayDialog", R.layout.dialog_add_birthday);
@@ -407,7 +447,14 @@ public class DialogService extends DialogController {
 		int day = c.get(Calendar.DAY_OF_MONTH);
 
 		final DatePicker birthdayDatePicker = (DatePicker) _dialog.findViewById(R.id.dialog_birthday_datepicker);
-		birthdayDatePicker.init(year, month, day, null);
+		if (birthday != null) {
+			birthdayNameEdit.setText(birthday.GetName());
+			birthdayDatePicker.init(birthday.GetBirthday().get(Calendar.YEAR),
+					birthday.GetBirthday().get(Calendar.MONTH), birthday.GetBirthday().get(Calendar.DAY_OF_MONTH),
+					null);
+		} else {
+			birthdayDatePicker.init(year, month, day, null);
+		}
 
 		Button btnSave = (Button) _dialog.findViewById(R.id.dialog_birthday_save_button);
 		btnSave.setOnClickListener(new OnClickListener() {
@@ -422,24 +469,33 @@ public class DialogService extends DialogController {
 				int birthdayDay = birthdayDatePicker.getDayOfMonth();
 				int birthdayMonth = birthdayDatePicker.getMonth();
 				int birthdayYear = birthdayDatePicker.getYear();
-				@SuppressWarnings("deprecation")
-				Date birthdayDate = new Date(birthdayYear, birthdayMonth, birthdayDay);
+				Calendar birthdayDate = Calendar.getInstance();
+				birthdayDate.set(Calendar.DAY_OF_MONTH, birthdayDay);
+				birthdayDate.set(Calendar.MONTH, birthdayMonth);
+				birthdayDate.set(Calendar.YEAR, birthdayYear);
 
 				Birthday newBirthday = new Birthday(name, birthdayDate, id);
 				_logger.Debug("new Birthday: " + newBirthday.toString());
 
-				runnable.run();
+				if (runnable != null) {
+					runnable.run();
+				}
 
-				sendBroadCast(Constants.BROADCAST_ADD_BIRTHDAY, LucaObject.BIRTHDAY, newBirthday.GetCommandAdd());
+				if (add) {
+					sendBroadCast(Constants.BROADCAST_ADD_BIRTHDAY, LucaObject.BIRTHDAY, newBirthday.GetCommandAdd());
+				} else {
+					sendBroadCast(Constants.BROADCAST_UPDATE_BIRTHDAY, LucaObject.BIRTHDAY,
+							newBirthday.GetCommandUpdate());
+				}
 
-				_closeDialogCallback.run();
+				closeDialogCallback.run();
 			}
 		});
 
 		showDialog(true);
 	}
 
-	public void ShowAddMovieDialog(final Runnable runnable) {
+	public void ShowAddMovieDialog(final Runnable runnable, Movie movie, final boolean add) {
 		checkOpenDialog();
 
 		createDialog("ShowAddMovieDialog", R.layout.dialog_add_movie);
@@ -450,6 +506,13 @@ public class DialogService extends DialogController {
 
 		final RatingBar movieRatingbar = (RatingBar) _dialog.findViewById(R.id.dialog_movie_description_ratingbar);
 		movieRatingbar.setEnabled(true);
+
+		if (movie != null) {
+			movieTitleEdit.setText(movie.GetTitle());
+			movieGenreEdit.setText(movie.GetGenre());
+			movieDescriptionEdit.setText(movie.GetDescription());
+			movieRatingbar.setRating(movie.GetRating());
+		}
 
 		Button btnSave = (Button) _dialog.findViewById(R.id.dialog_movie_save_button);
 		btnSave.setOnClickListener(new OnClickListener() {
@@ -469,18 +532,25 @@ public class DialogService extends DialogController {
 				Movie newMovie = new Movie(title, genre, description, rating, 0, null);
 				_logger.Debug("new Movie: " + newMovie.toString());
 
-				runnable.run();
+				if (runnable != null) {
+					runnable.run();
+				}
 
-				sendBroadCast(Constants.BROADCAST_ADD_MOVIE, LucaObject.MOVIE, newMovie.GetCommandAdd());
+				if (add) {
+					sendBroadCast(Constants.BROADCAST_ADD_MOVIE, LucaObject.MOVIE, newMovie.GetCommandAdd());
+				} else {
+					sendBroadCast(Constants.BROADCAST_UPDATE_MOVIE, LucaObject.MOVIE, newMovie.GetCommandUpdate());
+				}
 
-				_closeDialogCallback.run();
+				closeDialogCallback.run();
+				resetValues();
 			}
 		});
 
 		showDialog(true);
 	}
 
-	public void ShowAddSocketDialog(final Runnable runnable) {
+	public void ShowAddSocketDialog(final Runnable runnable, final WirelessSocket socket, final boolean add) {
 		checkOpenDialog();
 
 		createDialog("ShowAddSocketDialog", R.layout.dialog_add_socket);
@@ -488,6 +558,12 @@ public class DialogService extends DialogController {
 		final EditText socketNameEdit = (EditText) _dialog.findViewById(R.id.dialog_socket_name_input);
 		final EditText socketAreaEdit = (EditText) _dialog.findViewById(R.id.dialog_socket_area_input);
 		final EditText socketCodeEdit = (EditText) _dialog.findViewById(R.id.dialog_socket_code_input);
+
+		if (socket != null) {
+			socketNameEdit.setText(socket.GetName());
+			socketAreaEdit.setText(socket.GetArea());
+			socketCodeEdit.setText(socket.GetCode());
+		}
 
 		Button btnSave = (Button) _dialog.findViewById(R.id.dialog_socket_save_button);
 		btnSave.setOnClickListener(new OnClickListener() {
@@ -509,14 +585,28 @@ public class DialogService extends DialogController {
 					return;
 				}
 
-				WirelessSocket newSocket = new WirelessSocket(name, area, code, false);
+				boolean isActivated = false;
+				if (socket != null) {
+					isActivated = socket.GetIsActivated();
+				}
+
+				WirelessSocket newSocket = new WirelessSocket(name, area, code, isActivated);
 				_logger.Debug("new Socket: " + newSocket.toString());
 
-				runnable.run();
+				if (runnable != null) {
+					runnable.run();
+				}
 
-				sendBroadCast(Constants.BROADCAST_ADD_SOCKET, LucaObject.WIRELESS_SOCKET, newSocket.GetCommandAdd());
+				if (add) {
+					sendBroadCast(Constants.BROADCAST_ADD_SOCKET, LucaObject.WIRELESS_SOCKET,
+							newSocket.GetCommandAdd());
+				} else {
+					sendBroadCast(Constants.BROADCAST_UPDATE_SOCKET, LucaObject.WIRELESS_SOCKET,
+							newSocket.GetCommandUpdate());
+				}
 
-				_closeDialogCallback.run();
+				closeDialogCallback.run();
+				resetValues();
 			}
 		});
 
@@ -524,7 +614,8 @@ public class DialogService extends DialogController {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void ShowAddScheduleDialog(final Runnable runnable, final SerializableList<WirelessSocket> socketList) {
+	public void ShowAddScheduleDialog(final Runnable runnable, final SerializableList<WirelessSocket> socketList,
+			final Schedule schedule, final boolean add) {
 		checkOpenDialog();
 
 		createDialog("ShowAddScheduleDialog", R.layout.dialog_add_schedule);
@@ -542,8 +633,9 @@ public class DialogService extends DialogController {
 		scheduleSocketSelect.setAdapter(socketDataAdapter);
 		scheduleSocketSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				_scheduleSocketString = arg0.getItemAtPosition(arg2).toString();
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				_scheduleSocketString = parent.getItemAtPosition(position).toString();
+				_logger.Debug(_scheduleSocketString);
 			}
 
 			@Override
@@ -562,8 +654,9 @@ public class DialogService extends DialogController {
 		scheduleWeekdaySelect.setAdapter(weekdayDataAdapter);
 		scheduleWeekdaySelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				_scheduleWeekdayString = arg0.getItemAtPosition(arg2).toString();
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				_scheduleWeekdayString = parent.getItemAtPosition(position).toString();
+				_logger.Debug(_scheduleWeekdayString);
 			}
 
 			@Override
@@ -581,8 +674,9 @@ public class DialogService extends DialogController {
 		scheduleActionSelect.setAdapter(actionDataAdapter);
 		scheduleActionSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				_scheduleActionString = arg0.getItemAtPosition(arg2).toString();
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				_scheduleActionString = parent.getItemAtPosition(position).toString();
+				_logger.Debug(_scheduleActionString);
 			}
 
 			@Override
@@ -617,10 +711,10 @@ public class DialogService extends DialogController {
 		schedulePlayRaspberrySelect.setAdapter(raspberrysDataAdapter);
 		schedulePlayRaspberrySelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				if (arg0.getItemAtPosition(arg2).toString().contains("Living Room")) {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (parent.getItemAtPosition(position).toString().contains("Living Room")) {
 					_schedulePlayRaspberry = RaspberrySelection.RASPBERRY_1;
-				} else if (arg0.getItemAtPosition(arg2).toString().contains("Sleeping Room")) {
+				} else if (parent.getItemAtPosition(position).toString().contains("Sleeping Room")) {
 					_schedulePlayRaspberry = RaspberrySelection.RASPBERRY_2;
 				} else {
 					_schedulePlayRaspberry = RaspberrySelection.DUMMY;
@@ -631,6 +725,28 @@ public class DialogService extends DialogController {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+
+		if (schedule != null) {
+			scheduleNameEdit.setText(schedule.GetName());
+			for (int socketIndex = 0; socketIndex < socketList.getSize(); socketIndex++) {
+				if (socketList.getValue(socketIndex).GetName().contains(schedule.GetSocket().GetName())) {
+					scheduleSocketSelect.setSelection(socketIndex, true);
+					break;
+				}
+			}
+			scheduleWeekdaySelect.setSelection(schedule.GetWeekday().GetInt(), true);
+			if (schedule.GetAction()) {
+				scheduleActionSelect.setSelection(0, true);
+			} else {
+				scheduleActionSelect.setSelection(1, true);
+			}
+			scheduleTimePicker.setCurrentHour(schedule.GetTime().getHours());
+			scheduleTimePicker.setCurrentMinute(schedule.GetTime().getMinutes());
+			if (schedule.GetPlaySound()) {
+				playSoundCheckbox.setChecked(true);
+			}
+			schedulePlayRaspberrySelect.setSelection(schedule.GetPlayRaspberry().GetInt() - 1, true);
+		}
 
 		Button btnSave = (Button) _dialog.findViewById(R.id.dialog_schedule_save_button);
 		btnSave.setOnClickListener(new OnClickListener() {
@@ -660,7 +776,7 @@ public class DialogService extends DialogController {
 
 				WirelessSocket socket = null;
 				for (int socketIndex = 0; socketIndex < socketList.getSize(); socketIndex++) {
-					if (socketList.getValue(socketIndex).GetName().contains(_scheduleName)) {
+					if (socketList.getValue(socketIndex).GetName().contains(_scheduleSocketString)) {
 						socket = socketList.getValue(socketIndex);
 						break;
 					}
@@ -690,14 +806,28 @@ public class DialogService extends DialogController {
 					return;
 				}
 
-				runnable.run();
+				boolean isActive = true;
+				if (schedule != null) {
+					isActive = schedule.GetIsActive();
+				}
 
 				Schedule newSchedule = new Schedule(_scheduleName, socket, weekday, _scheduleTime, action, false,
-						_schedulePlaySound, _schedulePlayRaspberry, true);
+						_schedulePlaySound, _schedulePlayRaspberry, isActive);
 				_logger.Debug("new Schedule: " + newSchedule.toString());
-				sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.SCHEDULE, newSchedule.GetCommandAdd());
 
-				_closeDialogCallback.run();
+				if (runnable != null) {
+					runnable.run();
+				}
+
+				if (add) {
+					sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.SCHEDULE, newSchedule.GetCommandAdd());
+				} else {
+					sendBroadCast(Constants.BROADCAST_UPDATE_SCHEDULE, LucaObject.SCHEDULE,
+							newSchedule.GetCommandUpdate());
+				}
+
+				closeDialogCallback.run();
+				resetValues();
 			}
 		});
 
@@ -705,7 +835,8 @@ public class DialogService extends DialogController {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void ShowAddTimerDialog(final Runnable runnable, final SerializableList<WirelessSocket> socketList) {
+	public void ShowAddTimerDialog(final Runnable runnable, final SerializableList<WirelessSocket> socketList,
+			Timer timer, final boolean add) {
 		checkOpenDialog();
 
 		createDialog("ShowAddTimerDialog", R.layout.dialog_add_timer);
@@ -723,8 +854,9 @@ public class DialogService extends DialogController {
 		timerSocketSelect.setAdapter(socketDataAdapter);
 		timerSocketSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				_timerSocketString = arg0.getItemAtPosition(arg2).toString();
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				_timerSocketString = parent.getItemAtPosition(position).toString();
+				_logger.Debug(_timerSocketString);
 			}
 
 			@Override
@@ -759,10 +891,10 @@ public class DialogService extends DialogController {
 		timerPlayRaspberrySelect.setAdapter(raspberrysDataAdapter);
 		timerPlayRaspberrySelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				if (arg0.getItemAtPosition(arg2).toString().contains("Living Room")) {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (parent.getItemAtPosition(position).toString().contains("Living Room")) {
 					_timerPlayRaspberry = RaspberrySelection.RASPBERRY_1;
-				} else if (arg0.getItemAtPosition(arg2).toString().contains("Sleeping Room")) {
+				} else if (parent.getItemAtPosition(position).toString().contains("Sleeping Room")) {
 					_timerPlayRaspberry = RaspberrySelection.RASPBERRY_2;
 				} else {
 					_timerPlayRaspberry = RaspberrySelection.DUMMY;
@@ -773,6 +905,22 @@ public class DialogService extends DialogController {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
+
+		if (timer != null) {
+			timerNameEdit.setText(timer.GetName());
+			for (int socketIndex = 0; socketIndex < socketList.getSize(); socketIndex++) {
+				if (socketList.getValue(socketIndex).GetName().contains(timer.GetSocket().GetName())) {
+					timerSocketSelect.setSelection(socketIndex, true);
+					break;
+				}
+			}
+			timerTimePicker.setCurrentHour(timer.GetTime().getHours());
+			timerTimePicker.setCurrentMinute(timer.GetTime().getMinutes());
+			if (timer.GetPlaySound()) {
+				timerPlaySoundCheckbox.setChecked(true);
+			}
+			timerPlayRaspberrySelect.setSelection(timer.GetPlayRaspberry().GetInt() - 1, true);
+		}
 
 		Button btnSave = (Button) _dialog.findViewById(R.id.dialog_timer_save_button);
 		btnSave.setOnClickListener(new OnClickListener() {
@@ -794,7 +942,7 @@ public class DialogService extends DialogController {
 
 				WirelessSocket socket = null;
 				for (int socketIndex = 0; socketIndex < socketList.getSize(); socketIndex++) {
-					if (socketList.getValue(socketIndex).GetName().contains(_scheduleName)) {
+					if (socketList.getValue(socketIndex).GetName().contains(_timerSocketString)) {
 						socket = socketList.getValue(socketIndex);
 						break;
 					}
@@ -823,8 +971,6 @@ public class DialogService extends DialogController {
 				}
 				Weekday weekday = Weekday.GetById(timerDay);
 
-				runnable.run();
-
 				_serviceController.StartRestService(socket.GetName(), socket.GetCommandSet(true),
 						Constants.BROADCAST_RELOAD_SOCKET, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 
@@ -836,9 +982,19 @@ public class DialogService extends DialogController {
 				Timer newTimer = new Timer(_timerName, socket, weekday, _timerTime, false, _timerPlaySound,
 						_timerPlayRaspberry, true);
 				_logger.Debug("new Timer: " + _timerName.toString());
-				sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.TIMER, newTimer.GetCommandAdd());
 
-				_closeDialogCallback.run();
+				if (runnable != null) {
+					runnable.run();
+				}
+
+				if (add) {
+					sendBroadCast(Constants.BROADCAST_ADD_SCHEDULE, LucaObject.TIMER, newTimer.GetCommandAdd());
+				} else {
+					sendBroadCast(Constants.BROADCAST_UPDATE_SCHEDULE, LucaObject.TIMER, newTimer.GetCommandUpdate());
+				}
+
+				closeDialogCallback.run();
+				resetValues();
 			}
 		});
 
@@ -853,35 +1009,46 @@ public class DialogService extends DialogController {
 		_lucaObject = LucaObject.BIRTHDAY;
 		_birthday = value;
 		ShowDialogTriple("Birthday", _birthday.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", _closeDialogCallback, false);
+				"Cancel", closeDialogCallback, false);
+		_isDialogOpen = true;
 	}
 
 	public void ShowUpdateMovieDialog(Movie value) {
 		_lucaObject = LucaObject.MOVIE;
 		_movie = value;
 		ShowDialogTriple("Movie", _movie.GetTitle(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", _closeDialogCallback, false);
+				"Cancel", closeDialogCallback, false);
 	}
 
 	public void ShowUpdateSocketDialog(WirelessSocket value) {
 		_lucaObject = LucaObject.WIRELESS_SOCKET;
 		_socket = value;
 		ShowDialogTriple("Socket", _socket.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", _closeDialogCallback, false);
+				"Cancel", closeDialogCallback, false);
 	}
 
 	public void ShowUpdateScheduleDialog(Schedule value) {
+		if (!_socketListInitialized) {
+			Toast.makeText(_context, "SocketList not initialized!", Toast.LENGTH_SHORT).show();
+			_logger.Warn("SocketList not initialized!");
+			return;
+		}
 		_lucaObject = LucaObject.SCHEDULE;
 		_schedule = value;
 		ShowDialogTriple("Schedule", _schedule.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", _closeDialogCallback, false);
+				"Cancel", closeDialogCallback, false);
 	}
 
 	public void ShowUpdateTimerDialog(Timer value) {
+		if (!_socketListInitialized) {
+			Toast.makeText(_context, "SocketList not initialized!", Toast.LENGTH_SHORT).show();
+			_logger.Warn("SocketList not initialized!");
+			return;
+		}
 		_lucaObject = LucaObject.TIMER;
 		_timer = value;
 		ShowDialogTriple("Timer", _timer.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", _closeDialogCallback, false);
+				"Cancel", closeDialogCallback, false);
 	}
 
 	private void createDialog(String dialogType, int layout) {
@@ -907,7 +1074,7 @@ public class DialogService extends DialogController {
 	private void checkOpenDialog() {
 		if (_isDialogOpen) {
 			_logger.Warn("Closing other Dialog...");
-			_closeDialogCallback.run();
+			closeDialogCallback.run();
 		}
 	}
 
@@ -929,5 +1096,20 @@ public class DialogService extends DialogController {
 		_socket = null;
 		_schedule = null;
 		_timer = null;
+	}
+
+	public void InitializeSocketList(SerializableList<WirelessSocket> socketList) {
+		_logger.Debug("InitializeSocketList");
+		if (socketList == null) {
+			_logger.Warn("socketList is null!");
+			return;
+		}
+
+		if (!_socketListInitialized) {
+			_socketListInitialized = true;
+			_logger.Info("_socketListInitialized: " + String.valueOf(_socketListInitialized));
+			_socketList = socketList;
+			_logger.Info("_socketList: " + _socketList.toString());
+		}
 	}
 }

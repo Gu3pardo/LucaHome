@@ -10,15 +10,16 @@ import android.view.View.OnLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
 import guepardoapps.common.Logger;
 import guepardoapps.common.classes.Schedule;
 import guepardoapps.common.classes.SerializableList;
+import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.classes.controller.ScheduleController;
 import guepardoapps.common.service.DialogService;
 import guepardoapps.lucahome.R;
 
 public class ScheduleListAdapter extends BaseAdapter {
-
 	private static String TAG = "ScheduleListAdapter";
 
 	private Logger _logger;
@@ -32,17 +33,18 @@ public class ScheduleListAdapter extends BaseAdapter {
 
 	private SerializableList<Schedule> _scheduleList;
 
-	public ScheduleListAdapter(Context context, SerializableList<Schedule> scheduleList) {
+	public ScheduleListAdapter(Context context, SerializableList<Schedule> scheduleList,
+			SerializableList<WirelessSocket> socketList) {
 		_logger = new Logger(TAG);
 
 		_context = context;
+		_scheduleList = scheduleList;
 
 		_scheduleController = new ScheduleController(_context);
 		_dialogService = new DialogService(_context);
+		_dialogService.InitializeSocketList(socketList);
 
 		_inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		_scheduleList = scheduleList;
 	}
 
 	@Override
@@ -88,7 +90,7 @@ public class ScheduleListAdapter extends BaseAdapter {
 			@Override
 			public boolean onLongClick(View arg0) {
 				_logger.Debug("onLongClick _name button: " + _scheduleList.getValue(index).GetName());
-				// _dialogService.ShowUpdateScheduleDialog(_scheduleList.getValue(index));
+				_dialogService.ShowUpdateScheduleDialog(_scheduleList.getValue(index));
 				return true;
 			}
 		});

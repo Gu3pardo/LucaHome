@@ -186,6 +186,24 @@ switch ($action) {
 			echo "Error 121:Parameter not found for remote";
 		}
 		break;
+	case 'updateschedule' :
+		$name = Get ( 'name' );
+		$socket = Get ( 'socket' );
+		$gpio = Get ( 'gpio' );
+		$weekday = Get ( 'weekday' );
+		$hour = Get ( 'hour' );
+		$minute = Get ( 'minute' );
+		$onoff = Get ( 'onoff' );
+		$isTimer = Get ( 'isTimer' );
+		$playSound = Get ( 'playSound' );
+		$playRaspberry = Get ( 'playRaspberry' );
+		$isActive = Get( 'isactive' );
+		if ($name != '' && ($socket != '' || $gpio != '') && $weekday != '' && $hour != '' && $minute != '' && $onoff != '' && $isTimer != '' && $playSound != '' && $playRaspberry != '' && $isActive != '') {
+			echo Send ( "$login:REMOTE:UPDATE:SCHEDULE:$name:$socket:$gpio:$weekday:$hour:$minute:$onoff:$isTimer:$playSound:$playRaspberry:$isActive" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
+		}
+		break;
 	case 'deleteschedule' :
 		$schedule = Get ( 'schedule' );
 		if ($schedule != '') {
@@ -218,8 +236,19 @@ switch ($action) {
 		$name = Get ( 'name' );
 		$area = Get ( 'area' );
 		$code = Get ( 'code' );
-		if ($name != '' && $code != '') {
+		if ($name != '' && $area != '' && $code != '') {
 			echo Send ( "$login:REMOTE:ADD:SOCKET:$name:$area:$code:0" );
+		} else {
+			echo "Error 121:Parameter not found for remote";
+		}
+		break;
+	case 'updatesocket' :
+		$name = Get ( 'name' );
+		$area = Get ( 'area' );
+		$code = Get ( 'code' );
+		$isactivated = Get ( 'isactivated' );
+		if ($name != '' && $area != '' && $code != '' && $isactivated != '') {
+			echo Send ( "$login:REMOTE:UPDATE:SOCKET:$name:$area:$code:$isactivated" );
 		} else {
 			echo "Error 121:Parameter not found for remote";
 		}

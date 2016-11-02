@@ -1,7 +1,7 @@
 package guepardoapps.common.classes;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Calendar;
 import java.util.Locale;
 
 import guepardoapps.common.Constants;
@@ -14,7 +14,7 @@ public class Birthday implements Serializable {
 	private static String TAG = "Birthday";
 
 	private String _name;
-	private Date _birthday;
+	private Calendar _birthday;
 
 	private int _id;
 	private int _notificationId;
@@ -23,11 +23,9 @@ public class Birthday implements Serializable {
 	private String _deleteBroadcastReceiverString;
 	private String _hasBirthdayBroadcastReceiverString;
 
-	@SuppressWarnings("deprecation")
-	public Birthday(String name, Date birthday, int id) {
+	public Birthday(String name, Calendar birthday, int id) {
 		_name = name;
 		_birthday = birthday;
-		_birthday.setYear(_birthday.getYear() - 1900);
 
 		_id = id;
 		_notificationId = Constants.ID_NOTIFICATION_BIRTHDAY + _id;
@@ -42,12 +40,16 @@ public class Birthday implements Serializable {
 		return _name;
 	}
 
-	public Date GetBirthday() {
+	public Calendar GetBirthday() {
 		return _birthday;
 	}
 
 	public String GetBirthdayString() {
-		return _birthday.toString();
+		String birthdayString = "";
+		birthdayString += String.valueOf(_birthday.get(Calendar.DAY_OF_MONTH)) + "."
+				+ String.valueOf(_birthday.get(Calendar.MONTH) + 1) + "."
+				+ String.valueOf(_birthday.get(Calendar.YEAR));
+		return birthdayString;
 	}
 
 	public int GetId() {
@@ -70,18 +72,18 @@ public class Birthday implements Serializable {
 		return _hasBirthdayBroadcastReceiverString;
 	}
 
-	@SuppressWarnings("deprecation")
 	public String GetCommandAdd() {
 		return Constants.ACTION_ADD_BIRTHDAY + String.valueOf(_id) + "&name=" + _name + "&day="
-				+ String.valueOf(_birthday.getDay()) + "&month=" + String.valueOf(_birthday.getMonth() + 1) + "&year="
-				+ String.valueOf(_birthday.getYear());
+				+ String.valueOf(_birthday.get(Calendar.DAY_OF_MONTH)) + "&month="
+				+ String.valueOf(_birthday.get(Calendar.MONTH) + 1) + "&year="
+				+ String.valueOf(_birthday.get(Calendar.YEAR));
 	}
 
-	@SuppressWarnings("deprecation")
 	public String GetCommandUpdate() {
 		return Constants.ACTION_UPDATE_BIRTHDAY + String.valueOf(_id) + "&name=" + _name + "&day="
-				+ String.valueOf(_birthday.getDay()) + "&month=" + String.valueOf(_birthday.getMonth() + 1) + "&year="
-				+ String.valueOf(_birthday.getYear());
+				+ String.valueOf(_birthday.get(Calendar.DAY_OF_MONTH)) + "&month="
+				+ String.valueOf(_birthday.get(Calendar.MONTH) + 1) + "&year="
+				+ String.valueOf(_birthday.get(Calendar.YEAR));
 	}
 
 	public String GetCommandDelete() {

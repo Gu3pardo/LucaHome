@@ -86,7 +86,7 @@ public class MovieListAdapter extends BaseAdapter {
 			@Override
 			public boolean onLongClick(View arg0) {
 				_logger.Debug("onLongClick _title button: " + _movieList.getValue(index).GetTitle());
-				//_dialogService.ShowUpdateMovieDialog(_movieList.getValue(index));
+				_dialogService.ShowUpdateMovieDialog(_movieList.getValue(index));
 				return true;
 			}
 		});

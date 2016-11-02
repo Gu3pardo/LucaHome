@@ -79,6 +79,42 @@ std::string RemoteService::performAction(std::string action,
 			return "Error 120:Action not found for remote";
 		}
 	}
+	//-------------------UPDATE------------------
+	else if (action == "UPDATE") {
+		if (data[4] == "GPIO") {
+			if (data.size() == 8) {
+				if (updateGpio(data, changeService, username)) {
+					return "updategpio:1";
+				} else {
+					return "Error 51:Could not update gpio";
+				}
+			} else {
+				return "Error 55:Wrong word size for gpio";
+			}
+		} else if (data[4] == "SCHEDULE") {
+			if (data.size() == 16) {
+				if (updateSchedule(data, changeService, username)) {
+					return "updateschedule:1";
+				} else {
+					return "Error 61:Could not update schedule";
+				}
+			} else {
+				return "Error 65:Wrong word size for schedule";
+			}
+		} else if (data[4] == "SOCKET") {
+			if (data.size() == 9) {
+				if (updateSocket(data, changeService, username)) {
+					return "updatesocket:1";
+				} else {
+					return "Error 71:Could update add socket";
+				}
+			} else {
+				return "Error 75:Wrong word size for socket";
+			}
+		} else {
+			return "Error 120:Action not found for remote";
+		}
+	}
 	//-------------------DELETE------------------
 	else if (action == "DELETE") {
 		if (data[4] == "GPIO") {
@@ -403,8 +439,10 @@ bool RemoteService::addGpio(std::vector<std::string> newGpioData,
 	return true;
 }
 
-bool RemoteService::updateGpio(Gpio updateGpio, ChangeService changeService,
-		std::string username) {
+bool RemoteService::updateGpio(std::vector<std::string> updateGpioData,
+		ChangeService changeService, std::string username) {
+	Gpio updateGpio(updateGpioData[5], atoi(updateGpioData[6].c_str()),
+			atoi(updateGpioData[7].c_str()));
 	for (int index = 0; index < _gpios.size(); index++) {
 		if (_gpios[index].getName() == updateGpio.getName()) {
 			_gpios[index] = updateGpio;
@@ -523,8 +561,16 @@ bool RemoteService::addSchedule(std::vector<std::string> newScheduleData,
 	return true;
 }
 
-bool RemoteService::updateSchedule(Schedule updateSchedule,
+bool RemoteService::updateSchedule(std::vector<std::string> updateScheduleData,
 		ChangeService changeService, std::string username) {
+	Schedule updateSchedule(updateScheduleData[5], updateScheduleData[6],
+			updateScheduleData[7], atoi(updateScheduleData[8].c_str()),
+			atoi(updateScheduleData[9].c_str()), atoi(updateScheduleData[10].c_str()),
+			atoi(updateScheduleData[11].c_str()),
+			atoi(updateScheduleData[12].c_str()),
+			atoi(updateScheduleData[13].c_str()),
+			atoi(updateScheduleData[14].c_str()),
+			atoi(updateScheduleData[15].c_str()));
 	for (int index = 0; index < _schedules.size(); index++) {
 		if (_schedules[index].getName() == updateSchedule.getName()) {
 			_schedules[index] = updateSchedule;
@@ -634,8 +680,10 @@ bool RemoteService::addSocket(std::vector<std::string> newSocketData,
 	return true;
 }
 
-bool RemoteService::updateSocket(Socket updateSocket,
+bool RemoteService::updateSocket(std::vector<std::string> updateSocketData,
 		ChangeService changeService, std::string username) {
+	Socket updateSocket(updateSocketData[5], updateSocketData[6], updateSocketData[7],
+			atoi(updateSocketData[8].c_str()));
 	for (int index = 0; index < _sockets.size(); index++) {
 		if (_sockets[index].getName() == updateSocket.getName()) {
 			_sockets[index] = updateSocket;

@@ -16,10 +16,12 @@ import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import guepardoapps.common.BaseActivity;
 import guepardoapps.common.Constants;
 import guepardoapps.common.Logger;
@@ -49,6 +51,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private ProgressBar _progressBar;
 	private ListView _listView;
 	private Button _buttonAdd;
+	private ImageButton _buttonFlatMap;
 
 	private ListAdapter _listAdapter;
 
@@ -158,7 +161,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				String[] scheduleStringArray = intent.getStringArrayExtra(Constants.SCHEDULE_DOWNLOAD);
 				if (scheduleStringArray != null && _wirelessSocketList != null) {
 					_scheduleList = JsonDataToScheduleConverter.GetList(scheduleStringArray, _wirelessSocketList);
-					_listAdapter = new ScheduleListAdapter(_context, _scheduleList);
+					_listAdapter = new ScheduleListAdapter(_context, _scheduleList, _wirelessSocketList);
 					_listView.setAdapter(_listAdapter);
 				}
 				break;
@@ -166,7 +169,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				String[] timerStringArray = intent.getStringArrayExtra(Constants.SCHEDULE_DOWNLOAD);
 				if (timerStringArray != null && _wirelessSocketList != null) {
 					_timerList = JsonDataToTimerConverter.GetList(timerStringArray, _wirelessSocketList);
-					_listAdapter = new TimerListAdapter(_context, _timerList);
+					_listAdapter = new TimerListAdapter(_context, _timerList, _wirelessSocketList);
 					_listView.setAdapter(_listAdapter);
 				}
 				break;
@@ -242,6 +245,57 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 		}
 	};
 
+	private BroadcastReceiver _updateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+
+			LucaObject lucaObject = (LucaObject) intent.getSerializableExtra(Constants.BUNDLE_LUCA_OBJECT);
+			if (lucaObject == null) {
+				_logger.Error("_updateReceiver received data with null lucaobject!");
+				return;
+			}
+
+			String action = intent.getStringExtra(Constants.BUNDLE_ACTION);
+			if (action == null) {
+				_logger.Error("_updateReceiver received data with null action!");
+				return;
+			}
+
+			startDownloadTimeout();
+
+			switch (lucaObject) {
+			case BIRTHDAY:
+				_receiverController.RegisterReceiver(_startDownloadReceiver,
+						new String[] { Constants.BROADCAST_UPDATE_BIRTHDAY });
+				_serviceController.StartRestService(Constants.BIRTHDAY_DOWNLOAD, action,
+						Constants.BROADCAST_UPDATE_BIRTHDAY, lucaObject, RaspberrySelection.BOTH);
+				break;
+			case MOVIE:
+				_receiverController.RegisterReceiver(_startDownloadReceiver,
+						new String[] { Constants.BROADCAST_UPDATE_MOVIE });
+				_serviceController.StartRestService(Constants.MOVIE_DOWNLOAD, action, Constants.BROADCAST_UPDATE_MOVIE,
+						lucaObject, RaspberrySelection.BOTH);
+				break;
+			case SCHEDULE:
+			case TIMER:
+				_receiverController.RegisterReceiver(_startDownloadReceiver,
+						new String[] { Constants.BROADCAST_UPDATE_SCHEDULE });
+				_serviceController.StartRestService(Constants.SCHEDULE_DOWNLOAD, action,
+						Constants.BROADCAST_UPDATE_SCHEDULE, lucaObject, RaspberrySelection.BOTH);
+				break;
+			case WIRELESS_SOCKET:
+				_receiverController.RegisterReceiver(_startDownloadReceiver,
+						new String[] { Constants.BROADCAST_UPDATE_SOCKET });
+				_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, action,
+						Constants.BROADCAST_UPDATE_SOCKET, lucaObject, RaspberrySelection.BOTH);
+				break;
+			default:
+				_logger.Error("Cannot update object: " + lucaObject.toString());
+				break;
+			}
+		}
+	};
+
 	private BroadcastReceiver _startDownloadReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -258,6 +312,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				String[] birthdayAnswerArray = intent.getStringArrayExtra(Constants.BIRTHDAY_DOWNLOAD);
 				boolean addBirthdaySuccess = true;
 				for (String answer : birthdayAnswerArray) {
+					_logger.Debug(answer);
 					if (answer.endsWith("1")) {
 						addBirthdaySuccess &= true;
 					} else {
@@ -277,6 +332,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				String[] movieAnswerArray = intent.getStringArrayExtra(Constants.MOVIE_DOWNLOAD);
 				boolean addMovieSuccess = true;
 				for (String answer : movieAnswerArray) {
+					_logger.Debug(answer);
 					if (answer.endsWith("1")) {
 						addMovieSuccess &= true;
 					} else {
@@ -297,6 +353,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				String[] scheduleAnswerArray = intent.getStringArrayExtra(Constants.SCHEDULE_DOWNLOAD);
 				boolean addScheduleSuccess = true;
 				for (String answer : scheduleAnswerArray) {
+					_logger.Debug(answer);
 					if (answer.endsWith("1")) {
 						addScheduleSuccess &= true;
 					} else {
@@ -316,6 +373,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 				String[] socketAnswerArray = intent.getStringArrayExtra(Constants.SOCKET_DOWNLOAD);
 				boolean addSocketSuccess = true;
 				for (String answer : socketAnswerArray) {
+					_logger.Debug(answer);
 					if (answer.endsWith("1")) {
 						addSocketSuccess &= true;
 					} else {
@@ -427,11 +485,8 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 
 		initializeListView();
 		initializeAddButton();
-
-		if (_lucaObject == LucaObject.TEMPERATURE) {
-			initializeSensor();
-			_hasTemperatureSensor = checkSensorAvailability();
-		}
+		initializeSensor();
+		initializeFlatMapImageButton();
 	}
 
 	@Override
@@ -442,12 +497,15 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 		switch (_lucaObject) {
 		case BIRTHDAY:
 			_receiverController.RegisterReceiver(_reloadReceiver, new String[] { Constants.BROADCAST_RELOAD_BIRTHDAY });
+			_receiverController.RegisterReceiver(_updateReceiver, new String[] { Constants.BROADCAST_UPDATE_BIRTHDAY });
 			break;
 		case MOVIE:
 			_receiverController.RegisterReceiver(_reloadReceiver, new String[] { Constants.BROADCAST_RELOAD_MOVIE });
+			_receiverController.RegisterReceiver(_updateReceiver, new String[] { Constants.BROADCAST_UPDATE_MOVIE });
 			break;
 		case SCHEDULE:
 			_receiverController.RegisterReceiver(_reloadReceiver, new String[] { Constants.BROADCAST_RELOAD_SCHEDULE });
+			_receiverController.RegisterReceiver(_updateReceiver, new String[] { Constants.BROADCAST_UPDATE_SCHEDULE });
 			break;
 		case TEMPERATURE:
 			_hasTemperatureSensor = checkSensorAvailability();
@@ -456,9 +514,11 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 			break;
 		case TIMER:
 			_receiverController.RegisterReceiver(_reloadReceiver, new String[] { Constants.BROADCAST_RELOAD_TIMER });
+			_receiverController.RegisterReceiver(_updateReceiver, new String[] { Constants.BROADCAST_UPDATE_SCHEDULE });
 			break;
 		case WIRELESS_SOCKET:
 			_receiverController.RegisterReceiver(_reloadReceiver, new String[] { Constants.BROADCAST_RELOAD_SOCKET });
+			_receiverController.RegisterReceiver(_updateReceiver, new String[] { Constants.BROADCAST_UPDATE_SOCKET });
 			break;
 		default:
 			_logger.Debug("Nothing to do in onResume for: " + _lucaObject.toString());
@@ -485,10 +545,11 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 			_receiverController.UnregisterReceiver(_temperatureReceiver);
 		}
 
-		_receiverController.UnregisterReceiver(_downloadReceiver);
 		_receiverController.UnregisterReceiver(_addReceiver);
-		_receiverController.UnregisterReceiver(_startDownloadReceiver);
+		_receiverController.UnregisterReceiver(_downloadReceiver);
 		_receiverController.UnregisterReceiver(_reloadReceiver);
+		_receiverController.UnregisterReceiver(_startDownloadReceiver);
+		_receiverController.UnregisterReceiver(_updateReceiver);
 	}
 
 	@Override
@@ -527,8 +588,13 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	}
 
 	private void initializeSensor() {
+		if (_lucaObject != LucaObject.TEMPERATURE) {
+			_logger.Warn("_lucaObject is not TEMPERATURE!");
+			return;
+		}
 		_sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		_sensor = _sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+		_hasTemperatureSensor = checkSensorAvailability();
 	}
 
 	private boolean checkSensorAvailability() {
@@ -580,13 +646,13 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 			_listAdapter = new MovieListAdapter(_context, _movieList);
 			break;
 		case SCHEDULE:
-			_listAdapter = new ScheduleListAdapter(_context, _scheduleList);
+			_listAdapter = new ScheduleListAdapter(_context, _scheduleList, _wirelessSocketList);
 			break;
 		case TEMPERATURE:
 			_listAdapter = new TemperatureListAdapter(_context, _temperatureList);
 			break;
 		case TIMER:
-			_listAdapter = new TimerListAdapter(_context, _timerList);
+			_listAdapter = new TimerListAdapter(_context, _timerList, _wirelessSocketList);
 			break;
 		case WIRELESS_SOCKET:
 			_listAdapter = new SocketListAdapter(_context, _wirelessSocketList);
@@ -611,31 +677,31 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 		_buttonAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				_logger.Debug("onClick buttonAdd");
+				_logger.Debug("onClick _buttonAdd");
 
 				switch (_lucaObject) {
 				case BIRTHDAY:
 					_receiverController.RegisterReceiver(_addReceiver,
 							new String[] { Constants.BROADCAST_ADD_BIRTHDAY });
-					_dialogService.ShowAddBirthdayDialog(_birthdayList.getSize(), _showLoadingSpinner);
+					_dialogService.ShowAddBirthdayDialog(_birthdayList.getSize(), _showLoadingSpinner, null, true);
 					break;
 				case MOVIE:
 					_receiverController.RegisterReceiver(_addReceiver, new String[] { Constants.BROADCAST_ADD_MOVIE });
-					_dialogService.ShowAddMovieDialog(_showLoadingSpinner);
+					_dialogService.ShowAddMovieDialog(_showLoadingSpinner, null, true);
 					break;
 				case SCHEDULE:
 					_receiverController.RegisterReceiver(_addReceiver,
 							new String[] { Constants.BROADCAST_ADD_SCHEDULE });
-					_dialogService.ShowAddScheduleDialog(_showLoadingSpinner, _wirelessSocketList);
+					_dialogService.ShowAddScheduleDialog(_showLoadingSpinner, _wirelessSocketList, null, true);
 					break;
 				case TIMER:
 					_receiverController.RegisterReceiver(_addReceiver,
 							new String[] { Constants.BROADCAST_ADD_SCHEDULE });
-					_dialogService.ShowAddTimerDialog(_showLoadingSpinner, _wirelessSocketList);
+					_dialogService.ShowAddTimerDialog(_showLoadingSpinner, _wirelessSocketList, null, true);
 					break;
 				case WIRELESS_SOCKET:
 					_receiverController.RegisterReceiver(_addReceiver, new String[] { Constants.BROADCAST_ADD_SOCKET });
-					_dialogService.ShowAddSocketDialog(_showLoadingSpinner);
+					_dialogService.ShowAddSocketDialog(_showLoadingSpinner, null, true);
 					break;
 				default:
 					_logger.Error("Cannot add new " + _lucaObject.toString());
@@ -645,6 +711,23 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 		});
 
 		checkButtonAddVisibility();
+	}
+
+	private void initializeFlatMapImageButton() {
+		if (_lucaObject != LucaObject.WIRELESS_SOCKET) {
+			_logger.Warn("_lucaObject is not WIRELESS_SOCKET! Not initializing flat map button!");
+			return;
+		}
+
+		_buttonFlatMap = (ImageButton) findViewById(R.id.buttonFlatMap);
+		_buttonFlatMap.setVisibility(View.VISIBLE);
+		_buttonFlatMap.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				_logger.Debug("onClick _buttonFlatMap");
+				Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	private void showList() {

@@ -3,9 +3,9 @@ package guepardoapps.common.enums;
 import java.io.Serializable;
 
 public enum RaspberrySelection implements Serializable {
-	BOTH("Both", 0, "Both"), 
-	RASPBERRY_1("Raspberry_1", 1, "Raspberry_1"), 
-	RASPBERRY_2("Raspberry_2", 2, "Raspberry_2"), 
+	BOTH("Both", 0, "Flat"), 
+	RASPBERRY_1("Raspberry_1", 1, "Living Room"), 
+	RASPBERRY_2("Raspberry_2", 2, "Sleeping Room"), 
 	DUMMY("Dummy", -1, "n.a.");
 
 	private String _string;

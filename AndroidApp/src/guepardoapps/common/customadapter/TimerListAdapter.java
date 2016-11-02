@@ -11,7 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import guepardoapps.common.classes.Timer;
+import guepardoapps.common.classes.WirelessSocket;
 import guepardoapps.common.classes.controller.TimerController;
 import guepardoapps.common.service.DialogService;
 import guepardoapps.common.Logger;
@@ -32,17 +34,18 @@ public class TimerListAdapter extends BaseAdapter {
 
 	private SerializableList<Timer> _timerList;
 
-	public TimerListAdapter(Context context, SerializableList<Timer> timerList) {
+	public TimerListAdapter(Context context, SerializableList<Timer> timerList,
+			SerializableList<WirelessSocket> socketList) {
 		_logger = new Logger(TAG);
 
 		_context = context;
+		_timerList = timerList;
 
 		_timerController = new TimerController(_context);
 		_dialogService = new DialogService(_context);
+		_dialogService.InitializeSocketList(socketList);
 
 		_inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		_timerList = timerList;
 	}
 
 	@Override
@@ -92,7 +95,7 @@ public class TimerListAdapter extends BaseAdapter {
 			@Override
 			public boolean onLongClick(View arg0) {
 				_logger.Debug("onLongClick _name button: " + _timerList.getValue(index).GetName());
-				// _dialogService.ShowUpdateTimerDialog(_timerList.getValue(index));
+				_dialogService.ShowUpdateTimerDialog(_timerList.getValue(index));
 				return true;
 			}
 		});

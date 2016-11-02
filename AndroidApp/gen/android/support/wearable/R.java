@@ -149,8 +149,8 @@ public final class R {
 		public static final int parentPanel = 0x7f0a0014;
 		public static final int right = 0x7f0a0002;
 		public static final int start = 0x7f0a0013;
-		public static final int text = 0x7f0a00d9;
-		public static final int title = 0x7f0a00d8;
+		public static final int text = 0x7f0a00dd;
+		public static final int title = 0x7f0a00dc;
 		public static final int top = 0x7f0a0008;
 	}
 	public static final class interpolator {
@@ -165,7 +165,7 @@ public final class R {
 		public static final int alert_dialog_wearable = 0x7f030000;
 		public static final int dismiss_overlay = 0x7f03000c;
 		public static final int error_layout = 0x7f03000d;
-		public static final int watch_card_content = 0x7f030027;
+		public static final int watch_card_content = 0x7f030028;
 	}
 	public static final class string {
 		public static final int dismiss_overlay_button_label = 0x7f090037;

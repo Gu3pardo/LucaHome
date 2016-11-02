@@ -22,8 +22,9 @@ import guepardoapps.toolset.openweather.WeatherModel;
 public class DownloadService extends Service {
 
 	private static String TAG = "DownloadService";
-
 	private Logger _logger;
+
+	private RaspberrySelection _playingSoundRaspberry;
 
 	private Context _context;
 
@@ -57,8 +58,13 @@ public class DownloadService extends Service {
 			String[] playingFileStringArray = intent.getStringArrayExtra(TAG);
 			if (playingFileStringArray != null) {
 				if (playingFileStringArray[0] != null) {
+					if (_playingSoundRaspberry == null) {
+						_playingSoundRaspberry = RaspberrySelection.DUMMY;
+					}
+					
 					String playingFileString = playingFileStringArray[0].replace("{PlayingFile:", "").replace("};", "");
-					_serviceController.StartNotificationService("", playingFileString, -1, LucaObject.SOUND);
+					_serviceController.StartNotificationService(_playingSoundRaspberry.toString(), playingFileString,
+							-1, LucaObject.SOUND);
 				}
 			}
 
@@ -82,12 +88,10 @@ public class DownloadService extends Service {
 
 		_context = this;
 
+		_openWeatherController = new OpenWeatherController(_context, Constants.CITY);
 		_receiverController = new ReceiverController(_context);
 		_serviceController = new ServiceController(_context);
-
 		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
-
-		_openWeatherController = new OpenWeatherController(_context, Constants.CITY);
 
 		registerReceiver();
 
@@ -147,25 +151,32 @@ public class DownloadService extends Service {
 		case SOUND:
 			boolean isRPi1Playing = false;
 			boolean isRPi2Playing = false;
+
 			String[] isPlayingStringArray = intent.getStringArrayExtra(TAG);
+
 			if (isPlayingStringArray != null) {
 				if (isPlayingStringArray[0] != null) {
 					String isPlayingString = isPlayingStringArray[0].replace("{IsPlaying:", "").replace("};", "");
 					isRPi1Playing = isPlayingString.contains("1");
+					_logger.Debug(isPlayingStringArray[0]);
 				}
 				if (isPlayingStringArray[1] != null) {
 					String isPlayingString = isPlayingStringArray[1].replace("{IsPlaying:", "").replace("};", "");
 					isRPi2Playing = isPlayingString.contains("1");
+					_logger.Debug(isPlayingStringArray[1]);
 				}
 			}
 
 			if (isRPi1Playing) {
+				_playingSoundRaspberry = RaspberrySelection.RASPBERRY_1;
+
 				_receiverController.RegisterReceiver(_currentPlayingSoundReceiver,
 						new String[] { Constants.BROADCAST_PLAYING_FILE });
 				_serviceController.StartRestService(TAG, Constants.ACTION_GET_PLAYING_FILE,
 						Constants.BROADCAST_PLAYING_FILE, LucaObject.SOUND, RaspberrySelection.RASPBERRY_1);
-			}
-			if (isRPi2Playing) {
+			} else if (isRPi2Playing) {
+				_playingSoundRaspberry = RaspberrySelection.RASPBERRY_2;
+
 				_receiverController.RegisterReceiver(_currentPlayingSoundReceiver,
 						new String[] { Constants.BROADCAST_PLAYING_FILE });
 				_serviceController.StartRestService(TAG, Constants.ACTION_GET_PLAYING_FILE,

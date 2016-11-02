@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="guepardoapps.lucahome"
-    android:versionCode="93161031"
-    android:versionName="0.9.3.161031" >
+    android:versionCode="100161102"
+    android:versionName="1.0.0.161102" >
 
     <uses-sdk
         android:minSdkVersion="21"
-        android:targetSdkVersion="24" />
+        android:targetSdkVersion="25" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -33,6 +33,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="guepardoapps.lucahome.activities.FlatMapActivity" >
         </activity>
         <activity android:name="guepardoapps.lucahome.activities.ListActivity" >
         </activity>

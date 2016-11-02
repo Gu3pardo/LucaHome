@@ -1,8 +1,9 @@
 package guepardoapps.common.converter.json;
 
-import java.sql.Date;
-
 import guepardoapps.common.classes.SerializableList;
+
+import java.util.Calendar;
+
 import guepardoapps.common.Logger;
 import guepardoapps.common.Tools;
 import guepardoapps.common.classes.Birthday;
@@ -27,7 +28,7 @@ public final class JsonDataToBirthdayConverter {
 			if (Tools.GetStringCount(value, _searchParameter) == 1) {
 				if (value.contains(_searchParameter)) {
 					value = value.replace(_searchParameter, "").replace("};};", "");
-					
+
 					String[] data = value.split("\\};");
 					Birthday newValue = ParseStringToValue(data);
 					if (newValue != null) {
@@ -82,7 +83,7 @@ public final class JsonDataToBirthdayConverter {
 					&& data[2].contains("{day:")
 					&& data[3].contains("{month:") 
 					&& data[4].contains("{year:")) {
-				
+
 				String idString = data[0].replace("{id:", "").replace("};", "");
 				int id = Integer.parseInt(idString);
 
@@ -94,8 +95,10 @@ public final class JsonDataToBirthdayConverter {
 				int month = Integer.parseInt(monthString);
 				String yearString = data[4].replace("{year:", "").replace("};", "");
 				int year = Integer.parseInt(yearString);
-				@SuppressWarnings("deprecation")
-				Date birthday = new Date(year, month - 1, day);
+				Calendar birthday = Calendar.getInstance();
+				birthday.set(Calendar.DAY_OF_MONTH, day);
+				birthday.set(Calendar.MONTH, month - 1);
+				birthday.set(Calendar.YEAR, year);
 
 				Birthday newValue = new Birthday(name, birthday, id);
 				return newValue;

@@ -64,7 +64,8 @@ public class NotificationService extends Service {
 			break;
 		case SOUND:
 			String soundFile = data.getString(Constants.BUNDLE_NOTIFICATION_BODY);
-			CreateSoundNotification(soundFile);
+			String raspberry = data.getString(Constants.BUNDLE_NOTIFICATION_TITLE);
+			CreateSoundNotification(soundFile, raspberry);
 			break;
 		case TEMPERATURE:
 			SerializableList<Temperature> temperatureList = (SerializableList<Temperature>) data
@@ -122,7 +123,7 @@ public class NotificationService extends Service {
 		notificationManager.notify(id, notification);
 	}
 
-	private void CreateSoundNotification(String soundFile) {
+	private void CreateSoundNotification(String soundFile, String raspberry) {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sound_on);
 		NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
 				.setHintHideIcon(true).setBackground(bitmap);
@@ -137,6 +138,8 @@ public class NotificationService extends Service {
 		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_playsound);
 		remoteViews.setTextViewText(R.id.notification_playsound_title, soundFile);
 		remoteViews.setOnClickPendingIntent(R.id.notification_playsound_stop, stopSoundPendingIntent);
+		
+		remoteViews.setTextViewText(R.id.notification_playsound_raspberry, raspberry);
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 		builder.setSmallIcon(R.drawable.sound_on).setContentTitle("Sound is playing").setContentText("Stop Sound")

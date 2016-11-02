@@ -71,7 +71,6 @@ public class BirthdayListAdapter extends BaseAdapter {
 		private Button _name;
 	}
 
-	@SuppressWarnings("deprecation")
 	@SuppressLint({ "InflateParams", "ViewHolder" })
 	@Override
 	public View getView(final int index, View convertView, ViewGroup parent) {
@@ -91,7 +90,7 @@ public class BirthdayListAdapter extends BaseAdapter {
 		holder._age.setText(String.valueOf(_birthdayController.GetAge(_birthdayList.getValue(index))));
 
 		holder._date = (TextView) rowView.findViewById(R.id.birthday_item_date);
-		holder._date.setText(_birthdayList.getValue(index).GetBirthday().toLocaleString().replace(" 00:00:00", ""));
+		holder._date.setText(_birthdayList.getValue(index).GetBirthdayString());
 
 		holder._name = (Button) rowView.findViewById(R.id.birthday_item_name);
 		holder._name.setText(_birthdayList.getValue(index).GetName());
@@ -105,7 +104,7 @@ public class BirthdayListAdapter extends BaseAdapter {
 			@Override
 			public boolean onLongClick(View arg0) {
 				_logger.Debug("onLongClick _name button: " + _birthdayList.getValue(index).GetName());
-				//_dialogService.ShowUpdateBirthdayDialog(_birthdayList.getValue(index));
+				_dialogService.ShowUpdateBirthdayDialog(_birthdayList.getValue(index));
 				return true;
 			}
 		});
