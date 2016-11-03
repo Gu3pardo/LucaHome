@@ -46,7 +46,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 
 	private static String TAG = "ListActivity";
 
-	private LucaObject _lucaObject;
+	protected LucaObject _lucaObject;
 
 	private ProgressBar _progressBar;
 	private ListView _listView;
@@ -55,7 +55,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 
 	private ListAdapter _listAdapter;
 
-	private ReceiverController _receiverController;
+	protected ReceiverController _receiverController;
 	private ServiceController _serviceController;
 
 	private SensorManager _sensorManager;
@@ -97,6 +97,8 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _temperatureReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_temperatureReceiver onReceive");
+
 			int id = intent.getIntExtra(Constants.BUNDLE_TEMPERATURE_ID, -1);
 			Temperature updatedEntry;
 			TemperatureType temperatureType = (TemperatureType) intent
@@ -130,6 +132,8 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _downloadReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_downloadReceiver onReceive");
+
 			_receiverController.UnregisterReceiver(_downloadReceiver);
 
 			stopDownloadTimeout();
@@ -196,6 +200,8 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _addReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_addReceiver onReceive");
+
 			_receiverController.UnregisterReceiver(_addReceiver);
 
 			LucaObject lucaObject = (LucaObject) intent.getSerializableExtra(Constants.BUNDLE_LUCA_OBJECT);
@@ -248,6 +254,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _updateReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_updateReceiver onReceive");
 
 			LucaObject lucaObject = (LucaObject) intent.getSerializableExtra(Constants.BUNDLE_LUCA_OBJECT);
 			if (lucaObject == null) {
@@ -299,6 +306,8 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _startDownloadReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_startDownloadReceiver onReceive");
+
 			_receiverController.UnregisterReceiver(_startDownloadReceiver);
 
 			LucaObject lucaObject = (LucaObject) intent.getSerializableExtra(Constants.BUNDLE_LUCA_OBJECT);
@@ -399,6 +408,8 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 	private BroadcastReceiver _reloadReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_reloadReceiver onReceive");
+
 			switch (_lucaObject) {
 			case BIRTHDAY:
 				_receiverController.RegisterReceiver(_downloadReceiver,
@@ -517,7 +528,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 			_receiverController.RegisterReceiver(_updateReceiver, new String[] { Constants.BROADCAST_UPDATE_SCHEDULE });
 			break;
 		case WIRELESS_SOCKET:
-			_receiverController.RegisterReceiver(_reloadReceiver, new String[] { Constants.BROADCAST_RELOAD_SOCKET });
+			_receiverController.RegisterReceiver(_reloadReceiver, new String[] { Constants.BROADCAST_RELOAD_SOCKETS });
 			_receiverController.RegisterReceiver(_updateReceiver, new String[] { Constants.BROADCAST_UPDATE_SOCKET });
 			break;
 		default:
@@ -725,7 +736,7 @@ public class ListActivity extends BaseActivity implements SensorEventListener {
 			@Override
 			public void onClick(View v) {
 				_logger.Debug("onClick _buttonFlatMap");
-				Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
+				_navigationService.NavigateTo(FlatMapActivity.class, CreateBundle(_lucaObject), true);
 			}
 		});
 	}

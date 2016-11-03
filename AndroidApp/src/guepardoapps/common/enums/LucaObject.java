@@ -17,6 +17,7 @@ public enum LucaObject implements Serializable {
 	WEATHER_CURRENT("Weather_Current", 21),
 	WEATHER_FORECAST("Weather_Forecast", 22),
 	SOUND("Sound", 23),
+	MAP_CONTENT("Map_Content", 24),
 	DUMMY("Dummy", 99);
 
 	private String _string;

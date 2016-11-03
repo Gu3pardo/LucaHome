@@ -31,26 +31,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import guepardoapps.common.Constants;
 import guepardoapps.common.Logger;
-import guepardoapps.common.classes.Birthday;
-import guepardoapps.common.classes.Movie;
-import guepardoapps.common.classes.Schedule;
-import guepardoapps.common.classes.SerializableList;
-import guepardoapps.common.classes.Sound;
-import guepardoapps.common.classes.Timer;
-import guepardoapps.common.classes.User;
-import guepardoapps.common.classes.WirelessSocket;
-import guepardoapps.common.classes.controller.SocketController;
-import guepardoapps.common.classes.controller.SoundController;
+import guepardoapps.common.classes.*;
+import guepardoapps.common.classes.controller.*;
 import guepardoapps.common.controller.ServiceController;
-import guepardoapps.common.enums.LucaObject;
-import guepardoapps.common.enums.RaspberrySelection;
-import guepardoapps.common.enums.Weekday;
+import guepardoapps.common.enums.*;
 import guepardoapps.common.service.authentification.UserService;
 import guepardoapps.lucahome.R;
 
@@ -89,9 +80,11 @@ public class DialogService extends DialogController {
 	private RaspberrySelection _timerPlayRaspberry;
 
 	private MailController _mailController;
+	private ScheduleController _scheduleController;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
 	private SocketController _socketController;
+	private TimerController _timerController;
 
 	private UserService _userService;
 
@@ -265,7 +258,7 @@ public class DialogService extends DialogController {
 					return;
 				}
 				_serviceController.StartRestService(_socket.GetName(), _socket.GetCommandDelete(),
-						Constants.BROADCAST_RELOAD_SOCKET, _lucaObject, RaspberrySelection.BOTH);
+						Constants.BROADCAST_RELOAD_SOCKETS, _lucaObject, RaspberrySelection.BOTH);
 				break;
 			case SCHEDULE:
 				if (_schedule == null) {
@@ -307,9 +300,11 @@ public class DialogService extends DialogController {
 		_schedulePlaySound = false;
 
 		_mailController = new MailController(_context);
+		_scheduleController = new ScheduleController(_context);
 		_serviceController = new ServiceController(_context);
 		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
 		_socketController = new SocketController(_context);
+		_timerController = new TimerController(_context);
 
 		_userService = new UserService(_context);
 	}
@@ -972,7 +967,7 @@ public class DialogService extends DialogController {
 				Weekday weekday = Weekday.GetById(timerDay);
 
 				_serviceController.StartRestService(socket.GetName(), socket.GetCommandSet(true),
-						Constants.BROADCAST_RELOAD_SOCKET, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
+						Constants.BROADCAST_RELOAD_SOCKETS, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 
 				if (_timerPlaySound && socket.GetName().contains("Sound")) {
 					SoundController soundController = new SoundController(_context);
@@ -1051,6 +1046,239 @@ public class DialogService extends DialogController {
 				"Cancel", closeDialogCallback, false);
 	}
 
+	public void ShowMapSocketDialog(final WirelessSocket socket, final SerializableList<Schedule> scheduleList,
+			final SerializableList<Timer> timerList) {
+		checkOpenDialog();
+
+		createDialog("ShowMapSocketDialog", R.layout.dialog_map_socket);
+		_logger.Debug("For socket: " + socket.GetName());
+
+		TextView socketNameTextView = (TextView) _dialog.findViewById(R.id.dialog_map_socket_name);
+		socketNameTextView.setText(socket.GetName());
+		TextView socketAreaTextView = (TextView) _dialog.findViewById(R.id.dialog_map_socket_area);
+		socketAreaTextView.setText(socket.GetArea());
+		TextView socketCodeTextView = (TextView) _dialog.findViewById(R.id.dialog_map_socket_code);
+		socketCodeTextView.setText(socket.GetCode());
+
+		Switch socketState = (Switch) _dialog.findViewById(R.id.dialog_map_socket_switch);
+		socketState.setChecked(socket.GetIsActivated());
+		socketState.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				_socketController.SetSocket(socket, isChecked);
+				_socketController.CheckMedia(socket);
+			}
+		});
+
+		Spinner scheduleSpinner = (Spinner) _dialog.findViewById(R.id.dialog_map_socket_schedules_spinner);
+		List<String> scheduleNames = new ArrayList<String>();
+		for (int index = 0; index < scheduleList.getSize(); index++) {
+			scheduleNames.add(scheduleList.getValue(index).GetName());
+		}
+		ArrayAdapter<String> scheduleDataAdapter = new ArrayAdapter<String>(_context,
+				android.R.layout.simple_spinner_item, scheduleNames);
+		scheduleDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		scheduleSpinner.setAdapter(scheduleDataAdapter);
+		scheduleSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			private boolean initialized = false;
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (!initialized) {
+					initialized = true;
+					_logger.Warn("initializing scheduleDataAdapter!");
+					return;
+				}
+
+				String stringSchedule = parent.getItemAtPosition(position).toString();
+				Schedule selectedSchedule = null;
+				for (int index = 0; index < scheduleList.getSize(); index++) {
+					if (scheduleList.getValue(index).GetName().contains(stringSchedule)) {
+						selectedSchedule = scheduleList.getValue(index);
+						break;
+					}
+				}
+				if (selectedSchedule != null) {
+					_logger.Debug(selectedSchedule.toString());
+					closeDialogCallback.run();
+					ShowMapScheduleDialog(selectedSchedule);
+				} else {
+					_logger.Warn("No schedule found for: " + stringSchedule);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+
+		Spinner timerSpinner = (Spinner) _dialog.findViewById(R.id.dialog_map_socket_timer_spinner);
+		List<String> timerNames = new ArrayList<String>();
+		for (int index = 0; index < timerList.getSize(); index++) {
+			timerNames.add(timerList.getValue(index).GetName());
+		}
+		ArrayAdapter<String> timerDataAdapter = new ArrayAdapter<String>(_context, android.R.layout.simple_spinner_item,
+				timerNames);
+		timerDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		timerSpinner.setAdapter(timerDataAdapter);
+		timerSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			private boolean initialized = false;
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (!initialized) {
+					initialized = true;
+					_logger.Warn("initializing scheduleDataAdapter!");
+					return;
+				}
+
+				String stringTimer = parent.getItemAtPosition(position).toString();
+				Timer selectedTimer = null;
+				for (int index = 0; index < timerList.getSize(); index++) {
+					if (timerList.getValue(index).GetName().contains(stringTimer)) {
+						selectedTimer = timerList.getValue(index);
+						break;
+					}
+				}
+				if (selectedTimer != null) {
+					_logger.Debug(selectedTimer.toString());
+					closeDialogCallback.run();
+					ShowMapTimerDialog(selectedTimer);
+				} else {
+					_logger.Warn("No timer found for: " + stringTimer);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+
+		Button btnClose = (Button) _dialog.findViewById(R.id.dialog_map_socket_button_close);
+		btnClose.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				closeDialogCallback.run();
+			}
+		});
+
+		showDialog(true);
+	}
+
+	private void ShowMapScheduleDialog(final Schedule selectedSchedule) {
+		checkOpenDialog();
+
+		createDialog("ShowMapScheduleDialog", R.layout.dialog_map_schedule);
+		_logger.Debug("For schedule: " + selectedSchedule.GetName());
+
+		TextView nameTextView = (TextView) _dialog.findViewById(R.id.dialog_map_schedule_name);
+		nameTextView.setText(selectedSchedule.GetName());
+
+		TextView timeTextView = (TextView) _dialog.findViewById(R.id.dialog_map_schedule_time);
+		timeTextView.setText(selectedSchedule.GetTime().toString());
+
+		TextView weekdayTextView = (TextView) _dialog.findViewById(R.id.dialog_map_schedule_weekday);
+		weekdayTextView.setText(selectedSchedule.GetWeekday().toString());
+
+		TextView socketTextView = (TextView) _dialog.findViewById(R.id.dialog_map_schedule_socket);
+		socketTextView.setText(selectedSchedule.GetSocket().GetName());
+
+		TextView actionTextView = (TextView) _dialog.findViewById(R.id.dialog_map_schedule_action);
+		if (selectedSchedule.GetAction()) {
+			actionTextView.setText(String.valueOf("Activate"));
+		} else {
+			actionTextView.setText(String.valueOf("Deactivate"));
+		}
+
+		TextView playSoundTextView = (TextView) _dialog.findViewById(R.id.dialog_map_schedule_playsound);
+		if (selectedSchedule.GetPlaySound()) {
+			playSoundTextView.setText(String.valueOf("Sound"));
+		} else {
+			playSoundTextView.setText(String.valueOf("-/-"));
+		}
+
+		Button buttonState = (Button) _dialog.findViewById(R.id.dialog_map_schedule_state);
+		buttonState.setText(selectedSchedule.GetIsActiveString());
+		buttonState.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				_scheduleController.SetSchedule(selectedSchedule, !selectedSchedule.GetIsActive());
+				closeDialogCallback.run();
+			}
+		});
+
+		Button buttonDelete = (Button) _dialog.findViewById(R.id.dialog_map_schedule_delete);
+		buttonDelete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				_scheduleController.DeleteSchedule(selectedSchedule);
+				closeDialogCallback.run();
+			}
+		});
+
+		Button buttonClose = (Button) _dialog.findViewById(R.id.dialog_map_schedule_button_close);
+		buttonClose.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				closeDialogCallback.run();
+			}
+		});
+
+		showDialog(true);
+	}
+
+	private void ShowMapTimerDialog(final Timer selectedTimer) {
+		checkOpenDialog();
+
+		createDialog("ShowMapTimerDialog", R.layout.dialog_map_timer);
+		_logger.Debug("For timer: " + selectedTimer.GetName());
+
+		TextView nameTextView = (TextView) _dialog.findViewById(R.id.dialog_map_timer_name);
+		nameTextView.setText(selectedTimer.GetName());
+
+		TextView timeTextView = (TextView) _dialog.findViewById(R.id.dialog_map_timer_time);
+		timeTextView.setText(selectedTimer.GetTime().toString());
+
+		TextView weekdayTextView = (TextView) _dialog.findViewById(R.id.dialog_map_timer_weekday);
+		weekdayTextView.setText(selectedTimer.GetWeekday().toString());
+
+		TextView socketTextView = (TextView) _dialog.findViewById(R.id.dialog_map_timer_socket);
+		socketTextView.setText(selectedTimer.GetSocket().GetName());
+
+		TextView actionTextView = (TextView) _dialog.findViewById(R.id.dialog_map_timer_action);
+		if (selectedTimer.GetAction()) {
+			actionTextView.setText(String.valueOf("Activate"));
+		} else {
+			actionTextView.setText(String.valueOf("Deactivate"));
+		}
+
+		TextView playSoundTextView = (TextView) _dialog.findViewById(R.id.dialog_map_timer_playsound);
+		if (selectedTimer.GetPlaySound()) {
+			playSoundTextView.setText(String.valueOf("Sound"));
+		} else {
+			playSoundTextView.setText(String.valueOf("-/-"));
+		}
+
+		Button buttonDelete = (Button) _dialog.findViewById(R.id.dialog_map_timer_delete);
+		buttonDelete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				_timerController.Delete(selectedTimer);
+				closeDialogCallback.run();
+			}
+		});
+
+		Button buttonClose = (Button) _dialog.findViewById(R.id.dialog_map_timer_button_close);
+		buttonClose.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				closeDialogCallback.run();
+			}
+		});
+
+		showDialog(true);
+	}
+
 	private void createDialog(String dialogType, int layout) {
 		_logger.Debug(dialogType);
 
@@ -1062,6 +1290,8 @@ public class DialogService extends DialogController {
 
 	@SuppressWarnings("deprecation")
 	private void showDialog(boolean isCancelable) {
+		_logger.Debug("showDialog, isCancelable: " + String.valueOf(isCancelable));
+
 		_dialog.setCancelable(isCancelable);
 		_dialog.show();
 

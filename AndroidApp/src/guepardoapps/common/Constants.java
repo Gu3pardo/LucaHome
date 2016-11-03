@@ -10,7 +10,7 @@ public class Constants {
 	public static int ID_NOTIFICATION_WEAR = 120288;
 	public static int ID_NOTIFICATION_BIRTHDAY = 219000;
 	public static int ID_NOTIFICATION_TEMPERATURE = 111293;
-	public static int ID_NOTIFICATION_SOUND = 234854;
+	public static int ID_NOTIFICATION_SONG = 234854;
 
 	/********************* Package names ********************/
 
@@ -61,9 +61,9 @@ public class Constants {
 	public static String BUNDLE_SOCKET_SINGLE = "SOCKET_SINGLE";
 
 	public static String ACTION_GET_SOCKETS = "getsockets";
+	public static String ACTION_SET_SOCKET = "setsocket&socket=";
 	public static String ACTION_ADD_SOCKET = "addsocket&name=";
 	public static String ACTION_UPDATE_SOCKET = "updatesocket&name=";
-	public static String ACTION_SET_SOCKET = "setsocket&socket=";
 	public static String ACTION_DELETE_SOCKET = "deletesocket&socket=";
 
 	public static String ACTION_ACTIVATE_ALL_SOCKETS = "activateAllSockets";
@@ -71,13 +71,12 @@ public class Constants {
 
 	public static String SOCKET_DOWNLOAD = "SOCKET_DOWNLOAD";
 
-	public static String BROADCAST_SET_SOCKET = "guepardoapps.lucahome.broadcast.set.wirelesssocket.";
-	public static String BROADCAST_RELOAD_SOCKET = "guepardoapps.lucahome.broadcast.reload.wirelesssocket";
-	public static String BROADCAST_NOTIFICATION_SOCKET = "guepardoapps.lucahome.broadcast.notification.wirelesssocket.";
-	public static String BROADCAST_DELETE_SOCKET = "guepardoapps.lucahome.broadcast.delete.wirelesssocket.";
 	public static String BROADCAST_ADD_SOCKET = "guepardoapps.lucahome.broadcast.add.wirelesssocket";
 	public static String BROADCAST_UPDATE_SOCKET = "guepardoapps.lucahome.broadcast.update.wirelesssockets";
+	public static String BROADCAST_DELETE_SOCKET = "guepardoapps.lucahome.broadcast.delete.wirelesssocket";
+	public static String BROADCAST_SET_SOCKET = "guepardoapps.lucahome.broadcast.set.wirelesssocket";
 	public static String BROADCAST_RELOAD_SOCKETS = "guepardoapps.lucahome.broadcast.reload.wirelesssockets";
+	public static String BROADCAST_NOTIFICATION_SOCKET = "guepardoapps.lucahome.broadcast.notification.wirelesssocket";
 
 	// _______________SCHEDULE_______________
 
@@ -85,9 +84,9 @@ public class Constants {
 	public static String BUNDLE_SCHEDULE_SINGLE = "SCHEDULE_SINGLE";
 
 	public static String ACTION_GET_SCHEDULES = "getschedules";
+	public static String ACTION_SET_SCHEDULE = "setschedule&schedule=";
 	public static String ACTION_ADD_SCHEDULE = "addschedule&name=";
 	public static String ACTION_UPDATE_SCHEDULE = "updateschedule&name=";
-	public static String ACTION_SET_SCHEDULE = "setschedule&schedule=";
 	public static String ACTION_DELETE_SCHEDULE = "deleteschedule&schedule=";
 
 	public static String ACTION_ACTIVATE_ALL_SCHEDULES = "activateAllSchedules";
@@ -98,11 +97,11 @@ public class Constants {
 
 	public static String SCHEDULE_DOWNLOAD = "SCHEDULE_DOWNLOAD";
 
-	public static String BROADCAST_SET_SCHEDULE = "guepardoapps.lucahome.broadcast.set.schedule.";
-	public static String BROADCAST_RELOAD_SCHEDULE = "guepardoapps.lucahome.broadcast.reload.schedule";
-	public static String BROADCAST_DELETE_SCHEDULE = "guepardoapps.lucahome.broadcast.delete.schedule.";
 	public static String BROADCAST_ADD_SCHEDULE = "guepardoapps.lucahome.broadcast.add.schedule";
 	public static String BROADCAST_UPDATE_SCHEDULE = "guepardoapps.lucahome.broadcast.update.schedule";
+	public static String BROADCAST_DELETE_SCHEDULE = "guepardoapps.lucahome.broadcast.delete.schedule";
+	public static String BROADCAST_SET_SCHEDULE = "guepardoapps.lucahome.broadcast.set.schedule";
+	public static String BROADCAST_RELOAD_SCHEDULE = "guepardoapps.lucahome.broadcast.reload.schedule";
 
 	// ________________TIMER_________________
 
@@ -123,11 +122,24 @@ public class Constants {
 
 	public static String BIRTHDAY_DOWNLOAD = "BIRTHDAY_DOWNLOAD";
 
-	public static String BROADCAST_DELETE_BIRTHDAY = "guepardoapps.lucahome.broadcast.delete.birthday.";
-	public static String BROADCAST_RELOAD_BIRTHDAY = "guepardoapps.lucahome.broadcast.reload.birthday";
-	public static String BROADCAST_HAS_BIRTHDAY = "guepardoapps.lucahome.broadcast.has.birthday.";
 	public static String BROADCAST_ADD_BIRTHDAY = "guepardoapps.lucahome.broadcast.add.birthday";
 	public static String BROADCAST_UPDATE_BIRTHDAY = "guepardoapps.lucahome.broadcast.update.birthday";
+	public static String BROADCAST_DELETE_BIRTHDAY = "guepardoapps.lucahome.broadcast.delete.birthday";
+	public static String BROADCAST_RELOAD_BIRTHDAY = "guepardoapps.lucahome.broadcast.reload.birthday";
+	public static String BROADCAST_HAS_BIRTHDAY = "guepardoapps.lucahome.broadcast.has.birthday";
+
+	// _______________MAP_CONTENT____________
+
+	public static String BUNDLE_MAP_CONTENT_LIST = "BUNDLE_MAP_CONTENT_LIST";
+	public static String BUNDLE_MAP_CONTENT_SINGLE = "MAP_CONTENT_SINGLE";
+
+	public static String ACTION_GET_MAP_CONTENTS = "getmapcontents";
+	public static String ACTION_ADD_MAP_CONTENT = "addmapcontent&id=";
+	public static String ACTION_UPDATE_MAP_CONTENT = "updatemapcontent&id=";
+	public static String ACTION_DELETE_MAP_CONTENT = "deletemapcontent&id=";
+	
+	public static String BROADCAST_UPDATE_MAP_CONTENT_VIEW = "guepardoapps.lucahome.broadcast.update.mapcontent.view";
+	public static String BROADCAST_RELOAD_MAP_CONTENT = "guepardoapps.lucahome.broadcast.reload.mapcontent";
 
 	// __________________MOVIE_______________
 
@@ -135,21 +147,21 @@ public class Constants {
 	public static String BUNDLE_MOVIE_SINGLE = "MOVIE_SINGLE";
 
 	public static String ACTION_GET_MOVIES = "getmovies";
+	public static String ACTION_START_MOVIE = "startmovie&title=";
 	public static String ACTION_ADD_MOVIE = "addmovie&title=";
 	public static String ACTION_UPDATE_MOVIE = "updatemovie&title=";
 	public static String ACTION_DELETE_MOVIE = "deletemovie&title=";
-	public static String ACTION_START_MOVIE = "startmovie&title=";
 
 	public static String MOVIE_SOCKET_TV = "TV";
 	public static String MOVIE_SOCKET_STORAGE = "Storage";
 
 	public static String MOVIE_DOWNLOAD = "MOVIE_DOWNLOAD";
 
-	public static String BROADCAST_DELETE_MOVIE = "guepardoapps.lucahome.broadcast.delete.movie";
-	public static String BROADCAST_RELOAD_MOVIE = "guepardoapps.lucahome.broadcast.reload.movie";
-	public static String BROADCAST_UPDATE_MOVIE = "guepardoapps.lucahome.broadcast.update.movie";
 	public static String BROADCAST_ADD_MOVIE = "guepardoapps.lucahome.broadcast.add.movie";
+	public static String BROADCAST_UPDATE_MOVIE = "guepardoapps.lucahome.broadcast.update.movie";
+	public static String BROADCAST_DELETE_MOVIE = "guepardoapps.lucahome.broadcast.delete.movie";
 	public static String BROADCAST_ACTIVATE_MOVIE = "guepardoapps.lucahome.broadcast.activate.movie";
+	public static String BROADCAST_RELOAD_MOVIE = "guepardoapps.lucahome.broadcast.reload.movie";
 
 	// _______________TEMPERATURE____________
 
@@ -221,7 +233,7 @@ public class Constants {
 	/********************** SharedPref *********************/
 
 	public static String SHARED_PREF_NAME = "LUCA_HOME";
-	public static String SHARED_PREF_INSTALLED = "APP_VERSION_1.0.0.161102_INSTALLED";
+	public static String SHARED_PREF_INSTALLED = "APP_VERSION_1.1.0.161102_INSTALLED";
 
 	public static String DISPLAY_SOCKET_NOTIFICATION = "DISPLAY_SOCKET_NOTIFICATION";
 	public static String DISPLAY_WEATHER_NOTIFICATION = "DISPLAY_WEATHER_NOTIFICATION";

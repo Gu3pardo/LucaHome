@@ -65,7 +65,7 @@ public class NotificationService extends Service {
 		case SOUND:
 			String soundFile = data.getString(Constants.BUNDLE_NOTIFICATION_BODY);
 			String raspberry = data.getString(Constants.BUNDLE_NOTIFICATION_TITLE);
-			CreateSoundNotification(soundFile, raspberry);
+			CreateSoundNotification(soundFile, raspberry, id);
 			break;
 		case TEMPERATURE:
 			SerializableList<Temperature> temperatureList = (SerializableList<Temperature>) data
@@ -123,7 +123,7 @@ public class NotificationService extends Service {
 		notificationManager.notify(id, notification);
 	}
 
-	private void CreateSoundNotification(String soundFile, String raspberry) {
+	private void CreateSoundNotification(String soundFile, String raspberry, int id) {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sound_on);
 		NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
 				.setHintHideIcon(true).setBackground(bitmap);
@@ -150,7 +150,7 @@ public class NotificationService extends Service {
 		notification.bigContentView = remoteViews;
 
 		NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-		notificationManager.notify(Constants.ID_NOTIFICATION_SOUND, notification);
+		notificationManager.notify(id, notification);
 	}
 
 	private void CreateTemperatureNotification(SerializableList<Temperature> temperatureList,

@@ -274,6 +274,8 @@ public class BootActivity extends Activity {
 
 		_sharedPrefController.SaveIntegerValue(Constants.SOUND_RASPBERRY_SELECTION,
 				RaspberrySelection.RASPBERRY_1.GetInt());
+		
+		//TODO install initial database with preset data!
 	}
 
 	private void startDownload(LucaObject lucaObject) {

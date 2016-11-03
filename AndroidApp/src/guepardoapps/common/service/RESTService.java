@@ -162,12 +162,13 @@ public class RESTService extends Service {
 					broadcastIntent.putExtras(broadcastData);
 					sendBroadcast(broadcastIntent);
 
-					if (_lucaObject == LucaObject.WIRELESS_SOCKET) {
-						if (!_broadcast.contains(Constants.BROADCAST_RELOAD_SOCKET)) {
-							Intent reloadBroadcastIntent = new Intent(Constants.BROADCAST_RELOAD_SOCKET);
+					//TODO: why?
+					/*if (_lucaObject == LucaObject.WIRELESS_SOCKET) {
+						if (!_broadcast.contains(Constants.BROADCAST_RELOAD_SOCKETS)) {
+							Intent reloadBroadcastIntent = new Intent(Constants.BROADCAST_RELOAD_SOCKETS);
 							sendBroadcast(reloadBroadcastIntent);
 						}
-					}
+					}*/
 				}
 			}
 

@@ -21,6 +21,11 @@ public class TimerController {
 		_serviceController = new ServiceController(_context);
 	}
 
+	public void LoadTimer() {
+		_serviceController.StartRestService(Constants.SCHEDULE_DOWNLOAD, Constants.ACTION_GET_SCHEDULES,
+				Constants.BROADCAST_DOWNLOAD_SCHEDULE_FINISHED, LucaObject.SCHEDULE, RaspberrySelection.BOTH);
+	}
+
 	public void Delete(Timer timer) {
 		_serviceController.StartRestService(timer.GetName(), timer.GetCommandDelete(), Constants.BROADCAST_RELOAD_TIMER,
 				LucaObject.TIMER, RaspberrySelection.BOTH);

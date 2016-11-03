@@ -3,10 +3,10 @@ package guepardoapps.common.enums;
 import java.io.Serializable;
 
 public enum TemperatureType implements Serializable {
+	DUMMY("Dummy", -1), 
 	RASPBERRY("Raspberry", 0), 
 	SMARTPHONE_SENSOR("Smartphone Sensor", 1), 
-	CITY("City", 3), 
-	DUMMY("Dummy", 4);
+	CITY("City", 2);
 
 	private String _string;
 	private int _int;

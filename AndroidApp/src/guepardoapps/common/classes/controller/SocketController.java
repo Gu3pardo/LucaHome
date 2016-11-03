@@ -30,7 +30,12 @@ public class SocketController {
 
 	public void SetSocket(WirelessSocket socket, boolean newState) {
 		_serviceController.StartRestService(socket.GetName(), socket.GetCommandSet(newState),
-				Constants.BROADCAST_RELOAD_SOCKET, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
+				Constants.BROADCAST_RELOAD_SOCKETS, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
+	}
+
+	public void LoadSockets() {
+		_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, Constants.ACTION_GET_SOCKETS,
+				Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 	}
 
 	public boolean ValidateSocketCode(String code) {

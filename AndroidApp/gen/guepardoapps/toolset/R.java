@@ -53,13 +53,13 @@ public final class R {
 		public static final int button = 0x7f020011;
 		public static final int button_default = 0x7f020015;
 		public static final int button_selected = 0x7f020016;
-		public static final int weather_clear = 0x7f020045;
-		public static final int weather_cloud = 0x7f020046;
-		public static final int weather_dummy = 0x7f020047;
-		public static final int weather_fog = 0x7f020048;
-		public static final int weather_haze = 0x7f020049;
-		public static final int weather_rain = 0x7f02004a;
-		public static final int weather_snow = 0x7f02004b;
+		public static final int weather_clear = 0x7f020051;
+		public static final int weather_cloud = 0x7f020052;
+		public static final int weather_dummy = 0x7f020053;
+		public static final int weather_fog = 0x7f020054;
+		public static final int weather_haze = 0x7f020055;
+		public static final int weather_rain = 0x7f020056;
+		public static final int weather_snow = 0x7f020057;
 	}
 	public static final class id {
 		public static final int custom_alert_dialog_background = 0x7f0a0018;
@@ -68,15 +68,15 @@ public final class R {
 		public static final int custom_alert_dialog_btn_ok = 0x7f0a001b;
 		public static final int custom_alert_dialog_prompt = 0x7f0a001a;
 		public static final int custom_alert_dialog_title = 0x7f0a0019;
-		public static final int floating_message_background = 0x7f0a004b;
-		public static final int floating_message_text = 0x7f0a004d;
-		public static final int floating_message_title = 0x7f0a004c;
+		public static final int floating_message_background = 0x7f0a0065;
+		public static final int floating_message_text = 0x7f0a0067;
+		public static final int floating_message_title = 0x7f0a0066;
 	}
 	public static final class layout {
 		public static final int custom_dialog_1 = 0x7f030001;
 		public static final int custom_dialog_2 = 0x7f030002;
 		public static final int custom_dialog_3 = 0x7f030003;
-		public static final int floating_message = 0x7f03000e;
+		public static final int floating_message = 0x7f030011;
 	}
 	public static final class string {
 		public static final int about = 0x7f090006;

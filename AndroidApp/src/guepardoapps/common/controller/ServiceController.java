@@ -188,6 +188,7 @@ public class ServiceController implements Serializable {
 	public void StopSound() {
 		StartRestService(TAG, Constants.ACTION_STOP_SOUND, Constants.BROADCAST_STOP_SOUND, LucaObject.SOUND,
 				RaspberrySelection.BOTH);
-		CloseNotification(Constants.ID_NOTIFICATION_SOUND);
+		CloseNotification(Constants.ID_NOTIFICATION_SONG + RaspberrySelection.RASPBERRY_1.GetInt());
+		CloseNotification(Constants.ID_NOTIFICATION_SONG + RaspberrySelection.RASPBERRY_2.GetInt());
 	}
 }

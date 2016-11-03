@@ -24,8 +24,6 @@ public class DownloadService extends Service {
 	private static String TAG = "DownloadService";
 	private Logger _logger;
 
-	private RaspberrySelection _playingSoundRaspberry;
-
 	private Context _context;
 
 	private ReceiverController _receiverController;
@@ -47,28 +45,6 @@ public class DownloadService extends Service {
 			} catch (Exception e) {
 				_logger.Error(e.getMessage());
 			}
-		}
-	};
-
-	private BroadcastReceiver _currentPlayingSoundReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			_receiverController.UnregisterReceiver(_currentPlayingSoundReceiver);
-
-			String[] playingFileStringArray = intent.getStringArrayExtra(TAG);
-			if (playingFileStringArray != null) {
-				if (playingFileStringArray[0] != null) {
-					if (_playingSoundRaspberry == null) {
-						_playingSoundRaspberry = RaspberrySelection.DUMMY;
-					}
-					
-					String playingFileString = playingFileStringArray[0].replace("{PlayingFile:", "").replace("};", "");
-					_serviceController.StartNotificationService(_playingSoundRaspberry.toString(), playingFileString,
-							-1, LucaObject.SOUND);
-				}
-			}
-
-			stopSelf();
 		}
 	};
 
@@ -149,45 +125,50 @@ public class DownloadService extends Service {
 
 		switch (lucaObject) {
 		case SOUND:
-			boolean isRPi1Playing = false;
-			boolean isRPi2Playing = false;
-
 			String[] isPlayingStringArray = intent.getStringArrayExtra(TAG);
 
 			if (isPlayingStringArray != null) {
 				if (isPlayingStringArray[0] != null) {
-					String isPlayingString = isPlayingStringArray[0].replace("{IsPlaying:", "").replace("};", "");
-					isRPi1Playing = isPlayingString.contains("1");
 					_logger.Debug(isPlayingStringArray[0]);
+					String[] data = isPlayingStringArray[0].split("\\};");
+
+					String isPlayingString = data[0].replace("{IsPlaying:", "").replace("};", "");
+					if (isPlayingString.contains("1")) {
+						if (data.length == 4) {
+							String playingFile = data[1].replace("{PlayingFile:", "").replace("};", "");
+							//String volume = data[2].replace("{Volume:", "").replace("};", "");
+							int raspberry = Integer.parseInt(data[3].replace("{Raspberry:", "").replace("};", ""));
+
+							_serviceController.StartNotificationService(RaspberrySelection.RASPBERRY_1.toString(),
+									playingFile, Constants.ID_NOTIFICATION_SONG + raspberry, LucaObject.SOUND);
+						} else {
+							_logger.Warn("data has wrong size!");
+						}
+					}
 				}
+
 				if (isPlayingStringArray[1] != null) {
-					String isPlayingString = isPlayingStringArray[1].replace("{IsPlaying:", "").replace("};", "");
-					isRPi2Playing = isPlayingString.contains("1");
 					_logger.Debug(isPlayingStringArray[1]);
+					String[] data = isPlayingStringArray[1].split("\\};");
+
+					String isPlayingString = data[0].replace("{IsPlaying:", "").replace("};", "");
+					if (isPlayingString.contains("1")) {
+						if (data.length == 4) {
+							String playingFile = data[1].replace("{PlayingFile:", "").replace("};", "");
+							//String volume = data[2].replace("{Volume:", "").replace("};", "");
+							int raspberry = Integer.parseInt(data[3].replace("{Raspberry:", "").replace("};", ""));
+
+							_serviceController.StartNotificationService(RaspberrySelection.RASPBERRY_2.toString(),
+									playingFile, Constants.ID_NOTIFICATION_SONG + raspberry, LucaObject.SOUND);
+						} else {
+							_logger.Warn("data has wrong size!");
+						}
+					}
 				}
-			}
-
-			if (isRPi1Playing) {
-				_playingSoundRaspberry = RaspberrySelection.RASPBERRY_1;
-
-				_receiverController.RegisterReceiver(_currentPlayingSoundReceiver,
-						new String[] { Constants.BROADCAST_PLAYING_FILE });
-				_serviceController.StartRestService(TAG, Constants.ACTION_GET_PLAYING_FILE,
-						Constants.BROADCAST_PLAYING_FILE, LucaObject.SOUND, RaspberrySelection.RASPBERRY_1);
-			} else if (isRPi2Playing) {
-				_playingSoundRaspberry = RaspberrySelection.RASPBERRY_2;
-
-				_receiverController.RegisterReceiver(_currentPlayingSoundReceiver,
-						new String[] { Constants.BROADCAST_PLAYING_FILE });
-				_serviceController.StartRestService(TAG, Constants.ACTION_GET_PLAYING_FILE,
-						Constants.BROADCAST_PLAYING_FILE, LucaObject.SOUND, RaspberrySelection.RASPBERRY_2);
 			}
 
 			unregisterReceiver();
-
-			if (!isRPi1Playing && !isRPi2Playing) {
-				stopSelf();
-			}
+			stopSelf();
 			break;
 		case TEMPERATURE:
 			String[] temperatureStringArray = intent.getStringArrayExtra(Constants.TEMPERATURE_DOWNLOAD);
