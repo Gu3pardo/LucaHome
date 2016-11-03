@@ -15,6 +15,9 @@
 #include "../changes/change.h"
 #include "../movies/movie.h"
 
+#include "../flatmap/mapcontent.h"
+#include "../flatmap/point.h"
+
 #include "../common/tools.h"
 
 #ifndef XMLPARSER_H
@@ -38,6 +41,7 @@ public:
 	std::vector<Birthday> parseBirthdays();
 	std::vector<Change> parseChanges();
 	std::vector<Gpio> parseGpios();
+	std::vector<MapContent> parseMapContents();
 	std::vector<Movie> parseMovies();
 	std::vector<Schedule> parseSchedules();
 	std::vector<Socket> parseSockets();

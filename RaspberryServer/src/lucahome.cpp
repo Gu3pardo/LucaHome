@@ -33,6 +33,7 @@ template<typename T> std::string to_string(const T& n) {
 #include "authentification/authentificationservice.h"
 #include "birthdays/birthdayservice.h"
 #include "changes/changeservice.h"
+#include "flatmap/mapcontentservice.h"
 #include "informations/informationservice.h"
 #include "mail/mailservice.h"
 #include "movies/movieservice.h"
@@ -59,6 +60,7 @@ BirthdayService _birthdayService;
 ChangeService _changeService;
 InformationService _informationService;
 MailService _mailService;
+MapContentService _mapContentService;
 MovieService _movieService;
 ReceiverService _receiverService;
 RemoteService _remoteService;
@@ -143,6 +145,11 @@ string executeCmd(string cmd) {
 	else if (category == "INFORMATION") {
 		return _informationService.performAction(action, data);
 	}
+	//-------------------MapContent-------------------
+	else if (category == "MAPCONTENT") {
+		return _mapContentService.performAction(action, data, _changeService,
+				username);
+	}
 	//---------------------Movies---------------------
 	else if (category == "MOVIE") {
 		return _movieService.performAction(action, data, _changeService,
@@ -170,6 +177,12 @@ string executeCmd(string cmd) {
 	else if (category == "USER") {
 		if (action == "VALIDATE") {
 			return "validateuser:1";
+		}
+	}
+	//-----------------------Other--------------------
+	else if (category == "SERVER") {
+		if (action == "AVAILABILITY") {
+			return "server:available:1";
 		}
 	}
 
@@ -345,7 +358,8 @@ void *scheduler(void *arg) {
 
 			if (_scheduleTasks[st].isDone() == 0 && scheduleWeekday == weekday
 					&& tasktime_info.tm_hour == now_info.tm_hour
-					&& tasktime_info.tm_min == now_info.tm_min) {
+					&& tasktime_info.tm_min == now_info.tm_min
+					&& now_info.tm_sec == 0) {
 
 				syslog(LOG_INFO, "Executing Task '%s'", schedule.c_str());
 
@@ -355,7 +369,7 @@ void *scheduler(void *arg) {
 							if (_schedules[s].getSocket() != "") {
 								stringstream socket_out;
 								socket_out
-										<< "scheduler:435435:REMOTE:SET:SOCKET:"
+										<< "Scheduler:435435:REMOTE:SET:SOCKET:"
 										<< _schedules[s].getSocket() << ":"
 										<< _schedules[s].getOnoff();
 
@@ -373,7 +387,7 @@ void *scheduler(void *arg) {
 
 							if (_schedules[s].getGpio() != "") {
 								stringstream gpio_out;
-								gpio_out << "scheduler:435435:REMOTE:SET:GPIO:"
+								gpio_out << "Scheduler:435435:REMOTE:SET:GPIO:"
 										<< _schedules[s].getGpio() << ":"
 										<< _schedules[s].getOnoff();
 
@@ -395,7 +409,7 @@ void *scheduler(void *arg) {
 										== _remoteService.getRaspberry()) {
 									stringstream sound_out;
 									sound_out
-											<< "scheduler:435435:SOUND:PLAY:ALARM:";
+											<< "Scheduler:435435:SOUND:PLAY:ALARM:";
 									string response = executeCmd(
 											sound_out.str());
 									if (response
@@ -413,7 +427,7 @@ void *scheduler(void *arg) {
 											== _remoteService.getRaspberry()) {
 										stringstream sound_out;
 										sound_out
-												<< "scheduler:435435:SOUND:STOP:ALARM:";
+												<< "Scheduler:435435:SOUND:STOP:ALARM:";
 										string response = executeCmd(
 												sound_out.str());
 										if (response != "stopplaying:1") {
@@ -426,7 +440,7 @@ void *scheduler(void *arg) {
 
 								stringstream schedule_delete_out;
 								schedule_delete_out
-										<< "scheduler:435435:REMOTE:DELETE:SCHEDULE:"
+										<< "Scheduler:435435:REMOTE:DELETE:SCHEDULE:"
 										<< _schedules[s].getName();
 
 								string response = executeCmd(
@@ -528,10 +542,11 @@ int main(void) {
 	_birthdayService.initialize(_fileController, _mailService);
 	_changeService.initialize(_fileController);
 	_informationService.initialize(_fileController);
+	_mapContentService.initialize(_fileController);
 	_movieService.initialize(_fileController);
 	_remoteService.initialize(_fileController);
-	_audioService.initialize("/media/lucahome/",
-			_remoteService.getAlarmSound());
+	_audioService.initialize("/media/lucahome/", _remoteService.getAlarmSound(),
+			_remoteService.getRaspberry());
 	_temperatureService.initialize(_mailService, _remoteService.getSensor(),
 			_remoteService.getArea(), _remoteService.getTemperatureGraphUrl());
 

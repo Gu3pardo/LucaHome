@@ -15,6 +15,9 @@
 #include "../changes/change.h"
 #include "../movies/movie.h"
 
+#include "../flatmap/mapcontent.h"
+#include "../flatmap/point.h"
+
 #include "../common/tools.h"
 
 #ifndef XMLWRITER_H
@@ -30,6 +33,7 @@ public:
 
 	static std::string generateBirthdaysXml(std::vector<Birthday>);
 	static std::string generateChangesXml(std::vector<Change>);
+	static std::string generateMapContentsXml(std::vector<MapContent>);
 	static std::string generateMoviesXml(std::vector<Movie>);
 	static std::string generateSettingsXml(int, int, int, int, std::string,
 			std::vector<std::string>, std::vector<std::string>,

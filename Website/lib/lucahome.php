@@ -62,6 +62,45 @@ switch ($action) {
 		echo Send ( "$login:INFORMATION:GET:REST" );
 		break;
 	
+	/* ------------------- MapContent ------------------- */
+	case 'getmapcontents' :
+		echo Send ( "$login:MAPCONTENT:GET:ALL" );
+		break;
+	case 'addmapcontent' :
+		$id = Get ( 'id' );
+		$position = Get ( 'position' );
+		$type = Get ( 'type' );
+		$schedules= Get ( 'schedules' );
+		$sockets = Get ( 'sockets' );
+		$temperatureArea = Get ( 'temperatureArea' );
+		if ($id != '' & $position != '' & $type != '' & $schedules != '' & $sockets != '' & $temperatureArea != '') {
+			echo Send ( "$login:MAPCONTENT:ADD:$id:$position:$type:$schedules:$sockets:$temperatureArea" );
+		} else {
+			echo "Error 145:Parameter not found for mapcontent";
+		}
+		break;
+	case 'updatemapcontent' :
+		$id = Get ( 'id' );
+		$position = Get ( 'position' );
+		$type = Get ( 'type' );
+		$schedules= Get ( 'schedules' );
+		$sockets = Get ( 'sockets' );
+		$temperatureArea = Get ( 'temperatureArea' );
+		if ($id != '' & $position != '' & $type != '' & $schedules != '' & $sockets != '' & $temperatureArea != '') {
+			echo Send ( "$login:MAPCONTENT:UPDATE:$id:$position:$type:$schedules:$sockets:$temperatureArea" );
+		} else {
+			echo "Error 145:Parameter not found for mapcontent";
+		}
+		break;
+	case 'deletemapcontent' :
+		$id = Get ( 'id' );
+		if ($id != '') {
+			echo Send ( "$login:MAPCONTENT:DELETE:$id" );
+		} else {
+			echo "Error 145:Parameter not found for mapcontent";
+		}
+		break;
+	
 	/* --------------------- Movie --------------------- */
 	case 'getmovies' :
 		$movieCount = Send ( "$login:MOVIE:GET:COUNT" );
@@ -330,6 +369,11 @@ switch ($action) {
 	/* ---------------------- User --------------------- */
 	case 'validateuser' :
 		echo Send ( "$login:USER:VALIDATE:NOW" );
+		break;
+	
+	/* ---------------------- Other -------------------- */
+	case 'main' :
+		echo Send ( "$login:SERVER:AVAILABILITY:CHECK" );
 		break;
 	
 	/* ---------------------- Pages -------------------- */

@@ -16,6 +16,9 @@
 #include "../informations/information.h"
 #include "../movies/movie.h"
 
+#include "../flatmap/mapcontent.h"
+#include "../flatmap/point.h"
+
 #include "xmlparser.h"
 #include "xmlwriter.h"
 
@@ -34,6 +37,7 @@ public:
 
 	static std::string generateBirthdaysXml(std::vector<Birthday>);
 	static std::string generateChangesXml(std::vector<Change>);
+	static std::string generateMapContentsXml(std::vector<MapContent>);
 	static std::string generateMoviesXml(std::vector<Movie>);
 	static std::string generateSettingsXml(int, int, int, int, std::string,
 			std::vector<std::string>, std::vector<std::string>,
@@ -49,6 +53,8 @@ public:
 	std::vector<Change> getChanges();
 
 	Information getInformation();
+
+	std::vector<MapContent> getMapContents();
 
 	std::vector<Movie> getMovies();
 

@@ -1,0 +1,12 @@
+MapContentType
+1	Raspberry
+2	Arduino
+3	Socket
+4	Temperature
+
+Users
+1	Get		Validate
+2	Set		Start		Play		Stop
+3
+4	Add		Update
+5	Delete

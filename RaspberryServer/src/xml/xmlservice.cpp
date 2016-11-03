@@ -21,6 +21,11 @@ std::string XmlService::generateChangesXml(std::vector<Change> changes) {
 	return writer.generateChangesXml(changes);
 }
 
+std::string XmlService::generateMapContentsXml(std::vector<MapContent> mapcontents) {
+	XmlWriter writer;
+	return writer.generateMapContentsXml(mapcontents);
+}
+
 std::string XmlService::generateMoviesXml(std::vector<Movie> movies) {
 	XmlWriter writer;
 	return writer.generateMoviesXml(movies);
@@ -67,6 +72,11 @@ Information XmlService::getInformation() {
 			parser.findTag("temperaturelogversion"),
 			parser.findTag("appversion"));
 	return information;
+}
+
+std::vector<MapContent> XmlService::getMapContents() {
+	XmlParser parser(content);
+	return parser.parseMapContents();
 }
 
 std::vector<Movie> XmlService::getMovies() {

@@ -152,6 +152,58 @@ std::vector<Gpio> XmlParser::parseGpios() {
 	return gpios;
 }
 
+std::vector<MapContent> XmlParser::parseMapContents() {
+	std::string entries = findTag("mapcontent");
+	std::vector<MapContent> mapcontents;
+
+	if (entries.length() > 0) {
+		std::vector < std::string > lines = Tools::explode(";", entries);
+		for (int l = 0; l < lines.size(); l++) {
+			if (lines[l].length() > 0) {
+				std::vector < std::string > words = Tools::explode(":", lines[l]);
+
+				int id = -1;
+				int x = -1;
+				int y = -1;
+				int type = -1;
+				std::vector<std::string> schedules;
+				std::vector<std::string> sockets;
+				std::string temperatureArea = "";
+
+				if (typeid(words.at(0)) == typeid(std::string)) {
+					id = atoi(words[0].c_str());
+				}
+				if (typeid(words.at(1)) == typeid(std::string)) {
+					std::vector < std::string > coordinates = Tools::explode("|", words[1]);
+					if (typeid(coordinates.at(0)) == typeid(std::string)
+							&& typeid(coordinates.at(1)) == typeid(std::string)) {
+						x = atoi(coordinates[0].c_str());
+						y = atoi(coordinates[1].c_str());
+					}
+				}
+				if (typeid(words.at(2)) == typeid(std::string)) {
+					type = atoi(words[2].c_str());
+				}
+				if (typeid(words.at(3)) == typeid(std::string)) {
+					schedules =  Tools::explode("|", words[3]);
+				}
+				if (typeid(words.at(4)) == typeid(std::string)) {
+					sockets =  Tools::explode("|", words[4]);
+				}
+				if (typeid(words.at(5)) == typeid(std::string)) {
+					temperatureArea = words[5].c_str();
+				}
+
+				Point position = Point(x, y);
+				MapContent newEntry = MapContent(id, position, type, schedules, sockets, temperatureArea);
+
+				mapcontents.push_back(newEntry);
+			}
+		}
+	}
+	return mapcontents;
+}
+
 std::vector<Movie> XmlParser::parseMovies() {
 	std::string entries = findTag("movies");
 	std::vector<Movie> movies;

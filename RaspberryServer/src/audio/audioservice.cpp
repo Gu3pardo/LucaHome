@@ -9,13 +9,15 @@ AudioService::AudioService() {
 AudioService::~AudioService() {
 }
 
-void AudioService::initialize(std::string audioPath, std::string alarmSound) {
+void AudioService::initialize(std::string audioPath, std::string alarmSound,
+		int raspberry) {
 	_audioPath = audioPath;
 	_alarmSound = alarmSound;
 
 	_isInitialized = true;
 	_isPlaying = false;
 	_playingFile = "";
+	_raspberry = raspberry;
 
 	_volume = readVolume();
 	_soundFiles = scanFolder();
@@ -28,15 +30,26 @@ std::string AudioService::performAction(std::string action,
 			return getSoundFilesRestString();
 		} else if (data[4] == "VOLUME") {
 			std::stringstream out;
-			out << "{Volume:" << Tools::convertIntToStr(readVolume()) << "};" << "\x00" << std::endl;
+			out << "{Volume:" << Tools::convertIntToStr(readVolume()) << "};"
+					<< "\x00" << std::endl;
 			return out.str();
 		} else if (data[4] == "PLAYING") {
 			std::stringstream out;
-			out << "{IsPlaying:" << Tools::convertBoolToStr(_isPlaying) << "};" << "\x00" << std::endl;
+			if (_isPlaying) {
+				out << "{IsPlaying:1};"
+						<< "{PlayingFile:" << _playingFile << "};"
+						<< "{Volume:" << Tools::convertIntToStr(readVolume()) << "};"
+						<< "{Raspberry:" << Tools::convertIntToStr(_raspberry) << "};"
+						<< "\x00" << std::endl;
+
+			} else {
+				out << "{IsPlaying:0};" << "\x00" << std::endl;
+			}
 			return out.str();
 		} else if (data[4] == "PLAYINGFILE") {
 			std::stringstream out;
-			out << "{PlayingFile:" << _playingFile << "};" << "\x00" << std::endl;
+			out << "{PlayingFile:" << _playingFile << "};" << "\x00"
+					<< std::endl;
 			return out.str();
 		} else {
 			return "Error 91:Action not found for sound";
@@ -227,7 +240,8 @@ int AudioService::readVolume() {
 				int newLength = data.size() - newStartIndex;
 
 				std::string volume = data.substr(newStartIndex, newLength);
-				if (volume.find_first_not_of("0123456789") == std::string::npos) {
+				if (volume.find_first_not_of("0123456789")
+						== std::string::npos) {
 					return Tools::convertStrToInt(volume);
 				} else {
 					syslog(LOG_INFO, "failed volume is: %s", volume.c_str());

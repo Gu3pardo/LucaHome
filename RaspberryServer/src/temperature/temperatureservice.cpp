@@ -186,9 +186,12 @@ std::string TemperatureService::getRestString() {
 
 	std::stringstream out;
 
-	out << "{temperature:" << "{value:" << loadTemperature() << "};" << "{area:"
-			<< _temperatureArea << "};" << "{sensorPath:" << _sensorPath << "};"
-			<< "{graphPath:" << _graphPath << "};" << "};";
+	out << "{temperature:"
+			<< "{value:" << loadTemperature() << "};"
+			<< "{area:" << _temperatureArea << "};"
+			<< "{sensorPath:" << _sensorPath << "};"
+			<< "{graphPath:" << _graphPath << "};"
+			<< "};";
 
 	out << "\x00" << std::endl;
 

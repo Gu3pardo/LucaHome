@@ -39,6 +39,7 @@ private:
 	int _volume;
 	std::vector<std::string> _soundFiles;
 	std::string _alarmSound;
+	int _raspberry;
 
 	bool play(std::string);
 	bool stop();
@@ -53,7 +54,7 @@ public:
 	AudioService();
 	~AudioService();
 
-	void initialize(std::string, std::string);
+	void initialize(std::string, std::string, int);
 
 	std::string performAction(std::string, std::vector<std::string>);
 };

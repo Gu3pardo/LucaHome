@@ -42,6 +42,24 @@ std::string XmlWriter::generateChangesXml(std::vector<Change> changes) {
 	return xml.str();
 }
 
+std::string XmlWriter::generateMapContentsXml(std::vector<MapContent> mapcontents) {
+	std::stringstream xml;
+
+	xml << "<mapcontent>" << std::endl;
+	for (int index = 0; index < mapcontents.size(); index++) {
+		xml << Tools::convertIntToStr(mapcontents[index].getId()) << ":"
+				<< mapcontents[index].getPosition().getString() << ":"
+				<< Tools::convertIntToStr(mapcontents[index].getType()) << ":"
+				<< mapcontents[index].getSchedulesString() << ":"
+				<< mapcontents[index].getSocketsString() << ":"
+				<< mapcontents[index].getTemperatureArea() << ";"
+				<< std::endl;
+	}
+	xml << "</mapcontent>" << std::endl;
+
+	return xml.str();
+}
+
 std::string XmlWriter::generateMoviesXml(std::vector<Movie> movies) {
 	std::stringstream xml;
 

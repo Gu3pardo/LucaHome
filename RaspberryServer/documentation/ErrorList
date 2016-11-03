@@ -82,3 +82,10 @@ Code			Error
 130				Action not found for temperature
 131				Wrong data size for temperature
 132				Wrong action parameter for temperature
+
+140				Could not add mapcontent
+141				Wrong word size for mapcontent
+142				Could not update mapcontent
+143				Could not delete mapcontent
+144				Action not found for mapcontent
+145				Parameter not found for mapcontent
