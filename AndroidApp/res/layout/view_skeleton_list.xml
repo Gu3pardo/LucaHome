@@ -41,15 +41,6 @@
             android:background="@drawable/add_round"
             android:text="@string/addPlus"
             android:textColor="@color/TextIcon" />
-
-        <ImageButton
-            android:id="@+id/buttonFlatMap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/contentDescription"
-            android:src="@android:drawable/ic_dialog_map"
-            android:visibility="gone" />
     </RelativeLayout>
 
 </RelativeLayout>

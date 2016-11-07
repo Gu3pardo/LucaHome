@@ -16,15 +16,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/TextIcon" />
 
-    <ImageView
-        android:id="@+id/sound_item_playing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/sound_item_play"
-        android:contentDescription="@string/image"
-        android:src="@android:drawable/stat_notify_voicemail" />
-
     <ImageButton
         android:id="@+id/sound_item_play"
         android:layout_width="wrap_content"
