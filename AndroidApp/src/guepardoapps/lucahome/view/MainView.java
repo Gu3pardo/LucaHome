@@ -210,6 +210,14 @@ public class MainView extends Activity {
 			}
 		});
 
+		ImageButton smartmirror = (ImageButton) findViewById(R.id.imageButtonSmartMirror);
+		smartmirror.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_navigationService.NavigateTo(SmartMirrorView.class);
+			}
+		});
+
 		ImageButton settings = (ImageButton) findViewById(R.id.imageButtonSettings);
 		settings.setOnClickListener(new OnClickListener() {
 			@Override
