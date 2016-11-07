@@ -18,6 +18,8 @@
 #include "../flatmap/mapcontent.h"
 #include "../flatmap/point.h"
 
+#include "../logger/log.h"
+
 #include "../common/tools.h"
 
 #ifndef XMLPARSER_H
@@ -46,6 +48,7 @@ public:
 	std::vector<Schedule> parseSchedules();
 	std::vector<Socket> parseSockets();
 	std::vector<User> parseUsers();
+	std::vector<Log> parseLogs();
 };
 
 #endif

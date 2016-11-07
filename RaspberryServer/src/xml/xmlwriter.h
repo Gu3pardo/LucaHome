@@ -18,6 +18,8 @@
 #include "../flatmap/mapcontent.h"
 #include "../flatmap/point.h"
 
+#include "../logger/log.h"
+
 #include "../common/tools.h"
 
 #ifndef XMLWRITER_H
@@ -40,6 +42,7 @@ public:
 			std::vector<std::string>, std::vector<Socket>, std::vector<Gpio>,
 			std::vector<Schedule>);
 	static std::string generateUsersXml(std::vector<User>);
+	static std::string generateLoggerXml(std::vector<Log>);
 };
 
 #endif

@@ -46,6 +46,11 @@ std::string XmlService::generateUsersXml(std::vector<User> users) {
 	return writer.generateUsersXml(users);
 }
 
+std::string XmlService::generateLoggerXml(std::vector<Log> logs) {
+	XmlWriter writer;
+	return writer.generateLoggerXml(logs);
+}
+
 std::string XmlService::getContent() {
 	return content;
 }
@@ -142,4 +147,9 @@ std::vector<Schedule> XmlService::getSchedules() {
 std::vector<User> XmlService::getUsers() {
 	XmlParser parser(content);
 	return parser.parseUsers();
+}
+
+std::vector<Log> XmlService::getLogs() {
+	XmlParser parser(content);
+	return parser.parseLogs();
 }

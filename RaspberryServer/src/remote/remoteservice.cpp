@@ -217,6 +217,22 @@ std::string RemoteService::performAction(std::string action,
 					} else {
 						return "Error 56:Invalid state for gpio";
 					}
+				} else if (data[5] == "SOUND") {
+					if (atoi(data[6].c_str()) == 1) {
+						if (setSoundSocket(1, changeService, username)) {
+							return "activateSoundSocket:1";
+						} else {
+							return "Error 76:Could not activate sound socket";
+						}
+					} else if (atoi(data[6].c_str()) == 0) {
+						if (setSoundSocket(0, changeService, username)) {
+							return "deactivateSoundSocket:1";
+						} else {
+							return "Error 77:Could not deactivate sound socket";
+						}
+					} else {
+						return "Error 56:Invalid state for gpio";
+					}
 				} else {
 					if (setSocket(data[5], atoi(data[6].c_str()), changeService,
 							username)) {
@@ -565,7 +581,8 @@ bool RemoteService::updateSchedule(std::vector<std::string> updateScheduleData,
 		ChangeService changeService, std::string username) {
 	Schedule updateSchedule(updateScheduleData[5], updateScheduleData[6],
 			updateScheduleData[7], atoi(updateScheduleData[8].c_str()),
-			atoi(updateScheduleData[9].c_str()), atoi(updateScheduleData[10].c_str()),
+			atoi(updateScheduleData[9].c_str()),
+			atoi(updateScheduleData[10].c_str()),
 			atoi(updateScheduleData[11].c_str()),
 			atoi(updateScheduleData[12].c_str()),
 			atoi(updateScheduleData[13].c_str()),
@@ -653,10 +670,12 @@ std::string RemoteService::getSocketsRestString() {
 bool RemoteService::setSocket(std::string name, int state,
 		ChangeService changeService, std::string username) {
 	bool success = false;
+	bool foundSocket = false;
 
 	for (int index = 0; index < _sockets.size(); index++) {
 		if (_sockets[index].getName() == name) {
 			success = _sockets[index].setState(state, _datagpio);
+			foundSocket = true;
 
 			saveSettings(changeService, username);
 			loadSettings();
@@ -665,7 +684,7 @@ bool RemoteService::setSocket(std::string name, int state,
 		}
 	}
 
-	return success;
+	return success && foundSocket;
 }
 
 bool RemoteService::addSocket(std::vector<std::string> newSocketData,
@@ -682,8 +701,8 @@ bool RemoteService::addSocket(std::vector<std::string> newSocketData,
 
 bool RemoteService::updateSocket(std::vector<std::string> updateSocketData,
 		ChangeService changeService, std::string username) {
-	Socket updateSocket(updateSocketData[5], updateSocketData[6], updateSocketData[7],
-			atoi(updateSocketData[8].c_str()));
+	Socket updateSocket(updateSocketData[5], updateSocketData[6],
+			updateSocketData[7], atoi(updateSocketData[8].c_str()));
 	for (int index = 0; index < _sockets.size(); index++) {
 		if (_sockets[index].getName() == updateSocket.getName()) {
 			_sockets[index] = updateSocket;
@@ -727,4 +746,24 @@ bool RemoteService::setAllSockets(int state, ChangeService changeService,
 	loadSettings();
 
 	return success;
+}
+
+bool RemoteService::setSoundSocket(int state, ChangeService changeService,
+		std::string username) {
+	bool success = true;
+	bool foundSocket = false;
+
+	for (int index = 0; index < _sockets.size(); index++) {
+		if (_sockets[index].getArea() == _area) {
+			success = _sockets[index].setState(state, _datagpio);
+			foundSocket = true;
+
+			saveSettings(changeService, username);
+			loadSettings();
+
+			break;
+		}
+	}
+
+	return success && foundSocket;
 }

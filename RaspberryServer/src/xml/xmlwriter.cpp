@@ -35,14 +35,16 @@ std::string XmlWriter::generateChangesXml(std::vector<Change> changes) {
 				<< Tools::convertIntToStr(changes[index].getDay()) << ":"
 				<< Tools::convertIntToStr(changes[index].getMonth()) << ":"
 				<< Tools::convertIntToStr(changes[index].getYear()) << ":"
-				<< changes[index].getUser() << ";" << std::endl;
+				<< changes[index].getUser() << ";"
+				<< std::endl;
 	}
 	xml << "</changes>" << std::endl;
 
 	return xml.str();
 }
 
-std::string XmlWriter::generateMapContentsXml(std::vector<MapContent> mapcontents) {
+std::string XmlWriter::generateMapContentsXml(
+		std::vector<MapContent> mapcontents) {
 	std::stringstream xml;
 
 	xml << "<mapcontent>" << std::endl;
@@ -66,11 +68,13 @@ std::string XmlWriter::generateMoviesXml(std::vector<Movie> movies) {
 	xml << "<movies>" << std::endl;
 	for (int index = 0; index < movies.size(); index++) {
 
-		xml << movies[index].getTitle() << ":" << movies[index].getGenre()
-				<< ":" << movies[index].getDescription() << ":"
+		xml << movies[index].getTitle() << ":"
+				<< movies[index].getGenre() << ":"
+				<< movies[index].getDescription() << ":"
 				<< Tools::convertIntToStr(movies[index].getRating()) << ":"
 				<< Tools::convertIntToStr(movies[index].getWatched()) << ":"
-				<< movies[index].getSocketsString() << ";" << std::endl;
+				<< movies[index].getSocketsString() << ";"
+				<< std::endl;
 	}
 	xml << "</movies>" << std::endl;
 
@@ -119,8 +123,9 @@ std::string XmlWriter::generateSettingsXml(int port, int datagpio,
 
 	xml << "<sockets>" << std::endl;
 	for (int index = 0; index < sockets.size(); index++) {
-		xml << sockets[index].getName() << ":" << sockets[index].getArea()
-				<< ":" << sockets[index].getCode() << ":"
+		xml << sockets[index].getName() << ":"
+				<< sockets[index].getArea() << ":"
+				<< sockets[index].getCode() << ":"
 				<< Tools::convertIntToStr(sockets[index].getState()) << ";"
 				<< std::endl;
 	}
@@ -137,8 +142,9 @@ std::string XmlWriter::generateSettingsXml(int port, int datagpio,
 
 	xml << "<schedules>" << std::endl;
 	for (int index = 0; index < schedules.size(); index++) {
-		xml << schedules[index].getName() << ":" << schedules[index].getSocket()
-				<< ":" << schedules[index].getGpio() << ":"
+		xml << schedules[index].getName() << ":"
+				<< schedules[index].getSocket() << ":"
+				<< schedules[index].getGpio() << ":"
 				<< Tools::convertIntToStr(schedules[index].getWeekday()) << ":"
 				<< Tools::convertIntToStr(schedules[index].getHour()) << ":"
 				<< Tools::convertIntToStr(schedules[index].getMinute()) << ":"
@@ -159,11 +165,28 @@ std::string XmlWriter::generateUsersXml(std::vector<User> users) {
 
 	xml << "<users>" << std::endl;
 	for (int index = 0; index < users.size(); index++) {
-		xml << users[index].getName() << ":" << users[index].getPassword()
-				<< ":" << Tools::convertIntToStr(users[index].getRole()) << ";"
+		xml << users[index].getName() << ":"
+				<< users[index].getPassword() << ":"
+				<< Tools::convertIntToStr(users[index].getRole()) << ";"
 				<< std::endl;
 	}
 	xml << "</users>" << std::endl;
+
+	return xml.str();
+}
+
+std::string XmlWriter::generateLoggerXml(std::vector<Log> logs) {
+	std::stringstream xml;
+
+	xml << "<logs>" << std::endl;
+	for (int index = 0; index < logs.size(); index++) {
+		xml << logs[index].getLevel() << ":"
+				<< logs[index].getContent() << ":"
+				<< logs[index].getTime() << ":"
+				<< logs[index].getUser() << ";"
+				<< std::endl;
+	}
+	xml << "</logs>" << std::endl;
 
 	return xml.str();
 }

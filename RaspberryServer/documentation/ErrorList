@@ -54,6 +54,8 @@ Code			Error
 73				Could not activate all sockets
 74				Could not deactivate all sockets
 75				Wrong word size for socket
+76				Could not activate sound socket
+77				Could not deactivate sound socket
 
 80				System command error. Pipe Error!
 

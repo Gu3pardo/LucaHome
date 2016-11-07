@@ -19,6 +19,8 @@
 #include "../flatmap/mapcontent.h"
 #include "../flatmap/point.h"
 
+#include "../logger/log.h"
+
 #include "xmlparser.h"
 #include "xmlwriter.h"
 
@@ -44,6 +46,7 @@ public:
 			std::vector<std::string>, std::vector<Socket>, std::vector<Gpio>,
 			std::vector<Schedule>);
 	static std::string generateUsersXml(std::vector<User>);
+	static std::string generateLoggerXml(std::vector<Log>);
 
 	void setContent(std::string);
 	std::string getContent();
@@ -74,6 +77,8 @@ public:
 	std::vector<Socket> getSockets();
 
 	std::vector<User> getUsers();
+
+	std::vector<Log> getLogs();
 };
 
 #endif

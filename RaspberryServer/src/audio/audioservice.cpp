@@ -146,7 +146,8 @@ bool AudioService::stop() {
 
 	syslog(LOG_INFO, "Stop playing!");
 
-	Tools::sendSystemCommand("killall omxplayer.bin");
+	std::string answer = Tools::sendSystemCommandGetResult(
+			"killall omxplayer.bin");
 
 	_isPlaying = false;
 	_playingFile = "-/-";

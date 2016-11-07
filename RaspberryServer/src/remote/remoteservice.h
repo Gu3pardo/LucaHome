@@ -91,6 +91,7 @@ private:
 	bool updateSocket(std::vector<std::string>, ChangeService, std::string);
 	bool deleteSocket(std::string, ChangeService, std::string);
 	bool setAllSockets(int, ChangeService, std::string);
+	bool setSoundSocket(int, ChangeService, std::string);
 
 public:
 	RemoteService();

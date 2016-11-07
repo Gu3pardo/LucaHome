@@ -42,6 +42,7 @@ template<typename T> std::string to_string(const T& n) {
 #include "remote/remoteservice.h"
 #include "temperature/temperatureservice.h"
 
+#include "logger/logger.h"
 #include "controller/filecontroller.h"
 
 #define BUFLEN 512
@@ -52,6 +53,7 @@ bool _updatedSchedules;
 vector<Schedule> _schedules;
 vector<ScheduleTask> _scheduleTasks;
 
+Logger _logger;
 FileController _fileController;
 
 AudioService _audioService;
@@ -101,6 +103,9 @@ string executeCmd(string cmd) {
 	string password = data[1];
 	string category = data[2];
 	string action = data[3];
+
+	//TODO reenable Logger
+	//_logger.addLog("DEBUG", data, username);
 
 	if (username == "") {
 		return "Error 13:No username";
@@ -358,8 +363,7 @@ void *scheduler(void *arg) {
 
 			if (_scheduleTasks[st].isDone() == 0 && scheduleWeekday == weekday
 					&& tasktime_info.tm_hour == now_info.tm_hour
-					&& tasktime_info.tm_min == now_info.tm_min
-					&& now_info.tm_sec == 0) {
+					&& tasktime_info.tm_min == now_info.tm_min) {
 
 				syslog(LOG_INFO, "Executing Task '%s'", schedule.c_str());
 
@@ -410,14 +414,33 @@ void *scheduler(void *arg) {
 									stringstream sound_out;
 									sound_out
 											<< "Scheduler:435435:SOUND:PLAY:ALARM:";
-									string response = executeCmd(
-											sound_out.str());
-									if (response
-											!= _remoteService.getAlarmSound()) {
+
+									stringstream socket_out;
+									socket_out
+											<< "Scheduler:435435:REMOTE:SET:SOCKET:SOUND:1";
+
+									pthread_mutex_lock(&socketsMutex);
+
+									string responseSocket = executeCmd(
+											socket_out.str());
+									if (responseSocket
+											!= "activateSoundSocket:1") {
 										syslog(LOG_INFO,
-												"Playing alarm failed! %s",
-												_remoteService.getAlarmSound().c_str());
+												"Activating sound socket failed! %s",
+												responseSocket.c_str());
+									} else {
+										string responseSound = executeCmd(
+												sound_out.str());
+										if (responseSound
+												!= _remoteService.getAlarmSound().c_str()) {
+											syslog(LOG_INFO,
+													"Playing alarm failed! %s | %s",
+													_remoteService.getAlarmSound().c_str(),
+													responseSound.c_str());
+										}
 									}
+
+									pthread_mutex_unlock(&socketsMutex);
 								}
 							}
 
@@ -428,13 +451,33 @@ void *scheduler(void *arg) {
 										stringstream sound_out;
 										sound_out
 												<< "Scheduler:435435:SOUND:STOP:ALARM:";
-										string response = executeCmd(
-												sound_out.str());
-										if (response != "stopplaying:1") {
+
+										stringstream socket_out;
+										socket_out
+												<< "Scheduler:435435:REMOTE:SET:SOCKET:SOUND:1";
+
+										pthread_mutex_lock(&socketsMutex);
+
+										string responseSocket = executeCmd(
+												socket_out.str());
+										if (responseSocket
+												!= "deactivateSoundSocket:0") {
 											syslog(LOG_INFO,
-													"Stopping alarm failed! %s",
-													_remoteService.getAlarmSound().c_str());
+													"Deactivating sound socket failed! %s",
+													responseSocket.c_str());
+										} else {
+											string responseSound = executeCmd(
+													sound_out.str());
+											if (responseSound
+													!= "stopplaying:1") {
+												syslog(LOG_INFO,
+														"Stopping alarm failed! %s | %s",
+														_remoteService.getAlarmSound().c_str(),
+														responseSound.c_str());
+											}
 										}
+
+										pthread_mutex_unlock(&socketsMutex);
 									}
 								}
 
@@ -549,6 +592,8 @@ int main(void) {
 			_remoteService.getRaspberry());
 	_temperatureService.initialize(_mailService, _remoteService.getSensor(),
 			_remoteService.getArea(), _remoteService.getTemperatureGraphUrl());
+
+	_logger.initialize(_fileController);
 
 	std::ostringstream startMessage;
 	startMessage << "Starting LucaHome at " << _remoteService.getArea();
