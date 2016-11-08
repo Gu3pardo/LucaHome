@@ -31,6 +31,7 @@ import guepardoapps.toolset.openweather.OpenWeatherController;
 import guepardoapps.toolset.openweather.common.OpenWeatherConstants;
 import guepardoapps.toolset.openweather.model.ForecastModel;
 import guepardoapps.toolset.openweather.model.WeatherModel;
+import guepardoapps.toolset.scheduler.ScheduleService;
 
 public class MainService extends Service {
 
@@ -68,6 +69,7 @@ public class MainService extends Service {
 	private NetworkController _networkController;
 	private OpenWeatherController _openWeatherController;
 	private ReceiverController _receiverController;
+	private ScheduleService _scheduleService;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
 
@@ -75,6 +77,30 @@ public class MainService extends Service {
 		@Override
 		public void run() {
 			startDownloadAll();
+		}
+	};
+
+	private Runnable _downloadForecastWeatherRunnable = new Runnable() {
+		@Override
+		public void run() {
+			if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_WEATHER_NOTIFICATION)) {
+				_context.startService(new Intent(_context, OpenWeatherService.class));
+			}
+		}
+	};
+
+	private Runnable _downloadSocketRunnable = new Runnable() {
+		@Override
+		public void run() {
+			startDownloadSocket();
+		}
+	};
+
+	private Runnable _downloadTemperatureRunnable = new Runnable() {
+		@Override
+		public void run() {
+			startDownloadCurrentWeather();
+			startDownloadTemperature();
 		}
 	};
 
@@ -103,6 +129,14 @@ public class MainService extends Service {
 				case DOWLOAD_SOCKETS:
 					_downloadCount = 1;
 					startDownloadSocket();
+					break;
+				case DOWNLOAD_TEMPERATURE:
+					_downloadCount = 1;
+					startDownloadTemperature();
+					break;
+				case DOWNLOAD_WEATHER_CURRENT:
+					_downloadCount = 1;
+					startDownloadCurrentWeather();
 					break;
 				case GET_ALL:
 					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_GET_ALL,
@@ -309,8 +343,6 @@ public class MainService extends Service {
 				_wirelessSocketList = JsonDataToSocketConverter.GetList(socketStringArray);
 				installNotificationSettings();
 				if (_wirelessSocketList != null) {
-					_serviceController.StartSocketNotificationService(Constants.ID_NOTIFICATION_WEAR,
-							_wirelessSocketList);
 					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_UPDATE_SOCKET,
 							new String[] { Constants.BUNDLE_SOCKET_LIST }, new Object[] { _wirelessSocketList });
 					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_UPDATE_MAP_CONTENT_VIEW,
@@ -319,6 +351,11 @@ public class MainService extends Service {
 									Constants.BUNDLE_TEMPERATURE_LIST },
 							new Object[] { _mapContentList, _wirelessSocketList, _scheduleList, _timerList,
 									_temperatureList });
+					if (_sharedPrefController
+							.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_SOCKET_NOTIFICATION)) {
+						_serviceController.StartSocketNotificationService(Constants.ID_NOTIFICATION_WEAR,
+								_wirelessSocketList);
+					}
 				}
 			}
 			updateDownloadCount();
@@ -378,10 +415,13 @@ public class MainService extends Service {
 			if (temperatureStringArray != null) {
 				_temperatureList = JsonDataToTemperatureConverter.GetList(temperatureStringArray);
 				if (_temperatureList != null && _currentWeather != null) {
-					_serviceController.StartTemperatureNotificationService(Constants.ID_NOTIFICATION_TEMPERATURE,
-							_temperatureList, _currentWeather);
 					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_UPDATE_TEMPERATURE,
 							new String[] { Constants.BUNDLE_TEMPERATURE_LIST }, new Object[] { _temperatureList });
+					if (_sharedPrefController
+							.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_TEMPERATURE_NOTIFICATION)) {
+						_serviceController.StartTemperatureNotificationService(Constants.ID_NOTIFICATION_TEMPERATURE,
+								_temperatureList, _currentWeather);
+					}
 				}
 			}
 			updateDownloadCount();
@@ -395,8 +435,11 @@ public class MainService extends Service {
 			_currentWeather = (WeatherModel) intent
 					.getSerializableExtra(OpenWeatherConstants.BUNDLE_EXTRA_WEATHER_MODEL);
 			if (_temperatureList != null && _currentWeather != null) {
-				_serviceController.StartTemperatureNotificationService(Constants.ID_NOTIFICATION_TEMPERATURE,
-						_temperatureList, _currentWeather);
+				if (_sharedPrefController
+						.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_TEMPERATURE_NOTIFICATION)) {
+					_serviceController.StartTemperatureNotificationService(Constants.ID_NOTIFICATION_TEMPERATURE,
+							_temperatureList, _currentWeather);
+				}
 			}
 			updateDownloadCount();
 		}
@@ -640,10 +683,15 @@ public class MainService extends Service {
 							ContextCompat.getColor(_context, R.color.Background)));
 			_openWeatherController = new OpenWeatherController(_context, Constants.CITY);
 			_receiverController = new ReceiverController(_context);
+			_scheduleService = new ScheduleService();
 			_serviceController = new ServiceController(_context);
 			_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
 
 			registerReceiver();
+
+			_scheduleService.AddSchedule("UpdateForecast", _downloadForecastWeatherRunnable, 1800000);
+			_scheduleService.AddSchedule("UpdateSockets", _downloadSocketRunnable, 900000);
+			_scheduleService.AddSchedule("UpdateTemperature", _downloadTemperatureRunnable, 300000);
 
 			_progress = 0;
 			_downloadCount = Constants.DOWNLOAD_STEPS;
@@ -704,6 +752,7 @@ public class MainService extends Service {
 		if (_logger != null) {
 			_logger.Debug("onDestroy");
 		}
+		_scheduleService.Dispose();
 		unregisterReceiver();
 	}
 

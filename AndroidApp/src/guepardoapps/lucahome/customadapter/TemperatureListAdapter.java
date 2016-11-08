@@ -98,7 +98,7 @@ public class TemperatureListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				_logger.Debug("onClick _reloadTemperature: " + _temperatureList.toString());
-				_temperatureController.ReloadTemperature(_temperatureList.getValue(index), index);
+				_temperatureController.ReloadTemperature(_temperatureList.getValue(index));
 			}
 		});
 		if (_temperatureList.getValue(index).GetTemperatureType() == TemperatureType.SMARTPHONE_SENSOR) {
