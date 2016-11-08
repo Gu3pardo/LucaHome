@@ -6,9 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
@@ -18,6 +19,9 @@ import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.NavigateData;
 import guepardoapps.lucahome.services.MainService;
 import guepardoapps.lucahome.services.NavigationService;
+
+import guepardoapps.toolset.controller.DialogController;
+import guepardoapps.toolset.controller.NetworkController;
 
 public class BootView extends Activity {
 
@@ -31,23 +35,25 @@ public class BootView extends Activity {
 	private TextView _progressTextView;
 
 	private Context _context;
-	private ReceiverController _receiverController;
+
 	private NavigationService _navigationService;
+	private NetworkController _networkController;
+	private ReceiverController _receiverController;
 
 	private BroadcastReceiver _commandReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_commandReceiver");
-			
+
 			Command command = (Command) intent.getSerializableExtra(Constants.BUNDLE_COMMAND);
 			if (command != null) {
 				_logger.Debug("Command: " + command.toString());
-				
+
 				switch (command) {
 				case NAVIGATE:
 					NavigateData navigateData = (NavigateData) intent
 							.getSerializableExtra(Constants.BUNDLE_NAVIGATE_DATA);
-					
+
 					if (navigateData != null) {
 						switch (navigateData) {
 						case MAIN:
@@ -103,8 +109,25 @@ public class BootView extends Activity {
 		_logger.Debug("onCreate");
 
 		_context = this;
-		_receiverController = new ReceiverController(_context);
+
 		_navigationService = new NavigationService(_context);
+		_networkController = new NetworkController(_context,
+				new DialogController(_context, ContextCompat.getColor(_context, R.color.TextIcon),
+						ContextCompat.getColor(_context, R.color.Background)));
+		_receiverController = new ReceiverController(_context);
+
+		if (!_networkController.IsNetworkAvailable()) {
+			_logger.Warn("No network available!");
+			finish();
+			return;
+		}
+
+		if (!_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
+			_logger.Warn("No LucaHome network! ...");
+			Toast.makeText(_context, "No LucaHome network! ...", Toast.LENGTH_LONG).show();
+			finish();
+			return;
+		}
 
 		Intent startMainService = new Intent(_context, MainService.class);
 		Bundle mainServiceBundle = new Bundle();
@@ -118,8 +141,7 @@ public class BootView extends Activity {
 		super.onResume();
 		_logger.Debug("onResume");
 
-		_receiverController.RegisterReceiver(_commandReceiver, 
-				new String[] { Constants.BROADCAST_COMMAND });
+		_receiverController.RegisterReceiver(_commandReceiver, new String[] { Constants.BROADCAST_COMMAND });
 		_receiverController.RegisterReceiver(_updateProgressBarReceiver,
 				new String[] { Constants.BROADCAST_UPDATE_PROGRESSBAR });
 	}

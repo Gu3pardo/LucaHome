@@ -76,6 +76,16 @@ public class MainService extends Service {
 	private Runnable _startDownloadRunnable = new Runnable() {
 		@Override
 		public void run() {
+			if (!_networkController.IsNetworkAvailable()) {
+				_logger.Warn("No network available!");
+				return;
+			}
+
+			if (!_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
+				_logger.Warn("No LucaHome network! ...");
+				return;
+			}
+
 			startDownloadAll();
 		}
 	};
@@ -83,6 +93,16 @@ public class MainService extends Service {
 	private Runnable _downloadForecastWeatherRunnable = new Runnable() {
 		@Override
 		public void run() {
+			if (!_networkController.IsNetworkAvailable()) {
+				_logger.Warn("No network available!");
+				return;
+			}
+
+			if (!_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
+				_logger.Warn("No LucaHome network! ...");
+				return;
+			}
+
 			if (_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_WEATHER_NOTIFICATION)) {
 				_context.startService(new Intent(_context, OpenWeatherService.class));
 			}
@@ -92,6 +112,16 @@ public class MainService extends Service {
 	private Runnable _downloadSocketRunnable = new Runnable() {
 		@Override
 		public void run() {
+			if (!_networkController.IsNetworkAvailable()) {
+				_logger.Warn("No network available!");
+				return;
+			}
+
+			if (!_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
+				_logger.Warn("No LucaHome network! ...");
+				return;
+			}
+
 			startDownloadSocket();
 		}
 	};
@@ -99,6 +129,16 @@ public class MainService extends Service {
 	private Runnable _downloadTemperatureRunnable = new Runnable() {
 		@Override
 		public void run() {
+			if (!_networkController.IsNetworkAvailable()) {
+				_logger.Warn("No network available!");
+				return;
+			}
+
+			if (!_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
+				_logger.Warn("No LucaHome network! ...");
+				return;
+			}
+
 			startDownloadCurrentWeather();
 			startDownloadTemperature();
 		}
@@ -831,32 +871,38 @@ public class MainService extends Service {
 			install();
 		}
 
+		if (!_networkController.IsNetworkAvailable()) {
+			_logger.Warn("No network available!");
+			return;
+		}
+
+		if (!_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
+			_logger.Warn("No LucaHome network! ...");
+			Toast.makeText(_context, "No LucaHome network! ...", Toast.LENGTH_LONG).show();
+			return;
+		}
+
 		if (!_downloadingData) {
-			if (_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
-				if (!_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.USER_DATA_ENTERED)) {
-					_dialogService.ShowUserCredentialsDialog(null, _startDownloadRunnable, false);
-				} else {
-					Calendar now = Calendar.getInstance();
-					if (_lastUpdate != null) {
-						long difference = Calendar.getInstance().getTimeInMillis() - _lastUpdate.getTimeInMillis();
-
-						if (difference < 60000) {
-							_logger.Warn("Just updated the data!");
-
-							_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_COMMAND,
-									new String[] { Constants.BUNDLE_COMMAND, Constants.BUNDLE_NAVIGATE_DATA },
-									new Object[] { Command.NAVIGATE, NavigateData.MAIN });
-
-							return;
-						}
-					}
-					_lastUpdate = now;
-
-					startDownloadAll();
-				}
+			if (!_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.USER_DATA_ENTERED)) {
+				_dialogService.ShowUserCredentialsDialog(null, _startDownloadRunnable, false);
 			} else {
-				_logger.Warn("No LucaHome network! ...");
-				Toast.makeText(_context, "No LucaHome network! ...", Toast.LENGTH_LONG).show();
+				Calendar now = Calendar.getInstance();
+				if (_lastUpdate != null) {
+					long difference = Calendar.getInstance().getTimeInMillis() - _lastUpdate.getTimeInMillis();
+
+					if (difference < 60000) {
+						_logger.Warn("Just updated the data!");
+
+						_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_COMMAND,
+								new String[] { Constants.BUNDLE_COMMAND, Constants.BUNDLE_NAVIGATE_DATA },
+								new Object[] { Command.NAVIGATE, NavigateData.MAIN });
+
+						return;
+					}
+				}
+				_lastUpdate = now;
+
+				startDownloadAll();
 			}
 		}
 	}
@@ -877,6 +923,8 @@ public class MainService extends Service {
 
 	private void startDownloadAll() {
 		_downloadingData = true;
+		_progress = 0;
+		_downloadCount = Constants.DOWNLOAD_STEPS;
 
 		startDownloadBirthday();
 		startDownloadChange();

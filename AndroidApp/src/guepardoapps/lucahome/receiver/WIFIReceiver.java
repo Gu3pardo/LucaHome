@@ -3,6 +3,7 @@ package guepardoapps.lucahome.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 
 import guepardoapps.lucahome.R;
@@ -11,17 +12,19 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
+import guepardoapps.lucahome.services.MainService;
 
 import guepardoapps.toolset.controller.DialogController;
 import guepardoapps.toolset.controller.NetworkController;
-
 import guepardoapps.toolset.openweather.common.OpenWeatherConstants;
+import guepardoapps.toolset.services.AndroidSystemService;
 
 public class WIFIReceiver extends BroadcastReceiver {
 
 	private static String TAG = WIFIReceiver.class.getName();
 	private LucaHomeLogger _logger;
 
+	private AndroidSystemService _androidSystemService;
 	private BroadcastController _broadcastController;
 	private DialogController _dialogController;
 	private NetworkController _networkController;
@@ -34,6 +37,7 @@ public class WIFIReceiver extends BroadcastReceiver {
 		int textColor = ContextCompat.getColor(context, R.color.TextIcon);
 		int backgroundColor = ContextCompat.getColor(context, R.color.Background);
 
+		_androidSystemService = new AndroidSystemService(context);
 		_broadcastController = new BroadcastController(context);
 		_dialogController = new DialogController(context, textColor, backgroundColor);
 		_networkController = new NetworkController(context, _dialogController);
@@ -41,9 +45,17 @@ public class WIFIReceiver extends BroadcastReceiver {
 
 		if (_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
 			_logger.Debug("We are in the homenetwork!");
-			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
-					new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
-					new Object[] { MainServiceAction.DOWNLOAD_ALL });
+			if (_androidSystemService.IsServiceRunning(MainService.class)) {
+				_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+						new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
+						new Object[] { MainServiceAction.DOWNLOAD_ALL });
+			} else {
+				Intent startMainService = new Intent(context, MainService.class);
+				Bundle mainServiceBundle = new Bundle();
+				mainServiceBundle.putSerializable(Constants.BUNDLE_MAIN_SERVICE_ACTION, MainServiceAction.BOOT);
+				startMainService.putExtras(mainServiceBundle);
+				context.startService(startMainService);
+			}
 		} else {
 			_logger.Warn("We are NOT in the homenetwork!");
 			_serviceController.CloseNotification(Constants.ID_NOTIFICATION_TEMPERATURE);

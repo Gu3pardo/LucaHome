@@ -8,17 +8,23 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 
+import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
+
+import guepardoapps.toolset.controller.DialogController;
+import guepardoapps.toolset.controller.NetworkController;
 
 public class RESTService extends Service {
 
@@ -29,9 +35,35 @@ public class RESTService extends Service {
 	private String[] _actions;
 	private RaspberrySelection _raspberrySelection;
 
+	private Context _context;
+	private NetworkController _networkController;
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startid) {
-		_logger = new LucaHomeLogger(TAG);
+		if (_logger == null) {
+			_logger = new LucaHomeLogger(TAG);
+		}
+
+		if (_context == null) {
+			_context = this;
+		}
+		if (_networkController == null) {
+			if (_context != null) {
+				_networkController = new NetworkController(_context,
+						new DialogController(_context, ContextCompat.getColor(_context, R.color.TextIcon),
+								ContextCompat.getColor(_context, R.color.Background)));
+			}
+		}
+
+		if (!_networkController.IsNetworkAvailable()) {
+			_logger.Warn("No network available!");
+			return 0;
+		}
+
+		if (!_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
+			_logger.Warn("No LucaHome network! ...");
+			return 0;
+		}
 
 		Bundle data = intent.getExtras();
 		_action = data.getString(Constants.BUNDLE_ACTION);
@@ -115,6 +147,8 @@ public class RESTService extends Service {
 		protected String doInBackground(String... actions) {
 			String response = "";
 			int answerIndex = 0;
+			boolean downloadSuccess = false;
+
 			for (String action : actions) {
 				try {
 					response = "";
@@ -130,22 +164,30 @@ public class RESTService extends Service {
 						response += line;
 					}
 
+					downloadSuccess = true;
 					_answer[answerIndex] = response;
 					_logger.Debug(response);
 
 				} catch (IOException e) {
+					downloadSuccess = false;
 					_logger.Error(e.getMessage());
 				} finally {
 					answerIndex++;
 				}
 			}
 
-			return "FINISHED";
+			return String.valueOf(downloadSuccess);
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			_logger.Debug(result);
+			_logger.Debug("downloadSuccess: " + result);
+
+			if (result.contains(String.valueOf(false))) {
+				_logger.Error("Failed to download!");
+				stopSelf();
+				return;
+			}
 
 			// Hack for deactivating all sockets
 			if (_name.contains("SHOW_NOTIFICATION_SOCKET")) {
