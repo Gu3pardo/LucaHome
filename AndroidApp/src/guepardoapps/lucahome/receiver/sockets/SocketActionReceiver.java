@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
@@ -16,13 +16,13 @@ import guepardoapps.lucahome.service.sockets.SocketActionService;
 public class SocketActionReceiver extends BroadcastReceiver {
 
 	private String TAG = SocketActionReceiver.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private ServiceController _serviceController;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("Received new socket change!");
 
 		Bundle details = intent.getExtras();

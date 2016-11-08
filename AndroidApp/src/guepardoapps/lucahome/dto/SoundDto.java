@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 
 public class SoundDto implements Serializable {
@@ -12,7 +12,7 @@ public class SoundDto implements Serializable {
 	private static final long serialVersionUID = 8261461743775735447L;
 	
 	private static final String TAG = SoundDto.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private String _fileName;
 	private boolean _isPlaying;
@@ -22,7 +22,7 @@ public class SoundDto implements Serializable {
 
 	public SoundDto(String fileName, boolean isPlaying, int volume, RaspberrySelection raspberrySelection,
 			ArrayList<String> fileNames) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_fileName = fileName;
 		_isPlaying = isPlaying;

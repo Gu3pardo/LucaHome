@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.BirthdayDto;
 import guepardoapps.lucahome.services.DialogService;
@@ -23,7 +23,7 @@ import guepardoapps.particles.ParticleSystem;
 public class BirthdayListAdapter extends BaseAdapter {
 
 	private static String TAG = BirthdayListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<BirthdayDto> _birthdayList;
 
@@ -35,7 +35,7 @@ public class BirthdayListAdapter extends BaseAdapter {
 	private static LayoutInflater _inflater = null;
 
 	public BirthdayListAdapter(Context context, SerializableList<BirthdayDto> birthdayList) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_birthdayList = birthdayList;
 		for (int index = 0; index < _birthdayList.getSize(); index++) {
@@ -83,8 +83,8 @@ public class BirthdayListAdapter extends BaseAdapter {
 			holder._image.setImageResource(R.drawable.birthday_hd);
 
 			rowView.setBackgroundColor(Constants.BIRTHDAY_BACKGROUND_COLOR);
-			new ParticleSystem((Activity) _context, 150, R.drawable.particle, 1250).setSpeedRange(0.2f, 0.5f)
-					.oneShot(rowView, 150);
+			new ParticleSystem((Activity) _context, 150, R.drawable.particle, 1250, (float) 1.5, 255)
+					.setSpeedRange(0.2f, 0.5f).oneShot(rowView, 150);
 		}
 
 		holder._age = (TextView) rowView.findViewById(R.id.birthday_item_age);

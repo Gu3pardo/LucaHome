@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.LucaObject;
-import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.dto.TemperatureDto;
 import guepardoapps.lucahome.dto.UserDto;
@@ -17,26 +17,25 @@ import guepardoapps.lucahome.dto.WirelessSocketDto;
 import guepardoapps.lucahome.services.*;
 
 import guepardoapps.toolset.controller.NetworkController;
-import guepardoapps.toolset.openweather.ForecastModel;
-import guepardoapps.toolset.openweather.WeatherModel;
+
+import guepardoapps.toolset.openweather.model.ForecastModel;
+import guepardoapps.toolset.openweather.model.WeatherModel;
 
 public class ServiceController {
 
 	private static String TAG = ServiceController.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Context _context;
 
-	private BroadcastController _broadcastController;
 	private NetworkController _networkController;
 	private UserService _userService;
 
 	public ServiceController(Context context) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_context = context;
 
-		_broadcastController = new BroadcastController(_context);
 		_networkController = new NetworkController(_context, null);
 		_userService = new UserService(_context);
 	}
@@ -161,12 +160,6 @@ public class ServiceController {
 		NotificationManager notificationManager = (NotificationManager) _context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.cancel(notificationId);
-	}
-
-	public void StartSocketDownload() {
-		_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_RELOAD_SOCKETS,
-				new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
-				new Object[] { MainServiceAction.DOWLOAD_SOCKETS });
 	}
 
 	public void StopSound() {

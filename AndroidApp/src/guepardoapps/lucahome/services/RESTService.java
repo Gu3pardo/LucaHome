@@ -14,15 +14,16 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
-import guepardoapps.lucahome.common.controller.ServiceController;
+import guepardoapps.lucahome.common.LucaHomeLogger;
+import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.enums.LucaObject;
+import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 
 public class RESTService extends Service {
 
 	private static String TAG = RESTService.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private String _action;
 	private String[] _actions;
@@ -30,7 +31,7 @@ public class RESTService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startid) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		Bundle data = intent.getExtras();
 		_action = data.getString(Constants.BUNDLE_ACTION);
@@ -93,7 +94,7 @@ public class RESTService extends Service {
 	private class SendActionTask extends AsyncTask<String, Void, String> {
 		private static final String TAG = "RESTService";
 
-		private Logger _logger;
+		private LucaHomeLogger _logger;
 
 		private String _name;
 		private String _broadcast;
@@ -102,7 +103,7 @@ public class RESTService extends Service {
 		private String[] _answer;
 
 		public void setValues(String name, String broadcast, LucaObject lucaObject, int answerSize) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 
 			_name = name;
 			_broadcast = broadcast;
@@ -148,8 +149,10 @@ public class RESTService extends Service {
 
 			// Hack for deactivating all sockets
 			if (_name.contains("SHOW_NOTIFICATION_SOCKET")) {
-				ServiceController serviceController = new ServiceController(RESTService.this);
-				serviceController.StartSocketDownload();
+				BroadcastController broadcastController = new BroadcastController(RESTService.this);
+				broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+						new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
+						new Object[] { MainServiceAction.DOWLOAD_SOCKETS });
 			}
 			// End hack
 			else {

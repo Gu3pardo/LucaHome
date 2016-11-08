@@ -1,6 +1,6 @@
 package guepardoapps.lucahome.common.converter.json;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.Tools;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.MovieDto;
@@ -8,7 +8,7 @@ import guepardoapps.lucahome.dto.MovieDto;
 public final class JsonDataToMovieConverter {
 
 	private static String TAG = JsonDataToMovieConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{movie:";
 
@@ -35,7 +35,7 @@ public final class JsonDataToMovieConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -62,7 +62,7 @@ public final class JsonDataToMovieConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -93,7 +93,7 @@ public final class JsonDataToMovieConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error("Data has an error!");
 

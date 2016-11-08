@@ -8,21 +8,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
-import guepardoapps.toolset.openweather.ForecastWeatherModel;
+
+import guepardoapps.toolset.openweather.model.ForecastWeatherModel;
 
 public class ForecastListAdapter extends BaseAdapter {
 
 	private static String TAG = ForecastListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<ForecastWeatherModel> _forecastList;
 	private static LayoutInflater _inflater = null;
 
 	public ForecastListAdapter(Context context, SerializableList<ForecastWeatherModel> forecastList) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_forecastList = forecastList;
 		for (int index = 0; index < _forecastList.getSize(); index++) {

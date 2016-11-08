@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.controller.ReceiverController;
@@ -35,7 +35,7 @@ import guepardoapps.lucahome.viewcontroller.MapContentController;
 public class FlatMapView extends Activity {
 
 	private static final String TAG = FlatMapView.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Button _buttonAddRaspberry;
 	private Button _buttonAddArduino;
@@ -183,7 +183,7 @@ public class FlatMapView extends Activity {
 		setContentView(R.layout.view_flat_map);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Constants.ACTION_BAR_COLOR));
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("onCreate");
 
 		_context = this;
@@ -377,11 +377,11 @@ public class FlatMapView extends Activity {
 						_logger.Warn("Reactivate delete!");
 						Toast.makeText(_context, "Reactivate delete!", Toast.LENGTH_SHORT).show();
 
-						_dialogService.closeDialogCallback.run();
+						_dialogService.CloseDialogCallback.run();
 					}
 				};
 				_dialogService.ShowDialogDouble("Delete this drawing?", "", "Yes", deleteRunnable, "No",
-						_dialogService.closeDialogCallback, true);
+						_dialogService.CloseDialogCallback, true);
 			}
 
 			private void showInformation(SerializableList<WirelessSocketDto> wirelessSocketList,

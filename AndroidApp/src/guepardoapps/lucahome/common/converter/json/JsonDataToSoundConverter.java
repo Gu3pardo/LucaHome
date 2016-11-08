@@ -2,14 +2,14 @@ package guepardoapps.lucahome.common.converter.json;
 
 import java.util.ArrayList;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.Tools;
 import guepardoapps.lucahome.common.classes.Sound;
 
 public final class JsonDataToSoundConverter {
 
 	private static String TAG = JsonDataToSoundConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{soundfile:";
 
@@ -30,7 +30,7 @@ public final class JsonDataToSoundConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error("GetList " + value + " has an error!");
 
@@ -47,7 +47,7 @@ public final class JsonDataToSoundConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error("Get: " + value + " has an error!");
 

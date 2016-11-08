@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.*;
@@ -52,14 +52,14 @@ import guepardoapps.lucahome.viewcontroller.ScheduleController;
 import guepardoapps.lucahome.viewcontroller.SocketController;
 import guepardoapps.lucahome.viewcontroller.SoundController;
 import guepardoapps.lucahome.viewcontroller.TimerController;
-import guepardoapps.toolset.controller.DialogController;
-import guepardoapps.toolset.controller.MailController;
-import guepardoapps.toolset.controller.SharedPrefController;
+
+import guepardoapps.toolset.controller.*;
+import guepardoapps.toolset.services.*;
 
 public class DialogService extends DialogController {
 
 	private static String TAG = DialogService.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private LucaObject _lucaObject;
 	private BirthdayDto _birthday;
@@ -85,7 +85,7 @@ public class DialogService extends DialogController {
 	private boolean _timerPlaySound = false;
 	private RaspberrySelection _timerPlayRaspberry;
 
-	private MailController _mailController;
+	private MailService _mailService;
 	private ScheduleController _scheduleController;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
@@ -102,7 +102,7 @@ public class DialogService extends DialogController {
 			if (_userService.GetValidationResult()) {
 				_sharedPrefController.SaveBooleanValue(Constants.USER_DATA_ENTERED, true);
 
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				if (_storedRunnable != null) {
 					_storedRunnable.run();
 					_storedRunnable = null;
@@ -119,7 +119,7 @@ public class DialogService extends DialogController {
 	private Runnable _sendMail = new Runnable() {
 		@Override
 		public void run() {
-			_mailController.SendMail("guepardoapps@gmail.com");
+			_mailService.SendMail("guepardoapps@gmail.com");
 		}
 	};
 
@@ -193,7 +193,7 @@ public class DialogService extends DialogController {
 
 			if (_lucaObject == null) {
 				_logger.Error("_lucaObject is null!");
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 				return;
 			}
@@ -201,27 +201,27 @@ public class DialogService extends DialogController {
 			switch (_lucaObject) {
 			case BIRTHDAY:
 				ShowDialogDouble("Delete Birthday", "Do you really want to delete the birthday?", "Yes",
-						_deleteRunnable, "Cancel", closeDialogCallback, false);
+						_deleteRunnable, "Cancel", CloseDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			case MOVIE:
 				ShowDialogDouble("Delete Movie", "Do you really want to delete the movie?", "Yes", _deleteRunnable,
-						"Cancel", closeDialogCallback, false);
+						"Cancel", CloseDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			case WIRELESS_SOCKET:
 				ShowDialogDouble("Delete Socket", "Do you really want to delete the socket?", "Yes", _deleteRunnable,
-						"Cancel", closeDialogCallback, false);
+						"Cancel", CloseDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			case SCHEDULE:
 				ShowDialogDouble("Delete Schedule", "Do you really want to delete the schedule?", "Yes",
-						_deleteRunnable, "Cancel", closeDialogCallback, false);
+						_deleteRunnable, "Cancel", CloseDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			case TIMER:
 				ShowDialogDouble("Delete Timer", "Do you really want to delete the timer?", "Yes", _deleteRunnable,
-						"Cancel", closeDialogCallback, false);
+						"Cancel", CloseDialogCallback, false);
 				_isDialogOpen = true;
 				break;
 			default:
@@ -236,7 +236,7 @@ public class DialogService extends DialogController {
 		public void run() {
 			if (_lucaObject == null) {
 				_logger.Error("_lucaObject is null");
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 				return;
 			}
@@ -287,7 +287,7 @@ public class DialogService extends DialogController {
 				break;
 			}
 
-			closeDialogCallback.run();
+			CloseDialogCallback.run();
 			resetValues();
 		}
 	};
@@ -295,7 +295,7 @@ public class DialogService extends DialogController {
 	public DialogService(Context context) {
 		super(context, ContextCompat.getColor(context, R.color.TextIcon),
 				ContextCompat.getColor(context, R.color.Background));
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_context = context;
 
@@ -305,7 +305,7 @@ public class DialogService extends DialogController {
 		_socketListInitialized = false;
 		_schedulePlaySound = false;
 
-		_mailController = new MailController(_context);
+		_mailService = new MailService(_context);
 		_scheduleController = new ScheduleController(_context);
 		_serviceController = new ServiceController(_context);
 		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
@@ -360,7 +360,7 @@ public class DialogService extends DialogController {
 		btnOk.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 			}
 		});
@@ -429,7 +429,7 @@ public class DialogService extends DialogController {
 		btnClose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 			}
 		});
@@ -438,7 +438,7 @@ public class DialogService extends DialogController {
 		btnUpdate.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 
 				// ShowUserCredentialsDialog(user, updateUserRunnable, true);
@@ -504,7 +504,7 @@ public class DialogService extends DialogController {
 							newBirthday.GetCommandUpdate());
 				}
 
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 			}
 		});
 
@@ -558,7 +558,7 @@ public class DialogService extends DialogController {
 					sendBroadCast(Constants.BROADCAST_UPDATE_MOVIE, LucaObject.MOVIE, newMovie.GetCommandUpdate());
 				}
 
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 			}
 		});
@@ -621,7 +621,7 @@ public class DialogService extends DialogController {
 							newSocket.GetCommandUpdate());
 				}
 
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 			}
 		});
@@ -842,7 +842,7 @@ public class DialogService extends DialogController {
 							newSchedule.GetCommandUpdate());
 				}
 
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 			}
 		});
@@ -1009,7 +1009,7 @@ public class DialogService extends DialogController {
 					sendBroadCast(Constants.BROADCAST_UPDATE_SCHEDULE, LucaObject.TIMER, newTimer.GetCommandUpdate());
 				}
 
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 				resetValues();
 			}
 		});
@@ -1025,7 +1025,7 @@ public class DialogService extends DialogController {
 		_lucaObject = LucaObject.BIRTHDAY;
 		_birthday = value;
 		ShowDialogTriple("Birthday", _birthday.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", closeDialogCallback, false);
+				"Cancel", CloseDialogCallback, false);
 		_isDialogOpen = true;
 	}
 
@@ -1033,14 +1033,14 @@ public class DialogService extends DialogController {
 		_lucaObject = LucaObject.MOVIE;
 		_movie = value;
 		ShowDialogTriple("Movie", _movie.GetTitle(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", closeDialogCallback, false);
+				"Cancel", CloseDialogCallback, false);
 	}
 
 	public void ShowUpdateSocketDialog(WirelessSocketDto value) {
 		_lucaObject = LucaObject.WIRELESS_SOCKET;
 		_socket = value;
 		ShowDialogTriple("Socket", _socket.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", closeDialogCallback, false);
+				"Cancel", CloseDialogCallback, false);
 	}
 
 	public void ShowUpdateScheduleDialog(ScheduleDto value) {
@@ -1052,7 +1052,7 @@ public class DialogService extends DialogController {
 		_lucaObject = LucaObject.SCHEDULE;
 		_schedule = value;
 		ShowDialogTriple("Schedule", _schedule.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", closeDialogCallback, false);
+				"Cancel", CloseDialogCallback, false);
 	}
 
 	public void ShowUpdateTimerDialog(TimerDto value) {
@@ -1064,7 +1064,7 @@ public class DialogService extends DialogController {
 		_lucaObject = LucaObject.TIMER;
 		_timer = value;
 		ShowDialogTriple("Timer", _timer.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
-				"Cancel", closeDialogCallback, false);
+				"Cancel", CloseDialogCallback, false);
 	}
 
 	public void ShowMapSocketDialog(final WirelessSocketDto socket, final SerializableList<ScheduleDto> scheduleList,
@@ -1121,7 +1121,7 @@ public class DialogService extends DialogController {
 				}
 				if (selectedSchedule != null) {
 					_logger.Debug(selectedSchedule.toString());
-					closeDialogCallback.run();
+					CloseDialogCallback.run();
 					ShowMapScheduleDialog(selectedSchedule);
 				} else {
 					_logger.Warn("No schedule found for: " + stringSchedule);
@@ -1163,7 +1163,7 @@ public class DialogService extends DialogController {
 				}
 				if (selectedTimer != null) {
 					_logger.Debug(selectedTimer.toString());
-					closeDialogCallback.run();
+					CloseDialogCallback.run();
 					ShowMapTimerDialog(selectedTimer);
 				} else {
 					_logger.Warn("No timer found for: " + stringTimer);
@@ -1179,7 +1179,7 @@ public class DialogService extends DialogController {
 		btnClose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 			}
 		});
 
@@ -1224,7 +1224,7 @@ public class DialogService extends DialogController {
 			@Override
 			public void onClick(View v) {
 				_scheduleController.SetSchedule(selectedSchedule, !selectedSchedule.GetIsActive());
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 			}
 		});
 
@@ -1233,7 +1233,7 @@ public class DialogService extends DialogController {
 			@Override
 			public void onClick(View v) {
 				_scheduleController.DeleteSchedule(selectedSchedule);
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 			}
 		});
 
@@ -1241,7 +1241,7 @@ public class DialogService extends DialogController {
 		buttonClose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 			}
 		});
 
@@ -1285,7 +1285,7 @@ public class DialogService extends DialogController {
 			@Override
 			public void onClick(View v) {
 				_timerController.Delete(selectedTimer);
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 			}
 		});
 
@@ -1293,7 +1293,7 @@ public class DialogService extends DialogController {
 		buttonClose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				closeDialogCallback.run();
+				CloseDialogCallback.run();
 			}
 		});
 
@@ -1325,7 +1325,7 @@ public class DialogService extends DialogController {
 	private void checkOpenDialog() {
 		if (_isDialogOpen) {
 			_logger.Warn("Closing other Dialog...");
-			closeDialogCallback.run();
+			CloseDialogCallback.run();
 		}
 	}
 

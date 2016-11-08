@@ -1,12 +1,12 @@
 package guepardoapps.lucahome.common.converter;
 
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 
 public final class BooleanToScheduleStateConverter {
 
 	private static String TAG = BooleanToScheduleStateConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	public static boolean GetBooleanState(String state) {
 		if (state == Constants.ACTIVE) {
@@ -14,7 +14,7 @@ public final class BooleanToScheduleStateConverter {
 		} else if (state == Constants.INACTIVE) {
 			return false;
 		} else {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 			_logger.Error(state + " is not supported!");
 
 			return false;

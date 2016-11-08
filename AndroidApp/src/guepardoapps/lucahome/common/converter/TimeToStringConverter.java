@@ -1,13 +1,13 @@
 package guepardoapps.lucahome.common.converter;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 
-import guepardoapps.toolset.classes.TimeString;
+import guepardoapps.toolset.common.classes.TimeString;
 
 public final class TimeToStringConverter {
 
 	private static String TAG = TimeToStringConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	public static TimeString GetTimeOfString(String timeString) {
 		if (timeString.contains(":")) {
@@ -17,7 +17,7 @@ public final class TimeToStringConverter {
 			}
 		}
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Error("timeString has an error: " + timeString);
 
 		return null;
@@ -28,7 +28,7 @@ public final class TimeToStringConverter {
 			return timeString.toString();
 		}
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Error("timeString is null!");
 
 		return "Error converting time to string!";

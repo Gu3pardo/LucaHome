@@ -8,21 +8,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.ChangeDto;
 
 public class ChangeListAdapter extends BaseAdapter {
 
 	private static String TAG = ChangeListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<ChangeDto> _changeList;
 	private Context _context;
 	private static LayoutInflater _inflater = null;
 
 	public ChangeListAdapter(Context context, SerializableList<ChangeDto> changeList) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_changeList = changeList;
 		for (int index = 0; index < _changeList.getSize(); index++) {

@@ -2,7 +2,7 @@ package guepardoapps.lucahome.common.converter.json;
 
 import java.sql.Time;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.Tools;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
@@ -13,7 +13,7 @@ import guepardoapps.lucahome.dto.WirelessSocketDto;;
 public final class JsonDataToScheduleConverter {
 
 	private static String TAG = JsonDataToScheduleConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{schedule:";
 
@@ -41,7 +41,7 @@ public final class JsonDataToScheduleConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -69,7 +69,7 @@ public final class JsonDataToScheduleConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -131,7 +131,7 @@ public final class JsonDataToScheduleConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error("Data has an error!");
 

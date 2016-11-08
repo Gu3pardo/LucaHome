@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.ScheduleDto;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
@@ -21,7 +21,7 @@ import guepardoapps.lucahome.viewcontroller.ScheduleController;
 public class ScheduleListAdapter extends BaseAdapter {
 
 	private static String TAG = ScheduleListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<ScheduleDto> _scheduleList;
 
@@ -34,7 +34,7 @@ public class ScheduleListAdapter extends BaseAdapter {
 
 	public ScheduleListAdapter(Context context, SerializableList<ScheduleDto> scheduleList,
 			SerializableList<WirelessSocketDto> socketList) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_scheduleList = scheduleList;
 		for (int index = 0; index < _scheduleList.getSize(); index++) {

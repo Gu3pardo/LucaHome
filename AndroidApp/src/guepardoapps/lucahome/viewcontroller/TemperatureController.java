@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.controller.*;
 import guepardoapps.lucahome.common.converter.json.JsonDataToTemperatureConverter;
@@ -17,14 +17,14 @@ import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.common.enums.TemperatureType;
 import guepardoapps.lucahome.dto.TemperatureDto;
 
-import guepardoapps.toolset.openweather.OpenWeatherConstants;
 import guepardoapps.toolset.openweather.OpenWeatherController;
-import guepardoapps.toolset.openweather.WeatherModel;
+import guepardoapps.toolset.openweather.common.OpenWeatherConstants;
+import guepardoapps.toolset.openweather.model.WeatherModel;
 
 public class TemperatureController {
 
 	private static String TAG = TemperatureController.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private TemperatureType _temperatureType;
 	private int _id;
@@ -70,7 +70,7 @@ public class TemperatureController {
 	public TemperatureController(Context context) {
 		_context = context;
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_receiverController = new ReceiverController(_context);
 		_serviceController = new ServiceController(_context);
 
@@ -95,7 +95,7 @@ public class TemperatureController {
 			break;
 		case CITY:
 			_receiverController.RegisterReceiver(_downloadReceiver,
-					new String[] { OpenWeatherConstants.GET_CURRENT_WEATHER_JSON_FINISHED });
+					new String[] { OpenWeatherConstants.BROADCAST_GET_CURRENT_WEATHER_JSON_FINISHED });
 			_openWeatherController.loadCurrentWeather();
 			break;
 		default:

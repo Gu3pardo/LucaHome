@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.controller.ReceiverController;
@@ -26,7 +26,7 @@ import guepardoapps.toolset.controller.SharedPrefController;
 public class SettingsView extends Activity {
 
 	private static final String TAG = SettingsView.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<WirelessSocketDto> _socketList;
 	private boolean _isInitialized;
@@ -63,7 +63,7 @@ public class SettingsView extends Activity {
 
 		_socketLayout = (LinearLayout) findViewById(R.id.notificationSocketLayout);
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("onCreate");
 
 		_context = this;

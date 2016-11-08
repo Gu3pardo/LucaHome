@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.dto.InformationDto;
 import guepardoapps.lucahome.services.DialogService;
 
 public class InformationListAdapter extends BaseAdapter {
 
 	private static String TAG = InformationListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private InformationDto _information;
 	private Context _context;
@@ -24,7 +24,7 @@ public class InformationListAdapter extends BaseAdapter {
 	private static LayoutInflater _inflater = null;
 
 	public InformationListAdapter(Context context, InformationDto information) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_information = information;
 		_logger.Debug(_information.toString());

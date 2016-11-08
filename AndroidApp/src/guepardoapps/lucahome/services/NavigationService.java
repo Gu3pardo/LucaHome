@@ -4,17 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 
 public class NavigationService {
 
 	private static final String TAG = NavigationService.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Context _context;
 
 	public NavigationService(Context context) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_context = context;
 	}
 

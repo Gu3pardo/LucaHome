@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.controller.*;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
@@ -27,7 +27,7 @@ import guepardoapps.lucahome.services.DialogService;
 public class ScheduleView extends Activity {
 
 	private static String TAG = ScheduleView.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private boolean _isInitialized;
 	private SerializableList<WirelessSocketDto> _socketList;
@@ -79,7 +79,7 @@ public class ScheduleView extends Activity {
 		setContentView(R.layout.view_skeleton_list);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Constants.ACTION_BAR_COLOR));
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("onCreate");
 
 		_context = this;

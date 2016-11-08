@@ -7,19 +7,20 @@ import android.support.v4.content.ContextCompat;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 
 import guepardoapps.toolset.controller.DialogController;
 import guepardoapps.toolset.controller.NetworkController;
-import guepardoapps.toolset.openweather.OpenWeatherConstants;
+
+import guepardoapps.toolset.openweather.common.OpenWeatherConstants;
 
 public class WIFIReceiver extends BroadcastReceiver {
 
 	private static String TAG = WIFIReceiver.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private BroadcastController _broadcastController;
 	private DialogController _dialogController;
@@ -28,7 +29,7 @@ public class WIFIReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		int textColor = ContextCompat.getColor(context, R.color.TextIcon);
 		int backgroundColor = ContextCompat.getColor(context, R.color.Background);

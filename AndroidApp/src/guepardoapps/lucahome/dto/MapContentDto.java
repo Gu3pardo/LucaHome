@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.DrawingType;
 
 public class MapContentDto implements Serializable {
@@ -13,7 +13,7 @@ public class MapContentDto implements Serializable {
 
 	private static final String TAG = MapContentDto.class.getName();
 	@SuppressWarnings("unused")
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private int _id;
 	private int[] _position;
@@ -25,7 +25,7 @@ public class MapContentDto implements Serializable {
 
 	public MapContentDto(int id, int[] position, DrawingType drawingType, ArrayList<String> schedules,
 			ArrayList<String> sockets, String temperatureArea) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_id = id;
 		_position = position;

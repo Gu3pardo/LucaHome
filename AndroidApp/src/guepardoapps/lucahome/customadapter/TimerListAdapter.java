@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.TimerDto;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
@@ -22,7 +22,7 @@ import guepardoapps.lucahome.viewcontroller.TimerController;
 public class TimerListAdapter extends BaseAdapter {
 
 	private static String TAG = TimerListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<TimerDto> _timerList;
 
@@ -35,7 +35,7 @@ public class TimerListAdapter extends BaseAdapter {
 
 	public TimerListAdapter(Context context, SerializableList<TimerDto> timerList,
 			SerializableList<WirelessSocketDto> socketList) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_timerList = timerList;
 		for (int index = 0; index < _timerList.getSize(); index++) {

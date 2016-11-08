@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.Sound;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.viewcontroller.SoundController;
@@ -20,7 +20,7 @@ import guepardoapps.lucahome.viewcontroller.SoundController;
 public class SoundListAdapter extends BaseAdapter {
 
 	private static final String TAG = SoundListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private ArrayList<Sound> _soundList;
 	private RaspberrySelection _raspberrySelection;
@@ -31,7 +31,7 @@ public class SoundListAdapter extends BaseAdapter {
 	private static LayoutInflater _inflater = null;
 
 	public SoundListAdapter(Context context, ArrayList<Sound> soundList, RaspberrySelection raspberrySelection) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_soundList = soundList;
 

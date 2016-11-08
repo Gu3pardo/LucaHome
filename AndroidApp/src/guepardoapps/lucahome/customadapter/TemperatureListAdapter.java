@@ -1,7 +1,7 @@
 package guepardoapps.lucahome.customadapter;
 
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.TemperatureType;
 import guepardoapps.lucahome.dto.TemperatureDto;
@@ -20,7 +20,7 @@ import android.widget.TextView;
 public class TemperatureListAdapter extends BaseAdapter {
 
 	private static String TAG = TemperatureListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<TemperatureDto> _temperatureList;
 
@@ -32,7 +32,7 @@ public class TemperatureListAdapter extends BaseAdapter {
 	private static LayoutInflater _inflater = null;
 
 	public TemperatureListAdapter(Context context, SerializableList<TemperatureDto> temperatureList) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_temperatureList = temperatureList;
 		for (int index = 0; index < _temperatureList.getSize(); index++) {

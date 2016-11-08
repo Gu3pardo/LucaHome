@@ -13,7 +13,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
 import guepardoapps.lucahome.services.DialogService;
@@ -22,7 +22,7 @@ import guepardoapps.lucahome.viewcontroller.SocketController;
 public class SocketListAdapter extends BaseAdapter {
 
 	private static String TAG = SocketListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<WirelessSocketDto> _socketList;
 
@@ -34,7 +34,7 @@ public class SocketListAdapter extends BaseAdapter {
 	private static LayoutInflater _inflater = null;
 
 	public SocketListAdapter(Context context, SerializableList<WirelessSocketDto> socketList) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_socketList = socketList;
 		for (int index = 0; index < _socketList.getSize(); index++) {

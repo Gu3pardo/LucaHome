@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
+import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
+import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
 import guepardoapps.lucahome.viewcontroller.SocketController;
@@ -17,10 +19,11 @@ import guepardoapps.lucahome.viewcontroller.SocketController;
 public class SocketActionService extends Service {
 
 	private static String TAG = SocketActionService.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Context _context;
 
+	private BroadcastController _broadcastController;
 	private ReceiverController _receiverController;
 	private ServiceController _serviceController;
 	private SocketController _socketController;
@@ -28,19 +31,22 @@ public class SocketActionService extends Service {
 	private BroadcastReceiver _notificationReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("Received Notification Action!");
-			_serviceController.StartSocketDownload();
+			_logger.Debug("_notificationReceiver onReceive");
+			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+					new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
+					new Object[] { MainServiceAction.DOWLOAD_SOCKETS });
 			stopSelf();
 		}
 	};
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startid) {
-		_context = this;
-
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("Received new socket change!");
 
+		_context = this;
+
+		_broadcastController = new BroadcastController(_context);
 		_receiverController = new ReceiverController(_context);
 		_serviceController = new ServiceController(_context);
 		_socketController = new SocketController(_context);
@@ -58,12 +64,26 @@ public class SocketActionService extends Service {
 
 	@Override
 	public IBinder onBind(Intent arg0) {
+		if (_logger != null) {
+			_logger.Debug("onBind");
+		}
 		return null;
+	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		if (_logger != null) {
+			_logger.Debug("onCreate");
+		}
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		if (_logger != null) {
+			_logger.Debug("onDestroy");
+		}
 		_receiverController.UnregisterReceiver(_notificationReceiver);
 	}
 }

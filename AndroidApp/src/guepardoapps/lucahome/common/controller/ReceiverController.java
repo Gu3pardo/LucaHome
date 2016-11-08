@@ -7,18 +7,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 
 public class ReceiverController {
 
 	private static String TAG = ReceiverController.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Context _context;
 	private List<BroadcastReceiver> _registeredReceiver;
 
 	public ReceiverController(Context context) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_context = context;
 		_registeredReceiver = new ArrayList<BroadcastReceiver>();
 	}

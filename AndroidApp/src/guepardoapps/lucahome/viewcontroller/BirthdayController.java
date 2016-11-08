@@ -2,18 +2,18 @@ package guepardoapps.lucahome.viewcontroller;
 
 import java.util.Calendar;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.dto.BirthdayDto;
 
 public class BirthdayController {
 
 	private static String TAG = "BirthdayController";
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Calendar _calendar;
 
 	public BirthdayController() {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_calendar = Calendar.getInstance();
 		_logger.Debug("_calendar: " + _calendar.toString());
 	}

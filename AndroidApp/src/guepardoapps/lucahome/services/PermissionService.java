@@ -4,18 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.Permissions;
 
 public class PermissionService {
 
 	private static String TAG = PermissionService.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Context _context;
 
 	public PermissionService(Context context) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_context = context;
 	}
 

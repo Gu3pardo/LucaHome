@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.Sound;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
@@ -15,14 +15,14 @@ import guepardoapps.toolset.controller.SharedPrefController;
 public class SoundController {
 	
 	private static final String TAG = SoundController.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Context _context;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
 
 	public SoundController(Context context) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_context = context;
 		_serviceController = new ServiceController(_context);
 		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);

@@ -19,13 +19,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.ServerAction;
 
 public class SmartMirrorView extends Activity {
 
 	private static final String TAG = SmartMirrorView.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Context _context;
 
@@ -51,7 +51,7 @@ public class SmartMirrorView extends Activity {
 		setContentView(R.layout.view_smartmirror);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Constants.ACTION_BAR_COLOR));
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("onCreate");
 
 		_context = this;
@@ -166,13 +166,13 @@ public class SmartMirrorView extends Activity {
 	private class ClientThread implements Runnable {
 
 		private final String TAG = ClientThread.class.getName();
-		private Logger _logger;
+		private LucaHomeLogger _logger;
 
 		private int _serverPort;
 		private String _serverIP;
 
 		public ClientThread(int serverPort, String serverIP) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 
 			_serverPort = serverPort;
 			_serverIP = serverIP;

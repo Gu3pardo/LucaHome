@@ -15,9 +15,10 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.TemperatureType;
@@ -28,13 +29,14 @@ import guepardoapps.lucahome.receiver.sockets.SocketActionReceiver;
 import guepardoapps.lucahome.receiver.sound.StopSoundReceiver;
 import guepardoapps.lucahome.view.BirthdayView;
 import guepardoapps.lucahome.viewcontroller.SocketController;
+
 import guepardoapps.toolset.controller.SharedPrefController;
-import guepardoapps.toolset.openweather.WeatherModel;
+import guepardoapps.toolset.openweather.model.WeatherModel;
 
 public class NotificationService extends Service {
 
 	private static final String TAG = NotificationService.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SharedPrefController _sharedPrefController;
 	private SocketController _socketController;
@@ -42,7 +44,7 @@ public class NotificationService extends Service {
 	@SuppressWarnings("unchecked")
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startid) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_sharedPrefController = new SharedPrefController(this, Constants.SHARED_PREF_NAME);
 		_socketController = new SocketController(this);

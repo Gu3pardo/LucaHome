@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
@@ -25,12 +25,12 @@ import guepardoapps.lucahome.services.DialogService;
 import guepardoapps.lucahome.services.NavigationService;
 import guepardoapps.lucahome.services.UserService;
 
-import guepardoapps.toolset.openweather.WeatherModel;
+import guepardoapps.toolset.openweather.model.WeatherModel;
 
 public class MainView extends Activity {
 
 	private static final String TAG = MainView.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private TextView _temperatureErlangen;
 
@@ -70,7 +70,7 @@ public class MainView extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("onCreate");
 
 		checkDisplaySpecs();

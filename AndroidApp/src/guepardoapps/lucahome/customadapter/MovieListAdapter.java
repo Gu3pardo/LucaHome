@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.MovieDto;
 import guepardoapps.lucahome.services.DialogService;
@@ -20,7 +20,7 @@ import guepardoapps.lucahome.viewcontroller.MovieController;
 public class MovieListAdapter extends BaseAdapter {
 
 	private static String TAG = MovieListAdapter.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private SerializableList<MovieDto> _movieList;
 
@@ -32,7 +32,7 @@ public class MovieListAdapter extends BaseAdapter {
 	private static LayoutInflater _inflater = null;
 
 	public MovieListAdapter(Context context, SerializableList<MovieDto> movieList) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_movieList = movieList;
 		for (int index = 0; index < _movieList.getSize(); index++) {

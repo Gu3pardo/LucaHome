@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
@@ -19,13 +19,13 @@ import guepardoapps.lucahome.dto.WirelessSocketDto;
 public class MapContentController {
 
 	private static String TAG = MapContentController.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private Context _context;
 	private ServiceController _serviceController;
 
 	public MapContentController(Context context) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_context = context;
 		_serviceController = new ServiceController(_context);
 	}

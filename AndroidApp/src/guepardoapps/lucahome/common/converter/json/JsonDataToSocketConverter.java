@@ -1,6 +1,6 @@
 package guepardoapps.lucahome.common.converter.json;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.Tools;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
@@ -8,7 +8,7 @@ import guepardoapps.lucahome.dto.WirelessSocketDto;
 public final class JsonDataToSocketConverter {
 
 	private static String TAG = JsonDataToSocketConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{socket:";
 
@@ -35,7 +35,7 @@ public final class JsonDataToSocketConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -63,7 +63,7 @@ public final class JsonDataToSocketConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -88,7 +88,7 @@ public final class JsonDataToSocketConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error("Data has an error!");
 

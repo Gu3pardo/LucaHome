@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.*;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.dto.UserDto;
@@ -14,7 +14,7 @@ import guepardoapps.toolset.controller.SharedPrefController;
 public class UserService {
 
 	private static String TAG = UserService.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private boolean _userValidated;
 	private Runnable _storedCallback = null;
@@ -57,7 +57,7 @@ public class UserService {
 	};
 
 	public UserService(Context context) {
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 
 		_userValidated = true;
 

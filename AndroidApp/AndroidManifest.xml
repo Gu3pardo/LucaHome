@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="guepardoapps.lucahome"
-    android:versionCode="130161108"
-    android:versionName="1.3.0.161108" >
+    android:versionCode="133161108"
+    android:versionName="1.3.3.161108" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -74,13 +74,6 @@
         <receiver
             android:name="guepardoapps.lucahome.receiver.sockets.SocketActionReceiver"
             android:exported="false" >
-        </receiver>
-        <receiver
-            android:name="guepardoapps.lucahome.receiver.sockets.SocketReloadReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="guepardoapps.lucahome.broadcast.reload.wirelesssockets" />
-            </intent-filter>
         </receiver>
         <receiver
             android:name="guepardoapps.lucahome.receiver.sound.StopSoundReceiver"

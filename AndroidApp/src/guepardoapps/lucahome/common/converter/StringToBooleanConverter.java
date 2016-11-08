@@ -1,11 +1,11 @@
 package guepardoapps.lucahome.common.converter;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 
 public final class StringToBooleanConverter {
 
 	private static String TAG = StringToBooleanConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	public static boolean GetBoolean(String string) {
 		if (string == "true" || string == "1") {
@@ -13,7 +13,7 @@ public final class StringToBooleanConverter {
 		} else if (string == "false" || string == "0") {
 			return false;
 		} else {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 			_logger.Error(string + " is not supported!");
 
 			return false;

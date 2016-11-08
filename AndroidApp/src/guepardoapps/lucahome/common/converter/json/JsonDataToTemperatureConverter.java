@@ -3,7 +3,7 @@ package guepardoapps.lucahome.common.converter.json;
 import java.sql.Time;
 import java.util.Calendar;
 
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.TemperatureType;
 import guepardoapps.lucahome.dto.TemperatureDto;
@@ -11,7 +11,7 @@ import guepardoapps.lucahome.dto.TemperatureDto;
 public final class JsonDataToTemperatureConverter {
 
 	private static String TAG = JsonDataToTemperatureConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{temperature:";
 
@@ -48,7 +48,7 @@ public final class JsonDataToTemperatureConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -82,7 +82,7 @@ public final class JsonDataToTemperatureConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error("Data has an error!");
 

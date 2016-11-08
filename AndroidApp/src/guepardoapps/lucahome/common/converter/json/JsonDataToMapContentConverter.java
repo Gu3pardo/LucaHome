@@ -3,7 +3,7 @@ package guepardoapps.lucahome.common.converter.json;
 import java.util.ArrayList;
 
 import android.graphics.Point;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.Tools;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.enums.DrawingType;
@@ -12,7 +12,7 @@ import guepardoapps.lucahome.dto.MapContentDto;
 public final class JsonDataToMapContentConverter {
 
 	private static String TAG = JsonDataToMapContentConverter.class.getName();
-	private static Logger _logger;
+	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{mapcontent";
 	private static Point _size;
@@ -43,7 +43,7 @@ public final class JsonDataToMapContentConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -73,7 +73,7 @@ public final class JsonDataToMapContentConverter {
 		}
 
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 		_logger.Error(value + " has an error!");
 
@@ -82,7 +82,7 @@ public final class JsonDataToMapContentConverter {
 
 	private static MapContentDto ParseStringToValue(String[] data) {
 		if (_logger == null) {
-			_logger = new Logger(TAG);
+			_logger = new LucaHomeLogger(TAG);
 		}
 
 		if (data.length == 6) {

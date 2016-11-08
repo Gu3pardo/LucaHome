@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.enums.Command;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
@@ -22,7 +22,7 @@ import guepardoapps.lucahome.services.NavigationService;
 public class BootView extends Activity {
 
 	private static final String TAG = BootView.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private int _progressBarMax = 100;
 	private int _progressBarSteps = Constants.DOWNLOAD_STEPS;
@@ -99,7 +99,7 @@ public class BootView extends Activity {
 		_progressTextView = (TextView) findViewById(R.id.percentProgressTextView);
 		_progressTextView.setText("0 %");
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("onCreate");
 
 		_context = this;

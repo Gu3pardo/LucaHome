@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.Logger;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.classes.Sound;
 import guepardoapps.lucahome.common.controller.ReceiverController;
@@ -39,7 +39,7 @@ import guepardoapps.toolset.controller.SharedPrefController;
 public class SoundView extends Activity {
 
 	private static final String TAG = SoundView.class.getName();
-	private Logger _logger;
+	private LucaHomeLogger _logger;
 
 	private ArrayList<ArrayList<Sound>> _soundLists = new ArrayList<ArrayList<Sound>>(2);
 	private ArrayList<Sound> _activeSoundList;
@@ -362,7 +362,7 @@ public class SoundView extends Activity {
 						"Cannot change raspberry! Raspberry 1 has not file " + _soundPlaying.GetFileName(),
 						Toast.LENGTH_LONG).show();
 			}
-			_dialogService.closeDialogCallback.run();
+			_dialogService.CloseDialogCallback.run();
 		}
 	};
 
@@ -376,7 +376,7 @@ public class SoundView extends Activity {
 						"Cannot change raspberry! Raspberry 2 has not file " + _soundPlaying.GetFileName(),
 						Toast.LENGTH_LONG).show();
 			}
-			_dialogService.closeDialogCallback.run();
+			_dialogService.CloseDialogCallback.run();
 		}
 	};
 
@@ -385,7 +385,7 @@ public class SoundView extends Activity {
 		super.onCreate(savedInstanceState);
 		_context = this;
 
-		_logger = new Logger(TAG);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("onCreate");
 
 		_dialogService = new DialogService(_context);
