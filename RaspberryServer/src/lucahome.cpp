@@ -104,9 +104,6 @@ string executeCmd(string cmd) {
 	string category = data[2];
 	string action = data[3];
 
-	//TODO reenable Logger
-	//_logger.addLog("DEBUG", data, username);
-
 	if (username == "") {
 		return "Error 13:No username";
 	}
@@ -122,6 +119,8 @@ string executeCmd(string cmd) {
 	if (data[4] == "") {
 		return "Error 25:No action parameter";
 	}
+
+	_logger.addLog("DEBUG", data, username);
 
 	//---------------Authentificate user--------------
 	if (!_authentificationService.authentificateUser(username, password)) {
@@ -413,7 +412,7 @@ void *scheduler(void *arg) {
 										== _remoteService.getRaspberry()) {
 									stringstream sound_out;
 									sound_out
-											<< "Scheduler:435435:SOUND:PLAY:ALARM:";
+											<< "Scheduler:435435:SOUND:PLAY:ALARM";
 
 									stringstream socket_out;
 									socket_out
@@ -450,11 +449,11 @@ void *scheduler(void *arg) {
 											== _remoteService.getRaspberry()) {
 										stringstream sound_out;
 										sound_out
-												<< "Scheduler:435435:SOUND:STOP:ALARM:";
+												<< "Scheduler:435435:SOUND:STOP:ALARM";
 
 										stringstream socket_out;
 										socket_out
-												<< "Scheduler:435435:REMOTE:SET:SOCKET:SOUND:1";
+												<< "Scheduler:435435:REMOTE:SET:SOCKET:SOUND:0";
 
 										pthread_mutex_lock(&socketsMutex);
 

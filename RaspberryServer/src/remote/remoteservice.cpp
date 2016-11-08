@@ -755,13 +755,15 @@ bool RemoteService::setSoundSocket(int state, ChangeService changeService,
 
 	for (int index = 0; index < _sockets.size(); index++) {
 		if (_sockets[index].getArea() == _area) {
-			success = _sockets[index].setState(state, _datagpio);
-			foundSocket = true;
+			if (_sockets[index].getName().find("Sound") != std::string::npos) {
+				success = _sockets[index].setState(state, _datagpio);
+				foundSocket = true;
 
-			saveSettings(changeService, username);
-			loadSettings();
+				saveSettings(changeService, username);
+				loadSettings();
 
-			break;
+				break;
+			}
 		}
 	}
 
