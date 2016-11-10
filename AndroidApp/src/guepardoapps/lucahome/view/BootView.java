@@ -10,10 +10,10 @@ import android.support.v4.content.ContextCompat;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
-import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.enums.Command;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.NavigateData;
@@ -22,6 +22,7 @@ import guepardoapps.lucahome.services.NavigationService;
 
 import guepardoapps.toolset.controller.DialogController;
 import guepardoapps.toolset.controller.NetworkController;
+import guepardoapps.toolset.controller.ReceiverController;
 
 public class BootView extends Activity {
 

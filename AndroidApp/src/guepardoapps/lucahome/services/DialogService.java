@@ -28,6 +28,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -42,6 +43,7 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.*;
+import guepardoapps.lucahome.customadapter.YoutubeVideoListAdapter;
 import guepardoapps.lucahome.dto.BirthdayDto;
 import guepardoapps.lucahome.dto.MovieDto;
 import guepardoapps.lucahome.dto.ScheduleDto;
@@ -52,13 +54,14 @@ import guepardoapps.lucahome.viewcontroller.ScheduleController;
 import guepardoapps.lucahome.viewcontroller.SocketController;
 import guepardoapps.lucahome.viewcontroller.SoundController;
 import guepardoapps.lucahome.viewcontroller.TimerController;
-
+import guepardoapps.mediamirror.common.dto.YoutubeVideoDto;
+import guepardoapps.toolset.common.enums.Weekday;
 import guepardoapps.toolset.controller.*;
 import guepardoapps.toolset.services.*;
 
 public class DialogService extends DialogController {
 
-	private static String TAG = DialogService.class.getName();
+	private static final String TAG = DialogService.class.getName();
 	private LucaHomeLogger _logger;
 
 	private LucaObject _lucaObject;
@@ -263,8 +266,7 @@ public class DialogService extends DialogController {
 					_logger.Error("_socket is null!");
 					return;
 				}
-				_serviceController.StartRestService(_socket.GetName(), _socket.GetCommandDelete(),
-						Constants.BROADCAST_RELOAD_SOCKETS, _lucaObject, RaspberrySelection.BOTH);
+				_socketController.DeleteSocket(_socket);
 				break;
 			case SCHEDULE:
 				if (_schedule == null) {
@@ -803,7 +805,7 @@ public class DialogService extends DialogController {
 				}
 
 				Weekday weekday = Weekday.GetByEnglishString(_scheduleWeekdayString);
-				if (weekday == Weekday.DUMMY || weekday == null) {
+				if (weekday == Weekday.NULL || weekday == null) {
 					Toast.makeText(_context, "Please select a valid weekday!", Toast.LENGTH_LONG).show();
 					return;
 				}
@@ -1065,6 +1067,22 @@ public class DialogService extends DialogController {
 		_timer = value;
 		ShowDialogTriple("Timer", _timer.GetName(), "Update", _updateRunnable, "Delete", _deletePromptRunnable,
 				"Cancel", CloseDialogCallback, false);
+	}
+
+	public void ShowSelectYoutubeIdDialog(ArrayList<YoutubeVideoDto> youtubeVideoList) {
+		checkOpenDialog();
+
+		createDialog("ShowSelectYoutubeIdDialog", R.layout.dialog_skeleton_list);
+
+		TextView title = (TextView) _dialog.findViewById(R.id.dialog_list_title);
+		title.setText("Select a video");
+
+		YoutubeVideoListAdapter listAdapter = new YoutubeVideoListAdapter(_context, youtubeVideoList);
+		ListView listView = (ListView) _dialog.findViewById(R.id.dialog_list_view);
+		listView.setAdapter(listAdapter);
+		listView.setVisibility(View.VISIBLE);
+
+		showDialog(true);
 	}
 
 	public void ShowMapSocketDialog(final WirelessSocketDto socket, final SerializableList<ScheduleDto> scheduleList,

@@ -10,7 +10,7 @@ public class MovieDto implements Serializable {
 	private static final long serialVersionUID = -7601101130730680392L;
 
 	@SuppressWarnings("unused")
-	private static String TAG = "Movie";
+	private static final String TAG = MovieDto.class.getName();
 
 	private String _title;
 	private String _genre;

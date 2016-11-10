@@ -17,7 +17,7 @@ public class NotificationDetails implements Serializable {
 	private static final long serialVersionUID = 5583702640190370633L;
 
 	@SuppressWarnings("unused")
-	private static String TAG = "NotificationDetails";
+	private static final String TAG = NotificationDetails.class.getName();
 
 	private int _iconActive;
 	private int _iconDeactive;
@@ -33,6 +33,7 @@ public class NotificationDetails implements Serializable {
 	private int _broadcastCodeDeactive;
 
 	private Context _context;
+
 	public NotificationDetails(int iconActive, int iconDeactive, String textActive, String textDeactive,
 			WirelessSocketDto socket, boolean iconIsVisible, int broadcastActiveCode, int broadcastDeactiveCode,
 			Context context) {

@@ -4,7 +4,6 @@ import android.content.Context;
 
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
-import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
@@ -12,11 +11,12 @@ import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.dto.MovieDto;
 import guepardoapps.lucahome.services.PackageService;
 
+import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.SharedPrefController;
 
 public class MovieController {
 
-	private static String TAG = MovieController.class.getName();
+	private static final String TAG = MovieController.class.getName();
 	private LucaHomeLogger _logger;
 
 	private Context _context;
@@ -54,7 +54,7 @@ public class MovieController {
 			}
 		}
 
-		_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+		_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 				new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 				new Object[] { MainServiceAction.DOWLOAD_SOCKETS });
 	}

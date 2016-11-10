@@ -14,7 +14,7 @@ import guepardoapps.lucahome.dto.ChangeDto;
 
 public class ChangeListAdapter extends BaseAdapter {
 
-	private static String TAG = ChangeListAdapter.class.getName();
+	private static final String TAG = ChangeListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private SerializableList<ChangeDto> _changeList;

@@ -30,11 +30,14 @@ import guepardoapps.lucahome.common.enums.TemperatureType;
 import guepardoapps.lucahome.customadapter.*;
 import guepardoapps.lucahome.dto.*;
 
+import guepardoapps.toolset.controller.BroadcastController;
+import guepardoapps.toolset.controller.ReceiverController;
+
 import guepardoapps.toolset.openweather.model.WeatherModel;
 
 public class TemperatureView extends Activity implements SensorEventListener {
 
-	private static String TAG = TemperatureView.class.getName();
+	private static final String TAG = TemperatureView.class.getName();
 	private LucaHomeLogger _logger;
 
 	private boolean _isInitialized;
@@ -61,7 +64,7 @@ public class TemperatureView extends Activity implements SensorEventListener {
 
 	private Runnable _getDataRunnable = new Runnable() {
 		public void run() {
-			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+			_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 					new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 					new Object[] { MainServiceAction.GET_TEMPERATURE });
 		}

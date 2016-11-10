@@ -6,7 +6,7 @@ import guepardoapps.lucahome.dto.InformationDto;
 
 public final class JsonDataToInformationConverter {
 
-	private static String TAG = JsonDataToInformationConverter.class.getName();
+	private static final String TAG = JsonDataToInformationConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{information:";

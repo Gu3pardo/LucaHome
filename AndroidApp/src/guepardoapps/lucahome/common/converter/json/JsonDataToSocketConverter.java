@@ -7,7 +7,7 @@ import guepardoapps.lucahome.dto.WirelessSocketDto;
 
 public final class JsonDataToSocketConverter {
 
-	private static String TAG = JsonDataToSocketConverter.class.getName();
+	private static final String TAG = JsonDataToSocketConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{socket:";

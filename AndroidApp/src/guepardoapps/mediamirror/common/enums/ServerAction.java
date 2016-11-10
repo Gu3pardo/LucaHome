@@ -1,4 +1,4 @@
-package guepardoapps.lucahome.common.enums;
+package guepardoapps.mediamirror.common.enums;
 
 import java.io.Serializable;
 
@@ -8,8 +8,10 @@ public enum ServerAction implements Serializable {
 	SHOW_YOUTUBE_VIDEO(1, "Show_YouTube_Video"), 
 	PLAY_YOUTUBE_VIDEO(2, "Play_YouTube_Video"), 
 	STOP_YOUTUBE_VIDEO(3, "Stop_YouTube_Video"), 
-	SHOW_WEBVIEW(1, "Show_Webview"), 
-	SHOW_INFORMATION_TEXT(1, "Show_Information_Text");
+	SHOW_WEBVIEW(4, "Show_Webview"), 
+	SHOW_CENTER_TEXT(5, "Show_Center_Text"),
+	SET_RSS_FEED(6, "Set_Rss_Feed"), 
+	RESET_RSS_FEED(7, "Reset_Rss_Feed");
 
 	private int _id;
 	private String _action;

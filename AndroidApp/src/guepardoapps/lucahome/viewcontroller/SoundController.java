@@ -13,7 +13,7 @@ import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.toolset.controller.SharedPrefController;
 
 public class SoundController {
-	
+
 	private static final String TAG = SoundController.class.getName();
 	private LucaHomeLogger _logger;
 
@@ -29,58 +29,41 @@ public class SoundController {
 	}
 
 	public void CheckPlaying(RaspberrySelection raspberrySelection) {
+		_logger.Debug("CheckPlaying: " + raspberrySelection.toString());
 		_serviceController.StartRestService(TAG, Constants.ACTION_IS_SOUND_PLAYING,
 				Constants.BROADCAST_IS_SOUND_PLAYING, LucaObject.SOUND, raspberrySelection);
 	}
 
-	public void StartSound() {
-		// TODO IMPLEMENT
-		_logger.Warn("IMPLEMENT StartSound");
-	}
-
 	public void StartSound(String soundFile, RaspberrySelection raspberrySelection) {
+		_logger.Debug("StartSound: " + soundFile + " at " + raspberrySelection.toString());
 		sendBroadCast(Constants.BROADCAST_ACTIVATE_SOUND_SOCKET, raspberrySelection);
 		_serviceController.StartRestService(TAG, Constants.ACTION_PLAY_SOUND + soundFile,
 				Constants.BROADCAST_START_SOUND, LucaObject.SOUND, raspberrySelection);
 	}
 
-	public void StopSound() {
-		// TODO IMPLEMENT
-		_logger.Warn("IMPLEMENT StopSound");
-	}
-
 	public void StopSound(RaspberrySelection raspberrySelection) {
+		_logger.Debug("StopSound: " + raspberrySelection.toString());
 		sendBroadCast(Constants.BROADCAST_DEACTIVATE_SOUND_SOCKET, raspberrySelection);
 		_serviceController.StartRestService(TAG, Constants.ACTION_STOP_SOUND, Constants.BROADCAST_STOP_SOUND,
 				LucaObject.SOUND, raspberrySelection);
 	}
 
-	public void IncreaseVolume() {
-		// TODO IMPLEMENT
-		_logger.Warn("IMPLEMENT IncreaseVolume");
-	}
-
 	public void IncreaseVolume(RaspberrySelection raspberrySelection) {
+		_logger.Debug("IncreaseVolume: " + raspberrySelection.toString());
 		_serviceController.StartRestService(TAG, Constants.ACTION_INCREASE_VOLUME, Constants.BROADCAST_GET_VOLUME,
 				LucaObject.SOUND, raspberrySelection);
 	}
 
-	public void DecreaseVolume() {
-		// TODO IMPLEMENT
-		_logger.Warn("IMPLEMENT DecreaseVolume");
-	}
-
 	public void DecreaseVolume(RaspberrySelection raspberrySelection) {
+		_logger.Debug("DecreaseVolume: " + raspberrySelection.toString());
 		_serviceController.StartRestService(TAG, Constants.ACTION_DECREASE_VOLUME, Constants.BROADCAST_GET_VOLUME,
 				LucaObject.SOUND, raspberrySelection);
 	}
 
-	public void ShowRaspberrySelectionDialog() {
-		// TODO IMPLEMENT
-		_logger.Warn("IMPLEMENT ShowRaspberrySelectionDialog");
-	}
-
 	public void SelectRaspberry(RaspberrySelection previousSelection, RaspberrySelection newSelection, Sound sound) {
+		_logger.Debug("SelectRaspberry: previousSelection: " + previousSelection.toString() + " to newSelection: "
+				+ newSelection.toString());
+
 		if (previousSelection == newSelection) {
 			_logger.Warn("RaspberrySelection has to be different!");
 			return;

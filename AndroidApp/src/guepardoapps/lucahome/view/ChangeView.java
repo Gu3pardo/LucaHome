@@ -16,14 +16,16 @@ import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
-import guepardoapps.lucahome.common.controller.*;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.customadapter.*;
 import guepardoapps.lucahome.dto.*;
 
+import guepardoapps.toolset.controller.BroadcastController;
+import guepardoapps.toolset.controller.ReceiverController;
+
 public class ChangeView extends Activity {
 
-	private static String TAG = ChangeView.class.getName();
+	private static final String TAG = ChangeView.class.getName();
 	private LucaHomeLogger _logger;
 
 	private boolean _isInitialized;
@@ -41,7 +43,7 @@ public class ChangeView extends Activity {
 
 	private Runnable _getDataRunnable = new Runnable() {
 		public void run() {
-			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+			_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 					new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 					new Object[] { MainServiceAction.GET_CHANGES });
 		}

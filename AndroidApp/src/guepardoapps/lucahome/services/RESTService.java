@@ -18,17 +18,17 @@ import android.support.v4.content.ContextCompat;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
-import guepardoapps.lucahome.common.controller.BroadcastController;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 
+import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.DialogController;
 import guepardoapps.toolset.controller.NetworkController;
 
 public class RESTService extends Service {
 
-	private static String TAG = RESTService.class.getName();
+	private static final String TAG = RESTService.class.getName();
 	private LucaHomeLogger _logger;
 
 	private String _action;
@@ -192,7 +192,7 @@ public class RESTService extends Service {
 			// Hack for deactivating all sockets
 			if (_name.contains("SHOW_NOTIFICATION_SOCKET")) {
 				BroadcastController broadcastController = new BroadcastController(RESTService.this);
-				broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+				broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 						new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 						new Object[] { MainServiceAction.DOWLOAD_SOCKETS });
 			}

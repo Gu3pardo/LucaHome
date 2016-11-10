@@ -12,15 +12,17 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
-import guepardoapps.lucahome.common.controller.BroadcastController;
-import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
+
+import guepardoapps.toolset.controller.BroadcastController;
+import guepardoapps.toolset.controller.ReceiverController;
 import guepardoapps.toolset.controller.SharedPrefController;
 
 public class SettingsView extends Activity {
@@ -81,17 +83,17 @@ public class SettingsView extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		if (_logger != null) {
 			_logger.Debug("onResume");
 		}
-		
+
 		if (!_isInitialized) {
 			if (_receiverController != null) {
 				_isInitialized = true;
 				_receiverController.RegisterReceiver(_updateSocketListCheckBoxViewReceiver,
 						new String[] { Constants.BROADCAST_UPDATE_SOCKET });
-				_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 						new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 						new Object[] { MainServiceAction.GET_SOCKETS });
 			}
@@ -101,7 +103,7 @@ public class SettingsView extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		
+
 		if (_logger != null) {
 			_logger.Debug("onPause");
 		}
@@ -110,11 +112,11 @@ public class SettingsView extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		
+
 		if (_logger != null) {
 			_logger.Debug("onDestroy");
 		}
-		
+
 		_receiverController.UnregisterReceiver(_updateSocketListCheckBoxViewReceiver);
 	}
 
@@ -128,10 +130,10 @@ public class SettingsView extends Activity {
 				_sharedPrefController.SaveBooleanValue(Constants.DISPLAY_SOCKET_NOTIFICATION, isChecked);
 				if (isChecked) {
 					_socketLayout.setVisibility(View.VISIBLE);
-					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 							new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 							new Object[] { MainServiceAction.GET_SOCKETS });
-					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 							new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 							new Object[] { MainServiceAction.SHOW_NOTIFICATION_SOCKET });
 				} else {
@@ -149,7 +151,7 @@ public class SettingsView extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				_sharedPrefController.SaveBooleanValue(Constants.DISPLAY_WEATHER_NOTIFICATION, isChecked);
 				if (isChecked) {
-					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 							new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 							new Object[] { MainServiceAction.SHOW_NOTIFICATION_WEATHER });
 				} else {
@@ -166,7 +168,7 @@ public class SettingsView extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				_sharedPrefController.SaveBooleanValue(Constants.DISPLAY_TEMPERATURE_NOTIFICATION, isChecked);
 				if (isChecked) {
-					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 							new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 							new Object[] { MainServiceAction.SHOW_NOTIFICATION_TEMPERATURE });
 				} else {
@@ -221,7 +223,7 @@ public class SettingsView extends Activity {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					_sharedPrefController.SaveBooleanValue(key, isChecked);
-					_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 							new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 							new Object[] { MainServiceAction.SHOW_NOTIFICATION_SOCKET });
 				}

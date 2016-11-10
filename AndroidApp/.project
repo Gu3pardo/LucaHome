@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>AndroidApp</name>
+	<name>LucaHome</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -16,22 +16,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -43,79 +28,6 @@
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.andmore.AndroidNature</nature>
-		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>assets/assets</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>assets/documentation</name>
-			<type>2</type>
-			<locationURI>virtual:/virtual</locationURI>
-		</link>
-		<link>
-			<name>assets/assets/birthdays</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/assets/birthdays</locationURI>
-		</link>
-		<link>
-			<name>assets/assets/changes</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/assets/changes</locationURI>
-		</link>
-		<link>
-			<name>assets/assets/infos</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/assets/infos</locationURI>
-		</link>
-		<link>
-			<name>assets/assets/movies</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/assets/movies</locationURI>
-		</link>
-		<link>
-			<name>assets/assets/settings</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/assets/settings</locationURI>
-		</link>
-		<link>
-			<name>assets/assets/users</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/assets/users</locationURI>
-		</link>
-		<link>
-			<name>assets/documentation/AnswerList</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/documentation/AnswerList</locationURI>
-		</link>
-		<link>
-			<name>assets/documentation/CategoryList</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/documentation/CategoryList</locationURI>
-		</link>
-		<link>
-			<name>assets/documentation/CommandList</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/documentation/CommandList</locationURI>
-		</link>
-		<link>
-			<name>assets/documentation/CommandStructure</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/documentation/CommandStructure</locationURI>
-		</link>
-		<link>
-			<name>assets/documentation/ErrorList</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/documentation/ErrorList</locationURI>
-		</link>
-		<link>
-			<name>assets/documentation/TODO</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/cpp-neon/workspace/LucaHome-RaspberryServer/documentation/TODO</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

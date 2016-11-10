@@ -1,18 +1,18 @@
 package guepardoapps.lucahome.dto;
 
 import java.sql.Time;
-import java.util.Timer;
 
 import guepardoapps.lucahome.common.converter.BooleanToScheduleStateConverter;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
-import guepardoapps.lucahome.common.enums.Weekday;
+
+import guepardoapps.toolset.common.enums.Weekday;
 
 public class TimerDto extends ScheduleDto {
 
 	private static final long serialVersionUID = 146819296314931972L;
 
 	@SuppressWarnings("unused")
-	private static final String TAG = Timer.class.getName();
+	private static final String TAG = TimerDto.class.getName();
 
 	public TimerDto(String name, WirelessSocketDto socket, Weekday weekday, Time time, boolean action, boolean playSound,
 			RaspberrySelection playRaspberry, boolean isActive) {

@@ -6,7 +6,7 @@ import guepardoapps.toolset.common.classes.TimeString;
 
 public final class TimeToStringConverter {
 
-	private static String TAG = TimeToStringConverter.class.getName();
+	private static final String TAG = TimeToStringConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	public static TimeString GetTimeOfString(String timeString) {

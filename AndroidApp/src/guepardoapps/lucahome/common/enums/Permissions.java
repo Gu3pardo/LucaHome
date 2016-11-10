@@ -6,9 +6,9 @@ import android.Manifest;
 
 public enum Permissions implements Serializable {
 
+	NULL("", -1),
 	READ_EXTERNAL_STORAGE(Manifest.permission.READ_EXTERNAL_STORAGE, 1000), 
-	WRITE_EXTERNAL_STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1001), 
-	NULL("", -1);
+	WRITE_EXTERNAL_STORAGE(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1001);
 
 	private String _permissionString;
 	private int _requestId;

@@ -8,10 +8,10 @@ import guepardoapps.lucahome.common.Constants;
 
 public class BirthdayDto implements Serializable {
 
-	private static final long serialVersionUID = -7512285853029358631L;
+	private static final long serialVersionUID = -5998688684442075214L;
 
 	@SuppressWarnings("unused")
-	private static String TAG = "Birthday";
+	private static final String TAG = BirthdayDto.class.getName();
 
 	private String _name;
 	private Calendar _birthday;
@@ -58,6 +58,10 @@ public class BirthdayDto implements Serializable {
 
 	public int GetNotificationId() {
 		return _notificationId;
+	}
+
+	public String GetNotificationBody(int age) {
+		return "It is " + _name + "'s " + String.valueOf(age) + "th birthday!";
 	}
 
 	public boolean GetNotifyMe() {

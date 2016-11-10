@@ -8,7 +8,7 @@ import guepardoapps.lucahome.common.classes.Sound;
 
 public final class JsonDataToSoundConverter {
 
-	private static String TAG = JsonDataToSoundConverter.class.getName();
+	private static final String TAG = JsonDataToSoundConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{soundfile:";

@@ -23,7 +23,6 @@ import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.classes.Sound;
-import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.converter.json.JsonDataToSocketConverter;
 import guepardoapps.lucahome.common.converter.json.JsonDataToSoundConverter;
@@ -34,6 +33,7 @@ import guepardoapps.lucahome.dto.WirelessSocketDto;
 import guepardoapps.lucahome.services.DialogService;
 import guepardoapps.lucahome.viewcontroller.SoundController;
 
+import guepardoapps.toolset.controller.ReceiverController;
 import guepardoapps.toolset.controller.SharedPrefController;
 
 public class SoundView extends Activity {

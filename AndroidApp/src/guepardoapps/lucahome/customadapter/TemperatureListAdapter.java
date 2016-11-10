@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 public class TemperatureListAdapter extends BaseAdapter {
 
-	private static String TAG = TemperatureListAdapter.class.getName();
+	private static final String TAG = TemperatureListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private SerializableList<TemperatureDto> _temperatureList;

@@ -11,7 +11,7 @@ public class WirelessSocketDto implements Serializable {
 	private static final long serialVersionUID = 5579389712706446580L;
 
 	@SuppressWarnings("unused")
-	private static String TAG = "WirelessSocket";
+	private static final String TAG = WirelessSocketDto.class.getName();
 
 	private String _name;
 	private String _area;

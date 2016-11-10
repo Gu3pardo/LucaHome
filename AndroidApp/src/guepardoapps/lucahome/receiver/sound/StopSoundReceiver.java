@@ -18,7 +18,9 @@ public class StopSoundReceiver extends BroadcastReceiver {
 		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("Received stop sounds!");
 
-		_serviceController = new ServiceController(context);
+		if (_serviceController == null) {
+			_serviceController = new ServiceController(context);
+		}
 		_serviceController.StopSound();
 	}
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.*;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
@@ -13,12 +14,16 @@ import guepardoapps.toolset.controller.SharedPrefController;
 
 public class SocketController {
 
+	private static final String TAG = SocketController.class.getName();
+	private LucaHomeLogger _logger;
+
 	private Context _context;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
 	private PackageService _packageService;
 
 	public SocketController(Context context) {
+		_logger = new LucaHomeLogger(TAG);
 		_context = context;
 		_serviceController = new ServiceController(_context);
 		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
@@ -26,16 +31,26 @@ public class SocketController {
 	}
 
 	public void SetSocket(WirelessSocketDto socket, boolean newState) {
+		_logger.Debug("SetSocket: " + socket.GetName() + " to " + String.valueOf(newState));
 		_serviceController.StartRestService(socket.GetName(), socket.GetCommandSet(newState),
 				Constants.BROADCAST_RELOAD_SOCKETS, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 	}
 
 	public void LoadSockets() {
+		_logger.Debug("SetSocket");
 		_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, Constants.ACTION_GET_SOCKETS,
 				Constants.BROADCAST_DOWNLOAD_SOCKET_FINISHED, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 	}
 
+	public void DeleteSocket(WirelessSocketDto socket) {
+		_logger.Debug("DeleteSocket: " + socket.GetName());
+		_serviceController.StartRestService(socket.GetName(), socket.GetCommandDelete(),
+				Constants.BROADCAST_RELOAD_SOCKETS, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
+	}
+
 	public boolean ValidateSocketCode(String code) {
+		_logger.Debug("ValidateSocketCode: " + code);
+
 		if (code.length() != 6) {
 			return false;
 		}
@@ -57,6 +72,8 @@ public class SocketController {
 	}
 
 	public int GetDrawable(WirelessSocketDto socket) {
+		_logger.Debug("GetDrawable: " + socket.GetName());
+
 		if (socket.GetName().contains("TV")) {
 			if (socket.GetIsActivated()) {
 				return R.drawable.tv_on;
@@ -122,6 +139,8 @@ public class SocketController {
 	}
 
 	public void CheckMedia(WirelessSocketDto socket) {
+		_logger.Debug("GetDrawable: " + socket.GetName());
+
 		if (socket.GetName().contains("Sound")) {
 			if (socket.GetIsActivated()) {
 				return;

@@ -17,8 +17,6 @@ import android.widget.Toast;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
-import guepardoapps.lucahome.common.controller.BroadcastController;
-import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.dto.UserDto;
 import guepardoapps.lucahome.services.DialogService;
@@ -26,6 +24,9 @@ import guepardoapps.lucahome.services.NavigationService;
 import guepardoapps.lucahome.services.UserService;
 
 import guepardoapps.toolset.openweather.model.WeatherModel;
+
+import guepardoapps.toolset.controller.BroadcastController;
+import guepardoapps.toolset.controller.ReceiverController;
 
 public class MainView extends Activity {
 
@@ -99,7 +100,7 @@ public class MainView extends Activity {
 				_isInitialized = true;
 				_receiverController.RegisterReceiver(_updateWeatherViewReceiver,
 						new String[] { Constants.BROADCAST_UPDATE_WEATHER_VIEW });
-				_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 						new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 						new Object[] { MainServiceAction.GET_WEATHER_CURRENT });
 			}
@@ -158,7 +159,7 @@ public class MainView extends Activity {
 		flatMap.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(FlatMapView.class);
+				_navigationService.NavigateTo(MapView.class);
 			}
 		});
 
@@ -214,7 +215,7 @@ public class MainView extends Activity {
 		smartmirror.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(SmartMirrorView.class);
+				_navigationService.NavigateTo(MediaMirrorView.class);
 			}
 		});
 

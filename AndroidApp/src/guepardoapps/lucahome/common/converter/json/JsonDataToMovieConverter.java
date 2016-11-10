@@ -7,7 +7,7 @@ import guepardoapps.lucahome.dto.MovieDto;
 
 public final class JsonDataToMovieConverter {
 
-	private static String TAG = JsonDataToMovieConverter.class.getName();
+	private static final String TAG = JsonDataToMovieConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{movie:";

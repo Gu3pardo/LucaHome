@@ -15,7 +15,7 @@ import guepardoapps.lucahome.service.sockets.SocketActionService;
 
 public class SocketActionReceiver extends BroadcastReceiver {
 
-	private String TAG = SocketActionReceiver.class.getName();
+	private static final String TAG = SocketActionReceiver.class.getName();
 	private LucaHomeLogger _logger;
 
 	private ServiceController _serviceController;
@@ -29,7 +29,9 @@ public class SocketActionReceiver extends BroadcastReceiver {
 
 		String action = details.getString(Constants.BUNDLE_ACTION);
 		if (action.contains("ALL_SOCKETS")) {
-			_serviceController = new ServiceController(context);
+			if (_serviceController == null) {
+				_serviceController = new ServiceController(context);
+			}
 			_serviceController.StartRestService("SHOW_NOTIFICATION_SOCKET", Constants.ACTION_DEACTIVATE_ALL_SOCKETS, "",
 					LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 		} else if (action.contains("SINGLE_SOCKET")) {

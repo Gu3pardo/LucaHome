@@ -9,7 +9,7 @@ import guepardoapps.lucahome.dto.BirthdayDto;
 
 public final class JsonDataToBirthdayConverter {
 
-	private static String TAG = JsonDataToBirthdayConverter.class.getName();
+	private static final String TAG = JsonDataToBirthdayConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{birthday:";

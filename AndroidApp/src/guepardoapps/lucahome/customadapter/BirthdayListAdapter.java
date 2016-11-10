@@ -22,7 +22,7 @@ import guepardoapps.particles.ParticleSystem;
 
 public class BirthdayListAdapter extends BaseAdapter {
 
-	private static String TAG = BirthdayListAdapter.class.getName();
+	private static final String TAG = BirthdayListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private SerializableList<BirthdayDto> _birthdayList;

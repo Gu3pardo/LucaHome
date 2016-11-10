@@ -5,7 +5,7 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 
 public final class BooleanToSocketStateConverter {
 
-	private static String TAG = BooleanToSocketStateConverter.class.getName();
+	private static final String TAG = BooleanToSocketStateConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	public static boolean GetBooleanState(String state) {

@@ -21,7 +21,7 @@ import guepardoapps.lucahome.viewcontroller.SocketController;
 
 public class SocketListAdapter extends BaseAdapter {
 
-	private static String TAG = SocketListAdapter.class.getName();
+	private static final String TAG = SocketListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private SerializableList<WirelessSocketDto> _socketList;

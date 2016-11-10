@@ -5,9 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
-import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
 
@@ -17,9 +17,11 @@ import guepardoapps.toolset.openweather.OpenWeatherController;
 import guepardoapps.toolset.openweather.common.OpenWeatherConstants;
 import guepardoapps.toolset.openweather.model.ForecastModel;
 
+import guepardoapps.toolset.controller.ReceiverController;
+
 public class OpenWeatherService extends Service {
 
-	private String TAG = OpenWeatherService.class.getName();
+	private static final String TAG = OpenWeatherService.class.getName();
 	private LucaHomeLogger _logger;
 
 	private ForecastModel _forecastModel;

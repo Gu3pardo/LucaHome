@@ -23,7 +23,7 @@ import guepardoapps.toolset.openweather.model.WeatherModel;
 
 public class ServiceController {
 
-	private static String TAG = ServiceController.class.getName();
+	private static final String TAG = ServiceController.class.getName();
 	private LucaHomeLogger _logger;
 
 	private Context _context;

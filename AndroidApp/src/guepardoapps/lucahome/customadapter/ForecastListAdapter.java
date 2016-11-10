@@ -17,7 +17,7 @@ import guepardoapps.toolset.openweather.model.ForecastWeatherModel;
 
 public class ForecastListAdapter extends BaseAdapter {
 
-	private static String TAG = ForecastListAdapter.class.getName();
+	private static final String TAG = ForecastListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private SerializableList<ForecastWeatherModel> _forecastList;

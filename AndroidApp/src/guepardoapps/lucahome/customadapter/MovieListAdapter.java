@@ -19,7 +19,7 @@ import guepardoapps.lucahome.viewcontroller.MovieController;
 
 public class MovieListAdapter extends BaseAdapter {
 
-	private static String TAG = MovieListAdapter.class.getName();
+	private static final String TAG = MovieListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private SerializableList<MovieDto> _movieList;

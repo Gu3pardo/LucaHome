@@ -22,12 +22,12 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.TemperatureType;
-import guepardoapps.lucahome.dto.BirthdayDto;
 import guepardoapps.lucahome.dto.TemperatureDto;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
 import guepardoapps.lucahome.receiver.sockets.SocketActionReceiver;
 import guepardoapps.lucahome.receiver.sound.StopSoundReceiver;
 import guepardoapps.lucahome.view.BirthdayView;
+import guepardoapps.lucahome.view.TemperatureView;
 import guepardoapps.lucahome.viewcontroller.SocketController;
 
 import guepardoapps.toolset.controller.SharedPrefController;
@@ -58,11 +58,7 @@ public class NotificationService extends Service {
 		case BIRTHDAY:
 			String title = data.getString(Constants.BUNDLE_NOTIFICATION_TITLE);
 			String body = data.getString(Constants.BUNDLE_NOTIFICATION_BODY);
-
-			SerializableList<BirthdayDto> birthdayList = (SerializableList<BirthdayDto>) data
-					.getSerializable(Constants.BUNDLE_BIRTHDAY_LIST);
-
-			CreateBirthdayNotification(R.drawable.birthday, title, body, true, id, BirthdayView.class, birthdayList);
+			CreateBirthdayNotification(R.drawable.birthday, title, body, true, id);
 			break;
 		case SOUND:
 			String soundFile = data.getString(Constants.BUNDLE_NOTIFICATION_BODY);
@@ -100,22 +96,11 @@ public class NotificationService extends Service {
 		return null;
 	}
 
-	private void CreateBirthdayNotification(int icon, String title, String body, boolean autocancelable, int id,
-			Class<?> intentActivity, SerializableList<BirthdayDto> birthdayList) {
+	private void CreateBirthdayNotification(int icon, String title, String body, boolean autocancelable, int id) {
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification.Builder builder = new Notification.Builder(this);
 
-		Intent intent = new Intent(this, intentActivity);
-
-		if (birthdayList != null) {
-			Bundle intentData = new Bundle();
-
-			intentData.putSerializable(Constants.BUNDLE_LUCA_OBJECT, LucaObject.BIRTHDAY);
-			intentData.putSerializable(Constants.BUNDLE_BIRTHDAY_LIST, birthdayList);
-
-			intent.putExtras(intentData);
-		}
-
+		Intent intent = new Intent(this, BirthdayView.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, id, intent, 0);
 
 		builder.setSmallIcon(icon).setContentTitle(title).setContentText(body).setTicker(body)
@@ -193,9 +178,14 @@ public class NotificationService extends Service {
 		}
 		body = body.substring(0, body.length() - 3);
 
+		Intent intent = new Intent(this, TemperatureView.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, Constants.ID_NOTIFICATION_TEMPERATURE * 2, intent,
+				0);
+
 		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification.Builder builder = new Notification.Builder(this);
-		builder.setSmallIcon(R.drawable.temperature).setContentTitle(title).setContentText(body).setTicker(body);
+		builder.setSmallIcon(R.drawable.temperature).setContentIntent(pendingIntent).setContentTitle(title)
+				.setContentText(body).setTicker(body);
 		Notification notification = builder.build();
 		notificationManager.notify(Constants.ID_NOTIFICATION_TEMPERATURE, notification);
 	}

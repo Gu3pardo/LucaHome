@@ -25,16 +25,17 @@ import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
-import guepardoapps.lucahome.common.controller.BroadcastController;
-import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.enums.*;
 import guepardoapps.lucahome.dto.*;
 import guepardoapps.lucahome.services.DialogService;
 import guepardoapps.lucahome.viewcontroller.MapContentController;
 
-public class FlatMapView extends Activity {
+import guepardoapps.toolset.controller.BroadcastController;
+import guepardoapps.toolset.controller.ReceiverController;
 
-	private static final String TAG = FlatMapView.class.getName();
+public class MapView extends Activity {
+
+	private static final String TAG = MapView.class.getName();
 	private LucaHomeLogger _logger;
 
 	private Button _buttonAddRaspberry;
@@ -110,7 +111,7 @@ public class FlatMapView extends Activity {
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 				Point clickPosition = new Point();
 				clickPosition.set((int) motionEvent.getX(), (int) motionEvent.getY());
-				
+
 				int[] position = new int[2];
 				position[0] = clickPosition.x;
 				position[1] = clickPosition.y;
@@ -215,9 +216,7 @@ public class FlatMapView extends Activity {
 			if (_receiverController != null) {
 				_receiverController.RegisterReceiver(_newDataReceiver,
 						new String[] { Constants.BROADCAST_UPDATE_MAP_CONTENT_VIEW });
-				// TODO GET DATA FROM MAINSERVICE
-
-				_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 						new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 						new Object[] { MainServiceAction.GET_MAP_CONTENT });
 

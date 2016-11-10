@@ -5,7 +5,7 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 
 public final class BooleanToScheduleStateConverter {
 
-	private static String TAG = BooleanToScheduleStateConverter.class.getName();
+	private static final String TAG = BooleanToScheduleStateConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	public static boolean GetBooleanState(String state) {

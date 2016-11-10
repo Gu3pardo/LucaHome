@@ -10,7 +10,7 @@ import guepardoapps.lucahome.dto.ChangeDto;
 
 public final class JsonDataToChangeConverter {
 
-	private static String TAG = JsonDataToChangeConverter.class.getName();
+	private static final String TAG = JsonDataToChangeConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{change:";

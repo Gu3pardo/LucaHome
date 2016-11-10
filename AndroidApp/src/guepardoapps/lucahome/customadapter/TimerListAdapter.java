@@ -21,7 +21,7 @@ import guepardoapps.lucahome.viewcontroller.TimerController;
 
 public class TimerListAdapter extends BaseAdapter {
 
-	private static String TAG = TimerListAdapter.class.getName();
+	private static final String TAG = TimerListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private SerializableList<TimerDto> _timerList;

@@ -9,7 +9,7 @@ import guepardoapps.lucahome.common.enums.Permissions;
 
 public class PermissionService {
 
-	private static String TAG = PermissionService.class.getName();
+	private static final String TAG = PermissionService.class.getName();
 	private LucaHomeLogger _logger;
 
 	private Context _context;

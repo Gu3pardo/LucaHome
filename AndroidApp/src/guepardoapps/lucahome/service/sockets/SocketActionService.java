@@ -5,10 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
-import guepardoapps.lucahome.common.controller.BroadcastController;
-import guepardoapps.lucahome.common.controller.ReceiverController;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
@@ -16,9 +15,12 @@ import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
 import guepardoapps.lucahome.viewcontroller.SocketController;
 
+import guepardoapps.toolset.controller.BroadcastController;
+import guepardoapps.toolset.controller.ReceiverController;
+
 public class SocketActionService extends Service {
 
-	private static String TAG = SocketActionService.class.getName();
+	private static final String TAG = SocketActionService.class.getName();
 	private LucaHomeLogger _logger;
 
 	private Context _context;
@@ -32,7 +34,7 @@ public class SocketActionService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_notificationReceiver onReceive");
-			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+			_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 					new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
 					new Object[] { MainServiceAction.DOWLOAD_SOCKETS });
 			stopSelf();

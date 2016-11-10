@@ -11,7 +11,7 @@ import guepardoapps.lucahome.dto.MapContentDto;
 
 public final class JsonDataToMapContentConverter {
 
-	private static String TAG = JsonDataToMapContentConverter.class.getName();
+	private static final String TAG = JsonDataToMapContentConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{mapcontent";

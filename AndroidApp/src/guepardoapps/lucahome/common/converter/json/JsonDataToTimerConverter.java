@@ -6,13 +6,14 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.Tools;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
-import guepardoapps.lucahome.common.enums.Weekday;
 import guepardoapps.lucahome.dto.TimerDto;
-import guepardoapps.lucahome.dto.WirelessSocketDto;;
+import guepardoapps.lucahome.dto.WirelessSocketDto;
+
+import guepardoapps.toolset.common.enums.Weekday;
 
 public final class JsonDataToTimerConverter {
 
-	private static String TAG = JsonDataToTimerConverter.class.getName();
+	private static final String TAG = JsonDataToTimerConverter.class.getName();
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{schedule:";

@@ -10,6 +10,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
@@ -20,7 +21,7 @@ import guepardoapps.lucahome.viewcontroller.ScheduleController;
 
 public class ScheduleListAdapter extends BaseAdapter {
 
-	private static String TAG = ScheduleListAdapter.class.getName();
+	private static final String TAG = ScheduleListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private SerializableList<ScheduleDto> _scheduleList;

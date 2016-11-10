@@ -15,7 +15,7 @@ import guepardoapps.lucahome.services.DialogService;
 
 public class InformationListAdapter extends BaseAdapter {
 
-	private static String TAG = InformationListAdapter.class.getName();
+	private static final String TAG = InformationListAdapter.class.getName();
 	private LucaHomeLogger _logger;
 
 	private InformationDto _information;

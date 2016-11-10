@@ -7,14 +7,15 @@ import java.util.Locale;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.converter.BooleanToScheduleStateConverter;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
-import guepardoapps.lucahome.common.enums.Weekday;
+
+import guepardoapps.toolset.common.enums.Weekday;
 
 public class ScheduleDto implements Serializable {
 
 	private static final long serialVersionUID = 7735669237381408318L;
 
 	@SuppressWarnings("unused")
-	private static String TAG = "Schedule";
+	private static final String TAG = ScheduleDto.class.getName();
 
 	protected String _name;
 	protected WirelessSocketDto _socket;

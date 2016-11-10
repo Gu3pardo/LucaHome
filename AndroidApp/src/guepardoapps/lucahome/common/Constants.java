@@ -118,6 +118,9 @@ public class Constants {
 	public static final String BROADCAST_UPDATE_CHANGE = "guepardoapps.lucahome.broadcast.UPDATE_CHANGE";
 	// Information
 	public static final String BROADCAST_UPDATE_INFORMATION = "guepardoapps.lucahome.broadcast.UPDATE_INFORMATION";
+	// Youtube
+	public static final String BROADCAST_YOUTUBE_ID = "guepardoapps.mediamirror.broadcast.selected.youtube.id";
+	public static final String BUNDLE_YOUTUBE_ID = "BUNDLE_YOUTUBE_ID";
 	// Download
 	public static final String BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED = "guepardoapps.lucahome.broadcast.DOWNLOAD_BIRTHDAY_FINISHED";
 	public static final String BROADCAST_DOWNLOAD_CHANGE_FINISHED = "guepardoapps.lucahome.broadcast.DOWNLOAD_CHANGE_FINISHED";
@@ -139,7 +142,7 @@ public class Constants {
 	public static final String TEMPERATURE_DOWNLOAD = "TEMPERATURE_DOWNLOAD";
 	// ========== SHARED PREFERENCES ==========
 	public static final String SHARED_PREF_NAME = "LUCA_HOME";
-	public static final String SHARED_PREF_INSTALLED = "APP_VERSION_1.3.3.161108_INSTALLED";
+	public static final String SHARED_PREF_INSTALLED = "APP_VERSION_1.4.0.161110_INSTALLED";
 	public static final String DISPLAY_SOCKET_NOTIFICATION = "DISPLAY_SOCKET_NOTIFICATION";
 	public static final String DISPLAY_WEATHER_NOTIFICATION = "DISPLAY_WEATHER_NOTIFICATION";
 	public static final String DISPLAY_TEMPERATURE_NOTIFICATION = "DISPLAY_TEMPERATURE_NOTIFICATION";
@@ -212,6 +215,8 @@ public class Constants {
 	public static final String REST_ACTION = "&action=";
 	public static final String STATE_ON = "&state=1";
 	public static final String STATE_OFF = "&state=0";
+	// YOUTUBE API
+	public static final String YOUTUBE_API_KEY = "ENTER_YOUTUBE_API_KEY";
 	// ========== FURTHER DATA ==========
 	public static final String CITY = "ENTER_HERE_YOUR_CITY";
 	public static final String LUCAHOME_SSID = "ENTER_HERE_YOUR_SSID";

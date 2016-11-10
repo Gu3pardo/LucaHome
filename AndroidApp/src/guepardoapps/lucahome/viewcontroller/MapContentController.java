@@ -18,7 +18,7 @@ import guepardoapps.lucahome.dto.WirelessSocketDto;
 
 public class MapContentController {
 
-	private static String TAG = MapContentController.class.getName();
+	private static final String TAG = MapContentController.class.getName();
 	private LucaHomeLogger _logger;
 
 	private Context _context;
