@@ -43,6 +43,9 @@ public class MediaMirrorView extends Activity {
 	private Button _sendYoutubePlayButton;
 	private Button _sendYoutubeStopButton;
 
+	private EditText _youtubeSearchInput;
+	private Button _youtubeSearchInputSendButton;
+
 	private Button _selectTagesschauButton;
 	private Button _selectHearthstoneButton;
 	private Button _selectFailarmyButton;
@@ -144,6 +147,18 @@ public class MediaMirrorView extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				_mediaMirrorController.SendStopYoutube();
+			}
+		});
+
+		_youtubeSearchInput = (EditText) findViewById(R.id.youtubeSearchInput);
+		_youtubeSearchInputSendButton = (Button) findViewById(R.id.youtubeSearchInputSendButton);
+		_youtubeSearchInputSendButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				String data = _youtubeSearchInput.getText().toString();
+				if (data.length() > 3) {
+					_mediaMirrorController.LoadVideos(data, 25);
+				}
 			}
 		});
 

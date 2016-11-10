@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/button_blank"
-                android:text="@string/sendCommand"
+                android:text="Search"
                 android:textColor="@color/TextIcon" />
 
             <TextView
