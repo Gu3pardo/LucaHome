@@ -11,7 +11,12 @@ public enum ServerAction implements Serializable {
 	SHOW_WEBVIEW(4, "Show_Webview"), 
 	SHOW_CENTER_TEXT(5, "Show_Center_Text"),
 	SET_RSS_FEED(6, "Set_Rss_Feed"), 
-	RESET_RSS_FEED(7, "Reset_Rss_Feed");
+	RESET_RSS_FEED(7, "Reset_Rss_Feed"), 
+	UPDATE_CURRENT_WEATHER(8, "Update_Current_Weather"), 
+	UPDATE_FORECAST_WEATHER(9, "Update_Forecast_Weather"), 
+	UPDATE_RASPBERRY_TEMPERATURE(10, "Update_Raspberry_Temperature"), 
+	UPDATE_IP_ADDRESS(11, "Update_Ip_Address"), 
+	UPDATE_BIRTHDAY_ALARM(12, "Update_Birthday_Alarm");
 
 	private int _id;
 	private String _action;

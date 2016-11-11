@@ -123,6 +123,31 @@ public class MediaMirrorController {
 		sendServerCommand(ServerAction.SHOW_WEBVIEW.toString(), data);
 	}
 
+	public void SendUpdateCurrentWeather() {
+		_logger.Debug("SendUpdateCurrentWeather");
+		sendServerCommand(ServerAction.UPDATE_CURRENT_WEATHER.toString(), "");
+	}
+
+	public void SendUpdateForecastWeather() {
+		_logger.Debug("SendUpdateForecastWeather");
+		sendServerCommand(ServerAction.UPDATE_FORECAST_WEATHER.toString(), "");
+	}
+
+	public void SendUpdateRaspiTemperature() {
+		_logger.Debug("SendUpdateRaspiTemperature");
+		sendServerCommand(ServerAction.UPDATE_RASPBERRY_TEMPERATURE.toString(), "");
+	}
+
+	public void SendUpdateIpAddress() {
+		_logger.Debug("SendUpdateIpAddress");
+		sendServerCommand(ServerAction.UPDATE_IP_ADDRESS.toString(), "");
+	}
+
+	public void SendUpdateBirthdayAlarm() {
+		_logger.Debug("SendUpdateBirthdayAlarm");
+		sendServerCommand(ServerAction.UPDATE_BIRTHDAY_ALARM.toString(), "");
+	}
+
 	private void sendServerCommand(String command, String data) {
 		_logger.Debug("sendServerCommand: " + command + " with data " + data);
 

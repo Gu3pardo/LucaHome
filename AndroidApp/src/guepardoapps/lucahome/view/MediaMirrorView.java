@@ -58,6 +58,12 @@ public class MediaMirrorView extends Activity {
 	private EditText _webviewInput;
 	private Button _sendWebviewButton;
 
+	private Button _updateCurrentWeatherButton;
+	private Button _updateForecastWeatherButton;
+	private Button _updateRaspiTemperatureButton;
+	private Button _updateIpAddressButton;
+	private Button _updateBirthdayButton;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -228,6 +234,42 @@ public class MediaMirrorView extends Activity {
 			public void onClick(View arg0) {
 				String data = _webviewInput.getText().toString();
 				_mediaMirrorController.SendWebviewUrl(data);
+			}
+		});
+
+		_updateCurrentWeatherButton = (Button) findViewById(R.id.updateCurrentWeatherButton);
+		_updateCurrentWeatherButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendUpdateCurrentWeather();
+			}
+		});
+		_updateForecastWeatherButton = (Button) findViewById(R.id.updateForeacstWeatherButton);
+		_updateForecastWeatherButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendUpdateForecastWeather();
+			}
+		});
+		_updateRaspiTemperatureButton = (Button) findViewById(R.id.updateRaspiTemperatureButton);
+		_updateRaspiTemperatureButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendUpdateRaspiTemperature();
+			}
+		});
+		_updateIpAddressButton = (Button) findViewById(R.id.updateIpAddressButton);
+		_updateIpAddressButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendUpdateIpAddress();
+			}
+		});
+		_updateBirthdayButton = (Button) findViewById(R.id.updateBirthdayButton);
+		_updateBirthdayButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendUpdateBirthdayAlarm();
 			}
 		});
 	}
