@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LucaHome WearControl</string>
+    <string name="my_analog_name">Analog LucaHome Watchface</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
