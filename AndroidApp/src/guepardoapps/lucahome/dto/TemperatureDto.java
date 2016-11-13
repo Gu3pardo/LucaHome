@@ -7,8 +7,8 @@ import guepardoapps.lucahome.common.enums.TemperatureType;
 
 public class TemperatureDto implements Serializable {
 
-	private static final long serialVersionUID = -9073455030083339156L;
-
+	private static final long serialVersionUID = -8509818903730279328L;
+	
 	private double _temperature;
 	private String _area;
 	private Time _lastUpdate;
@@ -60,6 +60,10 @@ public class TemperatureDto implements Serializable {
 
 	public String GetGraphPath() {
 		return _graphPath;
+	}
+
+	public String GetWatchFaceText() {
+		return _area + ": " + GetTemperatureString() + " " + _lastUpdate.toString();
 	}
 
 	public String toString() {

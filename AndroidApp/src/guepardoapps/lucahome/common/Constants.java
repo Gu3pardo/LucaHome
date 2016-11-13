@@ -55,6 +55,7 @@ public class Constants {
 	public static final String BUNDLE_CHANGE_SINGLE = "CHANGE_SINGLE";
 	public static final String BUNDLE_WEATHER_CURRENT = "WEATHER_CURRENT";
 	public static final String BUNDLE_WEATHER_FORECAST = "WEATHER_FORECAST";
+	public static final String BUNDLE_WEAR_MESSAGE_TEXT = "BUNDLE_WEAR_MESSAGE_TEXT";
 	// ========== COLORS ==========
 	public static final int ACTION_BAR_COLOR = 0xff0097A7;
 	public static final int BIRTHDAY_BACKGROUND_COLOR = 0xFFD32F2F;

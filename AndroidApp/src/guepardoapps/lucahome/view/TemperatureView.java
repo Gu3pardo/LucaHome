@@ -196,6 +196,7 @@ public class TemperatureView extends Activity implements SensorEventListener {
 		_logger.Debug("onDestroy");
 		_receiverController.UnregisterReceiver(_updateReceiver);
 		if (_hasTemperatureSensor) {
+			_sensorManager.unregisterListener(this);
 			stopTemperatureTimeout();
 			_receiverController.UnregisterReceiver(_temperatureReceiver);
 		}
@@ -235,7 +236,7 @@ public class TemperatureView extends Activity implements SensorEventListener {
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor arg0, int arg1) {
+	public void onAccuracyChanged(Sensor sensor, int arg1) {
 	}
 
 	private void initializeSensor() {

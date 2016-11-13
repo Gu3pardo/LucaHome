@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,10 +16,10 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.Command;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.NavigateData;
+import guepardoapps.lucahome.services.DialogService;
 import guepardoapps.lucahome.services.MainService;
 import guepardoapps.lucahome.services.NavigationService;
 
-import guepardoapps.toolset.controller.DialogController;
 import guepardoapps.toolset.controller.NetworkController;
 import guepardoapps.toolset.controller.ReceiverController;
 
@@ -32,14 +31,30 @@ public class BootView extends Activity {
 	private int _progressBarMax = 100;
 	private int _progressBarSteps = Constants.DOWNLOAD_STEPS;
 
+	private boolean _isInitialized;
+
 	private ProgressBar _percentProgressBar;
 	private TextView _progressTextView;
 
 	private Context _context;
 
+	private DialogService _dialogService;
 	private NavigationService _navigationService;
 	private NetworkController _networkController;
 	private ReceiverController _receiverController;
+
+	private Runnable _startDownloadRunnable = new Runnable() {
+		@Override
+		public void run() {
+			_logger.Debug("_startDownloadRunnable run");
+
+			Intent startMainService = new Intent(_context, MainService.class);
+			Bundle mainServiceBundle = new Bundle();
+			mainServiceBundle.putSerializable(Constants.BUNDLE_MAIN_SERVICE_ACTION, MainServiceAction.BOOT);
+			startMainService.putExtras(mainServiceBundle);
+			_context.startService(startMainService);
+		}
+	};
 
 	private BroadcastReceiver _commandReceiver = new BroadcastReceiver() {
 		@Override
@@ -70,6 +85,10 @@ public class BootView extends Activity {
 					} else {
 						_logger.Warn("NavigateData is null!");
 					}
+					break;
+				case SHOW_USER_LOGIN_DIALOG:
+					_logger.Debug("SHOW_USER_LOGIN_DIALOG");
+					_dialogService.ShowUserCredentialsDialog(null, _startDownloadRunnable, false);
 					break;
 				default:
 					_logger.Warn("Command is not supported: " + command.toString());
@@ -111,10 +130,9 @@ public class BootView extends Activity {
 
 		_context = this;
 
+		_dialogService = new DialogService(_context);
 		_navigationService = new NavigationService(_context);
-		_networkController = new NetworkController(_context,
-				new DialogController(_context, ContextCompat.getColor(_context, R.color.TextIcon),
-						ContextCompat.getColor(_context, R.color.Background)));
+		_networkController = new NetworkController(_context, _dialogService);
 		_receiverController = new ReceiverController(_context);
 
 		if (!_networkController.IsNetworkAvailable()) {
@@ -130,11 +148,7 @@ public class BootView extends Activity {
 			return;
 		}
 
-		Intent startMainService = new Intent(_context, MainService.class);
-		Bundle mainServiceBundle = new Bundle();
-		mainServiceBundle.putSerializable(Constants.BUNDLE_MAIN_SERVICE_ACTION, MainServiceAction.BOOT);
-		startMainService.putExtras(mainServiceBundle);
-		_context.startService(startMainService);
+		_startDownloadRunnable.run();
 	}
 
 	@Override
@@ -142,9 +156,12 @@ public class BootView extends Activity {
 		super.onResume();
 		_logger.Debug("onResume");
 
-		_receiverController.RegisterReceiver(_commandReceiver, new String[] { Constants.BROADCAST_COMMAND });
-		_receiverController.RegisterReceiver(_updateProgressBarReceiver,
-				new String[] { Constants.BROADCAST_UPDATE_PROGRESSBAR });
+		if (!_isInitialized) {
+			_receiverController.RegisterReceiver(_commandReceiver, new String[] { Constants.BROADCAST_COMMAND });
+			_receiverController.RegisterReceiver(_updateProgressBarReceiver,
+					new String[] { Constants.BROADCAST_UPDATE_PROGRESSBAR });
+			_isInitialized = true;
+		}
 	}
 
 	@Override

@@ -82,6 +82,36 @@ public class MediaMirrorController {
 		sendServerCommand(ServerAction.SHOW_CENTER_TEXT.toString(), data);
 	}
 
+	public void SendPlayYoutube() {
+		_logger.Debug("SendPlayYoutube");
+		sendServerCommand(ServerAction.PLAY_YOUTUBE_VIDEO.toString(), "");
+	}
+
+	public void SendStopYoutube() {
+		_logger.Debug("SendStopYoutube");
+		sendServerCommand(ServerAction.STOP_YOUTUBE_VIDEO.toString(), "");
+	}
+
+	public void SendVolumeIncrease() {
+		_logger.Debug("SendVolumeIncrease");
+		sendServerCommand(ServerAction.INCREASE_VOLUME.toString(), "");
+	}
+
+	public void SendVolumeDecrease() {
+		_logger.Debug("SendVolumeDecrease");
+		sendServerCommand(ServerAction.DECREASE_VOLUME.toString(), "");
+	}
+
+	public void SendVolumeMute() {
+		_logger.Debug("SendVolumeMute");
+		sendServerCommand(ServerAction.MUTE_VOLUME.toString(), "");
+	}
+
+	public void SendVolumeUnmute() {
+		_logger.Debug("SendVolumeUnmute");
+		sendServerCommand(ServerAction.UNMUTE_VOLUME.toString(), "");
+	}
+
 	public void SendYoutubeId(String id) {
 		_logger.Debug("SendYoutubeId");
 		if (id.length() < 0 || id.length() > 3 && id.length() < 11 || id.length() > 11) {
@@ -91,16 +121,6 @@ public class MediaMirrorController {
 			return;
 		}
 		sendServerCommand(ServerAction.SHOW_YOUTUBE_VIDEO.toString(), String.valueOf(id));
-	}
-
-	public void SendPlayYoutube() {
-		_logger.Debug("SendPlayYoutube");
-		sendServerCommand(ServerAction.PLAY_YOUTUBE_VIDEO.toString(), "");
-	}
-
-	public void SendStopYoutube() {
-		_logger.Debug("SendStopYoutube");
-		sendServerCommand(ServerAction.STOP_YOUTUBE_VIDEO.toString(), "");
 	}
 
 	public void SendRssFeedId(int id) {

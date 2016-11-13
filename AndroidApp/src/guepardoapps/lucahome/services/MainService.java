@@ -44,6 +44,7 @@ public class MainService extends Service {
 
 	private boolean _isInitialized;
 	private boolean _downloadingData;
+	private boolean _schedulesAdded;
 
 	private int _progress = 0;
 	private int _downloadCount = Constants.DOWNLOAD_STEPS;
@@ -319,12 +320,18 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_birthdayDownloadReceiver onReceive");
+
 			String[] birthdayStringArray = intent.getStringArrayExtra(Constants.BIRTHDAY_DOWNLOAD);
 			if (birthdayStringArray != null) {
-				_birthdayList = JsonDataToBirthdayConverter.GetList(birthdayStringArray);
-				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_BIRTHDAY,
-						new String[] { Constants.BUNDLE_BIRTHDAY_LIST }, new Object[] { _birthdayList });
-				checkForBirthday();
+
+				SerializableList<BirthdayDto> newBirthdayList = JsonDataToBirthdayConverter
+						.GetList(birthdayStringArray);
+				if (newBirthdayList != null) {
+					_birthdayList = newBirthdayList;
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_BIRTHDAY,
+							new String[] { Constants.BUNDLE_BIRTHDAY_LIST }, new Object[] { _birthdayList });
+					checkForBirthday();
+				}
 			}
 			updateDownloadCount();
 		}
@@ -346,11 +353,16 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_changeDownloadReceiver onReceive");
+
 			String[] changeStringArray = intent.getStringArrayExtra(Constants.CHANGE_DOWNLOAD);
 			if (changeStringArray != null) {
-				_changeList = JsonDataToChangeConverter.GetList(changeStringArray);
-				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_CHANGE,
-						new String[] { Constants.BUNDLE_CHANGE_LIST }, new Object[] { _changeList });
+
+				SerializableList<ChangeDto> newChangeList = JsonDataToChangeConverter.GetList(changeStringArray);
+				if (newChangeList != null) {
+					_changeList = newChangeList;
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_CHANGE,
+							new String[] { Constants.BUNDLE_CHANGE_LIST }, new Object[] { _changeList });
+				}
 			}
 			updateDownloadCount();
 		}
@@ -360,8 +372,13 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_forecastModelReceiver onReceive");
-			_forecastWeather = (ForecastModel) intent
+
+			ForecastModel newForecastWeather = (ForecastModel) intent
 					.getSerializableExtra(OpenWeatherConstants.BUNDLE_EXTRA_FORECAST_MODEL);
+			if (newForecastWeather != null) {
+				_forecastWeather = newForecastWeather;
+			}
+
 			updateDownloadCount();
 		}
 	};
@@ -370,11 +387,16 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_informationDownloadReceiver onReceive");
+
 			String[] informationStringArray = intent.getStringArrayExtra(Constants.INFORMATION_DOWNLOAD);
 			if (informationStringArray != null) {
-				_information = JsonDataToInformationConverter.Get(informationStringArray);
-				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_INFORMATION,
-						new String[] { Constants.BUNDLE_INFORMATION_SINGLE }, new Object[] { _information });
+
+				InformationDto newInformation = JsonDataToInformationConverter.Get(informationStringArray);
+				if (newInformation != null) {
+					_information = newInformation;
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_INFORMATION,
+							new String[] { Constants.BUNDLE_INFORMATION_SINGLE }, new Object[] { _information });
+				}
 			}
 			updateDownloadCount();
 		}
@@ -384,13 +406,21 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_mapContentDownloadReceiver onReceive");
+
 			String[] mapcontentStringArray = intent.getStringArrayExtra(Constants.MAP_CONTENT_DOWNLOAD);
 			if (mapcontentStringArray != null) {
+
 				DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 				Point size = new Point();
 				size.x = displayMetrics.widthPixels;
 				size.y = displayMetrics.heightPixels;
-				_mapContentList = JsonDataToMapContentConverter.GetList(mapcontentStringArray, size);
+
+				SerializableList<MapContentDto> newMapContentList = JsonDataToMapContentConverter
+						.GetList(mapcontentStringArray, size);
+				if (newMapContentList != null) {
+					_mapContentList = newMapContentList;
+				}
+
 				if (_mapContentList != null) {
 					for (int index = 0; index < _mapContentList.getSize(); index++) {
 						_logger.Info(_mapContentList.getValue(index).toString());
@@ -409,11 +439,16 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_movieDownloadReceiver onReceive");
+
 			String[] movieStringArray = intent.getStringArrayExtra(Constants.MOVIE_DOWNLOAD);
 			if (movieStringArray != null) {
-				_movieList = JsonDataToMovieConverter.GetList(movieStringArray);
-				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_MOVIE,
-						new String[] { Constants.BUNDLE_MOVIE_LIST }, new Object[] { _movieList });
+
+				SerializableList<MovieDto> newMovieList = JsonDataToMovieConverter.GetList(movieStringArray);
+				if (newMovieList != null) {
+					_movieList = newMovieList;
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_MOVIE,
+							new String[] { Constants.BUNDLE_MOVIE_LIST }, new Object[] { _movieList });
+				}
 			}
 			updateDownloadCount();
 		}
@@ -423,16 +458,27 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_scheduleDownloadReceiver onReceive");
+
 			String[] scheduleStringArray = intent.getStringArrayExtra(Constants.SCHEDULE_DOWNLOAD);
 			if (scheduleStringArray != null && _wirelessSocketList != null) {
-				_scheduleList = JsonDataToScheduleConverter.GetList(scheduleStringArray, _wirelessSocketList);
-				_timerList = JsonDataToTimerConverter.GetList(scheduleStringArray, _wirelessSocketList);
-				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_SCHEDULE,
-						new String[] { Constants.BUNDLE_SCHEDULE_LIST, Constants.BUNDLE_SOCKET_LIST },
-						new Object[] { _scheduleList, _wirelessSocketList });
-				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_TIMER,
-						new String[] { Constants.BUNDLE_TIMER_LIST, Constants.BUNDLE_SOCKET_LIST },
-						new Object[] { _timerList, _wirelessSocketList });
+
+				SerializableList<ScheduleDto> newScheduleList = JsonDataToScheduleConverter.GetList(scheduleStringArray,
+						_wirelessSocketList);
+				if (newScheduleList != null) {
+					_scheduleList = newScheduleList;
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_SCHEDULE,
+							new String[] { Constants.BUNDLE_SCHEDULE_LIST, Constants.BUNDLE_SOCKET_LIST },
+							new Object[] { _scheduleList, _wirelessSocketList });
+				}
+
+				SerializableList<TimerDto> newTimerList = JsonDataToTimerConverter.GetList(scheduleStringArray,
+						_wirelessSocketList);
+				if (newTimerList != null) {
+					_timerList = newTimerList;
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_TIMER,
+							new String[] { Constants.BUNDLE_TIMER_LIST, Constants.BUNDLE_SOCKET_LIST },
+							new Object[] { _timerList, _wirelessSocketList });
+				}
 			}
 			updateDownloadCount();
 		}
@@ -442,10 +488,17 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_socketDownloadReceiver onReceive");
+
 			String[] socketStringArray = intent.getStringArrayExtra(Constants.SOCKET_DOWNLOAD);
 			if (socketStringArray != null) {
-				_wirelessSocketList = JsonDataToSocketConverter.GetList(socketStringArray);
-				installNotificationSettings();
+
+				SerializableList<WirelessSocketDto> newWirelessSocketList = JsonDataToSocketConverter
+						.GetList(socketStringArray);
+				if (newWirelessSocketList != null) {
+					_wirelessSocketList = newWirelessSocketList;
+					installNotificationSettings();
+				}
+
 				if (_wirelessSocketList != null) {
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_SOCKET,
 							new String[] { Constants.BUNDLE_SOCKET_LIST }, new Object[] { _wirelessSocketList });
@@ -515,9 +568,41 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_temperatureDownloadReceiver onReceive");
+
 			String[] temperatureStringArray = intent.getStringArrayExtra(Constants.TEMPERATURE_DOWNLOAD);
 			if (temperatureStringArray != null) {
-				_temperatureList = JsonDataToTemperatureConverter.GetList(temperatureStringArray);
+
+				SerializableList<TemperatureDto> newTemperatureList = JsonDataToTemperatureConverter
+						.GetList(temperatureStringArray);
+				if (newTemperatureList != null) {
+					_temperatureList = newTemperatureList;
+
+					if (_temperatureList.getSize() >= 2) {
+						String messageText = "RaspberryTemperature:";
+
+						int found = 0;
+						for (int index = 0; index < _temperatureList.getSize(); index++) {
+							TemperatureDto entry = _temperatureList.getValue(index);
+							if (entry.GetTemperatureType() == TemperatureType.RASPBERRY) {
+								messageText += "TEMPERATURE:" + entry.GetTemperatureString();
+								messageText += "&AREA:" + entry.GetArea();
+								messageText += "&LASTUPDATE:" + entry.GetLastUpdate().toString();
+								found++;
+							}
+							if (found == 1) {
+								messageText += "&";
+							}
+							if (found == 2) {
+								break;
+							}
+						}
+
+						if (found == 2) {
+							_serviceController.SendMessageToWear(messageText);
+						}
+					}
+				}
+
 				if (_temperatureList != null && _currentWeather != null) {
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_TEMPERATURE,
 							new String[] { Constants.BUNDLE_TEMPERATURE_LIST }, new Object[] { _temperatureList });
@@ -536,8 +621,16 @@ public class MainService extends Service {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_weatherModelReceiver onReceive");
-			_currentWeather = (WeatherModel) intent
+
+			WeatherModel newWeather = (WeatherModel) intent
 					.getSerializableExtra(OpenWeatherConstants.BUNDLE_EXTRA_WEATHER_MODEL);
+			if (newWeather != null) {
+				_currentWeather = newWeather;
+				_serviceController.SendMessageToWear("CurrentWeather:DESCRIPTION:" + _currentWeather.GetDescription()
+						+ "&TEMPERATURE:" + _currentWeather.GetTemperatureString() + "&LASTUPDATE:"
+						+ _currentWeather.GetLastUpdate().toString());
+			}
+
 			if (_temperatureList != null && _currentWeather != null) {
 				if (_sharedPrefController
 						.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_TEMPERATURE_NOTIFICATION)) {
@@ -802,12 +895,6 @@ public class MainService extends Service {
 
 			registerReceiver();
 
-			_scheduleService.AddSchedule("UpdateBirthday", _downloadBirthdayRunnable, 240 * 60 * 1000);
-			_scheduleService.AddSchedule("UpdateForecast", _downloadForecastWeatherRunnable, 30 * 60 * 1000);
-			_scheduleService.AddSchedule("UpdateIsSoundPlaying", _downloadIsSoundPlayingRunnable, 5 * 60 * 1000);
-			_scheduleService.AddSchedule("UpdateSockets", _downloadSocketRunnable, 15 * 60 * 1000);
-			_scheduleService.AddSchedule("UpdateTemperature", _downloadTemperatureRunnable, 5 * 60 * 1000);
-
 			_progress = 0;
 			_downloadCount = Constants.DOWNLOAD_STEPS;
 			boot();
@@ -948,9 +1035,23 @@ public class MainService extends Service {
 		_receiverController.UnregisterReceiver(_reloadChangeReceiver);
 	}
 
+	private void addSchedules() {
+		_scheduleService.AddSchedule("UpdateBirthday", _downloadBirthdayRunnable, 240 * 60 * 1000);
+		_scheduleService.AddSchedule("UpdateForecast", _downloadForecastWeatherRunnable, 30 * 60 * 1000);
+		_scheduleService.AddSchedule("UpdateIsSoundPlaying", _downloadIsSoundPlayingRunnable, 5 * 60 * 1000);
+		_scheduleService.AddSchedule("UpdateSockets", _downloadSocketRunnable, 15 * 60 * 1000);
+		_scheduleService.AddSchedule("UpdateTemperature", _downloadTemperatureRunnable, 5 * 60 * 1000);
+		_schedulesAdded = true;
+	}
+
 	private void boot() {
 		if (!_sharedPrefController.LoadBooleanValueFromSharedPreferences(Constants.SHARED_PREF_INSTALLED)) {
 			install();
+			return;
+		}
+
+		if (!_schedulesAdded) {
+			addSchedules();
 		}
 
 		if (!_networkController.IsNetworkAvailable()) {
@@ -990,6 +1091,9 @@ public class MainService extends Service {
 	}
 
 	private void install() {
+		_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_COMMAND, Constants.BUNDLE_COMMAND,
+				Command.SHOW_USER_LOGIN_DIALOG);
+
 		_sharedPrefController.SaveBooleanValue(Constants.SHARED_PREF_INSTALLED, true);
 
 		_sharedPrefController.SaveBooleanValue(Constants.DISPLAY_SOCKET_NOTIFICATION, true);

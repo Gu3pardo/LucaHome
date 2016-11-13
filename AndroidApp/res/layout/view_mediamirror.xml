@@ -68,7 +68,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:gravity="start"
-                android:text="Youtube actions"
+                android:text="Youtube and volume actions"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/TextIcon" />
 
@@ -107,6 +107,70 @@
                     android:layout_gravity="center"
                     android:background="@drawable/button_blank"
                     android:text="Stop"
+                    android:textColor="@color/TextIcon" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/TextIcon" />
+
+                <Button
+                    android:id="@+id/volumeIncreaseButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_blank"
+                    android:text="+"
+                    android:textColor="@color/TextIcon" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/TextIcon" />
+
+                <Button
+                    android:id="@+id/volumeDecreaseButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_blank"
+                    android:text="-"
+                    android:textColor="@color/TextIcon" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/TextIcon" />
+
+                <Button
+                    android:id="@+id/volumeMuteButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_blank"
+                    android:text="Mute"
+                    android:textColor="@color/TextIcon" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/TextIcon" />
+
+                <Button
+                    android:id="@+id/volumeUnmuteButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_blank"
+                    android:text="Unmute"
                     android:textColor="@color/TextIcon" />
             </LinearLayout>
         </LinearLayout>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="guepardoapps.lucahome"
-    android:versionCode="142161111"
-    android:versionName="1.4.2.161111" >
+    android:versionCode="150161113"
+    android:versionName="1.5.0.161113" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -81,7 +81,7 @@
         </receiver>
 
         <service
-            android:name="guepardoapps.lucahome.service.sockets.SocketActionService"
+            android:name="guepardoapps.lucahome.services.ControlMainServiceState"
             android:enabled="true" />
         <service
             android:name="guepardoapps.lucahome.services.MainService"
@@ -95,6 +95,19 @@
         <service
             android:name="guepardoapps.lucahome.services.RESTService"
             android:enabled="true" />
+        <service
+            android:name="guepardoapps.lucahome.services.WearMessageService"
+            android:enabled="true" />
+        <service
+            android:name="guepardoapps.lucahome.service.sockets.SocketActionService"
+            android:enabled="true" />
+
+        <meta-data
+            android:name="com.google.android.wearable.beta.app"
+            android:resource="@xml/wearable_app_desc" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

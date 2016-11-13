@@ -34,14 +34,19 @@ public class MediaMirrorView extends Activity {
 	private EditText _centerTextInput;
 	private Button _sendCenterTextButton;
 
+	private Button _sendYoutubePlayButton;
+	private Button _sendYoutubeStopButton;
+	private Button _sendVolumeIncreaseButton;
+	private Button _sendVolumeDecreaseButton;
+	private Button _sendVolumeMuteButton;
+	private Button _sendVolumeUnmuteButton;
+
 	private EditText _youtubeIdInput;
 	private Button _youtubeIdInputSendButton;
 
 	private int _selectedYoutubeId;
 	private Spinner _selectYoutubeIdSpinner;
 	private Button _sendYoutubeIdButton;
-	private Button _sendYoutubePlayButton;
-	private Button _sendYoutubeStopButton;
 
 	private EditText _youtubeSearchInput;
 	private Button _youtubeSearchInputSendButton;
@@ -86,6 +91,49 @@ public class MediaMirrorView extends Activity {
 			public void onClick(View arg0) {
 				String data = _centerTextInput.getText().toString();
 				_mediaMirrorController.SendCenterText(data);
+			}
+		});
+
+		_sendYoutubePlayButton = (Button) findViewById(R.id.youtubePlayButton);
+		_sendYoutubePlayButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendPlayYoutube();
+			}
+		});
+		_sendYoutubeStopButton = (Button) findViewById(R.id.youtubeStopButton);
+		_sendYoutubeStopButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendStopYoutube();
+			}
+		});
+		_sendVolumeIncreaseButton = (Button) findViewById(R.id.volumeIncreaseButton);
+		_sendVolumeIncreaseButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendVolumeIncrease();
+			}
+		});
+		_sendVolumeDecreaseButton = (Button) findViewById(R.id.volumeDecreaseButton);
+		_sendVolumeDecreaseButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendVolumeDecrease();
+			}
+		});
+		_sendVolumeMuteButton = (Button) findViewById(R.id.volumeMuteButton);
+		_sendVolumeMuteButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendVolumeMute();
+			}
+		});
+		_sendVolumeUnmuteButton = (Button) findViewById(R.id.volumeUnmuteButton);
+		_sendVolumeUnmuteButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendVolumeUnmute();
 			}
 		});
 
@@ -139,20 +187,6 @@ public class MediaMirrorView extends Activity {
 						_logger.Warn("Youtube id is null!");
 					}
 				}
-			}
-		});
-		_sendYoutubePlayButton = (Button) findViewById(R.id.youtubePlayButton);
-		_sendYoutubePlayButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				_mediaMirrorController.SendPlayYoutube();
-			}
-		});
-		_sendYoutubeStopButton = (Button) findViewById(R.id.youtubeStopButton);
-		_sendYoutubeStopButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				_mediaMirrorController.SendStopYoutube();
 			}
 		});
 

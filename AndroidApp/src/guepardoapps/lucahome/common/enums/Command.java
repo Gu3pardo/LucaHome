@@ -6,7 +6,8 @@ public enum Command implements Serializable {
 	
 	NULL("", -1),
 	NAVIGATE("Navigate", 0), 
-	SHOW("Show", 1);
+	SHOW("Show", 1), 
+	SHOW_USER_LOGIN_DIALOG("Show_User_LogIn_Dialog", 2);
 
 	private String _string;
 	private int _int;

@@ -168,4 +168,12 @@ public class ServiceController {
 		CloseNotification(Constants.ID_NOTIFICATION_SONG + RaspberrySelection.RASPBERRY_1.GetInt());
 		CloseNotification(Constants.ID_NOTIFICATION_SONG + RaspberrySelection.RASPBERRY_2.GetInt());
 	}
+
+	public void SendMessageToWear(String message) {
+		Intent serviceIntent = new Intent(_context, WearMessageService.class);
+		Bundle serviceData = new Bundle();
+		serviceData.putString(Constants.BUNDLE_WEAR_MESSAGE_TEXT, message);
+		serviceIntent.putExtras(serviceData);
+		_context.startService(serviceIntent);
+	}
 }
