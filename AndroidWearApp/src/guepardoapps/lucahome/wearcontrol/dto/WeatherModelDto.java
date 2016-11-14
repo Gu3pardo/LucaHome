@@ -29,7 +29,7 @@ public class WeatherModelDto implements Serializable {
 	}
 
 	public String GetWatchFaceText() {
-		return _description + " " + _temperature + ", " + _lastUpdate;
+		return _description + " " + _temperature + ", " + _lastUpdate.substring(0, _lastUpdate.length() - 3);
 	}
 
 	@Override

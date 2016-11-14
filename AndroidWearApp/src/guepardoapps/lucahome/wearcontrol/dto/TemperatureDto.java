@@ -29,7 +29,7 @@ public class TemperatureDto implements Serializable {
 	}
 
 	public String GetWatchFaceText() {
-		return _area + ": " + _temperature + ", " + _lastUpdate;
+		return _area + ": " + _temperature + ", " + _lastUpdate.substring(0, _lastUpdate.length() - 3);
 	}
 
 	public String toString() {
