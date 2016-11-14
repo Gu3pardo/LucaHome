@@ -4,7 +4,7 @@ public class Constants {
 	// ========== LOGGER ==========
 	public static final boolean DEBUGGING_ENABLED = true;
 	// ========== TESTING ==========
-	public static final boolean TESTING_ENABLED = true;
+	public static final boolean TESTING_ENABLED = false;
 	// ========== NOTIFICATION ==========
 	public static final int ID_NOTIFICATION_WEAR = 120288;
 	public static final int ID_NOTIFICATION_BIRTHDAY = 219000;
@@ -143,7 +143,7 @@ public class Constants {
 	public static final String TEMPERATURE_DOWNLOAD = "TEMPERATURE_DOWNLOAD";
 	// ========== SHARED PREFERENCES ==========
 	public static final String SHARED_PREF_NAME = "LUCA_HOME";
-	public static final String SHARED_PREF_INSTALLED = "APP_VERSION_1.4.1.161110_INSTALLED";
+	public static final String SHARED_PREF_INSTALLED = "APP_VERSION_1.5.0.161114_INSTALLED";
 	public static final String DISPLAY_SOCKET_NOTIFICATION = "DISPLAY_SOCKET_NOTIFICATION";
 	public static final String DISPLAY_WEATHER_NOTIFICATION = "DISPLAY_WEATHER_NOTIFICATION";
 	public static final String DISPLAY_TEMPERATURE_NOTIFICATION = "DISPLAY_TEMPERATURE_NOTIFICATION";

@@ -31,6 +31,8 @@ public class MediaMirrorView extends Activity {
 	private Context _context;
 	private MediaMirrorController _mediaMirrorController;
 
+	private Spinner _selectServerSpinner;
+
 	private EditText _centerTextInput;
 	private Button _sendCenterTextButton;
 
@@ -69,6 +71,11 @@ public class MediaMirrorView extends Activity {
 	private Button _updateIpAddressButton;
 	private Button _updateBirthdayButton;
 
+	private Button _increaseScreenBrightnessButton;
+	private Button _decreaseScreenBrightnessButton;
+	private Button _enableScreenButton;
+	private Button _disableScreenButton;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,6 +90,24 @@ public class MediaMirrorView extends Activity {
 
 		_context = this;
 		_mediaMirrorController = new MediaMirrorController(_context);
+
+		_selectServerSpinner = (Spinner) findViewById(R.id.selectServerSpinner);
+		List<String> serverIPs = new ArrayList<String>();
+		serverIPs.add("192.168.178.147");
+		ArrayAdapter<String> serverDataAdapter = new ArrayAdapter<String>(_context,
+				android.R.layout.simple_spinner_item, serverIPs);
+		serverDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		_selectServerSpinner.setAdapter(serverDataAdapter);
+		_selectServerSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				_mediaMirrorController.SelectServer(parent.getItemAtPosition(position).toString());
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+			}
+		});
 
 		_centerTextInput = (EditText) findViewById(R.id.centerTextInput);
 		_sendCenterTextButton = (Button) findViewById(R.id.centerTextSendButton);
@@ -304,6 +329,35 @@ public class MediaMirrorView extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				_mediaMirrorController.SendUpdateBirthdayAlarm();
+			}
+		});
+
+		_increaseScreenBrightnessButton = (Button) findViewById(R.id.increaseScreenBrightnessButton);
+		_increaseScreenBrightnessButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendIncreaseScreenBrightness();
+			}
+		});
+		_decreaseScreenBrightnessButton = (Button) findViewById(R.id.decreaseScreenBrightnessButton);
+		_decreaseScreenBrightnessButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendDecreaseScreenBrightness();
+			}
+		});
+		_enableScreenButton = (Button) findViewById(R.id.enableScreenButton);
+		_enableScreenButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendEnableScreen();
+			}
+		});
+		_disableScreenButton = (Button) findViewById(R.id.disableScreenButton);
+		_disableScreenButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				_mediaMirrorController.SendDisableScreen();
 			}
 		});
 	}

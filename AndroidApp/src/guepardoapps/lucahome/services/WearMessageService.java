@@ -9,7 +9,6 @@ import com.google.android.gms.wearable.Wearable;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 
 import guepardoapps.lucahome.common.Constants;
@@ -19,48 +18,33 @@ public class WearMessageService extends Service implements GoogleApiClient.Conne
 
 	private static final String WEAR_MESSAGE_PATH = "/message";
 	private static final String TAG = WearMessageService.class.getName();
-	private static final int MAX_SEND_TRY_COUNT = 5;
 
 	private LucaHomeLogger _logger;
 
-	private boolean _connected;
 	private boolean _dataSend;
 
-	private String _messageText;
 	private GoogleApiClient _apiClient;
-
-	private Handler _sendHandler = new Handler();
-	private int _sendTimeout = 500;
-	private int _sendTryCount;
-
-	private Runnable _sendRunnable = new Runnable() {
-		public void run() {
-			_logger.Debug("_sendRunnable run");
-			if (_connected) {
-				sendMessage(WEAR_MESSAGE_PATH, _messageText);
-			} else {
-				if (_sendTryCount < MAX_SEND_TRY_COUNT) {
-					_sendHandler.postDelayed(_sendRunnable, _sendTimeout);
-					_sendTryCount++;
-				} else {
-					_logger.Warn("Tried too many times to send message! Cancel send! Stopping service!");
-					stopSelf();
-				}
-			}
-		}
-	};
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startid) {
-		_logger = new LucaHomeLogger(TAG);
+		if (_logger == null) {
+			_logger = new LucaHomeLogger(TAG);
+		}
 
-		Bundle data = intent.getExtras();
-		_messageText = data.getString(Constants.BUNDLE_WEAR_MESSAGE_TEXT);
-		if (_messageText != null) {
-			_logger.Debug("messageText: " + _messageText);
-			initGoogleApiClient();
-			_sendTryCount = 0;
-			_sendRunnable.run();
+		if (intent != null) {
+			Bundle data = intent.getExtras();
+			if (data != null) {
+				String message = data.getString(Constants.BUNDLE_WEAR_MESSAGE_TEXT);
+				if (message != null) {
+					_logger.Debug("message: " + message);
+					initGoogleApiClient();
+					sendMessage(WEAR_MESSAGE_PATH, message);
+				}
+			} else {
+				_logger.Warn("Data is null!");
+			}
+		} else {
+			_logger.Warn("Intent is null!");
 		}
 
 		finish();
@@ -75,20 +59,17 @@ public class WearMessageService extends Service implements GoogleApiClient.Conne
 	@Override
 	public void onConnected(Bundle arg0) {
 		_logger.Debug("onConnected");
-		_connected = true;
 	}
 
 	@Override
 	public void onConnectionSuspended(int arg0) {
 		_logger.Debug("onConnectionSuspended");
-		_connected = false;
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		_logger.Debug("onDestroy");
-		_sendHandler.removeCallbacks(_sendRunnable);
 	}
 
 	private void initGoogleApiClient() {

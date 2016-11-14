@@ -16,7 +16,37 @@
             android:layout_height="wrap_content"
             android:background="@color/DarkPrimary"
             android:orientation="vertical"
-            android:padding="10dp" >
+            android:padding="5dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:gravity="start"
+                android:text="Select the server IP"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/TextIcon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="5dp"
+                android:background="@color/TextIcon" />
+
+            <Spinner
+                android:id="@+id/selectServerSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/DarkPrimary"
+            android:orientation="vertical"
+            android:padding="5dp" >
 
             <TextView
                 android:layout_width="match_parent"
@@ -570,6 +600,101 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_blank"
                     android:text="Birthdays"
+                    android:textColor="@color/TextIcon" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/DarkPrimary"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:visibility="gone" >
+            <!-- TODO reenable view after screen settings are working! -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:gravity="start"
+                android:text="Screen actions"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/TextIcon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="5dp"
+                android:background="@color/TextIcon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+
+                <Button
+                    android:id="@+id/increaseScreenBrightnessButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blank"
+                    android:text="Lighter"
+                    android:textColor="@color/TextIcon" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/TextIcon" />
+
+                <Button
+                    android:id="@+id/decreaseScreenBrightnessButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blank"
+                    android:text="Darker"
+                    android:textColor="@color/TextIcon" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/TextIcon" />
+
+                <Button
+                    android:id="@+id/enableScreenButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blank"
+                    android:text="Enable"
+                    android:textColor="@color/TextIcon" />
+
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@color/TextIcon" />
+
+                <Button
+                    android:id="@+id/disableScreenButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blank"
+                    android:text="Disable"
                     android:textColor="@color/TextIcon" />
             </LinearLayout>
         </LinearLayout>

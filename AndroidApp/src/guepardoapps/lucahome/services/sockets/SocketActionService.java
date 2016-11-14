@@ -1,4 +1,4 @@
-package guepardoapps.lucahome.service.sockets;
+package guepardoapps.lucahome.services.sockets;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;

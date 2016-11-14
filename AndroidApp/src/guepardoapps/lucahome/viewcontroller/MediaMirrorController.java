@@ -33,6 +33,8 @@ public class MediaMirrorController {
 	private static final String TAG = MediaMirrorController.class.getName();
 	private LucaHomeLogger _logger;
 
+	private static final int SERVERPORT = 8080;
+
 	private Context _context;
 
 	private DialogService _dialogService;
@@ -42,8 +44,7 @@ public class MediaMirrorController {
 
 	private ClientTask _clientTask;
 
-	private static final int SERVERPORT = 8080;
-	private static final String SERVER_IP = "192.168.178.147";
+	private String _selectedServerIp = "192.168.178.147";
 
 	private BroadcastReceiver _youtubeIdReceiver = new BroadcastReceiver() {
 		@Override
@@ -70,6 +71,14 @@ public class MediaMirrorController {
 	public void Dispose() {
 		_logger.Debug("Dispose");
 		_receiverController.UnregisterReceiver(_youtubeIdReceiver);
+	}
+
+	public void SelectServer(String serverIp) {
+		_logger.Debug("SelectServer");
+		if (serverIp != null) {
+			_logger.Debug("serverIp: " + serverIp);
+			_selectedServerIp = serverIp;
+		}
 	}
 
 	public void SendCenterText(String data) {
@@ -110,6 +119,26 @@ public class MediaMirrorController {
 	public void SendVolumeUnmute() {
 		_logger.Debug("SendVolumeUnmute");
 		sendServerCommand(ServerAction.UNMUTE_VOLUME.toString(), "");
+	}
+
+	public void SendIncreaseScreenBrightness() {
+		_logger.Debug("SendIncreaseScreenBrightness");
+		sendServerCommand(ServerAction.INCREASE_SCREEN_BRIGHTNESS.toString(), "");
+	}
+
+	public void SendDecreaseScreenBrightness() {
+		_logger.Debug("SendDecreaseScreenBrightness");
+		sendServerCommand(ServerAction.DECREASE_SCREEN_BRIGHTNESS.toString(), "");
+	}
+
+	public void SendEnableScreen() {
+		_logger.Debug("SendEnableScreen");
+		Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
+	}
+
+	public void SendDisableScreen() {
+		_logger.Debug("SendDisableScreen");
+		Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
 	}
 
 	public void SendYoutubeId(String id) {
@@ -174,7 +203,7 @@ public class MediaMirrorController {
 		String communication = "ACTION:" + command + "&DATA:" + data;
 		_logger.Debug("Communication is: " + communication);
 
-		_clientTask = new ClientTask(SERVER_IP, SERVERPORT);
+		_clientTask = new ClientTask(_selectedServerIp, SERVERPORT);
 		_clientTask.SetCommunication(communication);
 		_clientTask.execute();
 	}

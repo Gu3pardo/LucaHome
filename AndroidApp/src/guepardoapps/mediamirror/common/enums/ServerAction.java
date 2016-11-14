@@ -20,7 +20,9 @@ public enum ServerAction implements Serializable {
 	INCREASE_VOLUME(13, "Increase_Volume"),
 	DECREASE_VOLUME(14, "Decrease_Volume"),
 	MUTE_VOLUME(15, "Mute_Volume"),
-	UNMUTE_VOLUME(16, "Unmute_Volume");
+	UNMUTE_VOLUME(16, "Unmute_Volume"),
+	INCREASE_SCREEN_BRIGHTNESS(17, "Increase_Screen_Brightness"),
+	DECREASE_SCREEN_BRIGHTNESS(18, "Decrease_Screen_Brightness");
 
 	private int _id;
 	private String _action;

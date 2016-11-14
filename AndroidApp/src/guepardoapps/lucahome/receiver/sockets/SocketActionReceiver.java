@@ -11,7 +11,7 @@ import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
-import guepardoapps.lucahome.service.sockets.SocketActionService;
+import guepardoapps.lucahome.services.sockets.SocketActionService;
 
 public class SocketActionReceiver extends BroadcastReceiver {
 
