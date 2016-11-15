@@ -100,6 +100,6 @@ ______________________________
 []			-> clicking on raspberrys shows informations (e.g. temperature/humidity) and possibilities to activate sockets,
 			movies, etc.
 []			-> clicking on arduinos shows informations (e.g. temperature/humidity)
-[]			-> clicking on the remote devices shows a possibility to de/activate them
+[x]			-> clicking on the remote devices shows a possibility to de/activate them
 
 [x]		module to start&stop sound & set volume

@@ -320,6 +320,14 @@ std::string RemoteService::getUrl() {
 	return _url;
 }
 
+std::string RemoteService::getAccessUrl() {
+	return _accessurl;
+}
+
+std::vector<std::string> RemoteService::getMediaMirror() {
+	return _mediamirror;
+}
+
 std::string RemoteService::getTemperatureGraphUrl() {
 	std::stringstream url;
 	url << _url << "/cgi-bin/webgui.py";
@@ -328,6 +336,10 @@ std::string RemoteService::getTemperatureGraphUrl() {
 
 std::string RemoteService::getAlarmSound() {
 	return _alarmSound;
+}
+
+std::string RemoteService::getWakeUpSound() {
+	return _wakeUpSound;
 }
 
 void RemoteService::reloadData() {
@@ -339,8 +351,9 @@ void RemoteService::reloadData() {
 void RemoteService::saveSettings(ChangeService changeService,
 		std::string username) {
 	std::string xmldata = _xmlService.generateSettingsXml(_port, _datagpio,
-			_receivergpio, _raspberry, _alarmSound, _areas, _sensors, _urls,
-			_sockets, _gpios, _schedules);
+			_receivergpio, _raspberry, _alarmSound, _wakeUpSound, _areas,
+			_sensors, _urls, _accessurl, _mediamirror, _sockets, _gpios,
+			_schedules);
 	_fileController.saveFile(_settingsFile, xmldata);
 
 	changeService.updateChange("Settings", username);
@@ -356,6 +369,7 @@ void RemoteService::loadSettings() {
 	_raspberry = _xmlService.getRaspberry();
 
 	_alarmSound = _xmlService.getAlarmSound();
+	_wakeUpSound = _xmlService.getWakeUpSound();
 
 	_areas = _xmlService.getAreas();
 	_area = _areas.at(_raspberry - 1);
@@ -365,6 +379,10 @@ void RemoteService::loadSettings() {
 
 	_urls = _xmlService.getUrls();
 	_url = _urls.at(_raspberry - 1);
+
+	_accessurl = _xmlService.getAccessUrl();
+
+	_mediamirror = _xmlService.getMediaMirror();
 
 	_gpios = _xmlService.getGpios();
 	_schedules = _xmlService.getSchedules();
@@ -413,10 +431,10 @@ std::string RemoteService::getGpiosRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _gpios.size(); index++) {
-		out << "{gpio:"
-				<< "{Name:" << _gpios[index].getName() << "};"
-				<< "{Gpio:" << Tools::convertIntToStr(_gpios[index].getGpio()) << "};"
-				<< "{State:" << Tools::convertIntToStr(_gpios[index].getState()) << "};"
+		out << "{gpio:" << "{Name:" << _gpios[index].getName() << "};"
+				<< "{Gpio:" << Tools::convertIntToStr(_gpios[index].getGpio())
+				<< "};" << "{State:"
+				<< Tools::convertIntToStr(_gpios[index].getState()) << "};"
 				<< "};";
 	}
 
@@ -520,18 +538,25 @@ std::string RemoteService::getSchedulesRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _schedules.size(); index++) {
-		out << "{schedule:"
-				<< "{Name:" << _schedules[index].getName() << "};"
+		out << "{schedule:" << "{Name:" << _schedules[index].getName() << "};"
 				<< "{Socket:" << _schedules[index].getSocket() << "};"
 				<< "{Gpio:" << _schedules[index].getGpio() << "};"
-				<< "{Weekday:" << Tools::convertIntToStr(_schedules[index].getWeekday()) << "};"
-				<< "{Hour:" << Tools::convertIntToStr(_schedules[index].getHour()) << "};"
-				<< "{Minute:" << Tools::convertIntToStr(_schedules[index].getMinute()) << "};"
-				<< "{OnOff:" << Tools::convertIntToStr(_schedules[index].getOnoff()) << "};"
-				<< "{IsTimer:" << Tools::convertIntToStr(_schedules[index].getIsTimer()) << "};"
-				<< "{PlaySound:" << Tools::convertIntToStr(_schedules[index].getPlaySound()) << "};"
-				<< "{Raspberry:" << Tools::convertIntToStr(_schedules[index].getPlayRaspberry()) << "};"
-				<< "{State:" << Tools::convertIntToStr(_schedules[index].getStatus()) << "};"
+				<< "{Weekday:"
+				<< Tools::convertIntToStr(_schedules[index].getWeekday())
+				<< "};" << "{Hour:"
+				<< Tools::convertIntToStr(_schedules[index].getHour()) << "};"
+				<< "{Minute:"
+				<< Tools::convertIntToStr(_schedules[index].getMinute()) << "};"
+				<< "{OnOff:"
+				<< Tools::convertIntToStr(_schedules[index].getOnoff()) << "};"
+				<< "{IsTimer:"
+				<< Tools::convertIntToStr(_schedules[index].getIsTimer())
+				<< "};" << "{PlaySound:"
+				<< Tools::convertIntToStr(_schedules[index].getPlaySound())
+				<< "};" << "{Raspberry:"
+				<< Tools::convertIntToStr(_schedules[index].getPlayRaspberry())
+				<< "};" << "{State:"
+				<< Tools::convertIntToStr(_schedules[index].getStatus()) << "};"
 				<< "};";
 	}
 
@@ -654,11 +679,10 @@ std::string RemoteService::getSocketsRestString() {
 	std::stringstream out;
 
 	for (int index = 0; index < _sockets.size(); index++) {
-		out << "{socket:"
-				<< "{Name:" << _sockets[index].getName() << "};"
-				<< "{Area:" << _sockets[index].getArea() << "};"
-				<< "{Code:" << _sockets[index].getCode() << "};"
-				<< "{State:" << Tools::convertIntToStr(_sockets[index].getState()) << "};"
+		out << "{socket:" << "{Name:" << _sockets[index].getName() << "};"
+				<< "{Area:" << _sockets[index].getArea() << "};" << "{Code:"
+				<< _sockets[index].getCode() << "};" << "{State:"
+				<< Tools::convertIntToStr(_sockets[index].getState()) << "};"
 				<< "};";
 	}
 

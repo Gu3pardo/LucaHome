@@ -21,7 +21,8 @@ std::string XmlService::generateChangesXml(std::vector<Change> changes) {
 	return writer.generateChangesXml(changes);
 }
 
-std::string XmlService::generateMapContentsXml(std::vector<MapContent> mapcontents) {
+std::string XmlService::generateMapContentsXml(
+		std::vector<MapContent> mapcontents) {
 	XmlWriter writer;
 	return writer.generateMapContentsXml(mapcontents);
 }
@@ -32,13 +33,15 @@ std::string XmlService::generateMoviesXml(std::vector<Movie> movies) {
 }
 
 std::string XmlService::generateSettingsXml(int port, int datagpio,
-		int receivergpio, int raspberry, std::string alarmSound,
+		int receivergpio, int raspberry, std::string alarmSound, std::string wakeUpSound,
 		std::vector<std::string> areas, std::vector<std::string> sensors,
-		std::vector<std::string> urls, std::vector<Socket> sockets,
+		std::vector<std::string> urls, std::string accessurl,
+		std::vector<std::string> mediamirror, std::vector<Socket> sockets,
 		std::vector<Gpio> gpios, std::vector<Schedule> schedules) {
 	XmlWriter writer;
 	return writer.generateSettingsXml(port, datagpio, receivergpio, raspberry,
-			alarmSound, areas, sensors, urls, sockets, gpios, schedules);
+			alarmSound, wakeUpSound, areas, sensors, urls, accessurl, mediamirror, sockets,
+			gpios, schedules);
 }
 
 std::string XmlService::generateUsersXml(std::vector<User> users) {
@@ -71,11 +74,17 @@ std::vector<Change> XmlService::getChanges() {
 
 Information XmlService::getInformation() {
 	XmlParser parser(content);
-	Information information(parser.findTag("author"), parser.findTag("company"),
-			parser.findTag("contact"), parser.findTag("builddate"),
-			parser.findTag("serverversion"), parser.findTag("websiteversion"),
+	Information information(
+			parser.findTag("author"),
+			parser.findTag("company"),
+			parser.findTag("contact"),
+			parser.findTag("builddate"),
+			parser.findTag("serverversion"),
+			parser.findTag("websiteversion"),
 			parser.findTag("temperaturelogversion"),
-			parser.findTag("appversion"));
+			parser.findTag("appversion"),
+			parser.findTag("wearappversion"),
+			parser.findTag("accessappversion"));
 	return information;
 }
 
@@ -114,6 +123,11 @@ std::string XmlService::getAlarmSound() {
 	return parser.findTag("alarmsound").c_str();
 }
 
+std::string XmlService::getWakeUpSound() {
+	XmlParser parser(content);
+	return parser.findTag("wakeupsound").c_str();
+}
+
 std::vector<std::string> XmlService::getAreas() {
 	XmlParser parser(content);
 	return parser.parseAreas();
@@ -127,6 +141,16 @@ std::vector<std::string> XmlService::getSensors() {
 std::vector<std::string> XmlService::getUrls() {
 	XmlParser parser(content);
 	return parser.parseUrls();
+}
+
+std::string XmlService::getAccessUrl() {
+	XmlParser parser(content);
+	return parser.parseAccessUrl();
+}
+
+std::vector<std::string> XmlService::getMediaMirror() {
+	XmlParser parser(content);
+	return parser.parseMediaMirror();
 }
 
 std::vector<Socket> XmlService::getSockets() {

@@ -66,6 +66,38 @@ std::vector<std::string> XmlParser::parseUrls() {
 	return urls;
 }
 
+std::string XmlParser::parseAccessUrl() {
+	std::string entries = findTag("accessurl");
+	std::vector < std::string > accessurls;
+	if (entries.length() > 0) {
+		std::vector < std::string > lines = Tools::explode(";", entries);
+		for (int l = 0; l < lines.size(); l++) {
+			if (lines[l].length() > 0) {
+				accessurls.push_back(lines[l]);
+			}
+		}
+	}
+	if (accessurls.size() != 1) {
+		return "";
+	} else {
+		return accessurls[0];
+	}
+}
+
+std::vector<std::string> XmlParser::parseMediaMirror() {
+	std::string entries = findTag("mediamirror");
+	std::vector < std::string > mediamirror;
+	if (entries.length() > 0) {
+		std::vector < std::string > lines = Tools::explode(";", entries);
+		for (int l = 0; l < lines.size(); l++) {
+			if (lines[l].length() > 0) {
+				mediamirror.push_back(lines[l]);
+			}
+		}
+	}
+	return mediamirror;
+}
+
 std::vector<Birthday> XmlParser::parseBirthdays() {
 	std::string entries = findTag("birthdays");
 	std::vector<Birthday> birthdays;

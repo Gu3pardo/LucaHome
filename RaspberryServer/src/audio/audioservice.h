@@ -38,6 +38,7 @@ private:
 	bool _isPlaying;
 	int _volume;
 	std::vector<std::string> _soundFiles;
+	std::string _wakeUpSound;
 	std::string _alarmSound;
 	int _raspberry;
 

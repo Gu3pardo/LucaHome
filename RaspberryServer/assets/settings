@@ -8,6 +8,8 @@
 
 <alarmsound></alarmsound>
 
+<wakeupsound></wakeupsound>
+
 <areas>
 </areas>
 
@@ -16,6 +18,11 @@
 
 <urls>
 </urls>
+
+<accessurl></accessurl>
+
+<mediamirror>
+</mediamirror>
 
 <sockets>
 </sockets>

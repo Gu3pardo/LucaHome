@@ -42,9 +42,9 @@ public:
 	static std::string generateMapContentsXml(std::vector<MapContent>);
 	static std::string generateMoviesXml(std::vector<Movie>);
 	static std::string generateSettingsXml(int, int, int, int, std::string,
-			std::vector<std::string>, std::vector<std::string>,
-			std::vector<std::string>, std::vector<Socket>, std::vector<Gpio>,
-			std::vector<Schedule>);
+			std::string, std::vector<std::string>, std::vector<std::string>,
+			std::vector<std::string>, std::string, std::vector<std::string>,
+			std::vector<Socket>, std::vector<Gpio>, std::vector<Schedule>);
 	static std::string generateUsersXml(std::vector<User>);
 	static std::string generateLoggerXml(std::vector<Log>);
 
@@ -67,10 +67,14 @@ public:
 	int getRaspberry();
 
 	std::string getAlarmSound();
+	std::string getWakeUpSound();
 
 	std::vector<std::string> getAreas();
 	std::vector<std::string> getSensors();
 	std::vector<std::string> getUrls();
+
+	std::string getAccessUrl();
+	std::vector<std::string> getMediaMirror();
 
 	std::vector<Gpio> getGpios();
 	std::vector<Schedule> getSchedules();

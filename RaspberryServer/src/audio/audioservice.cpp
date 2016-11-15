@@ -9,15 +9,16 @@ AudioService::AudioService() {
 AudioService::~AudioService() {
 }
 
-void AudioService::initialize(std::string audioPath, std::string alarmSound,
-		int raspberry) {
+void AudioService::initialize(std::string audioPath, std::string wakeUpSound,
+		std::string alarmSound, int raspberry) {
 	_audioPath = audioPath;
+	_wakeUpSound = wakeUpSound;
 	_alarmSound = alarmSound;
+	_raspberry = raspberry;
 
 	_isInitialized = true;
 	_isPlaying = false;
 	_playingFile = "";
-	_raspberry = raspberry;
 
 	_volume = readVolume();
 	_soundFiles = scanFolder();
@@ -36,11 +37,11 @@ std::string AudioService::performAction(std::string action,
 		} else if (data[4] == "PLAYING") {
 			std::stringstream out;
 			if (_isPlaying) {
-				out << "{IsPlaying:1};"
-						<< "{PlayingFile:" << _playingFile << "};"
-						<< "{Volume:" << Tools::convertIntToStr(readVolume()) << "};"
-						<< "{Raspberry:" << Tools::convertIntToStr(_raspberry) << "};"
-						<< "\x00" << std::endl;
+				out << "{IsPlaying:1};" << "{PlayingFile:" << _playingFile
+						<< "};" << "{Volume:"
+						<< Tools::convertIntToStr(readVolume()) << "};"
+						<< "{Raspberry:" << Tools::convertIntToStr(_raspberry)
+						<< "};" << "\x00" << std::endl;
 
 			} else {
 				out << "{IsPlaying:0};" << "\x00" << std::endl;
@@ -62,6 +63,12 @@ std::string AudioService::performAction(std::string action,
 				if (data[4] == "ALARM") {
 					if (play(_alarmSound)) {
 						return _alarmSound;
+					} else {
+						return "Error 96:Could not start playing sound!";
+					}
+				} else if (data[4] == "WAKEUP") {
+					if (play(_wakeUpSound)) {
+						return _wakeUpSound;
 					} else {
 						return "Error 96:Could not start playing sound!";
 					}
@@ -126,8 +133,8 @@ bool AudioService::play(std::string fileName) {
 	int pid;
 	pid = fork();
 	if (pid == 0) {
-		execlp("/usr/bin/omxplayer", " ", command.str().c_str(), NULL);
 		_playingFile = fileName;
+		execlp("/usr/bin/omxplayer", " ", command.str().c_str(), NULL);
 		_exit(0);
 	} else {
 		wait();

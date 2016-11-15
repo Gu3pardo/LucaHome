@@ -371,6 +371,18 @@ switch ($action) {
 		echo Send ( "$login:USER:VALIDATE:NOW" );
 		break;
 	
+	/* ----------------- Access Control ---------------- */
+	case 'activatealarm' :
+		echo Send ( "$login:ACCESS:ACTIVATE:ALARM" );
+		break;
+	case 'sendcode' :
+		$code = Get ( 'code' );
+		if ($code != '') {
+			echo Send ( "$login:ACCESS:CHECK:CODE:$code" );
+		} else {
+			echo "Error 200:Parameter not found for access control";
+		}
+	
 	/* ---------------------- Other -------------------- */
 	case 'main' :
 		echo Send ( "$login:SERVER:AVAILABILITY:CHECK" );

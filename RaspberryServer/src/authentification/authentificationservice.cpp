@@ -254,9 +254,9 @@ int AuthentificationService::getActionId(std::string action) {
 			|| action == "STOP") {
 		return 2;
 	} else if (action == "ADD" || action == "UPDATE") {
-		return 4;
+		return 3;
 	} else if (action == "DELETE") {
-		return 5;
+		return 4;
 	}
 	return -1;
 }

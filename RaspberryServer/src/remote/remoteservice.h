@@ -36,6 +36,7 @@ private:
 	int _raspberry;
 
 	std::string _alarmSound;
+	std::string _wakeUpSound;
 
 	std::string _area;
 	std::vector<std::string> _areas;
@@ -45,6 +46,10 @@ private:
 
 	std::string _url;
 	std::vector<std::string> _urls;
+
+	std::string _accessurl;
+
+	std::vector<std::string> _mediamirror;
 
 	std::vector<Gpio> _gpios;
 	std::vector<Schedule> _schedules;
@@ -113,8 +118,11 @@ public:
 	std::string getArea();
 	std::string getSensor();
 	std::string getUrl();
+	std::string getAccessUrl();
+	std::vector<std::string> getMediaMirror();
 	std::string getTemperatureGraphUrl();
 	std::string getAlarmSound();
+	std::string getWakeUpSound();
 
 	void reloadData();
 };

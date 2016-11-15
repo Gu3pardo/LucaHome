@@ -29,6 +29,7 @@ template<typename T> std::string to_string(const T& n) {
 
 #include "common/tools.h"
 
+#include "accesscontrol/accesscontrolservice.h"
 #include "audio/audioservice.h"
 #include "authentification/authentificationservice.h"
 #include "birthdays/birthdayservice.h"
@@ -56,6 +57,7 @@ vector<ScheduleTask> _scheduleTasks;
 Logger _logger;
 FileController _fileController;
 
+AccessControlService _accessControlService;
 AudioService _audioService;
 AuthentificationService _authentificationService;
 BirthdayService _birthdayService;
@@ -181,6 +183,14 @@ string executeCmd(string cmd) {
 	else if (category == "USER") {
 		if (action == "VALIDATE") {
 			return "validateuser:1";
+		}
+	}
+	//-----------------Access Control-----------------
+	else if (category == "ACCESS") {
+		if (action == "ACTIVATE" && data[4] == "ALARM") {
+			return _accessControlService.activateAlarm();
+		} else if (action == "CHECK" && data[4] == "CODE") {
+			return _accessControlService.checkCode(data[5]);
 		}
 	}
 	//-----------------------Other--------------------
@@ -412,7 +422,7 @@ void *scheduler(void *arg) {
 										== _remoteService.getRaspberry()) {
 									stringstream sound_out;
 									sound_out
-											<< "Scheduler:435435:SOUND:PLAY:ALARM";
+											<< "Scheduler:435435:SOUND:PLAY:WAKEUP";
 
 									stringstream socket_out;
 									socket_out
@@ -431,10 +441,10 @@ void *scheduler(void *arg) {
 										string responseSound = executeCmd(
 												sound_out.str());
 										if (responseSound
-												!= _remoteService.getAlarmSound().c_str()) {
+												!= _remoteService.getWakeUpSound().c_str()) {
 											syslog(LOG_INFO,
-													"Playing alarm failed! %s | %s",
-													_remoteService.getAlarmSound().c_str(),
+													"Playing wakeup failed! %s | %s",
+													_remoteService.getWakeUpSound().c_str(),
 													responseSound.c_str());
 										}
 									}
@@ -449,7 +459,7 @@ void *scheduler(void *arg) {
 											== _remoteService.getRaspberry()) {
 										stringstream sound_out;
 										sound_out
-												<< "Scheduler:435435:SOUND:STOP:ALARM";
+												<< "Scheduler:435435:SOUND:STOP:WAKEUP";
 
 										stringstream socket_out;
 										socket_out
@@ -470,8 +480,8 @@ void *scheduler(void *arg) {
 											if (responseSound
 													!= "stopplaying:1") {
 												syslog(LOG_INFO,
-														"Stopping alarm failed! %s | %s",
-														_remoteService.getAlarmSound().c_str(),
+														"Stopping wakeup failed! %s | %s",
+														_remoteService.getWakeUpSound().c_str(),
 														responseSound.c_str());
 											}
 										}
@@ -587,8 +597,12 @@ int main(void) {
 	_mapContentService.initialize(_fileController);
 	_movieService.initialize(_fileController);
 	_remoteService.initialize(_fileController);
-	_audioService.initialize("/media/lucahome/", _remoteService.getAlarmSound(),
+	_audioService.initialize("/media/lucahome/",
+			_remoteService.getWakeUpSound(), _remoteService.getAlarmSound(),
 			_remoteService.getRaspberry());
+	_accessControlService.initialize(_fileController, _mailService,
+			User("AccessControl", "518716", 1), _remoteService.getAccessUrl(),
+			_remoteService.getMediaMirror());
 	_temperatureService.initialize(_mailService, _remoteService.getSensor(),
 			_remoteService.getArea(), _remoteService.getTemperatureGraphUrl());
 

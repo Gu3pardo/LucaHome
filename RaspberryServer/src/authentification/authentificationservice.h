@@ -55,8 +55,6 @@ public:
 
 	bool addUser(User);
 	bool deleteUser(std::string);
-
-	std::string performaAction(std::string, std::vector<std::string>);
 };
 
 #endif

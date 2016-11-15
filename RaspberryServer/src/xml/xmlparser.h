@@ -39,6 +39,8 @@ public:
 	std::vector<std::string> parseAreas();
 	std::vector<std::string> parseSensors();
 	std::vector<std::string> parseUrls();
+	std::string parseAccessUrl();
+	std::vector<std::string> parseMediaMirror();
 
 	std::vector<Birthday> parseBirthdays();
 	std::vector<Change> parseChanges();

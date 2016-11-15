@@ -19,11 +19,13 @@ private:
 	std::string websiteversion;
 	std::string temperaturelogversion;
 	std::string androidappversion;
+	std::string androidwearversion;
+	std::string androidaccessversion;
 
 public:
 	Information();
 	Information(std::string, std::string, std::string, std::string, std::string,
-			std::string, std::string, std::string);
+			std::string, std::string, std::string, std::string, std::string);
 	~Information();
 
 	std::string getAuthor();
@@ -34,6 +36,8 @@ public:
 	std::string getWebsiteVersion();
 	std::string getTemperatureLogVersion();
 	std::string getAndroidAppVersion();
+	std::string getAndroidWearVersion();
+	std::string getAndroidAccessVersion();
 
 	std::string toString();
 };

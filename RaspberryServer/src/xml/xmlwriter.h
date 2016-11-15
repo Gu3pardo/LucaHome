@@ -38,9 +38,9 @@ public:
 	static std::string generateMapContentsXml(std::vector<MapContent>);
 	static std::string generateMoviesXml(std::vector<Movie>);
 	static std::string generateSettingsXml(int, int, int, int, std::string,
-			std::vector<std::string>, std::vector<std::string>,
-			std::vector<std::string>, std::vector<Socket>, std::vector<Gpio>,
-			std::vector<Schedule>);
+			std::string, std::vector<std::string>, std::vector<std::string>,
+			std::vector<std::string>, std::string, std::vector<std::string>,
+			std::vector<Socket>, std::vector<Gpio>, std::vector<Schedule>);
 	static std::string generateUsersXml(std::vector<User>);
 	static std::string generateLoggerXml(std::vector<Log>);
 };

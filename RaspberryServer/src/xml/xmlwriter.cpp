@@ -82,9 +82,10 @@ std::string XmlWriter::generateMoviesXml(std::vector<Movie> movies) {
 }
 
 std::string XmlWriter::generateSettingsXml(int port, int datagpio,
-		int receivergpio, int raspberry, std::string alarmsound,
+		int receivergpio, int raspberry, std::string alarmsound, std::string wakeUpSound,
 		std::vector<std::string> areas, std::vector<std::string> sensors,
-		std::vector<std::string> urls, std::vector<Socket> sockets,
+		std::vector<std::string> urls, std::string accessurl,
+		std::vector<std::string> mediamirror, std::vector<Socket> sockets,
 		std::vector<Gpio> gpios, std::vector<Schedule> schedules) {
 	std::stringstream xml;
 
@@ -101,6 +102,9 @@ std::string XmlWriter::generateSettingsXml(int port, int datagpio,
 			<< std::endl << std::endl;
 
 	xml << "<alarmsound>" << alarmsound << "</alarmsound>" << std::endl
+			<< std::endl;
+
+	xml << "<wakeupsound>" << wakeUpSound << "</wakeupsound>" << std::endl
 			<< std::endl;
 
 	xml << "<areas>" << std::endl;
@@ -120,6 +124,15 @@ std::string XmlWriter::generateSettingsXml(int port, int datagpio,
 		xml << urls[index] << ";" << std::endl;
 	}
 	xml << "</urls>" << std::endl << std::endl;
+
+	xml << "<accessurl>" << accessurl << "</accessurl>" << std::endl
+			<< std::endl;
+
+	xml << "<mediamirror>" << std::endl;
+	for (int index = 0; index < mediamirror.size(); index++) {
+		xml << mediamirror[index] << ";" << std::endl;
+	}
+	xml << "</mediamirror>" << std::endl << std::endl;
 
 	xml << "<sockets>" << std::endl;
 	for (int index = 0; index < sockets.size(); index++) {
@@ -142,9 +155,8 @@ std::string XmlWriter::generateSettingsXml(int port, int datagpio,
 
 	xml << "<schedules>" << std::endl;
 	for (int index = 0; index < schedules.size(); index++) {
-		xml << schedules[index].getName() << ":"
-				<< schedules[index].getSocket() << ":"
-				<< schedules[index].getGpio() << ":"
+		xml << schedules[index].getName() << ":" << schedules[index].getSocket()
+				<< ":" << schedules[index].getGpio() << ":"
 				<< Tools::convertIntToStr(schedules[index].getWeekday()) << ":"
 				<< Tools::convertIntToStr(schedules[index].getHour()) << ":"
 				<< Tools::convertIntToStr(schedules[index].getMinute()) << ":"

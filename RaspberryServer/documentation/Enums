@@ -7,6 +7,5 @@ MapContentType
 Users
 1	Get		Validate
 2	Set		Start		Play		Stop
-3
-4	Add		Update
-5	Delete
+3	Add		Update
+4	Delete
