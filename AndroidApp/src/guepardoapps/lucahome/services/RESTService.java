@@ -31,7 +31,6 @@ public class RESTService extends Service {
 	private static final String TAG = RESTService.class.getName();
 	private LucaHomeLogger _logger;
 
-	private String _action;
 	private String[] _actions;
 	private RaspberrySelection _raspberrySelection;
 
@@ -109,20 +108,22 @@ public class RESTService extends Service {
 
 		switch (_raspberrySelection) {
 		case RASPBERRY_1:
-			url1 = Constants.SERVER_URLs[0] + user + "&password=" + password + "&action=" + _action;
+			url1 = Constants.SERVER_URLs[0] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
+					+ action;
 			_actions = new String[] { url1 };
 			break;
 		case RASPBERRY_2:
-			url2 = Constants.SERVER_URLs[1] + user + "&password=" + password + "&action=" + _action;
+			url2 = Constants.SERVER_URLs[1] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
+					+ action;
 			_actions = new String[] { url2 };
 			break;
 		case BOTH:
 		case DUMMY:
 		default:
 			url1 = Constants.SERVER_URLs[0] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
-					+ _action;
+					+ action;
 			url2 = Constants.SERVER_URLs[1] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
-					+ _action;
+					+ action;
 			_actions = new String[] { url1, url2 };
 			break;
 		}
@@ -171,6 +172,7 @@ public class RESTService extends Service {
 
 			for (String action : actions) {
 				try {
+					_logger.Debug("action: " + action);
 					response = "";
 
 					URL url = new URL(action);
