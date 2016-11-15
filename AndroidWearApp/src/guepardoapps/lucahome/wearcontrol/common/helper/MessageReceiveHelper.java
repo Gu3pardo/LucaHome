@@ -8,18 +8,18 @@ import guepardoapps.lucahome.wearcontrol.dto.*;
 import guepardoapps.toolset.common.Logger;
 import guepardoapps.toolset.controller.BroadcastController;
 
-public class MessageHelper {
+public class MessageReceiveHelper {
 
 	private static final String CURRENT_WEATHER = "CurrentWeather:";
 	private static final String RASPBERRY_TEMPERATURE = "RaspberryTemperature:";
 
-	private static final String TAG = MessageHelper.class.getName();
+	private static final String TAG = MessageReceiveHelper.class.getName();
 	private Logger _logger;
 
 	private Context _context;
 	private BroadcastController _broadcastController;
 
-	public MessageHelper(Context context) {
+	public MessageReceiveHelper(Context context) {
 		_logger = new Logger(TAG);
 
 		_context = context;

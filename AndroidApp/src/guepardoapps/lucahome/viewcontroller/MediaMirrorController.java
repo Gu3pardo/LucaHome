@@ -134,11 +134,13 @@ public class MediaMirrorController {
 	public void SendEnableScreen() {
 		_logger.Debug("SendEnableScreen");
 		Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
+		// TODO implement
 	}
 
 	public void SendDisableScreen() {
 		_logger.Debug("SendDisableScreen");
 		Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
+		// TODO implement
 	}
 
 	public void SendYoutubeId(String id) {

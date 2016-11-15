@@ -1,4 +1,4 @@
-package guepardoapps.lucahome.services;
+package guepardoapps.lucahome.wearcontrol.services;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.MessageApi;
@@ -11,15 +11,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import guepardoapps.lucahome.common.Constants;
-import guepardoapps.lucahome.common.LucaHomeLogger;
+import guepardoapps.lucahome.wearcontrol.common.Constants;
 
-public class WearMessageService extends Service implements GoogleApiClient.ConnectionCallbacks {
+import guepardoapps.toolset.common.Logger;
 
-	private static final String WEAR_MESSAGE_PATH = "/message";
-	private static final String TAG = WearMessageService.class.getName();
+public class PhoneMessageService extends Service implements GoogleApiClient.ConnectionCallbacks {
 
-	private LucaHomeLogger _logger;
+	private static final String PHONE_MESSAGE_PATH = "/phone_message";
+	private static final String TAG = PhoneMessageService.class.getName();
+
+	private Logger _logger;
 
 	private boolean _dataSend;
 
@@ -28,17 +29,17 @@ public class WearMessageService extends Service implements GoogleApiClient.Conne
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startid) {
 		if (_logger == null) {
-			_logger = new LucaHomeLogger(TAG);
+			_logger = new Logger(TAG, Constants.DEBUGGING_ENABLED);
 		}
 
 		if (intent != null) {
 			Bundle data = intent.getExtras();
 			if (data != null) {
-				String message = data.getString(Constants.BUNDLE_WEAR_MESSAGE_TEXT);
+				String message = data.getString(Constants.BUNDLE_PHONE_MESSAGE_TEXT);
 				if (message != null) {
 					_logger.Debug("message: " + message);
 					initGoogleApiClient();
-					sendMessage(WEAR_MESSAGE_PATH, message);
+					sendMessage(PHONE_MESSAGE_PATH, message);
 				}
 			} else {
 				_logger.Warn("Data is null!");

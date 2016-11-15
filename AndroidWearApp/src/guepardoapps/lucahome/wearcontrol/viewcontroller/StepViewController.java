@@ -53,7 +53,7 @@ public class StepViewController implements SensorEventListener {
 		_logger.Debug("Draw");
 		Paint paint = _tools.CreateDefaultPaint(canvas, Constants.TEXT_SIZE_SMALL);
 		canvas.drawText("STEPS", _display.getWidth() - 73, _display.getHeight() - 135, paint);
-		canvas.drawText(String.valueOf((int) _stepCount), _display.getWidth() - 58, _display.getHeight() - 120, paint);
+		canvas.drawText(String.valueOf((int) _stepCount), _display.getWidth() - 58, _display.getHeight() - 117, paint);
 	}
 
 	@Override

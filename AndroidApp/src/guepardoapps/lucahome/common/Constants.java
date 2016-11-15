@@ -208,10 +208,8 @@ public class Constants {
 	public static final String PACKAGE_KORE = "org.xbmc.kore";
 	public static final String PACKAGE_YATSE = "org.leetzone.android.yatsewidgetfree";
 	// ========== RASPBERRY CONNECTION ==========
-	public static final String SERVER_URL_RPI1 = "ENTER_HERE_YOUR_IP";
-	public static final String SERVER_URL_RPI2 = "ENTER_HERE_YOUR_SECOND_IP"; //I have to raspberrys running the server
-	public static final String REST_URL_RPI1 = SERVER_URL_RPI1 + "/lib/lucahome.php?user=";
-	public static final String REST_URL_RPI2 = SERVER_URL_RPI2 + "/lib/lucahome.php?user=";
+	public static final String[] SERVER_URLs = new String[] { /*ENTER_HERE_YOUR_IP*/ };
+	public static final String ACTION_PATH = "/lib/lucahome.php?user=";
 	public static final String REST_PASSWORD = "&password=";
 	public static final String REST_ACTION = "&action=";
 	public static final String STATE_ON = "&state=1";

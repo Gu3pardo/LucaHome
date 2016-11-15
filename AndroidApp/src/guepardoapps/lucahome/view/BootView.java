@@ -16,9 +16,12 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.Command;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.NavigateData;
+import guepardoapps.lucahome.services.ControlMainServiceState;
 import guepardoapps.lucahome.services.DialogService;
 import guepardoapps.lucahome.services.MainService;
 import guepardoapps.lucahome.services.NavigationService;
+
+import guepardoapps.lucahome.wearcontrol.services.PhoneMessageListenerService;
 
 import guepardoapps.toolset.controller.NetworkController;
 import guepardoapps.toolset.controller.ReceiverController;
@@ -53,6 +56,9 @@ public class BootView extends Activity {
 			mainServiceBundle.putSerializable(Constants.BUNDLE_MAIN_SERVICE_ACTION, MainServiceAction.BOOT);
 			startMainService.putExtras(mainServiceBundle);
 			_context.startService(startMainService);
+
+			_context.startService(new Intent(_context, PhoneMessageListenerService.class));
+			_context.startService(new Intent(_context, ControlMainServiceState.class));
 		}
 	};
 

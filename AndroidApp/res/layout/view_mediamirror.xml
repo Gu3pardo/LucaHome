@@ -611,8 +611,7 @@
             android:background="@color/DarkPrimary"
             android:orientation="vertical"
             android:padding="5dp"
-            android:visibility="gone" >
-            <!-- TODO reenable view after screen settings are working! -->
+            android:visibility="visible" >
 
             <TextView
                 android:layout_width="match_parent"
@@ -663,11 +662,14 @@
                     android:text="Darker"
                     android:textColor="@color/TextIcon" />
 
+                <!-- TODO reactivate after settings are added to mediamirror -->
+
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
-                    android:background="@color/TextIcon" />
+                    android:background="@color/TextIcon"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/enableScreenButton"
@@ -678,13 +680,15 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_blank"
                     android:text="Enable"
-                    android:textColor="@color/TextIcon" />
+                    android:textColor="@color/TextIcon"
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
-                    android:background="@color/TextIcon" />
+                    android:background="@color/TextIcon"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/disableScreenButton"
@@ -695,7 +699,8 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_blank"
                     android:text="Disable"
-                    android:textColor="@color/TextIcon" />
+                    android:textColor="@color/TextIcon"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

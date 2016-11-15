@@ -15,7 +15,7 @@ import guepardoapps.lucahome.dto.TemperatureDto;
 import guepardoapps.lucahome.dto.UserDto;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
 import guepardoapps.lucahome.services.*;
-
+import guepardoapps.lucahome.wearcontrol.services.WearMessageService;
 import guepardoapps.toolset.controller.NetworkController;
 
 import guepardoapps.toolset.openweather.model.ForecastModel;

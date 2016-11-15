@@ -14,7 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
-
+import android.widget.Toast;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
@@ -65,11 +65,23 @@ public class RESTService extends Service {
 			return 0;
 		}
 
-		Bundle data = intent.getExtras();
-		_action = data.getString(Constants.BUNDLE_ACTION);
+		Bundle bundle = intent.getExtras();
+		if (bundle == null) {
+			_logger.Warn("Bundle is null!");
+			stopSelf();
+			return -1;
+		}
 
-		String user = data.getString(Constants.BUNDLE_USER);
-		String password = data.getString(Constants.BUNDLE_PASSPHRASE);
+		String action = bundle.getString(Constants.BUNDLE_ACTION);
+		if (action == null) {
+			_logger.Warn("Action is null!");
+			stopSelf();
+			return -1;
+		}
+		_logger.Debug("Action: " + action);
+
+		String user = bundle.getString(Constants.BUNDLE_USER);
+		String password = bundle.getString(Constants.BUNDLE_PASSPHRASE);
 		if (user == null) {
 			_logger.Warn("No user!");
 			return 101;
@@ -79,7 +91,13 @@ public class RESTService extends Service {
 			return 102;
 		}
 
-		_raspberrySelection = (RaspberrySelection) data.getSerializable(Constants.BUNDLE_RASPBERRY_SELECTION);
+		if (Constants.SERVER_URLs.length == 0) {
+			_logger.Error("You did not enter server ips!");
+			Toast.makeText(_context, "You did not enter server ips!", Toast.LENGTH_LONG).show();
+			return 103;
+		}
+
+		_raspberrySelection = (RaspberrySelection) bundle.getSerializable(Constants.BUNDLE_RASPBERRY_SELECTION);
 
 		if (_raspberrySelection == null) {
 			_logger.Error("_raspberrySelection is null!");
@@ -91,25 +109,27 @@ public class RESTService extends Service {
 
 		switch (_raspberrySelection) {
 		case RASPBERRY_1:
-			url1 = Constants.REST_URL_RPI1 + user + "&password=" + password + "&action=" + _action;
+			url1 = Constants.SERVER_URLs[0] + user + "&password=" + password + "&action=" + _action;
 			_actions = new String[] { url1 };
 			break;
 		case RASPBERRY_2:
-			url2 = Constants.REST_URL_RPI2 + user + "&password=" + password + "&action=" + _action;
+			url2 = Constants.SERVER_URLs[1] + user + "&password=" + password + "&action=" + _action;
 			_actions = new String[] { url2 };
 			break;
 		case BOTH:
 		case DUMMY:
 		default:
-			url1 = Constants.REST_URL_RPI1 + user + "&password=" + password + "&action=" + _action;
-			url2 = Constants.REST_URL_RPI2 + user + "&password=" + password + "&action=" + _action;
+			url1 = Constants.SERVER_URLs[0] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
+					+ _action;
+			url2 = Constants.SERVER_URLs[1] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
+					+ _action;
 			_actions = new String[] { url1, url2 };
 			break;
 		}
 
-		String name = data.getString(Constants.BUNDLE_NAME);
-		String broadcast = data.getString(Constants.BUNDLE_BROADCAST);
-		LucaObject lucaObject = (LucaObject) data.getSerializable(Constants.BUNDLE_LUCA_OBJECT);
+		String name = bundle.getString(Constants.BUNDLE_NAME);
+		String broadcast = bundle.getString(Constants.BUNDLE_BROADCAST);
+		LucaObject lucaObject = (LucaObject) bundle.getSerializable(Constants.BUNDLE_LUCA_OBJECT);
 
 		SendActionTask task = new SendActionTask();
 		task.setValues(name, broadcast, lucaObject, _actions.length);

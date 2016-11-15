@@ -15,6 +15,7 @@ public class Constants {
 	public static final String BUNDLE_CURRENT_WEATHER = "BUNDLE_CURRENT_WEATHER";
 	public static final String BUNDLE_RASPBERRY_TEMPERATURE_1 = "BUNDLE_RASPBERRY_TEMPERATURE_1";
 	public static final String BUNDLE_RASPBERRY_TEMPERATURE_2 = "BUNDLE_RASPBERRY_TEMPERATURE_2";
+	public static final String BUNDLE_PHONE_MESSAGE_TEXT = "BUNDLE_PHONE_MESSAGE_TEXT";
 	// ========== BROADCAST ==========
 	public static final String BROADCAST_UPDATE_CURRENT_WEATHER = "guepardoapps.lucahome.wearcontrol.broadcast.update.current_weather";
 	public static final String BROADCAST_UPDATE_RASPBERRY_TEMPERATURE = "guepardoapps.lucahome.wearcontrol.broadcast.update.raspberry_temperature";

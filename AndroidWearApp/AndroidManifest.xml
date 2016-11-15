@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="guepardoapps.lucahome"
-    android:versionCode="51161114"
-    android:versionName="0.5.1.161114" >
+    android:versionCode="55161115"
+    android:versionName="0.5.5.161115" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -39,6 +39,9 @@
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
             </intent-filter>
         </service>
+        <service
+            android:name=".wearcontrol.services.PhoneMessageService"
+            android:enabled="true" />
         <service android:name=".wearcontrol.services.WearMessageListenerService" >
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />

@@ -26,6 +26,7 @@ import android.text.format.Time;
 import android.view.SurfaceHolder;
 
 import guepardoapps.lucahome.R;
+import guepardoapps.lucahome.wearcontrol.common.helper.MessageSendHelper;
 import guepardoapps.lucahome.wearcontrol.viewcontroller.*;
 
 import guepardoapps.toolset.common.Constants;
@@ -46,7 +47,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
 	private class Engine extends CanvasWatchFaceService.Engine {
 
-		private static final float HAND_END_CAP_RADIUS = 4f;
+		// private static final float HAND_END_CAP_RADIUS = 4f;
 		private static final float STROKE_WIDTH = 4f;
 		private static final int SHADOW_RADIUS = 6;
 
@@ -86,17 +87,17 @@ public class WatchFaceService extends CanvasWatchFaceService {
 		private int _watchHandColor;
 		private int _watchHandShadowColor;
 
-		private float _hourHandLength;
-		private float _minuteHandLength;
-		private float _secondHandLength;
+		// private float _hourHandLength;
+		// private float _minuteHandLength;
+		// private float _secondHandLength;
 
 		private boolean _lowBitAmbient;
 		private boolean _burnInProtection;
 
-		private int _width;
-		private int _height;
-		private float _centerX;
-		private float _centerY;
+		// private int _width;
+		// private int _height;
+		// private float _centerX;
+		// private float _centerY;
 		private float _scale = 1;
 		private Rect _cardBounds = new Rect();
 
@@ -117,6 +118,9 @@ public class WatchFaceService extends CanvasWatchFaceService {
 			_context = WatchFaceService.this;
 
 			startService(new Intent(_context, WearMessageListenerService.class));
+
+			MessageSendHelper messageSendHelper = new MessageSendHelper(_context);
+			messageSendHelper.SendMessage("Hello Phone!");
 
 			_currentWeatherViewController = new CurrentWeatherViewController(_context);
 			_dateViewController = new DateViewController(_context);
@@ -216,16 +220,16 @@ public class WatchFaceService extends CanvasWatchFaceService {
 		public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 			_logger.Debug("onSurfaceChanged");
 			super.onSurfaceChanged(holder, format, width, height);
-			_width = width;
-			_height = height;
+			// _width = width;
+			// _height = height;
 
-			_centerX = _width / 2f;
-			_centerY = _height / 2f;
+			// _centerX = _width / 2f;
+			// _centerY = _height / 2f;
 			_scale = ((float) width) / (float) _backgroundBitmap.getWidth();
 
-			_hourHandLength = _centerX * 0.5f;
-			_minuteHandLength = _centerX * 0.7f;
-			_secondHandLength = _centerX * 0.9f;
+			// _hourHandLength = _centerX * 0.5f;
+			// _minuteHandLength = _centerX * 0.7f;
+			// _secondHandLength = _centerX * 0.9f;
 
 			_backgroundBitmap = Bitmap.createScaledBitmap(_backgroundBitmap,
 					(int) (_backgroundBitmap.getWidth() * _scale), (int) (_backgroundBitmap.getHeight() * _scale),
@@ -262,27 +266,27 @@ public class WatchFaceService extends CanvasWatchFaceService {
 				canvas.drawBitmap(_backgroundBitmap, 0, 0, _backgroundPaint);
 			}
 
-			final float secondsRotation = _time.second * 6f;
-			final float minutesRotation = _time.minute * 6f;
-
-			final float hourHandOffset = _time.minute / 2f;
-			final float hoursRotation = (_time.hour * 30) + hourHandOffset;
-
-			canvas.save();
-
-			canvas.rotate(hoursRotation, _centerX, _centerY);
-			drawHand(canvas, _hourHandLength);
-
-			canvas.rotate(minutesRotation - hoursRotation, _centerX, _centerY);
-			drawHand(canvas, _minuteHandLength);
-
-			if (!_ambient) {
-				canvas.rotate(secondsRotation - minutesRotation, _centerX, _centerY);
-				canvas.drawLine(_centerX, _centerY - HAND_END_CAP_RADIUS, _centerX, _centerY - _secondHandLength,
-						_handPaint);
-			}
-			canvas.drawCircle(_centerX, _centerY, HAND_END_CAP_RADIUS, _handPaint);
-			canvas.restore();
+			/*
+			 * final float secondsRotation = _time.second * 6f; final float
+			 * minutesRotation = _time.minute * 6f;
+			 * 
+			 * final float hourHandOffset = _time.minute / 2f; final float
+			 * hoursRotation = (_time.hour * 30) + hourHandOffset;
+			 * 
+			 * canvas.save();
+			 * 
+			 * canvas.rotate(hoursRotation, _centerX, _centerY);
+			 * drawHand(canvas, _hourHandLength);
+			 * 
+			 * canvas.rotate(minutesRotation - hoursRotation, _centerX,
+			 * _centerY); drawHand(canvas, _minuteHandLength);
+			 * 
+			 * if (!_ambient) { canvas.rotate(secondsRotation - minutesRotation,
+			 * _centerX, _centerY); canvas.drawLine(_centerX, _centerY -
+			 * HAND_END_CAP_RADIUS, _centerX, _centerY - _secondHandLength,
+			 * _handPaint); } canvas.drawCircle(_centerX, _centerY,
+			 * HAND_END_CAP_RADIUS, _handPaint); canvas.restore();
+			 */
 
 			if (_ambient) {
 				canvas.drawRect(_cardBounds, _backgroundPaint);
@@ -296,11 +300,13 @@ public class WatchFaceService extends CanvasWatchFaceService {
 			_temperatureViewController.Draw(canvas);
 		}
 
-		private void drawHand(Canvas canvas, float handLength) {
-			_logger.Debug("drawHand");
-			canvas.drawRoundRect(_centerX - HAND_END_CAP_RADIUS, _centerY - handLength, _centerX + HAND_END_CAP_RADIUS,
-					_centerY + HAND_END_CAP_RADIUS, HAND_END_CAP_RADIUS, HAND_END_CAP_RADIUS, _handPaint);
-		}
+		/*
+		 * private void drawHand(Canvas canvas, float handLength) {
+		 * _logger.Debug("drawHand"); canvas.drawRoundRect(_centerX -
+		 * HAND_END_CAP_RADIUS, _centerY - handLength, _centerX +
+		 * HAND_END_CAP_RADIUS, _centerY + HAND_END_CAP_RADIUS,
+		 * HAND_END_CAP_RADIUS, HAND_END_CAP_RADIUS, _handPaint); }
+		 */
 
 		@Override
 		public void onVisibilityChanged(boolean visible) {

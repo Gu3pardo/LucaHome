@@ -8,29 +8,22 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import android.os.Bundle;
 
-import guepardoapps.lucahome.wearcontrol.common.Constants;
-import guepardoapps.lucahome.wearcontrol.common.helper.MessageReceiveHelper;
+import guepardoapps.lucahome.common.LucaHomeLogger;
 
-import guepardoapps.toolset.common.Logger;
-
-public class WearMessageListenerService extends WearableListenerService
+public class PhoneMessageListenerService extends WearableListenerService
 		implements MessageApi.MessageListener, GoogleApiClient.ConnectionCallbacks {
 
-	private static final String TAG = WearMessageListenerService.class.getName();
-	private Logger _logger;
+	private static final String TAG = PhoneMessageListenerService.class.getName();
+	private LucaHomeLogger _logger;
 
-	private MessageReceiveHelper _messageReceiveHelper;
-
-	private static final String WEAR_MESSAGE_PATH = "/message";
+	private static final String PHONE_MESSAGE_PATH = "/phone_message";
 	private GoogleApiClient _apiClient;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		_logger = new Logger(TAG, Constants.DEBUGGING_ENABLED);
+		_logger = new LucaHomeLogger(TAG);
 		_logger.Debug("onCreate");
-
-		_messageReceiveHelper = new MessageReceiveHelper(this);
 
 		initGoogleApiClient();
 	}
@@ -51,11 +44,13 @@ public class WearMessageListenerService extends WearableListenerService
 	@Override
 	public void onMessageReceived(MessageEvent messageEvent) {
 		_logger.Debug("onMessageReceived");
-		if (messageEvent.getPath().equalsIgnoreCase(WEAR_MESSAGE_PATH)) {
+		if (messageEvent.getPath().equalsIgnoreCase(PHONE_MESSAGE_PATH)) {
 			String message = new String(messageEvent.getData());
-			_messageReceiveHelper.HandleMessage(message);
+			if (message != null) {
+				_logger.Debug("message: " + message);
+			}
 		} else {
-			_logger.Warn("Path is not " + WEAR_MESSAGE_PATH);
+			_logger.Warn("Path is not " + PHONE_MESSAGE_PATH);
 		}
 	}
 
