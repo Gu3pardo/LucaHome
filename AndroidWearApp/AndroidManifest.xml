@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="guepardoapps.lucahome"
-    android:versionCode="55161115"
-    android:versionName="0.5.5.161115" >
+    android:versionCode="61161116"
+    android:versionName="0.6.1.161116" >
 
     <uses-sdk
         android:minSdkVersion="21"

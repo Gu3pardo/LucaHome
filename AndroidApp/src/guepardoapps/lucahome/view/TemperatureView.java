@@ -14,6 +14,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -29,7 +30,7 @@ import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.TemperatureType;
 import guepardoapps.lucahome.customadapter.*;
 import guepardoapps.lucahome.dto.*;
-
+import guepardoapps.lucahome.services.NavigationService;
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
 
@@ -53,6 +54,7 @@ public class TemperatureView extends Activity implements SensorEventListener {
 	private Context _context;
 
 	private BroadcastController _broadcastController;
+	private NavigationService _navigationService;
 	private ReceiverController _receiverController;
 	private ServiceController _serviceController;
 
@@ -151,6 +153,7 @@ public class TemperatureView extends Activity implements SensorEventListener {
 		_context = this;
 
 		_broadcastController = new BroadcastController(_context);
+		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
 		_serviceController = new ServiceController(_context);
 
@@ -237,6 +240,15 @@ public class TemperatureView extends Activity implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int arg1) {
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			_navigationService.NavigateTo(MainView.class, true);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	private void initializeSensor() {

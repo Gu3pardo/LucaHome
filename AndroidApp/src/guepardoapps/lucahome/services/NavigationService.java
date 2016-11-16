@@ -39,4 +39,15 @@ public class NavigationService {
 		Intent navigateTo = new Intent(_context, target);
 		_context.startActivity(navigateTo);
 	}
+
+	public void NavigateTo(Class<?> target, boolean finish) {
+		// TODO
+		// SEND BROADCAST TO MAINSERVICE AND ASK FOR PERMISSION TO GO THERE
+		Intent navigateTo = new Intent(_context, target);
+		_context.startActivity(navigateTo);
+
+		if (finish) {
+			((Activity) _context).finish();
+		}
+	}
 }

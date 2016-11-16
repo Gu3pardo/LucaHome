@@ -53,7 +53,9 @@ public class WearMessageListenerService extends WearableListenerService
 		_logger.Debug("onMessageReceived");
 		if (messageEvent.getPath().equalsIgnoreCase(WEAR_MESSAGE_PATH)) {
 			String message = new String(messageEvent.getData());
-			_messageReceiveHelper.HandleMessage(message);
+			if (message != null) {
+				_messageReceiveHelper.HandleMessage(message);
+			}
 		} else {
 			_logger.Warn("Path is not " + WEAR_MESSAGE_PATH);
 		}

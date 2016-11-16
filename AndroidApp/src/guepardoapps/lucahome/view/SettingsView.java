@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,7 +21,7 @@ import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
-
+import guepardoapps.lucahome.services.NavigationService;
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
 import guepardoapps.toolset.controller.SharedPrefController;
@@ -38,6 +39,7 @@ public class SettingsView extends Activity {
 	private Context _context;
 
 	private BroadcastController _broadcastController;
+	private NavigationService _navigationService;
 	private ReceiverController _receiverController;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
@@ -71,6 +73,7 @@ public class SettingsView extends Activity {
 		_context = this;
 
 		_broadcastController = new BroadcastController(_context);
+		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
 		_serviceController = new ServiceController(_context);
 		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
@@ -118,6 +121,15 @@ public class SettingsView extends Activity {
 		}
 
 		_receiverController.UnregisterReceiver(_updateSocketListCheckBoxViewReceiver);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			_navigationService.NavigateTo(MainView.class, true);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	private void initializeSwitches() {

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.customadapter.SoundListAdapter;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
 import guepardoapps.lucahome.services.DialogService;
+import guepardoapps.lucahome.services.NavigationService;
 import guepardoapps.lucahome.viewcontroller.SoundController;
 
 import guepardoapps.toolset.controller.ReceiverController;
@@ -65,6 +67,7 @@ public class SoundView extends Activity {
 	private Context _context;
 
 	private DialogService _dialogService;
+	private NavigationService _navigationService;
 	private ReceiverController _receiverController;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
@@ -389,6 +392,7 @@ public class SoundView extends Activity {
 		_logger.Debug("onCreate");
 
 		_dialogService = new DialogService(_context);
+		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
 		_serviceController = new ServiceController(_context);
 		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
@@ -438,6 +442,15 @@ public class SoundView extends Activity {
 		_receiverController.UnregisterReceiver(_startPlayingReceiver);
 		_receiverController.UnregisterReceiver(_stopPlayingReceiver);
 		_receiverController.UnregisterReceiver(_volumeDownloadedReceiver);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			_navigationService.NavigateTo(MainView.class, true);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	private void loadValues() {

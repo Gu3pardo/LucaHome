@@ -28,6 +28,7 @@ import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.enums.*;
 import guepardoapps.lucahome.dto.*;
 import guepardoapps.lucahome.services.DialogService;
+import guepardoapps.lucahome.services.NavigationService;
 import guepardoapps.lucahome.viewcontroller.MapContentController;
 
 import guepardoapps.toolset.controller.BroadcastController;
@@ -57,6 +58,7 @@ public class MapView extends Activity {
 	private BroadcastController _broadcastController;
 	private DialogService _dialogService;
 	private MapContentController _mapContentController;
+	private NavigationService _navigationService;
 	private ReceiverController _receiverController;
 
 	private BroadcastReceiver _newDataReceiver = new BroadcastReceiver() {
@@ -192,6 +194,7 @@ public class MapView extends Activity {
 		_broadcastController = new BroadcastController(_context);
 		_dialogService = new DialogService(_context);
 		_mapContentController = new MapContentController(_context);
+		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
 
 		_addRaspberry = false;
@@ -235,7 +238,7 @@ public class MapView extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			finish();
+			_navigationService.NavigateTo(MainView.class, true);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

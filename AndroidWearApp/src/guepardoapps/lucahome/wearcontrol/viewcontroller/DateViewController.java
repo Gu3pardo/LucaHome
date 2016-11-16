@@ -76,6 +76,6 @@ public class DateViewController {
 		String timeString = hourString + ":" + minuteString;
 		_logger.Info("timeString: " + timeString);
 
-		canvas.drawText(timeString, Constants.DRAW_DEFAULT_OFFSET_X, (_display.getHeight() / 2), paint);
+		canvas.drawText(timeString, (_display.getWidth() / 3), (_display.getHeight() / 3), paint);
 	}
 }

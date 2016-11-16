@@ -7,11 +7,13 @@ import guepardoapps.lucahome.wearcontrol.dto.*;
 
 import guepardoapps.toolset.common.Logger;
 import guepardoapps.toolset.controller.BroadcastController;
+import guepardoapps.toolset.openweather.converter.WeatherConverter;
 
 public class MessageReceiveHelper {
 
 	private static final String CURRENT_WEATHER = "CurrentWeather:";
 	private static final String RASPBERRY_TEMPERATURE = "RaspberryTemperature:";
+	private static final String PHONE_BATTERY = "PhoneBattery:";
 
 	private static final String TAG = MessageReceiveHelper.class.getName();
 	private Logger _logger;
@@ -40,6 +42,10 @@ public class MessageReceiveHelper {
 			_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_RASPBERRY_TEMPERATURE,
 					new String[] { Constants.BUNDLE_RASPBERRY_TEMPERATURE_1, Constants.BUNDLE_RASPBERRY_TEMPERATURE_2 },
 					new Object[] { raspberryTemperature1, raspberryTemperature2 });
+		} else if (message.startsWith(PHONE_BATTERY)) {
+			message = message.replace(PHONE_BATTERY, "");
+			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_UPDATE_PHONE_BATTERY,
+					Constants.BUNDLE_PHONE_BATTERY, message);
 		} else {
 			_logger.Warn("Cannot handle message: " + message);
 		}
@@ -52,7 +58,9 @@ public class MessageReceiveHelper {
 		if (entries.length == 3) {
 			String description = entries[0];
 			description = description.replace("DESCRIPTION:", "");
-			_logger.Debug("description is: " + description);
+			_logger.Debug("original description is: " + description);
+			description = WeatherConverter.GetWeatherCondition(description).toString();
+			_logger.Debug("converted description is: " + description);
 
 			String temperature = entries[1];
 			temperature = temperature.replace("TEMPERATURE:", "");

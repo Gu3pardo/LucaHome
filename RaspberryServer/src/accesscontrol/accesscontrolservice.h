@@ -57,7 +57,7 @@ private:
 	void playAlarmSound();
 	void stopAlarmSound();
 
-	void sendMessageToServer(std::string, std::string);
+	void sendMessageToServer(std::string, int, std::string);
 
 	void countdown(int);
 

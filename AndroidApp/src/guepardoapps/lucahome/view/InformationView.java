@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -18,7 +19,7 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.customadapter.*;
 import guepardoapps.lucahome.dto.*;
-
+import guepardoapps.lucahome.services.NavigationService;
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
 
@@ -38,6 +39,7 @@ public class InformationView extends Activity {
 	private Context _context;
 
 	private BroadcastController _broadcastController;
+	private NavigationService _navigationService;
 	private ReceiverController _receiverController;
 
 	private Runnable _getDataRunnable = new Runnable() {
@@ -77,6 +79,7 @@ public class InformationView extends Activity {
 		_context = this;
 
 		_broadcastController = new BroadcastController(_context);
+		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
 
 		_listView = (ListView) findViewById(R.id.listView);
@@ -111,5 +114,14 @@ public class InformationView extends Activity {
 		super.onDestroy();
 		_logger.Debug("onDestroy");
 		_receiverController.UnregisterReceiver(_updateReceiver);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			_navigationService.NavigateTo(MainView.class, true);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

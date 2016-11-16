@@ -130,15 +130,15 @@ public class MainView extends Activity {
 	}
 
 	public void CHANGE(View view) {
-		_navigationService.NavigateTo(ChangeView.class);
+		_navigationService.NavigateTo(ChangeView.class, true);
 	}
 
 	public void INFORMATION(View view) {
-		_navigationService.NavigateTo(InformationView.class);
+		_navigationService.NavigateTo(InformationView.class, true);
 	}
 
 	public void TEMPERATURE(View view) {
-		_navigationService.NavigateTo(TemperatureView.class);
+		_navigationService.NavigateTo(TemperatureView.class, true);
 	}
 
 	public void USER(View view) {
@@ -151,7 +151,7 @@ public class MainView extends Activity {
 		wirelessSocket.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(SocketView.class);
+				_navigationService.NavigateTo(SocketView.class, true);
 			}
 		});
 
@@ -159,7 +159,7 @@ public class MainView extends Activity {
 		flatMap.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(MapView.class);
+				_navigationService.NavigateTo(MapView.class, true);
 			}
 		});
 
@@ -167,7 +167,7 @@ public class MainView extends Activity {
 		schedule.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(ScheduleView.class);
+				_navigationService.NavigateTo(ScheduleView.class, true);
 			}
 		});
 
@@ -175,7 +175,7 @@ public class MainView extends Activity {
 		timer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(TimerView.class);
+				_navigationService.NavigateTo(TimerView.class, true);
 			}
 		});
 
@@ -183,7 +183,7 @@ public class MainView extends Activity {
 		temperature.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(TemperatureView.class);
+				_navigationService.NavigateTo(TemperatureView.class, true);
 			}
 		});
 
@@ -191,7 +191,7 @@ public class MainView extends Activity {
 		movie.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(MovieView.class);
+				_navigationService.NavigateTo(MovieView.class, true);
 			}
 		});
 
@@ -199,7 +199,7 @@ public class MainView extends Activity {
 		birthday.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(BirthdayView.class);
+				_navigationService.NavigateTo(BirthdayView.class, true);
 			}
 		});
 
@@ -207,7 +207,7 @@ public class MainView extends Activity {
 		sound.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(SoundView.class);
+				_navigationService.NavigateTo(SoundView.class, true);
 			}
 		});
 
@@ -215,7 +215,7 @@ public class MainView extends Activity {
 		smartmirror.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(MediaMirrorView.class);
+				_navigationService.NavigateTo(MediaMirrorView.class, true);
 			}
 		});
 
@@ -223,7 +223,7 @@ public class MainView extends Activity {
 		settings.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				_navigationService.NavigateTo(SettingsView.class);
+				_navigationService.NavigateTo(SettingsView.class, true);
 			}
 		});
 	}

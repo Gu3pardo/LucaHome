@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -19,6 +20,7 @@ import android.widget.Spinner;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
+import guepardoapps.lucahome.services.NavigationService;
 import guepardoapps.lucahome.viewcontroller.MediaMirrorController;
 
 import guepardoapps.mediamirror.common.enums.*;
@@ -30,6 +32,7 @@ public class MediaMirrorView extends Activity {
 
 	private Context _context;
 	private MediaMirrorController _mediaMirrorController;
+	private NavigationService _navigationService;
 
 	private Spinner _selectServerSpinner;
 
@@ -90,6 +93,7 @@ public class MediaMirrorView extends Activity {
 
 		_context = this;
 		_mediaMirrorController = new MediaMirrorController(_context);
+		_navigationService = new NavigationService(_context);
 
 		_selectServerSpinner = (Spinner) findViewById(R.id.selectServerSpinner);
 		List<String> serverIPs = new ArrayList<String>();
@@ -385,5 +389,14 @@ public class MediaMirrorView extends Activity {
 			_logger.Debug("onDestroy");
 		}
 		_mediaMirrorController.Dispose();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			_navigationService.NavigateTo(MainView.class, true);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

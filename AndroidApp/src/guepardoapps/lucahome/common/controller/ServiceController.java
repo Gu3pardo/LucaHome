@@ -156,12 +156,6 @@ public class ServiceController {
 		_context.startService(serviceIntent);
 	}
 
-	public void CloseNotification(int notificationId) {
-		NotificationManager notificationManager = (NotificationManager) _context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		notificationManager.cancel(notificationId);
-	}
-
 	public void StopSound() {
 		StartRestService(TAG, Constants.ACTION_STOP_SOUND, Constants.BROADCAST_STOP_SOUND, LucaObject.SOUND,
 				RaspberrySelection.BOTH);
@@ -175,5 +169,11 @@ public class ServiceController {
 		serviceData.putString(Constants.BUNDLE_WEAR_MESSAGE_TEXT, message);
 		serviceIntent.putExtras(serviceData);
 		_context.startService(serviceIntent);
+	}
+
+	public void CloseNotification(int notificationId) {
+		NotificationManager notificationManager = (NotificationManager) _context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancel(notificationId);
 	}
 }

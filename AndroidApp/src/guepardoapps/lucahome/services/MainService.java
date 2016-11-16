@@ -6,7 +6,9 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Point;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -860,6 +862,20 @@ public class MainService extends Service {
 		}
 	};
 
+	private BroadcastReceiver _batteryChangedReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_batteryChangedReceiver onReceive");
+
+			int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+			if (level != -1) {
+				_logger.Debug("new battery level: " + String.valueOf(level));
+				String message = "PhoneBattery:" + String.valueOf(level) + "%";
+				_serviceController.SendMessageToWear(message);
+			}
+		}
+	};
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -1007,6 +1023,8 @@ public class MainService extends Service {
 				new String[] { Constants.BROADCAST_RELOAD_BIRTHDAY, Constants.BROADCAST_RELOAD_MOVIE,
 						Constants.BROADCAST_RELOAD_SCHEDULE, Constants.BROADCAST_RELOAD_TIMER,
 						Constants.BROADCAST_RELOAD_SOCKETS });
+
+		_context.registerReceiver(_batteryChangedReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
 
 	private void unregisterReceiver() {
@@ -1033,6 +1051,8 @@ public class MainService extends Service {
 		_receiverController.UnregisterReceiver(_reloadSocketReceiver);
 
 		_receiverController.UnregisterReceiver(_reloadChangeReceiver);
+
+		_context.unregisterReceiver(_batteryChangedReceiver);
 	}
 
 	private void addSchedules() {

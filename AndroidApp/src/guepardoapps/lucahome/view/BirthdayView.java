@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.customadapter.*;
 import guepardoapps.lucahome.dto.*;
 import guepardoapps.lucahome.services.DialogService;
+import guepardoapps.lucahome.services.NavigationService;
 
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
@@ -43,6 +45,7 @@ public class BirthdayView extends Activity {
 
 	private BroadcastController _broadcastController;
 	private DialogService _dialogService;
+	private NavigationService _navigationService;
 	private ReceiverController _receiverController;
 
 	private Runnable _getDataRunnable = new Runnable() {
@@ -87,6 +90,7 @@ public class BirthdayView extends Activity {
 
 		_broadcastController = new BroadcastController(_context);
 		_dialogService = new DialogService(_context);
+		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
 
 		_listView = (ListView) findViewById(R.id.listView);
@@ -127,5 +131,14 @@ public class BirthdayView extends Activity {
 		super.onDestroy();
 		_logger.Debug("onDestroy");
 		_receiverController.UnregisterReceiver(_updateReceiver);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			_navigationService.NavigateTo(MainView.class, true);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

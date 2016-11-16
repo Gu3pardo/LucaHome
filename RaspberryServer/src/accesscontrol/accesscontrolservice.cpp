@@ -84,15 +84,16 @@ void AccessControlService::countdownFinished() {
 }
 
 void AccessControlService::accessControlRequestCode() {
-	sendMessageToServer(_accessControlIp, "ACTION:REQUEST_CODE");
+	sendMessageToServer(_accessControlIp, 8080, "ACTION:REQUEST_CODE");
 }
 
 void AccessControlService::accessControlAccessControlActive() {
-	sendMessageToServer(_accessControlIp, "ACTION:ACTIVATE_ACCESS_CONTROL");
+	sendMessageToServer(_accessControlIp, 8080,
+			"ACTION:ACTIVATE_ACCESS_CONTROL");
 }
 
 void AccessControlService::accessControlLoginSuccessful() {
-	sendMessageToServer(_accessControlIp, "ACTION:LOGIN_SUCCESS");
+	sendMessageToServer(_accessControlIp, 8080, "ACTION:LOGIN_SUCCESS");
 }
 
 void AccessControlService::accessControlLoginFailed() {
@@ -101,7 +102,7 @@ void AccessControlService::accessControlLoginFailed() {
 		mediaMirrorPlayAlarmSound();
 		playAlarmSound();
 		_mailService.sendMail("User entered 5 times a wrong code!");
-		sendMessageToServer(_accessControlIp, "ACTION:ALARM_ACTIVE");
+		sendMessageToServer(_accessControlIp, 8080, "ACTION:ALARM_ACTIVE");
 	}
 }
 
@@ -109,7 +110,7 @@ void AccessControlService::accessControlCountdownFinished() {
 	mediaMirrorPlayAlarmSound();
 	playAlarmSound();
 	_mailService.sendMail("User entered 5 times a wrong code!");
-	sendMessageToServer(_accessControlIp, "ACTION:ALARM_ACTIVE");
+	sendMessageToServer(_accessControlIp, 8080, "ACTION:ALARM_ACTIVE");
 }
 
 void AccessControlService::mediaMirrorPlayAlarmSound() {
@@ -120,19 +121,20 @@ void AccessControlService::mediaMirrorPlayAlarmSound() {
 
 void AccessControlService::mediaMirrorStopAlarmSound() {
 	for (int index = 0; index < _mediaMirrorIps.size(); index++) {
-		sendMessageToServer(_mediaMirrorIps[index], "ACTION:STOP_ALARM&DATA:");
+		sendMessageToServer(_mediaMirrorIps[index], 8080,
+				"ACTION:STOP_ALARM&DATA:");
 	}
 }
 
 void AccessControlService::playAlarmSound() {
-	sendMessageToServer("127.0.0.1", "Scheduler:435435:SOUND:PLAY:ALARM");
+	sendMessageToServer("127.0.0.1", 6677, "Scheduler:435435:SOUND:PLAY:ALARM");
 }
 
 void AccessControlService::stopAlarmSound() {
-	sendMessageToServer("127.0.0.1", "Scheduler:435435:SOUND:STOP:ALARM");
+	sendMessageToServer("127.0.0.1", 6677, "Scheduler:435435:SOUND:STOP:ALARM");
 }
 
-void AccessControlService::sendMessageToServer(std::string ip,
+void AccessControlService::sendMessageToServer(std::string ip, int port,
 		std::string messageString) {
 	if (ip.length() < 13) {
 		return;
@@ -151,7 +153,7 @@ void AccessControlService::sendMessageToServer(std::string ip,
 
 	server.sin_addr.s_addr = inet_addr(ip);
 	server.sin_family = AF_INET;
-	server.sin_port = htons(8080);
+	server.sin_port = htons(port);
 
 	if (connect(socket, (struct sockaddr *) &server, sizeof(server)) < 0) {
 		//connect failed. Error
