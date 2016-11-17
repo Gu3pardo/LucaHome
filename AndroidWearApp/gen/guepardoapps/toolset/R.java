@@ -50,33 +50,33 @@ public final class R {
 		public static final int text_view_padding_bottom = 0x7f0d0038;
 	}
 	public static final class drawable {
-		public static final int button = 0x7f020033;
-		public static final int button_default = 0x7f020034;
-		public static final int button_selected = 0x7f020035;
-		public static final int weather_clear = 0x7f020063;
-		public static final int weather_cloud = 0x7f020064;
-		public static final int weather_dummy = 0x7f020065;
-		public static final int weather_fog = 0x7f020066;
-		public static final int weather_haze = 0x7f020067;
-		public static final int weather_rain = 0x7f020068;
-		public static final int weather_snow = 0x7f020069;
+		public static final int button = 0x7f02003a;
+		public static final int button_default = 0x7f02003e;
+		public static final int button_selected = 0x7f02003f;
+		public static final int weather_clear = 0x7f020080;
+		public static final int weather_cloud = 0x7f020081;
+		public static final int weather_dummy = 0x7f020082;
+		public static final int weather_fog = 0x7f020083;
+		public static final int weather_haze = 0x7f020084;
+		public static final int weather_rain = 0x7f020085;
+		public static final int weather_snow = 0x7f020086;
 	}
 	public static final class id {
-		public static final int custom_alert_dialog_background = 0x7f0e006a;
-		public static final int custom_alert_dialog_btn_cancel = 0x7f0e006e;
-		public static final int custom_alert_dialog_btn_neutral = 0x7f0e006f;
-		public static final int custom_alert_dialog_btn_ok = 0x7f0e006d;
-		public static final int custom_alert_dialog_prompt = 0x7f0e006c;
-		public static final int custom_alert_dialog_title = 0x7f0e006b;
-		public static final int floating_message_background = 0x7f0e0073;
-		public static final int floating_message_text = 0x7f0e0075;
-		public static final int floating_message_title = 0x7f0e0074;
+		public static final int custom_alert_dialog_background = 0x7f0e0069;
+		public static final int custom_alert_dialog_btn_cancel = 0x7f0e006d;
+		public static final int custom_alert_dialog_btn_neutral = 0x7f0e006e;
+		public static final int custom_alert_dialog_btn_ok = 0x7f0e006c;
+		public static final int custom_alert_dialog_prompt = 0x7f0e006b;
+		public static final int custom_alert_dialog_title = 0x7f0e006a;
+		public static final int floating_message_background = 0x7f0e0072;
+		public static final int floating_message_text = 0x7f0e0074;
+		public static final int floating_message_title = 0x7f0e0073;
 	}
 	public static final class layout {
-		public static final int custom_dialog_1 = 0x7f030019;
-		public static final int custom_dialog_2 = 0x7f03001a;
-		public static final int custom_dialog_3 = 0x7f03001b;
-		public static final int floating_message = 0x7f03001e;
+		public static final int custom_dialog_1 = 0x7f030018;
+		public static final int custom_dialog_2 = 0x7f030019;
+		public static final int custom_dialog_3 = 0x7f03001a;
+		public static final int floating_message = 0x7f03001d;
 	}
 	public static final class string {
 		public static final int about = 0x7f090038;
