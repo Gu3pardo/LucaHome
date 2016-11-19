@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="guepardoapps.lucahome"
-    android:versionCode="80161117"
-    android:versionName="0.8.0.161117" >
+    android:versionCode="100161119"
+    android:versionName="1.0.0.161119" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -30,6 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="guepardoapps.lucahome.wearcontrol.views.BirthdayView" />
+        <activity android:name="guepardoapps.lucahome.wearcontrol.views.MovieView" />
+        <activity android:name="guepardoapps.lucahome.wearcontrol.views.ScheduleView" />
         <activity android:name="guepardoapps.lucahome.wearcontrol.views.SocketView" />
 
         <service

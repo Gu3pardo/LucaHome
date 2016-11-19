@@ -35,6 +35,13 @@ public class ScheduleController {
 				Constants.BROADCAST_RELOAD_SCHEDULE, LucaObject.SCHEDULE, RaspberrySelection.BOTH);
 	}
 
+	public void SetSchedule(String scheduleName, boolean newState) {
+		_logger.Debug("SetSchedule: " + scheduleName + " to " + String.valueOf(newState));
+		_serviceController.StartRestService(scheduleName,
+				Constants.ACTION_SET_SCHEDULE + scheduleName + ((newState) ? Constants.STATE_ON : Constants.STATE_OFF),
+				Constants.BROADCAST_RELOAD_SCHEDULE, LucaObject.SCHEDULE, RaspberrySelection.BOTH);
+	}
+
 	public void DeleteSchedule(ScheduleDto schedule) {
 		_logger.Debug("DeleteSchedule");
 		_serviceController.StartRestService(schedule.GetName(), schedule.GetCommandDelete(),

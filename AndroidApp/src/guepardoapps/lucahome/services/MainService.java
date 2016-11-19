@@ -247,6 +247,7 @@ public class MainService extends Service {
 				case GET_BIRTHDAYS:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_BIRTHDAY,
 							new String[] { Constants.BUNDLE_BIRTHDAY_LIST }, new Object[] { _birthdayList });
+					sendBirthdaysToWear();
 					break;
 				case GET_CHANGES:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_CHANGE,
@@ -259,15 +260,18 @@ public class MainService extends Service {
 				case GET_MOVIES:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_MOVIE,
 							new String[] { Constants.BUNDLE_MOVIE_LIST }, new Object[] { _movieList });
+					sendMoviesToWear();
 					break;
 				case GET_SCHEDULES:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_SCHEDULE,
 							new String[] { Constants.BUNDLE_SCHEDULE_LIST, Constants.BUNDLE_SOCKET_LIST },
 							new Object[] { _scheduleList, _wirelessSocketList });
+					sendSchedulesToWear();
 					break;
 				case GET_SOCKETS:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_SOCKET,
 							new String[] { Constants.BUNDLE_SOCKET_LIST }, new Object[] { _wirelessSocketList });
+					sendSocketsToWear();
 					break;
 				case GET_TEMPERATURE:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_TEMPERATURE,
@@ -332,7 +336,9 @@ public class MainService extends Service {
 					_birthdayList = newBirthdayList;
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_BIRTHDAY,
 							new String[] { Constants.BUNDLE_BIRTHDAY_LIST }, new Object[] { _birthdayList });
+
 					checkForBirthday();
+					sendBirthdaysToWear();
 				}
 			}
 			updateDownloadCount();
@@ -450,6 +456,8 @@ public class MainService extends Service {
 					_movieList = newMovieList;
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_MOVIE,
 							new String[] { Constants.BUNDLE_MOVIE_LIST }, new Object[] { _movieList });
+
+					sendMoviesToWear();
 				}
 			}
 			updateDownloadCount();
@@ -471,6 +479,8 @@ public class MainService extends Service {
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_SCHEDULE,
 							new String[] { Constants.BUNDLE_SCHEDULE_LIST, Constants.BUNDLE_SOCKET_LIST },
 							new Object[] { _scheduleList, _wirelessSocketList });
+
+					sendSchedulesToWear();
 				}
 
 				SerializableList<TimerDto> newTimerList = JsonDataToTimerConverter.GetList(scheduleStringArray,
@@ -510,6 +520,9 @@ public class MainService extends Service {
 									Constants.BUNDLE_TEMPERATURE_LIST },
 							new Object[] { _mapContentList, _wirelessSocketList, _scheduleList, _timerList,
 									_temperatureList });
+
+					sendSocketsToWear();
+
 					if (_sharedPrefController
 							.LoadBooleanValueFromSharedPreferences(Constants.DISPLAY_SOCKET_NOTIFICATION)) {
 						_serviceController.StartSocketNotificationService(Constants.ID_NOTIFICATION_WEAR,
@@ -1238,5 +1251,50 @@ public class MainService extends Service {
 		_logger.Debug("Stopping timeoutController...");
 		_downloadingData = false;
 		_timeoutHandler.removeCallbacks(_timeoutCheck);
+	}
+
+	private void sendMoviesToWear() {
+		String messageText = "Movies:";
+		for (int index = 0; index < _movieList.getSize(); index++) {
+			messageText += _movieList.getValue(index).GetTitle() + "&";
+		}
+		_logger.Info("message is " + messageText);
+		_serviceController.SendMessageToWear(messageText);
+	}
+
+	private void sendBirthdaysToWear() {
+		String messageText = "Birthdays:";
+		for (int index = 0; index < _birthdayList.getSize(); index++) {
+			messageText += _birthdayList.getValue(index).GetName() + ":"
+					+ String.valueOf(_birthdayList.getValue(index).GetBirthday().get(Calendar.YEAR)) + ":"
+					+ String.valueOf(_birthdayList.getValue(index).GetBirthday().get(Calendar.MONTH)) + ":"
+					+ String.valueOf(_birthdayList.getValue(index).GetBirthday().get(Calendar.DAY_OF_MONTH)) + "&";
+		}
+		_logger.Info("message is " + messageText);
+		_serviceController.SendMessageToWear(messageText);
+	}
+
+	private void sendSchedulesToWear() {
+		String messageText = "Schedules:";
+		for (int index = 0; index < _scheduleList.getSize(); index++) {
+			String information = _scheduleList.getValue(index).GetWeekday().toString() + ", "
+					+ _scheduleList.getValue(index).GetTime().toString() + " set "
+					+ _scheduleList.getValue(index).GetSocket().GetName() + " to "
+					+ String.valueOf(_scheduleList.getValue(index).GetAction());
+			messageText += _scheduleList.getValue(index).GetName() + ":" + information + ":"
+					+ (_scheduleList.getValue(index).GetIsActive() ? "1" : "0") + "&";
+		}
+		_logger.Info("message is " + messageText);
+		_serviceController.SendMessageToWear(messageText);
+	}
+
+	private void sendSocketsToWear() {
+		String messageText = "Sockets:";
+		for (int index = 0; index < _wirelessSocketList.getSize(); index++) {
+			messageText += _wirelessSocketList.getValue(index).GetName() + ":"
+					+ (_wirelessSocketList.getValue(index).GetIsActivated() ? "1" : "0") + "&";
+		}
+		_logger.Info("message is " + messageText);
+		_serviceController.SendMessageToWear(messageText);
 	}
 }

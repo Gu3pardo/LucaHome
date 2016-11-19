@@ -2,7 +2,7 @@ package guepardoapps.lucahome.watchface.common;
 
 public class Constants {
 	// ========== LOGGER ==========
-	public static final boolean DEBUGGING_ENABLED = true;
+	public static final boolean DEBUGGING_ENABLED = false;
 	// ========== TESTING ==========
 	public static final boolean TESTING_ENABLED = false;
 	// ========== CANVAS ==========
@@ -17,8 +17,16 @@ public class Constants {
 	public static final String BUNDLE_RASPBERRY_TEMPERATURE_2 = "BUNDLE_RASPBERRY_TEMPERATURE_2";
 	public static final String BUNDLE_PHONE_BATTERY = "BUNDLE_PHONE_BATTERY";
 	public static final String BUNDLE_PHONE_MESSAGE_TEXT = "BUNDLE_PHONE_MESSAGE_TEXT";
+	public static final String BUNDLE_BIRTHDAY_LIST = "BUNDLE_BIRTHDAY_LIST";
+	public static final String BUNDLE_MOVIE_LIST = "BUNDLE_MOVIE_LIST";
+	public static final String BUNDLE_SCHEDULE_LIST = "BUNDLE_SCHEDULE_LIST";
+	public static final String BUNDLE_SOCKET_LIST = "BUNDLE_SOCKET_LIST";
 	// ========== BROADCAST ==========
 	public static final String BROADCAST_UPDATE_CURRENT_WEATHER = "guepardoapps.lucahome.watchface.broadcast.update.current_weather";
 	public static final String BROADCAST_UPDATE_RASPBERRY_TEMPERATURE = "guepardoapps.lucahome.watchface.broadcast.update.raspberry_temperature";
 	public static final String BROADCAST_UPDATE_PHONE_BATTERY = "guepardoapps.lucahome.watchface.broadcast.update.phone_battery";
+	public static final String BROADCAST_UPDATE_BIRTHDAY_LIST = "guepardoapps.lucahome.watchface.broadcast.update.birthday_list";
+	public static final String BROADCAST_UPDATE_MOVIE_LIST = "guepardoapps.lucahome.watchface.broadcast.update.movie_list";
+	public static final String BROADCAST_UPDATE_SCHEDULE_LIST = "guepardoapps.lucahome.watchface.broadcast.update.schedule_list";
+	public static final String BROADCAST_UPDATE_SOCKET_LIST = "guepardoapps.lucahome.watchface.broadcast.update.socket_list";
 }

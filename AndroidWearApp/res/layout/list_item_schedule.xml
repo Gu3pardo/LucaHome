@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/list_socket_item_name"
+        android:id="@+id/list_schedule_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -13,11 +13,21 @@
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/list_socket_item_button"
+    <TextView
+        android:id="@+id/list_schedule_item_information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/list_socket_item_name"
+        android:layout_below="@+id/list_schedule_item_name"
+        android:layout_margin="5dp"
+        android:alpha="0.6"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/list_schedule_item_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_schedule_item_information"
         android:background="@drawable/button_blank"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

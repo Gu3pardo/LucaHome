@@ -53,13 +53,13 @@ public final class R {
 		public static final int button = 0x7f02003a;
 		public static final int button_default = 0x7f02003e;
 		public static final int button_selected = 0x7f02003f;
-		public static final int weather_clear = 0x7f020080;
-		public static final int weather_cloud = 0x7f020081;
-		public static final int weather_dummy = 0x7f020082;
-		public static final int weather_fog = 0x7f020083;
-		public static final int weather_haze = 0x7f020084;
-		public static final int weather_rain = 0x7f020085;
-		public static final int weather_snow = 0x7f020086;
+		public static final int weather_clear = 0x7f02007e;
+		public static final int weather_cloud = 0x7f02007f;
+		public static final int weather_dummy = 0x7f020080;
+		public static final int weather_fog = 0x7f020081;
+		public static final int weather_haze = 0x7f020082;
+		public static final int weather_rain = 0x7f020083;
+		public static final int weather_snow = 0x7f020084;
 	}
 	public static final class id {
 		public static final int custom_alert_dialog_background = 0x7f0e0069;

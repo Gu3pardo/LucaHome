@@ -15,6 +15,9 @@ import guepardoapps.lucahome.watchface.common.Constants;
 import guepardoapps.lucahome.wearcontrol.controller.NavigationController;
 import guepardoapps.lucahome.wearcontrol.views.customadapter.MainListViewAdapter;
 import guepardoapps.lucahome.wearcontrol.views.listitem.MainListViewItem;
+
+import guepardoapps.test.*;
+
 import guepardoapps.toolset.common.Logger;
 
 public class MainView extends Activity {
@@ -30,6 +33,8 @@ public class MainView extends Activity {
 	private ListAdapter _listAdapter;
 	private ListView _mainListView;
 
+	private ConverterTest _converterTest;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,14 +46,15 @@ public class MainView extends Activity {
 		_context = this;
 		_navigationController = new NavigationController(_context);
 
-		_viewItemList.add(new MainListViewItem(R.drawable.socket, "Sockets"));
+		if (Constants.TESTING_ENABLED) {
+			_converterTest = new ConverterTest(_context);
+			_converterTest.PerformTests();
+		}
+
+		_viewItemList.add(new MainListViewItem(R.drawable.birthday, "Birthdays"));
+		//_viewItemList.add(new MainListViewItem(R.drawable.movie, "Movies"));
 		_viewItemList.add(new MainListViewItem(R.drawable.scheduler, "Schedules"));
-		_viewItemList.add(new MainListViewItem(R.drawable.timer, "Timer"));
-		_viewItemList.add(new MainListViewItem(R.drawable.temperature, "Temperature"));
-		_viewItemList.add(new MainListViewItem(R.drawable.movie, "Movies"));
-		_viewItemList.add(new MainListViewItem(R.drawable.circle_blue, "Informations"));
-		_viewItemList.add(new MainListViewItem(R.drawable.circle_green, "Changes"));
-		_viewItemList.add(new MainListViewItem(R.drawable.circle_yellow, "User"));
+		_viewItemList.add(new MainListViewItem(R.drawable.socket, "Sockets"));
 
 		final WatchViewStub stub = (WatchViewStub) findViewById(R.id.basicWatchViewStub);
 		stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {

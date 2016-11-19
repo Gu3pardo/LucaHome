@@ -193,7 +193,9 @@ public class WatchFaceService extends CanvasWatchFaceService {
 			switch (tapType) {
 			case WatchFaceService.TAP_TYPE_TAP:
 				if (withinTapRegion(x, y)) {
-					_context.startActivity(new Intent(_context, MainView.class));
+					Intent intent = new Intent(_context, MainView.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
 				}
 				break;
 			default:

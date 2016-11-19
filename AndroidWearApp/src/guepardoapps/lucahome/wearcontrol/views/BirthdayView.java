@@ -1,6 +1,7 @@
 package guepardoapps.lucahome.wearcontrol.views;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -15,25 +16,26 @@ import android.widget.ListView;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.watchface.common.Constants;
 import guepardoapps.lucahome.watchface.common.helper.MessageSendHelper;
-import guepardoapps.lucahome.wearcontrol.views.customadapter.SocketListViewAdapter;
-import guepardoapps.lucahome.wearcontrol.views.listitem.SocketListViewItem;
+
+import guepardoapps.lucahome.wearcontrol.views.customadapter.BirthdayListViewAdapter;
+import guepardoapps.lucahome.wearcontrol.views.listitem.BirthdayListViewItem;
 import guepardoapps.test.ConverterTest;
 import guepardoapps.toolset.common.Logger;
 import guepardoapps.toolset.controller.ReceiverController;
 
-public class SocketView extends Activity {
+public class BirthdayView extends Activity {
 
-	private static final String TAG = SocketView.class.getName();
+	private static final String TAG = BirthdayView.class.getName();
 	private Logger _logger;
 
-	private static final String COMMAND = "ACTION:GET:SOCKETS";
+	private static final String COMMAND = "ACTION:GET:BIRTHDAYS";
 
 	private Context _context;
 	private MessageSendHelper _messageSendHelper;
 	private ReceiverController _receiverController;
 
 	private boolean _isInitialized;
-	private List<SocketListViewItem> _itemList = new ArrayList<>();
+	private List<BirthdayListViewItem> _itemList = new ArrayList<>();
 
 	private ListAdapter _listAdapter;
 	private ListView _listView;
@@ -45,11 +47,11 @@ public class SocketView extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_updateReceiver onReceive");
-			List<SocketListViewItem> itemList = (List<SocketListViewItem>) intent
-					.getSerializableExtra(Constants.BUNDLE_SOCKET_LIST);
+			List<BirthdayListViewItem> itemList = (List<BirthdayListViewItem>) intent
+					.getSerializableExtra(Constants.BUNDLE_BIRTHDAY_LIST);
 			if (itemList != null) {
 				_itemList = itemList;
-				_listAdapter = new SocketListViewAdapter(_context, _messageSendHelper, _itemList);
+				_listAdapter = new BirthdayListViewAdapter(_context, _itemList);
 				_listView.setAdapter(_listAdapter);
 			}
 		}
@@ -67,14 +69,14 @@ public class SocketView extends Activity {
 		_messageSendHelper = new MessageSendHelper(_context);
 		_receiverController = new ReceiverController(_context);
 
-		_itemList.add(new SocketListViewItem(R.drawable.circle_yellow, "Loading...", false));
+		_itemList.add(new BirthdayListViewItem(R.drawable.circle_yellow, "Loading...", Calendar.getInstance()));
 
 		final WatchViewStub stub = (WatchViewStub) findViewById(R.id.basicWatchViewStub);
 		stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
 			@Override
 			public void onLayoutInflated(WatchViewStub stub) {
 				_listView = (ListView) stub.findViewById(R.id.basicListView);
-				_listAdapter = new SocketListViewAdapter(_context, _messageSendHelper, _itemList);
+				_listAdapter = new BirthdayListViewAdapter(_context, _itemList);
 				_listView.setAdapter(_listAdapter);
 			}
 		});
@@ -86,7 +88,7 @@ public class SocketView extends Activity {
 		_logger.Debug("onResume");
 		if (!_isInitialized) {
 			_receiverController.RegisterReceiver(_updateReceiver,
-					new String[] { Constants.BROADCAST_UPDATE_SOCKET_LIST });
+					new String[] { Constants.BROADCAST_UPDATE_BIRTHDAY_LIST });
 			_messageSendHelper.SendMessage(COMMAND);
 			_isInitialized = true;
 

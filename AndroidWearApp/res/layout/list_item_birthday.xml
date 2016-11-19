@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_birthday_item_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/list_socket_item_name"
+        android:id="@+id/list_birthday_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -13,12 +14,24 @@
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/list_socket_item_button"
+    <TextView
+        android:id="@+id/list_birthday_item_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/list_socket_item_name"
-        android:background="@drawable/button_blank"
+        android:layout_below="@+id/list_birthday_item_name"
+        android:layout_margin="5dp"
+        android:alpha="0.6"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/list_birthday_item_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_birthday_item_date"
+        android:layout_margin="5dp"
+        android:alpha="0.6"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

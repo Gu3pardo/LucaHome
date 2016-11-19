@@ -17,24 +17,24 @@ import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.watchface.common.Constants;
 import guepardoapps.lucahome.watchface.common.helper.MessageSendHelper;
 
-import guepardoapps.lucahome.wearcontrol.views.listitem.SocketListViewItem;
+import guepardoapps.lucahome.wearcontrol.views.listitem.MovieListViewItem;
 
 import guepardoapps.toolset.common.Logger;
 
-public class SocketListViewAdapter extends BaseAdapter {
+public class MovieListViewAdapter extends BaseAdapter {
 
-	private static final String TAG = SocketListViewAdapter.class.getName();
+	private static final String TAG = MovieListViewAdapter.class.getName();
 	private Logger _logger;
 
-	private List<SocketListViewItem> _list;
+	private List<MovieListViewItem> _list;
 
 	private Context _context;
 	private MessageSendHelper _messageSendHelper;
 
 	private static LayoutInflater _inflater = null;
 
-	public SocketListViewAdapter(Context context, MessageSendHelper messageSendHelper,
-			List<SocketListViewItem> _viewItemList) {
+	public MovieListViewAdapter(Context context, MessageSendHelper messageSendHelper,
+			List<MovieListViewItem> _viewItemList) {
 		_logger = new Logger(TAG, Constants.DEBUGGING_ENABLED);
 
 		_list = _viewItemList;
@@ -60,8 +60,8 @@ public class SocketListViewAdapter extends BaseAdapter {
 	}
 
 	public class Holder {
-		private TextView _name;
-		private Button _state;
+		private TextView _title;
+		private Button _play;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -69,21 +69,19 @@ public class SocketListViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int index, View convertView, ViewGroup parent) {
 		Holder holder = new Holder();
-		View rowView = _inflater.inflate(R.layout.list_item_socket, null);
+		View rowView = _inflater.inflate(R.layout.list_item_movie, null);
 
 		Drawable drawable = _context.getResources().getDrawable(_list.get(index).GetImageResource());
 		drawable.setBounds(0, 0, 20, 20);
 
-		holder._name = (TextView) rowView.findViewById(R.id.list_socket_item_name);
-		holder._name.setText(_list.get(index).GetName());
-		holder._name.setCompoundDrawablesRelative(drawable, null, null, null);
+		holder._title = (TextView) rowView.findViewById(R.id.list_movie_item_title);
+		holder._title.setText(_list.get(index).GetTitle());
 
-		holder._state = (Button) rowView.findViewById(R.id.list_socket_item_button);
-		holder._state.setText(_list.get(index).GetIsActivated() ? "ON" : "OFF");
-		holder._state.setOnClickListener(new OnClickListener() {
+		holder._play = (Button) rowView.findViewById(R.id.list_movie_item_play);
+		holder._play.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				_logger.Debug("Toggle state of " + _list.get(index).GetName());
+				_logger.Debug("Play movie " + _list.get(index).GetTitle());
 				if (_messageSendHelper != null) {
 					_messageSendHelper.SendMessage(_list.get(index).GetCommandText());
 				}

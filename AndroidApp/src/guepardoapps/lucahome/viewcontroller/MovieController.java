@@ -6,12 +6,10 @@ import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.LucaObject;
-import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.dto.MovieDto;
 import guepardoapps.lucahome.services.PackageService;
 
-import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.SharedPrefController;
 
 public class MovieController {
@@ -21,9 +19,9 @@ public class MovieController {
 
 	private Context _context;
 
-	private BroadcastController _broadcastController;
 	private ServiceController _serviceController;
 	private SharedPrefController _sharedPrefController;
+	private SocketController _socketController;
 
 	private PackageService _packageService;
 
@@ -31,9 +29,10 @@ public class MovieController {
 		_logger = new LucaHomeLogger(TAG);
 
 		_context = context;
-		_broadcastController = new BroadcastController(_context);
+
 		_serviceController = new ServiceController(_context);
 		_sharedPrefController = new SharedPrefController(_context, Constants.SHARED_PREF_NAME);
+		_socketController = new SocketController(_context);
 
 		_packageService = new PackageService(_context);
 	}
@@ -54,8 +53,12 @@ public class MovieController {
 			}
 		}
 
-		_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
-				new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
-				new Object[] { MainServiceAction.DOWLOAD_SOCKETS });
+		if (movie.GetSockets() != null) {
+			for (String socketName : movie.GetSockets()) {
+				if (socketName != null && socketName.length() > 0) {
+					_socketController.SetSocket(socketName, true);
+				}
+			}
+		}
 	}
 }

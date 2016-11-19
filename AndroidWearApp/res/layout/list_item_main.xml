@@ -7,4 +7,4 @@
     android:alpha="0.6"
     android:drawableStart="@drawable/circle_blue"
     android:gravity="center"
-    android:textSize="12sp" />
+    android:textAppearance="?android:attr/textAppearanceLarge" />

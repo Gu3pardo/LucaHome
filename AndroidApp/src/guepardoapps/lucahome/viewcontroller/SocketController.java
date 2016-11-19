@@ -36,6 +36,13 @@ public class SocketController {
 				Constants.BROADCAST_RELOAD_SOCKETS, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
 	}
 
+	public void SetSocket(String socketName, boolean newState) {
+		_logger.Debug("SetSocket: " + socketName + " to " + String.valueOf(newState));
+		_serviceController.StartRestService(socketName,
+				Constants.ACTION_SET_SOCKET + socketName + ((newState) ? Constants.STATE_ON : Constants.STATE_OFF),
+				Constants.BROADCAST_RELOAD_SOCKETS, LucaObject.WIRELESS_SOCKET, RaspberrySelection.BOTH);
+	}
+
 	public void LoadSockets() {
 		_logger.Debug("SetSocket");
 		_serviceController.StartRestService(Constants.SOCKET_DOWNLOAD, Constants.ACTION_GET_SOCKETS,

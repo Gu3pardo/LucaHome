@@ -2,18 +2,14 @@ package guepardoapps.lucahome.wearcontrol.enums;
 
 import java.io.Serializable;
 
-import guepardoapps.lucahome.wearcontrol.views.SocketView;
+import guepardoapps.lucahome.wearcontrol.views.*;
 
 public enum TargetActivity implements Serializable {
 	
 	SOCKET("Sockets", SocketView.class), 
-	SCHEDULE("Schedules", null), 
-	TIMER("Timer", null), 
-	TEMPERATURE("Temperature", null), 
-	MOVIES("Movies", null), 
-	INFORMATIONS("Informations", null), 
-	CHANGES("Changes", null), 
-	USER("User", null);
+	SCHEDULE("Schedules", ScheduleView.class), 
+	MOVIES("Movies", MovieView.class), 
+	BIRTHDAYS("Birthdays", BirthdayView.class);
 
 	private String _name;
 	private Class<?> _activity;

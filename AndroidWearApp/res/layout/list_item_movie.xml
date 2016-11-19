@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/list_socket_item_name"
+        android:id="@+id/list_movie_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -14,11 +14,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/list_socket_item_button"
+        android:id="@+id/list_movie_item_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/list_socket_item_name"
+        android:layout_below="@+id/list_movie_item_title"
         android:background="@drawable/button_blank"
+        android:text="Play"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
