@@ -31,8 +31,8 @@ import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.RaspberrySelection;
 import guepardoapps.lucahome.customadapter.SoundListAdapter;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
-import guepardoapps.lucahome.services.DialogService;
-import guepardoapps.lucahome.services.NavigationService;
+import guepardoapps.lucahome.services.helper.DialogService;
+import guepardoapps.lucahome.services.helper.NavigationService;
 import guepardoapps.lucahome.viewcontroller.SoundController;
 
 import guepardoapps.toolset.controller.ReceiverController;
@@ -447,7 +447,7 @@ public class SoundView extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			_navigationService.NavigateTo(MainView.class, true);
+			_navigationService.NavigateTo(HomeView.class, true);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

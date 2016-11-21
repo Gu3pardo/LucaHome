@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="guepardoapps.lucahome"
-    android:versionCode="100161119"
-    android:versionName="1.0.0.161119" >
+    android:versionCode="116161120"
+    android:versionName="1.1.6.161120" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -31,12 +31,14 @@
             </intent-filter>
         </activity>
         <activity android:name="guepardoapps.lucahome.wearcontrol.views.BirthdayView" />
-        <activity android:name="guepardoapps.lucahome.wearcontrol.views.MovieView" />
         <activity android:name="guepardoapps.lucahome.wearcontrol.views.ScheduleView" />
+        <activity
+            android:name="guepardoapps.lucahome.wearcontrol.views.SensorView"
+            android:hardwareAccelerated="true" />
         <activity android:name="guepardoapps.lucahome.wearcontrol.views.SocketView" />
 
         <service
-            android:name="guepardoapps.lucahome.watchface.services.PhoneMessageService"
+            android:name="guepardoapps.lucahome.wearcontrol.services.PhoneMessageService"
             android:enabled="true" />
         <service
             android:name="guepardoapps.lucahome.watchface.services.WatchFaceService"

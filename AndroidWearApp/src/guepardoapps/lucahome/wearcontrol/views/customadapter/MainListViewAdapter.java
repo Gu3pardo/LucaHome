@@ -11,11 +11,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.watchface.common.Constants;
+import guepardoapps.lucahome.common.Constants;
+
 import guepardoapps.lucahome.wearcontrol.controller.NavigationController;
 import guepardoapps.lucahome.wearcontrol.views.listitem.MainListViewItem;
+
 import guepardoapps.toolset.common.Logger;
 
 public class MainListViewAdapter extends BaseAdapter {
@@ -74,7 +76,6 @@ public class MainListViewAdapter extends BaseAdapter {
 		holder._item.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Toast.makeText(_context, _list.get(index).GetText(), Toast.LENGTH_SHORT).show();
 				_navigationController.NavigateTo(_list.get(index).GetText());
 			}
 		});

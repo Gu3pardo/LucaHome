@@ -7,8 +7,8 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import android.os.Bundle;
-import guepardoapps.lucahome.watchface.common.Constants;
-import guepardoapps.lucahome.watchface.common.helper.MessageReceiveHelper;
+import guepardoapps.lucahome.common.Constants;
+import guepardoapps.lucahome.watchface.helper.MessageReceiveHelper;
 import guepardoapps.toolset.common.Logger;
 
 public class WearMessageListenerService extends WearableListenerService

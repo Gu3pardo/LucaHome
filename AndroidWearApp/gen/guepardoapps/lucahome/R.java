@@ -2706,8 +2706,9 @@ containing a value of this type.
         public static final int all=0x7f0e0035;
         public static final int always=0x7f0e0029;
         public static final int animatedWrapperContainer=0x7f0e0066;
-        public static final int basicListView=0x7f0e0082;
-        public static final int basicWatchViewStub=0x7f0e0081;
+        public static final int basicListView=0x7f0e0080;
+        public static final int basicListWatchViewStub=0x7f0e007f;
+        public static final int basicSensorWatchViewStub=0x7f0e0081;
         public static final int beginning=0x7f0e0030;
         public static final int book_now=0x7f0e001a;
         public static final int bottom=0x7f0e0033;
@@ -2732,6 +2733,7 @@ containing a value of this type.
         public static final int decor_content_parent=0x7f0e0055;
         public static final int default_activity_button=0x7f0e004a;
         public static final int dialog=0x7f0e002e;
+        public static final int directionOfHandValue=0x7f0e0085;
         public static final int disableHome=0x7f0e0023;
         public static final int dismiss_overlay_button=0x7f0e0070;
         public static final int dismiss_overlay_explain=0x7f0e006f;
@@ -2748,6 +2750,11 @@ containing a value of this type.
         public static final int floating_message_background=0x7f0e0072;
         public static final int floating_message_text=0x7f0e0074;
         public static final int floating_message_title=0x7f0e0073;
+        public static final int gravityGraph=0x7f0e0087;
+        public static final int gravityGraphButton=0x7f0e0086;
+        public static final int gravityXValue=0x7f0e0082;
+        public static final int gravityYValue=0x7f0e0083;
+        public static final int gravityZValue=0x7f0e0084;
         public static final int grayscale=0x7f0e001f;
         public static final int height=0x7f0e0038;
         public static final int holo_dark=0x7f0e0011;
@@ -2766,13 +2773,11 @@ containing a value of this type.
         public static final int list_birthday_item_name=0x7f0e0076;
         public static final int list_item=0x7f0e004b;
         public static final int list_main_item_text=0x7f0e0079;
-        public static final int list_movie_item_play=0x7f0e007b;
-        public static final int list_movie_item_title=0x7f0e007a;
-        public static final int list_schedule_item_button=0x7f0e007e;
-        public static final int list_schedule_item_information=0x7f0e007d;
-        public static final int list_schedule_item_name=0x7f0e007c;
-        public static final int list_socket_item_button=0x7f0e0080;
-        public static final int list_socket_item_name=0x7f0e007f;
+        public static final int list_schedule_item_button=0x7f0e007c;
+        public static final int list_schedule_item_information=0x7f0e007b;
+        public static final int list_schedule_item_name=0x7f0e007a;
+        public static final int list_socket_item_button=0x7f0e007e;
+        public static final int list_socket_item_name=0x7f0e007d;
         public static final int match_parent=0x7f0e0018;
         public static final int message=0x7f0e0071;
         public static final int message_update=0x7f0e0009;
@@ -2810,7 +2815,7 @@ containing a value of this type.
         public static final int submit_area=0x7f0e0062;
         public static final int tabMode=0x7f0e0022;
         public static final int terrain=0x7f0e0010;
-        public static final int text=0x7f0e0083;
+        public static final int text=0x7f0e0088;
         public static final int title=0x7f0e004d;
         public static final int top=0x7f0e0034;
         public static final int up=0x7f0e0001;
@@ -2890,15 +2895,17 @@ containing a value of this type.
         public static final int floating_message=0x7f03001d;
         public static final int list_item_birthday=0x7f03001e;
         public static final int list_item_main=0x7f03001f;
-        public static final int list_item_movie=0x7f030020;
-        public static final int list_item_schedule=0x7f030021;
-        public static final int list_item_socket=0x7f030022;
-        public static final int support_simple_spinner_dropdown_item=0x7f030023;
-        public static final int view_basic=0x7f030024;
-        public static final int view_basic_list_rect=0x7f030025;
-        public static final int view_basic_list_round=0x7f030026;
-        public static final int watch_card_content=0x7f030027;
-        public static final int watch_face=0x7f030028;
+        public static final int list_item_schedule=0x7f030020;
+        public static final int list_item_socket=0x7f030021;
+        public static final int support_simple_spinner_dropdown_item=0x7f030022;
+        public static final int view_basic_list=0x7f030023;
+        public static final int view_basic_list_rect=0x7f030024;
+        public static final int view_basic_list_round=0x7f030025;
+        public static final int view_sensor=0x7f030026;
+        public static final int view_sensor_rect=0x7f030027;
+        public static final int view_sensor_round=0x7f030028;
+        public static final int watch_card_content=0x7f030029;
+        public static final int watch_face=0x7f03002a;
     }
     public static final class raw {
         public static final int gtm_analytics=0x7f070000;

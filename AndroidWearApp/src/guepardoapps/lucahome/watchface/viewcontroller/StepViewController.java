@@ -7,8 +7,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import guepardoapps.lucahome.watchface.common.Constants;
-import guepardoapps.lucahome.watchface.common.Tools;
+import guepardoapps.lucahome.common.Constants;
+import guepardoapps.lucahome.common.Tools;
 import guepardoapps.toolset.common.Logger;
 
 public class StepViewController implements SensorEventListener {

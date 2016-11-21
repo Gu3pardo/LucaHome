@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
-import guepardoapps.lucahome.services.NavigationService;
+import guepardoapps.lucahome.services.helper.NavigationService;
 import guepardoapps.lucahome.viewcontroller.MediaMirrorController;
 
 import guepardoapps.mediamirror.common.enums.*;
@@ -394,7 +394,7 @@ public class MediaMirrorView extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			_navigationService.NavigateTo(MainView.class, true);
+			_navigationService.NavigateTo(HomeView.class, true);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

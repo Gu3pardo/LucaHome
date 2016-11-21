@@ -7,13 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Point;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import guepardoapps.lucahome.R;
@@ -24,6 +22,7 @@ import guepardoapps.lucahome.common.controller.*;
 import guepardoapps.lucahome.common.converter.json.*;
 import guepardoapps.lucahome.common.enums.*;
 import guepardoapps.lucahome.dto.*;
+import guepardoapps.lucahome.services.helper.DialogService;
 import guepardoapps.lucahome.viewcontroller.BirthdayController;
 import guepardoapps.toolset.controller.DialogController;
 import guepardoapps.toolset.controller.NetworkController;
@@ -126,11 +125,6 @@ public class MainService extends Service {
 
 			if (!_networkController.IsNetworkAvailable()) {
 				_logger.Warn("No network available!");
-				return;
-			}
-
-			if (!_networkController.IsHomeNetwork(Constants.LUCAHOME_SSID)) {
-				_logger.Warn("No LucaHome network! ...");
 				return;
 			}
 
@@ -260,7 +254,6 @@ public class MainService extends Service {
 				case GET_MOVIES:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_MOVIE,
 							new String[] { Constants.BUNDLE_MOVIE_LIST }, new Object[] { _movieList });
-					sendMoviesToWear();
 					break;
 				case GET_SCHEDULES:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_SCHEDULE,
@@ -418,13 +411,8 @@ public class MainService extends Service {
 			String[] mapcontentStringArray = intent.getStringArrayExtra(Constants.MAP_CONTENT_DOWNLOAD);
 			if (mapcontentStringArray != null) {
 
-				DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-				Point size = new Point();
-				size.x = displayMetrics.widthPixels;
-				size.y = displayMetrics.heightPixels;
-
 				SerializableList<MapContentDto> newMapContentList = JsonDataToMapContentConverter
-						.GetList(mapcontentStringArray, size);
+						.GetList(mapcontentStringArray);
 				if (newMapContentList != null) {
 					_mapContentList = newMapContentList;
 				}
@@ -456,8 +444,6 @@ public class MainService extends Service {
 					_movieList = newMovieList;
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_MOVIE,
 							new String[] { Constants.BUNDLE_MOVIE_LIST }, new Object[] { _movieList });
-
-					sendMoviesToWear();
 				}
 			}
 			updateDownloadCount();
@@ -1111,7 +1097,7 @@ public class MainService extends Service {
 
 						_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_COMMAND,
 								new String[] { Constants.BUNDLE_COMMAND, Constants.BUNDLE_NAVIGATE_DATA },
-								new Object[] { Command.NAVIGATE, NavigateData.MAIN });
+								new Object[] { Command.NAVIGATE, NavigateData.HOME });
 
 						return;
 					}
@@ -1171,7 +1157,7 @@ public class MainService extends Service {
 			stopTimeout();
 			_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_COMMAND,
 					new String[] { Constants.BUNDLE_COMMAND, Constants.BUNDLE_NAVIGATE_DATA },
-					new Object[] { Command.NAVIGATE, NavigateData.MAIN });
+					new Object[] { Command.NAVIGATE, NavigateData.HOME });
 		}
 	}
 
@@ -1251,15 +1237,6 @@ public class MainService extends Service {
 		_logger.Debug("Stopping timeoutController...");
 		_downloadingData = false;
 		_timeoutHandler.removeCallbacks(_timeoutCheck);
-	}
-
-	private void sendMoviesToWear() {
-		String messageText = "Movies:";
-		for (int index = 0; index < _movieList.getSize(); index++) {
-			messageText += _movieList.getValue(index).GetTitle() + "&";
-		}
-		_logger.Info("message is " + messageText);
-		_serviceController.SendMessageToWear(messageText);
 	}
 
 	private void sendBirthdaysToWear() {

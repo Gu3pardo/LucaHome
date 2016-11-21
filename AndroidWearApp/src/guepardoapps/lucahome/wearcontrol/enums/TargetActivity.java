@@ -8,8 +8,8 @@ public enum TargetActivity implements Serializable {
 	
 	SOCKET("Sockets", SocketView.class), 
 	SCHEDULE("Schedules", ScheduleView.class), 
-	MOVIES("Movies", MovieView.class), 
-	BIRTHDAYS("Birthdays", BirthdayView.class);
+	BIRTHDAYS("Birthdays", BirthdayView.class), 
+	GRAVITY("Gravity", SensorView.class);
 
 	private String _name;
 	private Class<?> _activity;

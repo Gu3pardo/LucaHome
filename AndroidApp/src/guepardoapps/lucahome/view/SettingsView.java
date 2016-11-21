@@ -21,7 +21,7 @@ import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.controller.ServiceController;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
-import guepardoapps.lucahome.services.NavigationService;
+import guepardoapps.lucahome.services.helper.NavigationService;
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
 import guepardoapps.toolset.controller.SharedPrefController;
@@ -126,7 +126,7 @@ public class SettingsView extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			_navigationService.NavigateTo(MainView.class, true);
+			_navigationService.NavigateTo(HomeView.class, true);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

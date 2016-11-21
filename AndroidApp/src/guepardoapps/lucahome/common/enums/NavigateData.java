@@ -7,7 +7,7 @@ public enum NavigateData implements Serializable {
 	NULL("", -1), 
 	FINISH("Finish", 0),
 	BOOT("Boot", 1), 
-	MAIN("Main", 2), 
+	HOME("Home", 2), 
 	LIST("List", 3), 
 	SETTINGS("Settings", 4), 
 	FLAT_MAP("Flat_Map", 5), 

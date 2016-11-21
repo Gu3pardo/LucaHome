@@ -11,8 +11,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.watchface.common.Constants;
+import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.wearcontrol.controller.NavigationController;
+import guepardoapps.lucahome.wearcontrol.enums.TargetActivity;
 import guepardoapps.lucahome.wearcontrol.views.customadapter.MainListViewAdapter;
 import guepardoapps.lucahome.wearcontrol.views.listitem.MainListViewItem;
 
@@ -38,10 +39,10 @@ public class MainView extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.view_basic);
+		setContentView(R.layout.view_basic_list);
 
 		_logger = new Logger(TAG, Constants.DEBUGGING_ENABLED);
-		_logger.Debug("MainView onCreate");
+		_logger.Debug(MainView.class.getName() + " onCreate");
 
 		_context = this;
 		_navigationController = new NavigationController(_context);
@@ -51,12 +52,12 @@ public class MainView extends Activity {
 			_converterTest.PerformTests();
 		}
 
-		_viewItemList.add(new MainListViewItem(R.drawable.birthday, "Birthdays"));
-		//_viewItemList.add(new MainListViewItem(R.drawable.movie, "Movies"));
-		_viewItemList.add(new MainListViewItem(R.drawable.scheduler, "Schedules"));
-		_viewItemList.add(new MainListViewItem(R.drawable.socket, "Sockets"));
+		_viewItemList.add(new MainListViewItem(R.drawable.birthday, TargetActivity.BIRTHDAYS.GetName()));
+		_viewItemList.add(new MainListViewItem(R.drawable.scheduler, TargetActivity.SCHEDULE.GetName()));
+		_viewItemList.add(new MainListViewItem(R.drawable.socket, TargetActivity.SOCKET.GetName()));
+		_viewItemList.add(new MainListViewItem(R.drawable.circle_blue, TargetActivity.GRAVITY.GetName()));
 
-		final WatchViewStub stub = (WatchViewStub) findViewById(R.id.basicWatchViewStub);
+		final WatchViewStub stub = (WatchViewStub) findViewById(R.id.basicListWatchViewStub);
 		stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
 			@Override
 			public void onLayoutInflated(WatchViewStub stub) {

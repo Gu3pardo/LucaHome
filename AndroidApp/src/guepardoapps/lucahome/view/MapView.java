@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,8 +28,8 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.enums.*;
 import guepardoapps.lucahome.dto.*;
-import guepardoapps.lucahome.services.DialogService;
-import guepardoapps.lucahome.services.NavigationService;
+import guepardoapps.lucahome.services.helper.DialogService;
+import guepardoapps.lucahome.services.helper.NavigationService;
 import guepardoapps.lucahome.viewcontroller.MapContentController;
 
 import guepardoapps.toolset.controller.BroadcastController;
@@ -238,7 +239,7 @@ public class MapView extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			_navigationService.NavigateTo(MainView.class, true);
+			_navigationService.NavigateTo(HomeView.class, true);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -354,8 +355,14 @@ public class MapView extends Activity {
 			final SerializableList<WirelessSocketDto> wirelessSocketList,
 			final SerializableList<ScheduleDto> scheduleAllList, final SerializableList<TimerDto> timerAllList,
 			final SerializableList<TemperatureDto> temperatureList) {
+
+		DisplayMetrics displayMetrics = _context.getResources().getDisplayMetrics();
+		Point size = new Point();
+		size.x = displayMetrics.widthPixels;
+		size.y = displayMetrics.heightPixels;
+
 		final TextView newTextView = _mapContentController.CreateEntry(newMapContent, newMapContent.GetPosition(),
-				wirelessSocketList);
+				wirelessSocketList, size, false);
 		newTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

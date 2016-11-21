@@ -52,14 +52,14 @@ public final class R {
 	public static final class drawable {
 		public static final int button = 0x7f020011;
 		public static final int button_default = 0x7f020015;
-		public static final int button_selected = 0x7f020016;
-		public static final int weather_clear = 0x7f020071;
-		public static final int weather_cloud = 0x7f020072;
-		public static final int weather_dummy = 0x7f020073;
-		public static final int weather_fog = 0x7f020074;
-		public static final int weather_haze = 0x7f020075;
-		public static final int weather_rain = 0x7f020076;
-		public static final int weather_snow = 0x7f020077;
+		public static final int button_selected = 0x7f020018;
+		public static final int weather_clear = 0x7f020076;
+		public static final int weather_cloud = 0x7f020077;
+		public static final int weather_dummy = 0x7f020078;
+		public static final int weather_fog = 0x7f020079;
+		public static final int weather_haze = 0x7f02007a;
+		public static final int weather_rain = 0x7f02007b;
+		public static final int weather_snow = 0x7f02007c;
 	}
 	public static final class id {
 		public static final int custom_alert_dialog_background = 0x7f10002d;

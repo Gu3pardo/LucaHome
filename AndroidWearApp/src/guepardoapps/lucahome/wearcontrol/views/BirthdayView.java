@@ -14,12 +14,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.watchface.common.Constants;
-import guepardoapps.lucahome.watchface.common.helper.MessageSendHelper;
-
+import guepardoapps.lucahome.common.Constants;
+import guepardoapps.lucahome.wearcontrol.helper.MessageSendHelper;
 import guepardoapps.lucahome.wearcontrol.views.customadapter.BirthdayListViewAdapter;
 import guepardoapps.lucahome.wearcontrol.views.listitem.BirthdayListViewItem;
+
 import guepardoapps.test.ConverterTest;
+
 import guepardoapps.toolset.common.Logger;
 import guepardoapps.toolset.controller.ReceiverController;
 
@@ -60,7 +61,7 @@ public class BirthdayView extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.view_basic);
+		setContentView(R.layout.view_basic_list);
 
 		_logger = new Logger(TAG, Constants.DEBUGGING_ENABLED);
 		_logger.Debug("onCreate");
@@ -71,7 +72,7 @@ public class BirthdayView extends Activity {
 
 		_itemList.add(new BirthdayListViewItem(R.drawable.circle_yellow, "Loading...", Calendar.getInstance()));
 
-		final WatchViewStub stub = (WatchViewStub) findViewById(R.id.basicWatchViewStub);
+		final WatchViewStub stub = (WatchViewStub) findViewById(R.id.basicListWatchViewStub);
 		stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
 			@Override
 			public void onLayoutInflated(WatchViewStub stub) {

@@ -14,9 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.watchface.common.Constants;
-import guepardoapps.lucahome.watchface.common.helper.MessageSendHelper;
-
+import guepardoapps.lucahome.common.Constants;
+import guepardoapps.lucahome.wearcontrol.helper.MessageSendHelper;
 import guepardoapps.lucahome.wearcontrol.views.listitem.ScheduleListViewItem;
 
 import guepardoapps.toolset.common.Logger;

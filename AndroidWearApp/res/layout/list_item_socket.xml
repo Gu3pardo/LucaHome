@@ -5,7 +5,7 @@
 
     <TextView
         android:id="@+id/list_socket_item_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:alpha="0.6"
@@ -15,9 +15,10 @@
 
     <Button
         android:id="@+id/list_socket_item_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/list_socket_item_name"
+        android:layout_margin="5dp"
         android:background="@drawable/button_blank"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

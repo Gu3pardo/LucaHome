@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -16,10 +15,12 @@ import android.widget.ProgressBar;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
+import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.customadapter.*;
 import guepardoapps.lucahome.dto.*;
-import guepardoapps.lucahome.services.NavigationService;
+import guepardoapps.lucahome.services.helper.NavigationService;
+
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
 
@@ -30,11 +31,14 @@ public class InformationView extends Activity {
 
 	private boolean _isInitialized;
 
-	private ProgressBar _progressBar;
-	private ListView _listView;
-	private Button _buttonAdd;
+	private ProgressBar _progressBarAbove;
+	private ListView _listViewAbove;
 
-	private ListAdapter _listAdapter;
+	private ProgressBar _progressBarBelow;
+	private ListView _listViewBelow;
+
+	private ListAdapter _listAdapterAbove;
+	private ListAdapter _listAdapterBelow;
 
 	private Context _context;
 
@@ -44,25 +48,47 @@ public class InformationView extends Activity {
 
 	private Runnable _getDataRunnable = new Runnable() {
 		public void run() {
-			_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
-					new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
-					new Object[] { MainServiceAction.GET_INFORMATIONS });
+			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+					Constants.BUNDLE_MAIN_SERVICE_ACTION, MainServiceAction.GET_INFORMATIONS);
+			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
+					Constants.BUNDLE_MAIN_SERVICE_ACTION, MainServiceAction.GET_CHANGES);
 		}
 	};
 
-	private BroadcastReceiver _updateReceiver = new BroadcastReceiver() {
+	private BroadcastReceiver _updateChangeReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("_updateReceiver onReceive");
+			_logger.Debug("_updateChangeReceiver onReceive");
+
+			@SuppressWarnings("unchecked")
+			SerializableList<ChangeDto> list = (SerializableList<ChangeDto>) intent
+					.getSerializableExtra(Constants.BUNDLE_CHANGE_LIST);
+
+			if (list != null) {
+				_listAdapterBelow = new ChangeListAdapter(_context, list);
+				_listViewBelow.setAdapter(_listAdapterBelow);
+
+				_progressBarBelow.setVisibility(View.GONE);
+				_listViewBelow.setVisibility(View.VISIBLE);
+			} else {
+				_logger.Warn("list is null!");
+			}
+		}
+	};
+
+	private BroadcastReceiver _updateInformationReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_updateInformationReceiver onReceive");
 
 			InformationDto entry = (InformationDto) intent.getSerializableExtra(Constants.BUNDLE_INFORMATION_SINGLE);
 
 			if (entry != null) {
-				_listAdapter = new InformationListAdapter(_context, entry);
-				_listView.setAdapter(_listAdapter);
+				_listAdapterAbove = new InformationListAdapter(_context, entry);
+				_listViewAbove.setAdapter(_listAdapterAbove);
 
-				_progressBar.setVisibility(View.GONE);
-				_listView.setVisibility(View.VISIBLE);
+				_progressBarAbove.setVisibility(View.GONE);
+				_listViewAbove.setVisibility(View.VISIBLE);
 			}
 		}
 	};
@@ -70,7 +96,7 @@ public class InformationView extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.view_skeleton_list);
+		setContentView(R.layout.view_skeleton_list_double);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Constants.ACTION_BAR_COLOR));
 
 		_logger = new LucaHomeLogger(TAG);
@@ -82,11 +108,11 @@ public class InformationView extends Activity {
 		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
 
-		_listView = (ListView) findViewById(R.id.listView);
-		_progressBar = (ProgressBar) findViewById(R.id.progressBarListView);
+		_listViewAbove = (ListView) findViewById(R.id.listViewAbove);
+		_progressBarAbove = (ProgressBar) findViewById(R.id.progressBarListViewAbove);
 
-		_buttonAdd = (Button) findViewById(R.id.buttonAddListView);
-		_buttonAdd.setVisibility(View.GONE);
+		_listViewBelow = (ListView) findViewById(R.id.listViewBelow);
+		_progressBarBelow = (ProgressBar) findViewById(R.id.progressBarListViewBelow);
 	}
 
 	@Override
@@ -95,9 +121,11 @@ public class InformationView extends Activity {
 		_logger.Debug("onResume");
 		if (!_isInitialized) {
 			if (_receiverController != null && _broadcastController != null) {
-				_isInitialized = true;
-				_receiverController.RegisterReceiver(_updateReceiver,
+				_receiverController.RegisterReceiver(_updateChangeReceiver,
+						new String[] { Constants.BROADCAST_UPDATE_CHANGE });
+				_receiverController.RegisterReceiver(_updateInformationReceiver,
 						new String[] { Constants.BROADCAST_UPDATE_INFORMATION });
+				_isInitialized = true;
 				_getDataRunnable.run();
 			}
 		}
@@ -113,13 +141,14 @@ public class InformationView extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		_logger.Debug("onDestroy");
-		_receiverController.UnregisterReceiver(_updateReceiver);
+		_receiverController.UnregisterReceiver(_updateChangeReceiver);
+		_receiverController.UnregisterReceiver(_updateInformationReceiver);
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			_navigationService.NavigateTo(MainView.class, true);
+			_navigationService.NavigateTo(HomeView.class, true);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

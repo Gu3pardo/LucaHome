@@ -16,7 +16,7 @@ import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.dto.BirthdayDto;
-import guepardoapps.lucahome.services.DialogService;
+import guepardoapps.lucahome.services.helper.DialogService;
 import guepardoapps.lucahome.viewcontroller.BirthdayController;
 import guepardoapps.particles.ParticleSystem;
 

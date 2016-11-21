@@ -2,7 +2,6 @@ package guepardoapps.lucahome.common.converter.json;
 
 import java.util.ArrayList;
 
-import android.graphics.Point;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.Tools;
 import guepardoapps.lucahome.common.classes.*;
@@ -15,10 +14,8 @@ public final class JsonDataToMapContentConverter {
 	private static LucaHomeLogger _logger;
 
 	private static String _searchParameter = "{mapcontent";
-	private static Point _size;
 
-	public static SerializableList<MapContentDto> GetList(String[] stringArray, Point size) {
-		_size = size;
+	public static SerializableList<MapContentDto> GetList(String[] stringArray) {
 		if (Tools.StringsAreEqual(stringArray)) {
 			return ParseStringToList(stringArray[0]);
 		} else {
@@ -27,8 +24,7 @@ public final class JsonDataToMapContentConverter {
 		}
 	}
 
-	public static MapContentDto Get(String value, Point size) {
-		_size = size;
+	public static MapContentDto Get(String value) {
 		if (!value.contains("Error")) {
 			if (Tools.GetStringCount(value, _searchParameter) == 1) {
 				if (value.contains(_searchParameter)) {
@@ -94,15 +90,9 @@ public final class JsonDataToMapContentConverter {
 
 				String positionString = data[1].replace("{position:", "").replace("};", "");
 				String[] coordinates = positionString.split("\\|");
-				int x = -1;
-				int y = -1;
-				if (_size != null) {
-					x = Integer.parseInt(coordinates[0]) * (_size.x / 100);
-					y = Integer.parseInt(coordinates[1]) * (_size.y / 100);
-				} else {
-					_logger.Warn("_size is null!");
-				}
-				
+				int x = Integer.parseInt(coordinates[0]);
+				int y = Integer.parseInt(coordinates[1]);
+
 				int[] position = new int[2];
 				position[0] = x;
 				position[1] = y;

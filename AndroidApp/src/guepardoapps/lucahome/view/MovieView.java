@@ -21,8 +21,8 @@ import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.customadapter.*;
 import guepardoapps.lucahome.dto.*;
-import guepardoapps.lucahome.services.DialogService;
-import guepardoapps.lucahome.services.NavigationService;
+import guepardoapps.lucahome.services.helper.DialogService;
+import guepardoapps.lucahome.services.helper.NavigationService;
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
 
@@ -132,7 +132,7 @@ public class MovieView extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			_navigationService.NavigateTo(MainView.class, true);
+			_navigationService.NavigateTo(HomeView.class, true);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

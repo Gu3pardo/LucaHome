@@ -11,7 +11,7 @@ import android.widget.TextView;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.dto.InformationDto;
-import guepardoapps.lucahome.services.DialogService;
+import guepardoapps.lucahome.services.helper.DialogService;
 
 public class InformationListAdapter extends BaseAdapter {
 

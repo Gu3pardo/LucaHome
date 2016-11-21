@@ -3,6 +3,7 @@ package guepardoapps.lucahome.viewcontroller;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,7 +56,7 @@ public class MapContentController {
 	}
 
 	public TextView CreateEntry(final MapContentDto newMapContent, int[] clickPosition,
-			SerializableList<WirelessSocketDto> wirelessSocketList) {
+			SerializableList<WirelessSocketDto> wirelessSocketList, Point size, boolean rotated) {
 		final TextView newTextView = new TextView(_context);
 
 		switch (newMapContent.GetDrawingType()) {
@@ -100,9 +101,20 @@ public class MapContentController {
 			return null;
 		}
 
+		int positionX = -1;
+		int positionY = -1;
+
+		if (rotated) {
+			positionX = size.x - (size.x * clickPosition[1] / 100) - 50;
+			positionY = (size.y * clickPosition[0] / 100) - 50;
+		} else {
+			positionX = (size.x * clickPosition[0] / 100) - 15;
+			positionY = (size.y * clickPosition[1] / 100) - 15;
+		}
+
 		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(clickPosition[0] - 15, clickPosition[1] - 15, 0, 0);
+		layoutParams.setMargins(positionX, positionY, 0, 0);
 
 		newTextView.setLayoutParams(layoutParams);
 

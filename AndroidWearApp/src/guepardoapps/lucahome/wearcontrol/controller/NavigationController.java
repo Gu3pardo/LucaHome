@@ -3,7 +3,8 @@ package guepardoapps.lucahome.wearcontrol.controller;
 import android.content.Context;
 import android.content.Intent;
 
-import guepardoapps.lucahome.watchface.common.Constants;
+import guepardoapps.lucahome.common.Constants;
+
 import guepardoapps.lucahome.wearcontrol.enums.TargetActivity;
 
 import guepardoapps.toolset.common.Logger;

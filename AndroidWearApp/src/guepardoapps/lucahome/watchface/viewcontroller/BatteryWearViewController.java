@@ -7,10 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.BatteryManager;
 import android.view.Display;
-
-import guepardoapps.lucahome.watchface.common.Constants;
-import guepardoapps.lucahome.watchface.common.Tools;
-
+import guepardoapps.lucahome.common.Constants;
+import guepardoapps.lucahome.common.Tools;
 import guepardoapps.toolset.common.Logger;
 
 @SuppressWarnings("deprecation")

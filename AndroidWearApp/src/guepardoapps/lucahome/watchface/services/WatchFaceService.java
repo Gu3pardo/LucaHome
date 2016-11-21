@@ -26,13 +26,14 @@ import android.view.Display;
 import android.view.SurfaceHolder;
 
 import guepardoapps.lucahome.R;
-import guepardoapps.lucahome.watchface.common.Tools;
+import guepardoapps.lucahome.common.Constants;
+import guepardoapps.lucahome.common.Tools;
 import guepardoapps.lucahome.watchface.viewcontroller.*;
 
 import guepardoapps.lucahome.wearcontrol.views.MainView;
 
-import guepardoapps.toolset.common.Constants;
 import guepardoapps.toolset.common.Logger;
+import guepardoapps.toolset.controller.ReceiverController;
 
 @SuppressWarnings("deprecation")
 public class WatchFaceService extends CanvasWatchFaceService {
@@ -60,6 +61,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 		private boolean _burnInProtection;
 		private boolean _registeredTimeZoneReceiver = false;
 		private boolean _ambient;
+		private boolean _isHomeNetwork = true;
 
 		private Bitmap _backgroundBitmap;
 		private Bitmap _grayBackgroundBitmap;
@@ -72,6 +74,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 		private BatteryWearViewController _batteryWearViewController;
 		private CurrentWeatherViewController _currentWeatherViewController;
 		private DateViewController _dateViewController;
+		private ReceiverController _receiverController;
 		private StepViewController _stepViewController;
 		private TemperatureViewController _temperatureViewController;
 
@@ -97,6 +100,26 @@ public class WatchFaceService extends CanvasWatchFaceService {
 			}
 		};
 
+		private final BroadcastReceiver _wifiStateReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				_logger.Debug("_wifiStateReceiver onReceive");
+				String wifiState = intent.getStringExtra(Constants.BUNDLE_WIFI_STATE);
+				if (wifiState != null) {
+					if (wifiState.contains("HOME")) {
+						_isHomeNetwork = true;
+					} else if (wifiState.contains("NO")) {
+						_isHomeNetwork = false;
+					} else {
+						_isHomeNetwork = false;
+						_logger.Warn("wifiState not supported: " + wifiState);
+					}
+				} else {
+					_logger.Warn("wifiState is null!");
+				}
+			}
+		};
+
 		@Override
 		public void onCreate(SurfaceHolder holder) {
 			super.onCreate(holder);
@@ -113,6 +136,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 			_batteryWearViewController = new BatteryWearViewController(_context);
 			_currentWeatherViewController = new CurrentWeatherViewController(_context);
 			_dateViewController = new DateViewController(_context);
+			_receiverController = new ReceiverController(_context);
 			_stepViewController = new StepViewController(_context);
 			_temperatureViewController = new TemperatureViewController(_context);
 
@@ -128,6 +152,9 @@ public class WatchFaceService extends CanvasWatchFaceService {
 			_launcherBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.launcher);
 			_display = _tools.GetDisplayDimension();
 			_time = new Time();
+
+			_receiverController.RegisterReceiver(_wifiStateReceiver,
+					new String[] { Constants.BROADCAST_UPDATE_WIFI_STATE });
 		}
 
 		@Override
@@ -140,6 +167,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
 			_dateViewController.onDestroy();
 			_stepViewController.onDestroy();
 			_temperatureViewController.onDestroy();
+
+			_receiverController.UnregisterReceiver(_wifiStateReceiver);
 
 			_updateTimeHandler.removeMessages(R.id.message_update);
 			super.onDestroy();
@@ -192,7 +221,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 		public void onTapCommand(@TapType int tapType, int x, int y, long eventTime) {
 			switch (tapType) {
 			case WatchFaceService.TAP_TYPE_TAP:
-				if (withinTapRegion(x, y)) {
+				if (withinTapRegion(x, y) && _isHomeNetwork) {
 					Intent intent = new Intent(_context, MainView.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intent);
@@ -215,8 +244,10 @@ public class WatchFaceService extends CanvasWatchFaceService {
 				canvas.drawBitmap(_grayBackgroundBitmap, 0, 0, _backgroundPaint);
 			} else {
 				canvas.drawBitmap(_backgroundBitmap, 0, 0, _backgroundPaint);
-				canvas.drawBitmap(_launcherBitmap, (_display.getWidth() / 3) + 25, (_display.getHeight() / 3) + 25,
-						_backgroundPaint);
+				if (_isHomeNetwork) {
+					canvas.drawBitmap(_launcherBitmap, (_display.getWidth() / 3) + 25, (_display.getHeight() / 3) + 25,
+							_backgroundPaint);
+				}
 			}
 
 			if (_ambient) {

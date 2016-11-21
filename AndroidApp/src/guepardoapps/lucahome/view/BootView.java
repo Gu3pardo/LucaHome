@@ -17,10 +17,9 @@ import guepardoapps.lucahome.common.enums.Command;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.common.enums.NavigateData;
 import guepardoapps.lucahome.services.ControlMainServiceState;
-import guepardoapps.lucahome.services.DialogService;
 import guepardoapps.lucahome.services.MainService;
-import guepardoapps.lucahome.services.NavigationService;
-
+import guepardoapps.lucahome.services.helper.DialogService;
+import guepardoapps.lucahome.services.helper.NavigationService;
 import guepardoapps.lucahome.wearcontrol.services.PhoneMessageListenerService;
 
 import guepardoapps.toolset.controller.NetworkController;
@@ -78,8 +77,8 @@ public class BootView extends Activity {
 
 					if (navigateData != null) {
 						switch (navigateData) {
-						case MAIN:
-							_navigationService.NavigateTo(MainView.class, null, true);
+						case HOME:
+							_navigationService.NavigateTo(HomeView.class, null, true);
 							break;
 						case FINISH:
 							finish();

@@ -20,8 +20,7 @@ import android.widget.Toast;
 
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
-import guepardoapps.lucahome.services.DialogService;
-
+import guepardoapps.lucahome.services.helper.DialogService;
 import guepardoapps.mediamirror.client.ClientTask;
 import guepardoapps.mediamirror.common.dto.YoutubeVideoDto;
 import guepardoapps.mediamirror.common.enums.ServerAction;

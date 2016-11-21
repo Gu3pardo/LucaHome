@@ -15,7 +15,6 @@ import guepardoapps.lucahome.services.MainService;
 
 import guepardoapps.toolset.controller.DialogController;
 import guepardoapps.toolset.controller.NetworkController;
-import guepardoapps.toolset.openweather.common.OpenWeatherConstants;
 import guepardoapps.toolset.services.AndroidSystemService;
 
 import guepardoapps.toolset.controller.BroadcastController;
@@ -24,6 +23,8 @@ public class WIFIReceiver extends BroadcastReceiver {
 
 	private static final String TAG = WIFIReceiver.class.getName();
 	private LucaHomeLogger _logger;
+
+	private static final String WIFI = "Wifi:";
 
 	private AndroidSystemService _androidSystemService;
 	private BroadcastController _broadcastController;
@@ -67,11 +68,12 @@ public class WIFIReceiver extends BroadcastReceiver {
 				startMainService.putExtras(mainServiceBundle);
 				context.startService(startMainService);
 			}
+			_serviceController.SendMessageToWear(WIFI + "HOME");
 		} else {
 			_logger.Warn("We are NOT in the homenetwork!");
 			_serviceController.CloseNotification(Constants.ID_NOTIFICATION_TEMPERATURE);
 			_serviceController.CloseNotification(Constants.ID_NOTIFICATION_WEAR);
-			_serviceController.CloseNotification(OpenWeatherConstants.FORECAST_NOTIFICATION_ID);
+			_serviceController.SendMessageToWear(WIFI + "NO");
 		}
 	}
 }

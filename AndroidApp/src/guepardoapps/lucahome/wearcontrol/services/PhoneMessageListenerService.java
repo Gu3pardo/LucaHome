@@ -12,8 +12,6 @@ import android.os.Bundle;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
-import guepardoapps.lucahome.dto.MovieDto;
-import guepardoapps.lucahome.viewcontroller.MovieController;
 import guepardoapps.lucahome.viewcontroller.ScheduleController;
 import guepardoapps.lucahome.viewcontroller.SocketController;
 
@@ -28,7 +26,6 @@ public class PhoneMessageListenerService extends WearableListenerService
 	private Context _context;
 
 	private BroadcastController _broadcastController;
-	private MovieController _movieController;
 	private ScheduleController _scheduleController;
 	private SocketController _socketController;
 
@@ -44,7 +41,6 @@ public class PhoneMessageListenerService extends WearableListenerService
 		_context = this;
 
 		_broadcastController = new BroadcastController(_context);
-		_movieController = new MovieController(_context);
 		_scheduleController = new ScheduleController(_context);
 		_socketController = new SocketController(_context);
 
@@ -126,16 +122,6 @@ public class PhoneMessageListenerService extends WearableListenerService
 						} else {
 							_logger.Warn("data[2] not supported: " + data[2]);
 						}
-					} else if (data[1].contains("PLAY")) {
-						if (data[2] == null) {
-							_logger.Warn("data[2] is null!");
-							return;
-						}
-
-						// TODO hardcoded socketnames... bad :P
-						// find a proper solution
-						_movieController
-								.StartMovie(new MovieDto(data[2], null, null, 0, 0, new String[] { "Storage", "TV" }));
 					} else {
 						_logger.Warn("data[1] not supported: " + data[1]);
 					}

@@ -4,13 +4,15 @@ import java.util.List;
 
 import android.content.Context;
 
-import guepardoapps.lucahome.watchface.common.Constants;
-import guepardoapps.lucahome.watchface.common.converter.*;
+import guepardoapps.lucahome.common.Constants;
+import guepardoapps.lucahome.common.converter.*;
+
 import guepardoapps.lucahome.wearcontrol.views.listitem.*;
 
 import guepardoapps.toolset.common.Logger;
 import guepardoapps.toolset.controller.BroadcastController;
 
+@SuppressWarnings("unused")
 public class ConverterTest {
 
 	private static final String TAG = ConverterTest.class.getName();
@@ -22,13 +24,12 @@ public class ConverterTest {
 	private static final String CURRENT_WEATHER = "CurrentWeather:";
 	private static final String PHONE_BATTERY = "PhoneBattery:";
 	private static final String RASPBERRY_TEMPERATURE = "RaspberryTemperature:";
+
 	private static final String BIRTHDAYS = "Birthdays:";
-	private static final String MOVIES = "Movies:";
 	private static final String SCHEDULES = "Schedules:";
 	private static final String SOCKETS = "Sockets:";
 
 	private MessageToBirthdayConverter _messageToBirthdayConverter;
-	private MessageToMovieConverter _messageToMovieConverter;
 	private MessageToRaspberryConverter _messageToRaspberryConverter;
 	private MessageToScheduleConverter _messageToScheduleConverter;
 	private MessageToSocketConverter _messageToSocketConverter;
@@ -41,7 +42,6 @@ public class ConverterTest {
 		_broadcastController = new BroadcastController(_context);
 
 		_messageToBirthdayConverter = new MessageToBirthdayConverter();
-		_messageToMovieConverter = new MessageToMovieConverter();
 		_messageToRaspberryConverter = new MessageToRaspberryConverter();
 		_messageToScheduleConverter = new MessageToScheduleConverter();
 		_messageToSocketConverter = new MessageToSocketConverter();
@@ -56,11 +56,6 @@ public class ConverterTest {
 
 		try {
 			testBirthdayConverter();
-		} catch (Exception e) {
-			_logger.Error(e.toString());
-		}
-		try {
-			testMovieConverter();
 		} catch (Exception e) {
 			_logger.Error(e.toString());
 		}
@@ -111,33 +106,6 @@ public class ConverterTest {
 			_logger.Info("Sent broadcast...");
 		} else {
 			_logger.Error("testBirthdayConverter list is null!");
-		}
-	}
-
-	private void testMovieConverter() {
-		_logger.Info("testMovieConverter");
-
-		String testString = MOVIES + "Hardrock&" + "Resident Evil&" + "My life be like&" + "Matrix&";
-		List<MovieListViewItem> testList = _messageToMovieConverter.ConvertMessageToMovieList(testString);
-
-		if (testList != null) {
-			if (testList.size() == 4) {
-				_logger.Info("testMovieConverter Size is correct! " + String.valueOf(testList.size()));
-			} else {
-				_logger.Error("testMovieConverter Size has wrong value: " + String.valueOf(testList.size()));
-			}
-			for (MovieListViewItem entry : testList) {
-				if (entry != null) {
-					_logger.Info(entry.toString());
-				} else {
-					_logger.Error("testMovieConverter Entry is null!");
-				}
-			}
-			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_UPDATE_MOVIE_LIST,
-					Constants.BUNDLE_MOVIE_LIST, testList);
-			_logger.Info("Sent broadcast...");
-		} else {
-			_logger.Error("testMovieConverter list is null!");
 		}
 	}
 
