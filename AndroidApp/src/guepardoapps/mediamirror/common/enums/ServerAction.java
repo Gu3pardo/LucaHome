@@ -22,7 +22,14 @@ public enum ServerAction implements Serializable {
 	MUTE_VOLUME(15, "Mute_Volume"),
 	UNMUTE_VOLUME(16, "Unmute_Volume"),
 	INCREASE_SCREEN_BRIGHTNESS(17, "Increase_Screen_Brightness"),
-	DECREASE_SCREEN_BRIGHTNESS(18, "Decrease_Screen_Brightness");
+	DECREASE_SCREEN_BRIGHTNESS(18, "Decrease_Screen_Brightness"),
+	PLAY_ALARM(19, "PLAY_ALARM"),
+	STOP_ALARM(20, "STOP_ALARM"),
+	GAME_COMMAND(21, "GAME_COMMAND"),
+	GAME_SNAKE_START(22, "GAME_SNAKE_START"),
+	GAME_SNAKE_STOP(23, "GAME_SNAKE_STOP"),
+	GAME_TETRIS_START(24, "GAME_TETRIS_START"),
+	GAME_TETRIS_STOP(25, "GAME_TETRIS_STOP");
 
 	private int _id;
 	private String _action;

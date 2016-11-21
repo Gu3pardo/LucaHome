@@ -11,6 +11,7 @@ import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.services.helper.NavigationService;
 import guepardoapps.lucahome.view.BirthdayView;
+import guepardoapps.lucahome.view.GameView;
 import guepardoapps.lucahome.view.MediaMirrorView;
 import guepardoapps.lucahome.view.MovieView;
 import guepardoapps.lucahome.view.ScheduleView;
@@ -50,6 +51,7 @@ public class HomeViewListButtonController {
 
 	private LinearLayout _linearLayoutButtonSocial;
 	private Button _buttonBirthdays;
+	private Button _buttonGames;
 
 	private int _mainVisibility = View.VISIBLE;
 	private int _controlVisibility = View.GONE;
@@ -313,6 +315,14 @@ public class HomeViewListButtonController {
 			@Override
 			public void onClick(View view) {
 				_navigationService.NavigateTo(BirthdayView.class, true);
+			}
+		});
+
+		_buttonGames = (Button) ((Activity) _context).findViewById(R.id.buttonGames);
+		_buttonGames.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_navigationService.NavigateTo(GameView.class, true);
 			}
 		});
 	}

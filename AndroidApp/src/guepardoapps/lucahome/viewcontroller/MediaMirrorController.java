@@ -2,6 +2,8 @@ package guepardoapps.lucahome.viewcontroller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.services.helper.DialogService;
+
 import guepardoapps.mediamirror.client.ClientTask;
 import guepardoapps.mediamirror.common.dto.YoutubeVideoDto;
 import guepardoapps.mediamirror.common.enums.ServerAction;
@@ -29,10 +32,18 @@ import guepardoapps.toolset.controller.ReceiverController;
 
 public class MediaMirrorController {
 
+	public static final List<String> SERVER_IPS = Arrays.asList("192.168.178.147");
+
 	private static final String TAG = MediaMirrorController.class.getName();
 	private LucaHomeLogger _logger;
 
 	private static final int SERVERPORT = 8080;
+
+	private static final String UP = "UP";
+	private static final String DOWN = "DOWN";
+	private static final String RIGHT = "RIGHT";
+	private static final String LEFT = "LEFT";
+	private static final String ROTATE = "ROTATE";
 
 	private Context _context;
 
@@ -130,18 +141,6 @@ public class MediaMirrorController {
 		sendServerCommand(ServerAction.DECREASE_SCREEN_BRIGHTNESS.toString(), "");
 	}
 
-	public void SendEnableScreen() {
-		_logger.Debug("SendEnableScreen");
-		Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
-		// TODO implement
-	}
-
-	public void SendDisableScreen() {
-		_logger.Debug("SendDisableScreen");
-		Toast.makeText(_context, "Not yet implemented!", Toast.LENGTH_SHORT).show();
-		// TODO implement
-	}
-
 	public void SendYoutubeId(String id) {
 		_logger.Debug("SendYoutubeId");
 		if (id.length() < 0 || id.length() > 3 && id.length() < 11 || id.length() > 11) {
@@ -198,15 +197,14 @@ public class MediaMirrorController {
 		sendServerCommand(ServerAction.UPDATE_BIRTHDAY_ALARM.toString(), "");
 	}
 
-	private void sendServerCommand(String command, String data) {
-		_logger.Debug("sendServerCommand: " + command + " with data " + data);
+	public void SendEnableScreen() {
+		_logger.Warn("SendEnableScreen not yet implemented!");
+		Toast.makeText(_context, "SendEnableScreen not yet implemented!", Toast.LENGTH_SHORT).show();
+	}
 
-		String communication = "ACTION:" + command + "&DATA:" + data;
-		_logger.Debug("Communication is: " + communication);
-
-		_clientTask = new ClientTask(_selectedServerIp, SERVERPORT);
-		_clientTask.SetCommunication(communication);
-		_clientTask.execute();
+	public void SendDisableScreen() {
+		_logger.Warn("SendDisableScreen not yet implemented!");
+		Toast.makeText(_context, "SendDisableScreen not yet implemented!", Toast.LENGTH_SHORT).show();
 	}
 
 	public void LoadVideos(String searchValue, int results) {
@@ -221,6 +219,62 @@ public class MediaMirrorController {
 
 		DownloadYoutubeVideoTask task = new DownloadYoutubeVideoTask();
 		task.execute(new String[] { url });
+	}
+
+	public void SendSnakeCommandStart() {
+		_logger.Debug("SendSnakeCommandStart");
+		sendServerCommand(ServerAction.GAME_SNAKE_START.toString(), "");
+	}
+
+	public void SendSnakeCommandStop() {
+		_logger.Debug("SendSnakeCommandStop");
+		sendServerCommand(ServerAction.GAME_SNAKE_STOP.toString(), "");
+	}
+
+	public void SendTetrisCommandStart() {
+		_logger.Debug("SendTetrisCommandStart");
+		sendServerCommand(ServerAction.GAME_TETRIS_START.toString(), "");
+	}
+
+	public void SendTetrisCommandStop() {
+		_logger.Debug("SendTetrisCommandStop");
+		sendServerCommand(ServerAction.GAME_TETRIS_STOP.toString(), "");
+	}
+
+	public void SendGameCommandUp() {
+		_logger.Debug("SendGameCommandUp");
+		sendServerCommand(ServerAction.GAME_COMMAND.toString(), UP);
+	}
+
+	public void SendGameCommandLeft() {
+		_logger.Debug("SendGameCommandLeft");
+		sendServerCommand(ServerAction.GAME_COMMAND.toString(), LEFT);
+	}
+
+	public void SendGameCommandRight() {
+		_logger.Debug("SendGameCommandRight");
+		sendServerCommand(ServerAction.GAME_COMMAND.toString(), RIGHT);
+	}
+
+	public void SendGameCommandDown() {
+		_logger.Debug("SendGameCommandDown");
+		sendServerCommand(ServerAction.GAME_COMMAND.toString(), DOWN);
+	}
+
+	public void SendGameCommandRotate() {
+		_logger.Debug("SendGameCommandRotate");
+		sendServerCommand(ServerAction.GAME_COMMAND.toString(), ROTATE);
+	}
+
+	private void sendServerCommand(String command, String data) {
+		_logger.Debug("sendServerCommand: " + command + " with data " + data);
+
+		String communication = "ACTION:" + command + "&DATA:" + data;
+		_logger.Debug("Communication is: " + communication);
+
+		_clientTask = new ClientTask(_selectedServerIp, SERVERPORT);
+		_clientTask.SetCommunication(communication);
+		_clientTask.execute();
 	}
 
 	private class DownloadYoutubeVideoTask extends AsyncTask<String, Void, String> {

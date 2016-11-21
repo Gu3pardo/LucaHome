@@ -246,7 +246,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible" >
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/buttonTemperature"
@@ -281,7 +281,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="visible" >
 
                 <Button
                     android:id="@+id/buttonBirthdays"
@@ -292,6 +292,20 @@
                     android:gravity="end|center"
                     android:paddingEnd="10dp"
                     android:text="Birthdays"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/TextIcon"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/buttonGames"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/button_primary"
+                    android:gravity="end|center"
+                    android:paddingEnd="10dp"
+                    android:text="Games"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/TextIcon"
                     android:textStyle="bold" />

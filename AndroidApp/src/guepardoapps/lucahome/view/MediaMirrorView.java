@@ -96,10 +96,8 @@ public class MediaMirrorView extends Activity {
 		_navigationService = new NavigationService(_context);
 
 		_selectServerSpinner = (Spinner) findViewById(R.id.selectServerSpinner);
-		List<String> serverIPs = new ArrayList<String>();
-		serverIPs.add("192.168.178.147");
 		ArrayAdapter<String> serverDataAdapter = new ArrayAdapter<String>(_context,
-				android.R.layout.simple_spinner_item, serverIPs);
+				android.R.layout.simple_spinner_item, MediaMirrorController.SERVER_IPS);
 		serverDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		_selectServerSpinner.setAdapter(serverDataAdapter);
 		_selectServerSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -117,7 +115,7 @@ public class MediaMirrorView extends Activity {
 		_sendCenterTextButton = (Button) findViewById(R.id.centerTextSendButton);
 		_sendCenterTextButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				String data = _centerTextInput.getText().toString();
 				_mediaMirrorController.SendCenterText(data);
 			}
@@ -126,42 +124,42 @@ public class MediaMirrorView extends Activity {
 		_sendYoutubePlayButton = (Button) findViewById(R.id.youtubePlayButton);
 		_sendYoutubePlayButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendPlayYoutube();
 			}
 		});
 		_sendYoutubeStopButton = (Button) findViewById(R.id.youtubeStopButton);
 		_sendYoutubeStopButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendStopYoutube();
 			}
 		});
 		_sendVolumeIncreaseButton = (Button) findViewById(R.id.volumeIncreaseButton);
 		_sendVolumeIncreaseButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendVolumeIncrease();
 			}
 		});
 		_sendVolumeDecreaseButton = (Button) findViewById(R.id.volumeDecreaseButton);
 		_sendVolumeDecreaseButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendVolumeDecrease();
 			}
 		});
 		_sendVolumeMuteButton = (Button) findViewById(R.id.volumeMuteButton);
 		_sendVolumeMuteButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendVolumeMute();
 			}
 		});
 		_sendVolumeUnmuteButton = (Button) findViewById(R.id.volumeUnmuteButton);
 		_sendVolumeUnmuteButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendVolumeUnmute();
 			}
 		});
@@ -170,7 +168,7 @@ public class MediaMirrorView extends Activity {
 		_youtubeIdInputSendButton = (Button) findViewById(R.id.youtubeIdInputSendButton);
 		_youtubeIdInputSendButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				String data = _youtubeIdInput.getText().toString();
 				if (data != null) {
 					_logger.Debug("data is: " + data);
@@ -206,7 +204,7 @@ public class MediaMirrorView extends Activity {
 		_sendYoutubeIdButton = (Button) findViewById(R.id.youtubeSendButton);
 		_sendYoutubeIdButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				if (_selectedYoutubeId != -1) {
 					YoutubeId youtubeId = YoutubeId.GetById(_selectedYoutubeId);
 					if (youtubeId != null) {
@@ -223,7 +221,7 @@ public class MediaMirrorView extends Activity {
 		_youtubeSearchInputSendButton = (Button) findViewById(R.id.youtubeSearchInputSendButton);
 		_youtubeSearchInputSendButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				String data = _youtubeSearchInput.getText().toString();
 				if (data.length() > 3) {
 					_mediaMirrorController.LoadVideos(data, 25);
@@ -234,28 +232,28 @@ public class MediaMirrorView extends Activity {
 		_selectTagesschauButton = (Button) findViewById(R.id.selectTagesschauButton);
 		_selectTagesschauButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.LoadVideos("Tagesschau in 100 Sekunden", 5);
 			}
 		});
 		_selectHearthstoneButton = (Button) findViewById(R.id.selectHearthstoneButton);
 		_selectHearthstoneButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.LoadVideos("Hearthstone", 30);
 			}
 		});
 		_selectFailarmyButton = (Button) findViewById(R.id.selectFailarmyButton);
 		_selectFailarmyButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.LoadVideos("Failarmy", 10);
 			}
 		});
 		_selectPeopleAreAwesomeButton = (Button) findViewById(R.id.selectPeopleAreAwesomeButton);
 		_selectPeopleAreAwesomeButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.LoadVideos("People are awesome", 10);
 			}
 		});
@@ -283,7 +281,7 @@ public class MediaMirrorView extends Activity {
 		_sendRssFeedButton = (Button) findViewById(R.id.rssFeedSendButton);
 		_sendRssFeedButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				if (_selectedRssFeedId != -1) {
 					_mediaMirrorController.SendRssFeedId(_selectedRssFeedId);
 				}
@@ -294,7 +292,7 @@ public class MediaMirrorView extends Activity {
 		_sendWebviewButton = (Button) findViewById(R.id.webviewSendButton);
 		_sendWebviewButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				String data = _webviewInput.getText().toString();
 				_mediaMirrorController.SendWebviewUrl(data);
 			}
@@ -303,35 +301,35 @@ public class MediaMirrorView extends Activity {
 		_updateCurrentWeatherButton = (Button) findViewById(R.id.updateCurrentWeatherButton);
 		_updateCurrentWeatherButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendUpdateCurrentWeather();
 			}
 		});
 		_updateForecastWeatherButton = (Button) findViewById(R.id.updateForeacstWeatherButton);
 		_updateForecastWeatherButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendUpdateForecastWeather();
 			}
 		});
 		_updateRaspiTemperatureButton = (Button) findViewById(R.id.updateRaspiTemperatureButton);
 		_updateRaspiTemperatureButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendUpdateRaspiTemperature();
 			}
 		});
 		_updateIpAddressButton = (Button) findViewById(R.id.updateIpAddressButton);
 		_updateIpAddressButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendUpdateIpAddress();
 			}
 		});
 		_updateBirthdayButton = (Button) findViewById(R.id.updateBirthdayButton);
 		_updateBirthdayButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendUpdateBirthdayAlarm();
 			}
 		});
@@ -339,28 +337,28 @@ public class MediaMirrorView extends Activity {
 		_increaseScreenBrightnessButton = (Button) findViewById(R.id.increaseScreenBrightnessButton);
 		_increaseScreenBrightnessButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendIncreaseScreenBrightness();
 			}
 		});
 		_decreaseScreenBrightnessButton = (Button) findViewById(R.id.decreaseScreenBrightnessButton);
 		_decreaseScreenBrightnessButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendDecreaseScreenBrightness();
 			}
 		});
 		_enableScreenButton = (Button) findViewById(R.id.enableScreenButton);
 		_enableScreenButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendEnableScreen();
 			}
 		});
 		_disableScreenButton = (Button) findViewById(R.id.disableScreenButton);
 		_disableScreenButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				_mediaMirrorController.SendDisableScreen();
 			}
 		});
