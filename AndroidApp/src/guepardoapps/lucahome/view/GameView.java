@@ -30,17 +30,24 @@ public class GameView extends Activity {
 
 	private Spinner _selectServerSpinner;
 
-	private Button _buttonSnakePlay;
-	private Button _buttonSnakeStop;
-
-	private Button _buttonTetrisPlay;
-	private Button _buttonTetrisStop;
-
 	private Button _buttonUp;
 	private Button _buttonLeft;
 	private Button _buttonRight;
 	private Button _buttonDown;
 	private Button _buttonRotate;
+
+	private Spinner _selectPongPlayerSpinner;
+	private Button _buttonPongPlay;
+	private Button _buttonPongRestart;
+	private Button _buttonPongStop;
+	private Button _buttonPongPause;
+	private Button _buttonPongResume;
+
+	private Button _buttonSnakePlay;
+	private Button _buttonSnakeStop;
+
+	private Button _buttonTetrisPlay;
+	private Button _buttonTetrisStop;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +63,10 @@ public class GameView extends Activity {
 		_navigationService = new NavigationService(_context);
 
 		initializeSpinner();
+		initializeButtonControl();
+		initializeButtonPong();
 		initializeButtonSnake();
 		initializeButtonTetris();
-		initializeButtonControl();
 	}
 
 	@Override
@@ -109,44 +117,6 @@ public class GameView extends Activity {
 		});
 	}
 
-	private void initializeButtonSnake() {
-		_logger.Debug("initializeButtonSnake");
-
-		_buttonSnakePlay = (Button) findViewById(R.id.buttonSnakePlay);
-		_buttonSnakePlay.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				_mediaMirrorController.SendSnakeCommandStart();
-			}
-		});
-		_buttonSnakeStop = (Button) findViewById(R.id.buttonSnakeStop);
-		_buttonSnakeStop.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				_mediaMirrorController.SendSnakeCommandStop();
-			}
-		});
-	}
-
-	private void initializeButtonTetris() {
-		_logger.Debug("initializeButtonTetris");
-
-		_buttonTetrisPlay = (Button) findViewById(R.id.buttonTetrisPlay);
-		_buttonTetrisPlay.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				_mediaMirrorController.SendTetrisCommandStart();
-			}
-		});
-		_buttonTetrisStop = (Button) findViewById(R.id.buttonTetrisStop);
-		_buttonTetrisStop.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				_mediaMirrorController.SendTetrisCommandStop();
-			}
-		});
-	}
-
 	private void initializeButtonControl() {
 		_logger.Debug("initializeButtonControl");
 
@@ -183,6 +153,100 @@ public class GameView extends Activity {
 			@Override
 			public void onClick(View view) {
 				_mediaMirrorController.SendGameCommandRotate();
+			}
+		});
+	}
+
+	private void initializeButtonPong() {
+		_logger.Debug("initializeButtonPong");
+
+		_selectPongPlayerSpinner = (Spinner) findViewById(R.id.selectPongPlayerSpinner);
+		ArrayAdapter<String> serverDataAdapter = new ArrayAdapter<String>(_context,
+				android.R.layout.simple_spinner_item, MediaMirrorController.PLAYER);
+		serverDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		_selectPongPlayerSpinner.setAdapter(serverDataAdapter);
+		_selectPongPlayerSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				_mediaMirrorController.SelectPongPlayer(parent.getItemAtPosition(position).toString());
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+			}
+		});
+
+		_buttonPongPlay = (Button) findViewById(R.id.buttonPongPlay);
+		_buttonPongPlay.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendPongCommandStart();
+			}
+		});
+		_buttonPongRestart = (Button) findViewById(R.id.buttonPongRestart);
+		_buttonPongRestart.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendPongCommandRestart();
+			}
+		});
+		_buttonPongStop = (Button) findViewById(R.id.buttonPongStop);
+		_buttonPongStop.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendPongCommandStop();
+			}
+		});
+		_buttonPongPause = (Button) findViewById(R.id.buttonPongPause);
+		_buttonPongPause.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendPongCommandPause();
+			}
+		});
+		_buttonPongResume = (Button) findViewById(R.id.buttonPongResume);
+		_buttonPongResume.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendPongCommandResume();
+			}
+		});
+	}
+
+	private void initializeButtonSnake() {
+		_logger.Debug("initializeButtonSnake");
+
+		_buttonSnakePlay = (Button) findViewById(R.id.buttonSnakePlay);
+		_buttonSnakePlay.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendSnakeCommandStart();
+			}
+		});
+		_buttonSnakeStop = (Button) findViewById(R.id.buttonSnakeStop);
+		_buttonSnakeStop.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendSnakeCommandStop();
+			}
+		});
+	}
+
+	private void initializeButtonTetris() {
+		_logger.Debug("initializeButtonTetris");
+
+		_buttonTetrisPlay = (Button) findViewById(R.id.buttonTetrisPlay);
+		_buttonTetrisPlay.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendTetrisCommandStart();
+			}
+		});
+		_buttonTetrisStop = (Button) findViewById(R.id.buttonTetrisStop);
+		_buttonTetrisStop.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_mediaMirrorController.SendTetrisCommandStop();
 			}
 		});
 	}

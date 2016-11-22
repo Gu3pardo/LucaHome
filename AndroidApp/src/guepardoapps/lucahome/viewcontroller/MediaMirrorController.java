@@ -33,6 +33,7 @@ import guepardoapps.toolset.controller.ReceiverController;
 public class MediaMirrorController {
 
 	public static final List<String> SERVER_IPS = Arrays.asList("192.168.178.147");
+	public static final List<String> PLAYER = Arrays.asList("1", "2");
 
 	private static final String TAG = MediaMirrorController.class.getName();
 	private LucaHomeLogger _logger;
@@ -55,6 +56,9 @@ public class MediaMirrorController {
 	private ClientTask _clientTask;
 
 	private String _selectedServerIp = "192.168.178.147";
+
+	private boolean _pongIsRunning;
+	private String _selectedPongPlayer = "1";
 
 	private BroadcastReceiver _youtubeIdReceiver = new BroadcastReceiver() {
 		@Override
@@ -221,6 +225,38 @@ public class MediaMirrorController {
 		task.execute(new String[] { url });
 	}
 
+	public void SelectPongPlayer(String player) {
+		_logger.Debug("SelectPlayer: " + player);
+		_selectedPongPlayer = player;
+	}
+
+	public void SendPongCommandStart() {
+		_logger.Debug("SendPongCommandStart");
+		_pongIsRunning = true;
+		sendServerCommand(ServerAction.GAME_PONG_START.toString(), "");
+	}
+
+	public void SendPongCommandRestart() {
+		_logger.Debug("SendPongCommandRestart");
+		sendServerCommand(ServerAction.GAME_PONG_RESTART.toString(), "");
+	}
+
+	public void SendPongCommandStop() {
+		_logger.Debug("SendPongCommandStop");
+		_pongIsRunning = false;
+		sendServerCommand(ServerAction.GAME_PONG_STOP.toString(), "");
+	}
+
+	public void SendPongCommandPause() {
+		_logger.Debug("SendPongCommandPause");
+		sendServerCommand(ServerAction.GAME_PONG_PAUSE.toString(), "");
+	}
+
+	public void SendPongCommandResume() {
+		_logger.Debug("SendPongCommandResume");
+		sendServerCommand(ServerAction.GAME_PONG_RESUME.toString(), "");
+	}
+
 	public void SendSnakeCommandStart() {
 		_logger.Debug("SendSnakeCommandStart");
 		sendServerCommand(ServerAction.GAME_SNAKE_START.toString(), "");
@@ -269,6 +305,15 @@ public class MediaMirrorController {
 	private void sendServerCommand(String command, String data) {
 		_logger.Debug("sendServerCommand: " + command + " with data " + data);
 
+		if (_pongIsRunning) {
+			if (_selectedPongPlayer != null) {
+				data = _selectedPongPlayer + ":" + data;
+			} else {
+				_logger.Warn("Pong is running, but selectedplayer is null!");
+				Toast.makeText(_context, "Pong is running, but selectedplayer is null!", Toast.LENGTH_SHORT).show();
+				return;
+			}
+		}
 		String communication = "ACTION:" + command + "&DATA:" + data;
 		_logger.Debug("Communication is: " + communication);
 
