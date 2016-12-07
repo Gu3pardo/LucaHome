@@ -6,7 +6,7 @@
 #include <sstream>
 #include <ctime>
 #include <algorithm>
-#include <thread>
+//#include <thread>
 
 #include <string.h>
 #include <stdlib.h>
@@ -59,7 +59,7 @@ private:
 
 	void sendMessageToServer(std::string, int, std::string);
 
-	void countdown(int);
+	void createCountdown();
 
 public:
 	AccessControlService();

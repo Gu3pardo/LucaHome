@@ -67,7 +67,9 @@ void AccessControlService::startCountdown() {
 		return;
 	}
 	_countdownIsRunning = true;
-	thread countdownTask(countdown, 15);
+
+	//TODO reactivate while tested and working!
+	//std::thread countdownThread(createCountdown);
 }
 
 void AccessControlService::stopCountdown() {
@@ -97,7 +99,7 @@ void AccessControlService::accessControlLoginSuccessful() {
 }
 
 void AccessControlService::accessControlLoginFailed() {
-	sendMessageToServer(_accessControlIp, "ACTION:LOGIN_FAILED");
+	sendMessageToServer(_accessControlIp, 8080, "ACTION:LOGIN_FAILED");
 	if (_loginTries >= 5) {
 		mediaMirrorPlayAlarmSound();
 		playAlarmSound();
@@ -115,7 +117,7 @@ void AccessControlService::accessControlCountdownFinished() {
 
 void AccessControlService::mediaMirrorPlayAlarmSound() {
 	for (int index = 0; index < _mediaMirrorIps.size(); index++) {
-		sendMessageToServer(_mediaMirrorIps[index], "ACTION:PLAY_ALARM&DATA:");
+		sendMessageToServer(_mediaMirrorIps[index], 8080, "ACTION:PLAY_ALARM&DATA:");
 	}
 }
 
@@ -140,36 +142,38 @@ void AccessControlService::sendMessageToServer(std::string ip, int port,
 		return;
 	}
 
-	int socket;
+	int serverSocket;
 	struct sockaddr_in server;
 	const char *message = messageString.c_str();
 
-	socket = socket(AF_INET, SOCK_STREAM, 0);
-	if (socket == -1) {
+	serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+	if (serverSocket == -1) {
 		//Error Could not create socket
 		return;
 	}
 	puts("Socket created");
 
-	server.sin_addr.s_addr = inet_addr(ip);
+	server.sin_addr.s_addr = inet_addr(ip.c_str());
 	server.sin_family = AF_INET;
 	server.sin_port = htons(port);
 
-	if (connect(socket, (struct sockaddr *) &server, sizeof(server)) < 0) {
+	if (connect(serverSocket, (struct sockaddr *) &server, sizeof(server)) < 0) {
 		//connect failed. Error
 		return;
 	}
 
-	if (send(socket, message, strlen(message), 0) < 0) {
+	if (send(serverSocket, message, strlen(message), 0) < 0) {
 		//Error Send failed
 	}
 
-	close(socket);
+	close(serverSocket);
 }
 
-void AccessControlService::countdown(int maximumTimeSec) {
+void AccessControlService::createCountdown() {
+	syslog(LOG_INFO, "Countdown Accesscontrol started!");
+
 	int currentSec = 0;
-	while (currentSec < maximumTimeSec && _countdownIsRunning) {
+	while (currentSec < 15 && _countdownIsRunning) {
 		currentSec++;
 		sleep(1);
 	}

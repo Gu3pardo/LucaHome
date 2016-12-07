@@ -55,7 +55,7 @@ public:
 	AudioService();
 	~AudioService();
 
-	void initialize(std::string, std::string, int);
+	void initialize(std::string, std::string, std::string, int);
 
 	std::string performAction(std::string, std::vector<std::string>);
 };
