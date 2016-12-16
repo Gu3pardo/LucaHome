@@ -135,6 +135,11 @@ public class MediaMirrorController {
 		sendServerCommand(ServerAction.UNMUTE_VOLUME.toString(), "");
 	}
 
+	public void GetCurrentVolume() {
+		_logger.Debug("GetCurrentVolume");
+		sendServerCommand(ServerAction.GET_CURRENT_VOLUME.toString(), "");
+	}
+
 	public void SendIncreaseScreenBrightness() {
 		_logger.Debug("SendIncreaseScreenBrightness");
 		sendServerCommand(ServerAction.INCREASE_SCREEN_BRIGHTNESS.toString(), "");
@@ -317,7 +322,7 @@ public class MediaMirrorController {
 		String communication = "ACTION:" + command + "&DATA:" + data;
 		_logger.Debug("Communication is: " + communication);
 
-		_clientTask = new ClientTask(_selectedServerIp, SERVERPORT);
+		_clientTask = new ClientTask(_context, _selectedServerIp, SERVERPORT);
 		_clientTask.SetCommunication(communication);
 		_clientTask.execute();
 	}

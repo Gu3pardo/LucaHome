@@ -248,6 +248,12 @@ public class MainService extends Service {
 							new String[] { Constants.BUNDLE_CHANGE_LIST }, new Object[] { _changeList });
 					break;
 				case GET_INFORMATIONS:
+					_logger.Debug("GET_INFORMATIONS");
+					if (_information != null) {
+						_logger.Debug(_information.toString());
+					} else {
+						_logger.Warn("Information is null!");
+					}
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_INFORMATION,
 							new String[] { Constants.BUNDLE_INFORMATION_SINGLE }, new Object[] { _information });
 					break;
@@ -278,6 +284,10 @@ public class MainService extends Service {
 				case GET_WEATHER_CURRENT:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_WEATHER_VIEW,
 							new String[] { Constants.BUNDLE_WEATHER_CURRENT }, new Object[] { _currentWeather });
+					break;
+				case GET_WEATHER_FORECAST:
+					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_FORECAST_VIEW,
+							new String[] { Constants.BUNDLE_WEATHER_FORECAST }, new Object[] { _forecastWeather });
 					break;
 				case GET_MAP_CONTENT:
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_MAP_CONTENT_VIEW,
@@ -332,8 +342,13 @@ public class MainService extends Service {
 
 					checkForBirthday();
 					sendBirthdaysToWear();
+				} else {
+					_logger.Warn("GetList is null");
 				}
+			} else {
+				_logger.Warn("birthdayStringArray is null");
 			}
+
 			updateDownloadCount();
 		}
 
@@ -363,8 +378,13 @@ public class MainService extends Service {
 					_changeList = newChangeList;
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_CHANGE,
 							new String[] { Constants.BUNDLE_CHANGE_LIST }, new Object[] { _changeList });
+				} else {
+					_logger.Warn("newChangeList is null");
 				}
+			} else {
+				_logger.Warn("changeStringArray is null");
 			}
+
 			updateDownloadCount();
 		}
 	};
@@ -378,6 +398,8 @@ public class MainService extends Service {
 					.getSerializableExtra(OpenWeatherConstants.BUNDLE_EXTRA_FORECAST_MODEL);
 			if (newForecastWeather != null) {
 				_forecastWeather = newForecastWeather;
+			} else {
+				_logger.Warn("newForecastWeather is null");
 			}
 
 			updateDownloadCount();
@@ -397,8 +419,13 @@ public class MainService extends Service {
 					_information = newInformation;
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_INFORMATION,
 							new String[] { Constants.BUNDLE_INFORMATION_SINGLE }, new Object[] { _information });
+				} else {
+					_logger.Warn("newInformation is null");
 				}
+			} else {
+				_logger.Warn("informationStringArray is null");
 			}
+
 			updateDownloadCount();
 		}
 	};
@@ -444,8 +471,13 @@ public class MainService extends Service {
 					_movieList = newMovieList;
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_MOVIE,
 							new String[] { Constants.BUNDLE_MOVIE_LIST }, new Object[] { _movieList });
+				} else {
+					_logger.Warn("newMovieList is null");
 				}
+			} else {
+				_logger.Warn("movieStringArray is null");
 			}
+
 			updateDownloadCount();
 		}
 	};
@@ -467,6 +499,8 @@ public class MainService extends Service {
 							new Object[] { _scheduleList, _wirelessSocketList });
 
 					sendSchedulesToWear();
+				} else {
+					_logger.Warn("newScheduleList is null");
 				}
 
 				SerializableList<TimerDto> newTimerList = JsonDataToTimerConverter.GetList(scheduleStringArray,
@@ -476,6 +510,8 @@ public class MainService extends Service {
 					_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_TIMER,
 							new String[] { Constants.BUNDLE_TIMER_LIST, Constants.BUNDLE_SOCKET_LIST },
 							new Object[] { _timerList, _wirelessSocketList });
+				} else {
+					_logger.Warn("newTimerList is null");
 				}
 			}
 			updateDownloadCount();
@@ -495,6 +531,8 @@ public class MainService extends Service {
 				if (newWirelessSocketList != null) {
 					_wirelessSocketList = newWirelessSocketList;
 					installNotificationSettings();
+				} else {
+					_logger.Warn("newWirelessSocketList is null");
 				}
 
 				if (_wirelessSocketList != null) {
@@ -514,8 +552,11 @@ public class MainService extends Service {
 						_serviceController.StartSocketNotificationService(Constants.ID_NOTIFICATION_WEAR,
 								_wirelessSocketList);
 					}
+				} else {
+					_logger.Warn("_wirelessSocketList is null");
 				}
 			}
+
 			updateDownloadCount();
 			startDownloadSchedule();
 		}
@@ -545,19 +586,21 @@ public class MainService extends Service {
 					}
 				}
 
-				if (isPlayingStringArray[1] != null) {
-					_logger.Debug(isPlayingStringArray[1]);
-					String[] data = isPlayingStringArray[1].split("\\};");
+				if (isPlayingStringArray.length > 1) {
+					if (isPlayingStringArray[1] != null) {
+						_logger.Debug(isPlayingStringArray[1]);
+						String[] data = isPlayingStringArray[1].split("\\};");
 
-					String isPlayingString = data[0].replace("{IsPlaying:", "").replace("};", "");
-					if (isPlayingString.contains("1")) {
-						if (data.length == 4) {
-							String playingFile = data[1].replace("{PlayingFile:", "").replace("};", "");
-							int raspberry = Integer.parseInt(data[3].replace("{Raspberry:", "").replace("};", ""));
-							_serviceController.StartNotificationService(RaspberrySelection.RASPBERRY_2.toString(),
-									playingFile, Constants.ID_NOTIFICATION_SONG + raspberry, LucaObject.SOUND);
-						} else {
-							_logger.Warn("data has wrong size!");
+						String isPlayingString = data[0].replace("{IsPlaying:", "").replace("};", "");
+						if (isPlayingString.contains("1")) {
+							if (data.length == 4) {
+								String playingFile = data[1].replace("{PlayingFile:", "").replace("};", "");
+								int raspberry = Integer.parseInt(data[3].replace("{Raspberry:", "").replace("};", ""));
+								_serviceController.StartNotificationService(RaspberrySelection.RASPBERRY_2.toString(),
+										playingFile, Constants.ID_NOTIFICATION_SONG + raspberry, LucaObject.SOUND);
+							} else {
+								_logger.Warn("data has wrong size!");
+							}
 						}
 					}
 				}
@@ -578,7 +621,7 @@ public class MainService extends Service {
 				if (newTemperatureList != null) {
 					_temperatureList = newTemperatureList;
 
-					if (_temperatureList.getSize() >= 2) {
+					if (_temperatureList.getSize() >= 1) {
 						String messageText = "RaspberryTemperature:";
 
 						int found = 0;
@@ -590,15 +633,14 @@ public class MainService extends Service {
 								messageText += "&LASTUPDATE:" + entry.GetLastUpdate().toString();
 								found++;
 							}
-							if (found == 1) {
-								messageText += "&";
-							}
-							if (found == 2) {
-								break;
-							}
+							/*
+							 * if (found == 1) { messageText += "&"; } if (found
+							 * == 2) { break; }
+							 */
 						}
 
-						if (found == 2) {
+						/* if (found == 2) { */
+						if (found == 1) {
 							_serviceController.SendMessageToWear(messageText);
 						}
 					}

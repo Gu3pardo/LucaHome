@@ -2,7 +2,7 @@ package guepardoapps.lucahome.common;
 
 public class Constants {
 	// ========== LOGGER ==========
-	public static final boolean DEBUGGING_ENABLED = true;
+	public static final boolean DEBUGGING_ENABLED = false;
 	// ========== TESTING ==========
 	public static final boolean TESTING_ENABLED = false;
 	// ========== NOTIFICATION ==========
@@ -69,6 +69,7 @@ public class Constants {
 	// Views
 	public static final String BROADCAST_UPDATE_PROGRESSBAR = "guepardoapps.lucahome.broadcast.update.view.progressbar";
 	public static final String BROADCAST_UPDATE_WEATHER_VIEW = "guepardoapps.lucahome.broadcast.update.view.weather";
+	public static final String BROADCAST_UPDATE_FORECAST_VIEW = "guepardoapps.lucahome.broadcast.update.view.forecast";
 	public static final String BROADCAST_UPDATE_SOCKETLIST_CHECKBOX_VIEW = "guepardoapps.lucahome.broadcast.update.view.socketlist.checkboxes";
 	// Sound View
 	public static final String BROADCAST_UPDATE_SONG_VIEW = "guepardoapps.lucahome.broadcast.update.view.song.details";
@@ -122,6 +123,9 @@ public class Constants {
 	// Youtube
 	public static final String BROADCAST_YOUTUBE_ID = "guepardoapps.mediamirror.broadcast.selected.youtube.id";
 	public static final String BUNDLE_YOUTUBE_ID = "BUNDLE_YOUTUBE_ID";
+	// Get
+	public static final String BROADCAST_MEDIAMIRROR_VOLUME = "guepardoapps.mediamirror.broadcast.current.volume";
+	public static final String BUNDLE_CURRENT_RECEIVED_VOLUME = "BUNDLE_CURRENT_RECEIVED_VOLUME";
 	// Download
 	public static final String BROADCAST_DOWNLOAD_BIRTHDAY_FINISHED = "guepardoapps.lucahome.broadcast.DOWNLOAD_BIRTHDAY_FINISHED";
 	public static final String BROADCAST_DOWNLOAD_CHANGE_FINISHED = "guepardoapps.lucahome.broadcast.DOWNLOAD_CHANGE_FINISHED";

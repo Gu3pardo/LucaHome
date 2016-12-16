@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -16,6 +18,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
@@ -25,14 +28,20 @@ import guepardoapps.lucahome.viewcontroller.MediaMirrorController;
 
 import guepardoapps.mediamirror.common.enums.*;
 
+import guepardoapps.toolset.controller.ReceiverController;
+
 public class MediaMirrorView extends Activity {
 
 	private static final String TAG = MediaMirrorView.class.getName();
 	private LucaHomeLogger _logger;
 
+	private boolean _isInitialized;
+
 	private Context _context;
+
 	private MediaMirrorController _mediaMirrorController;
 	private NavigationService _navigationService;
+	private ReceiverController _receiverController;
 
 	private Spinner _selectServerSpinner;
 
@@ -45,6 +54,7 @@ public class MediaMirrorView extends Activity {
 	private Button _sendVolumeDecreaseButton;
 	private Button _sendVolumeMuteButton;
 	private Button _sendVolumeUnmuteButton;
+	private TextView _currentVolumeTextView;
 
 	private EditText _youtubeIdInput;
 	private Button _youtubeIdInputSendButton;
@@ -79,6 +89,19 @@ public class MediaMirrorView extends Activity {
 	private Button _enableScreenButton;
 	private Button _disableScreenButton;
 
+	private BroadcastReceiver _volumeReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			_logger.Debug("_volumeReceiver onReceive");
+
+			String currentVolume = intent.getStringExtra(Constants.BUNDLE_CURRENT_RECEIVED_VOLUME);
+			if (currentVolume != null) {
+				_logger.Debug("currentVolume: " + currentVolume);
+				_currentVolumeTextView.setText(currentVolume);
+			}
+		}
+	};
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,6 +117,7 @@ public class MediaMirrorView extends Activity {
 		_context = this;
 		_mediaMirrorController = new MediaMirrorController(_context);
 		_navigationService = new NavigationService(_context);
+		_receiverController = new ReceiverController(_context);
 
 		_selectServerSpinner = (Spinner) findViewById(R.id.selectServerSpinner);
 		ArrayAdapter<String> serverDataAdapter = new ArrayAdapter<String>(_context,
@@ -163,6 +187,9 @@ public class MediaMirrorView extends Activity {
 				_mediaMirrorController.SendVolumeUnmute();
 			}
 		});
+		_currentVolumeTextView = (TextView) findViewById(R.id.volumeCurrentValue);
+		_currentVolumeTextView.setText("Loading...");
+		_mediaMirrorController.GetCurrentVolume();
 
 		_youtubeIdInput = (EditText) findViewById(R.id.youtubeIdInput);
 		_youtubeIdInputSendButton = (Button) findViewById(R.id.youtubeIdInputSendButton);
@@ -370,6 +397,11 @@ public class MediaMirrorView extends Activity {
 		if (_logger != null) {
 			_logger.Debug("onResume");
 		}
+		if (!_isInitialized) {
+			_receiverController.RegisterReceiver(_volumeReceiver,
+					new String[] { Constants.BROADCAST_MEDIAMIRROR_VOLUME });
+			_isInitialized = true;
+		}
 	}
 
 	@Override
@@ -387,6 +419,8 @@ public class MediaMirrorView extends Activity {
 			_logger.Debug("onDestroy");
 		}
 		_mediaMirrorController.Dispose();
+		_receiverController.UnregisterReceiver(_volumeReceiver);
+		_isInitialized = false;
 	}
 
 	@Override

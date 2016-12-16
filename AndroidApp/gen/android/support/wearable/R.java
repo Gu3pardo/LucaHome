@@ -138,8 +138,8 @@ public final class R {
 		public static final int generic_confirmation_animation = 0x7f020043;
 		public static final int ic_full_cancel = 0x7f020046;
 		public static final int ic_full_sad = 0x7f020047;
-		public static final int open_on_phone = 0x7f020056;
-		public static final int open_on_phone_animation = 0x7f020057;
+		public static final int open_on_phone = 0x7f02005a;
+		public static final int open_on_phone_animation = 0x7f02005b;
 	}
 	public static final class id {
 		public static final int alertTitle = 0x7f10002b;
@@ -166,8 +166,8 @@ public final class R {
 		public static final int parentPanel = 0x7f100029;
 		public static final int right = 0x7f100003;
 		public static final int start = 0x7f100012;
-		public static final int text = 0x7f10015a;
-		public static final int title = 0x7f100159;
+		public static final int text = 0x7f10015b;
+		public static final int title = 0x7f10015a;
 		public static final int top = 0x7f100004;
 		public static final int width = 0x7f100007;
 	}

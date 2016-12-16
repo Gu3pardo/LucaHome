@@ -94,6 +94,12 @@ public class SocketController {
 				} else {
 					return R.drawable.bed_light_off;
 				}
+			} else {
+				if (socket.GetIsActivated()) {
+					return R.drawable.light_on;
+				} else {
+					return R.drawable.light_off;
+				}
 			}
 		} else if (socket.GetName().contains("Sound")) {
 			if (socket.GetName().contains("Sleeping")) {
@@ -140,6 +146,12 @@ public class SocketController {
 				return R.drawable.watering_on;
 			} else {
 				return R.drawable.watering_off;
+			}
+		} else if (socket.GetName().contains("MediaMirror")) {
+			if (socket.GetIsActivated()) {
+				return R.drawable.mediamirror_on;
+			} else {
+				return R.drawable.mediamirror_off;
 			}
 		}
 		return -1;

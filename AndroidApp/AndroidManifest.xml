@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="guepardoapps.lucahome"
-    android:versionCode="171161122"
-    android:versionName="1.7.1.161122" >
+    android:versionCode="180161216"
+    android:versionName="1.8.0.161216" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -35,6 +35,8 @@
             </intent-filter>
         </activity>
         <activity android:name="guepardoapps.lucahome.view.BirthdayView" >
+        </activity>
+        <activity android:name="guepardoapps.lucahome.view.ForecastWeatherView" >
         </activity>
         <activity android:name="guepardoapps.lucahome.view.GameView" >
         </activity>

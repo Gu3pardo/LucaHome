@@ -15,12 +15,12 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
+
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
-import guepardoapps.lucahome.common.enums.RaspberrySelection;
 
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.DialogController;
@@ -32,7 +32,6 @@ public class RESTService extends Service {
 	private LucaHomeLogger _logger;
 
 	private String[] _actions;
-	private RaspberrySelection _raspberrySelection;
 
 	private Context _context;
 	private NetworkController _networkController;
@@ -96,37 +95,10 @@ public class RESTService extends Service {
 			return 103;
 		}
 
-		_raspberrySelection = (RaspberrySelection) bundle.getSerializable(Constants.BUNDLE_RASPBERRY_SELECTION);
-
-		if (_raspberrySelection == null) {
-			_logger.Error("_raspberrySelection is null!");
-			_raspberrySelection = RaspberrySelection.BOTH;
-		}
-
-		String url1 = "";
-		String url2 = "";
-
-		switch (_raspberrySelection) {
-		case RASPBERRY_1:
-			url1 = Constants.SERVER_URLs[0] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
-					+ action;
-			_actions = new String[] { url1 };
-			break;
-		case RASPBERRY_2:
-			url2 = Constants.SERVER_URLs[1] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
-					+ action;
-			_actions = new String[] { url2 };
-			break;
-		case BOTH:
-		case DUMMY:
-		default:
-			url1 = Constants.SERVER_URLs[0] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
-					+ action;
-			url2 = Constants.SERVER_URLs[1] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
-					+ action;
-			_actions = new String[] { url1, url2 };
-			break;
-		}
+		String url = Constants.SERVER_URLs[0] + Constants.ACTION_PATH + user + "&password=" + password + "&action="
+				+ action;
+		_logger.Debug("Url: " + url);
+		_actions = new String[] { url };
 
 		String name = bundle.getString(Constants.BUNDLE_NAME);
 		String broadcast = bundle.getString(Constants.BUNDLE_BROADCAST);

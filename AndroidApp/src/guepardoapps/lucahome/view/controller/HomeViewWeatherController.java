@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Button;
+
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
+import guepardoapps.lucahome.services.helper.NavigationService;
+import guepardoapps.lucahome.view.ForecastWeatherView;
 
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
@@ -29,9 +31,10 @@ public class HomeViewWeatherController {
 	private Context _context;
 
 	private BroadcastController _broadcastController;
+	private NavigationService _navigationService;
 	private ReceiverController _receiverController;
 
-	private TextView _buttonCenterWeather;
+	private Button _buttonCenterWeather;
 
 	private BroadcastReceiver _updateWeatherViewReceiver = new BroadcastReceiver() {
 		@SuppressWarnings("deprecation")
@@ -60,17 +63,17 @@ public class HomeViewWeatherController {
 		_logger = new LucaHomeLogger(TAG);
 		_context = context;
 		_broadcastController = new BroadcastController(_context);
+		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
 	}
 
 	public void onCreate() {
 		_logger.Debug("onCreate");
-		_buttonCenterWeather = (TextView) ((Activity) _context).findViewById(R.id.buttonCenterWeather);
+		_buttonCenterWeather = (Button) ((Activity) _context).findViewById(R.id.buttonCenterWeather);
 		_buttonCenterWeather.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				_logger.Warn("Weather forecast not yet implemented!");
-				Toast.makeText(_context, "Weather forecast not yet implemented!", Toast.LENGTH_LONG).show();
+			public void onClick(View view) {
+				_navigationService.NavigateTo(ForecastWeatherView.class, true);
 			}
 		});
 	}

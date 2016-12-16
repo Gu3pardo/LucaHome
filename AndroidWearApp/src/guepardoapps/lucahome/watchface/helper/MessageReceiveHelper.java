@@ -71,15 +71,10 @@ public class MessageReceiveHelper {
 					Constants.BUNDLE_PHONE_BATTERY, message);
 		} else if (message.startsWith(RASPBERRY_TEMPERATURE)) {
 			message = message.replace(RASPBERRY_TEMPERATURE, "");
-			TemperatureDto raspberryTemperature1 = _messageToRaspberryConverter.ConvertMessageToRaspberryModel(message,
-					0);
-			TemperatureDto raspberryTemperature2 = _messageToRaspberryConverter.ConvertMessageToRaspberryModel(message,
-					1);
-			if (raspberryTemperature1 != null && raspberryTemperature2 != null) {
+			TemperatureDto raspberryTemperature = _messageToRaspberryConverter.ConvertMessageToRaspberryModel(message);
+			if (raspberryTemperature != null) {
 				_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_UPDATE_RASPBERRY_TEMPERATURE,
-						new String[] { Constants.BUNDLE_RASPBERRY_TEMPERATURE_1,
-								Constants.BUNDLE_RASPBERRY_TEMPERATURE_2 },
-						new Object[] { raspberryTemperature1, raspberryTemperature2 });
+						new String[] { Constants.BUNDLE_RASPBERRY_TEMPERATURE }, new Object[] { raspberryTemperature });
 			} else {
 				_logger.Warn("raspberryTemperature1 or raspberryTemperature2 or both are null!");
 			}

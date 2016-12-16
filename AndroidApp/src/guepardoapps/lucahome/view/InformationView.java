@@ -50,8 +50,10 @@ public class InformationView extends Activity {
 		public void run() {
 			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 					Constants.BUNDLE_MAIN_SERVICE_ACTION, MainServiceAction.GET_INFORMATIONS);
+			_logger.Debug("Called for Informations!");
 			_broadcastController.SendSerializableBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 					Constants.BUNDLE_MAIN_SERVICE_ACTION, MainServiceAction.GET_CHANGES);
+			_logger.Debug("Called for Changes!");
 		}
 	};
 
@@ -68,11 +70,12 @@ public class InformationView extends Activity {
 				_listAdapterBelow = new ChangeListAdapter(_context, list);
 				_listViewBelow.setAdapter(_listAdapterBelow);
 
-				_progressBarBelow.setVisibility(View.GONE);
 				_listViewBelow.setVisibility(View.VISIBLE);
 			} else {
 				_logger.Warn("list is null!");
 			}
+			
+			_progressBarBelow.setVisibility(View.GONE);
 		}
 	};
 
@@ -87,9 +90,12 @@ public class InformationView extends Activity {
 				_listAdapterAbove = new InformationListAdapter(_context, entry);
 				_listViewAbove.setAdapter(_listAdapterAbove);
 
-				_progressBarAbove.setVisibility(View.GONE);
 				_listViewAbove.setVisibility(View.VISIBLE);
+			} else {
+				_logger.Warn("InformationDto is null!");
 			}
+			
+			_progressBarAbove.setVisibility(View.GONE);
 		}
 	};
 

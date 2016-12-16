@@ -13,8 +13,7 @@ public class Constants {
 	public static final int DRAW_DEFAULT_OFFSET_X = 10;
 	// ========== BUNDLE ==========
 	public static final String BUNDLE_CURRENT_WEATHER = "BUNDLE_CURRENT_WEATHER";
-	public static final String BUNDLE_RASPBERRY_TEMPERATURE_1 = "BUNDLE_RASPBERRY_TEMPERATURE_1";
-	public static final String BUNDLE_RASPBERRY_TEMPERATURE_2 = "BUNDLE_RASPBERRY_TEMPERATURE_2";
+	public static final String BUNDLE_RASPBERRY_TEMPERATURE = "BUNDLE_RASPBERRY_TEMPERATURE";
 	public static final String BUNDLE_PHONE_BATTERY = "BUNDLE_PHONE_BATTERY";
 	public static final String BUNDLE_PHONE_MESSAGE_TEXT = "BUNDLE_PHONE_MESSAGE_TEXT";
 	public static final String BUNDLE_BIRTHDAY_LIST = "BUNDLE_BIRTHDAY_LIST";

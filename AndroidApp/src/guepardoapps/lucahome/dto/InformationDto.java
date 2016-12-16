@@ -11,7 +11,8 @@ public class InformationDto implements Serializable {
 	private Map<String, String> _informationList;
 
 	public InformationDto(String author, String company, String contact, String builddate, String serverversion,
-			String websiteversion, String temperaturelogversion, String androidappversion) {
+			String websiteversion, String temperaturelogversion, String androidappversion, String androidwearversion,
+			String androidaccessversion) {
 		_informationList = new HashMap<String, String>();
 
 		_informationList.put("author", author);
@@ -22,6 +23,8 @@ public class InformationDto implements Serializable {
 		_informationList.put("websiteversion", websiteversion);
 		_informationList.put("temperaturelogversion", temperaturelogversion);
 		_informationList.put("androidappversion", androidappversion);
+		_informationList.put("androidwearversion", androidwearversion);
+		_informationList.put("androidaccessversion", androidaccessversion);
 	}
 
 	public Map<String, String> GetInformationList() {
@@ -58,6 +61,14 @@ public class InformationDto implements Serializable {
 
 	public String GetAndroidAppVersion() {
 		return _informationList.get("androidappversion");
+	}
+
+	public String GetAndroidWearVersion() {
+		return _informationList.get("androidwearversion");
+	}
+
+	public String GetAndroidAccessVersion() {
+		return _informationList.get("androidaccessversion");
 	}
 
 	public String GetKey(int index) {
