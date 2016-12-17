@@ -27,7 +27,7 @@ public class MessageToRaspberryConverter {
 		// _logger.Debug("raspberry: " + String.valueOf(raspberry));
 
 		String[] entries = message.split("\\&");
-		if (entries.length == 6) {
+		if (entries.length == 3) {
 			String temperature = entries[0 /* + raspberry * 3 */];
 			temperature = temperature.replace("TEMPERATURE:", "");
 			_logger.Debug("temperature is: " + temperature);
