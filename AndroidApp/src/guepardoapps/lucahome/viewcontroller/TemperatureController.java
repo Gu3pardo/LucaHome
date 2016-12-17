@@ -5,8 +5,7 @@ import android.content.Context;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
-import guepardoapps.lucahome.dto.TemperatureDto;
-
+import guepardoapps.lucahome.dto.sensor.TemperatureDto;
 import guepardoapps.toolset.controller.BroadcastController;
 
 public class TemperatureController {

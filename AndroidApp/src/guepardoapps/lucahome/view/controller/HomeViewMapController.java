@@ -23,9 +23,9 @@ import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
 import guepardoapps.lucahome.dto.MapContentDto;
 import guepardoapps.lucahome.dto.ScheduleDto;
-import guepardoapps.lucahome.dto.TemperatureDto;
 import guepardoapps.lucahome.dto.TimerDto;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
+import guepardoapps.lucahome.dto.sensor.TemperatureDto;
 import guepardoapps.lucahome.services.helper.DialogService;
 import guepardoapps.lucahome.viewcontroller.MapContentController;
 

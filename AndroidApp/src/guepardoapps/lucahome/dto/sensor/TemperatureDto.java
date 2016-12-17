@@ -1,4 +1,4 @@
-package guepardoapps.lucahome.dto;
+package guepardoapps.lucahome.dto.sensor;
 
 import java.io.Serializable;
 import java.sql.Time;

@@ -28,6 +28,7 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.enums.*;
 import guepardoapps.lucahome.dto.*;
+import guepardoapps.lucahome.dto.sensor.TemperatureDto;
 import guepardoapps.lucahome.services.helper.DialogService;
 import guepardoapps.lucahome.services.helper.NavigationService;
 import guepardoapps.lucahome.viewcontroller.MapContentController;

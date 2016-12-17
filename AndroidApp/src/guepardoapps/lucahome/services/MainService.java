@@ -22,6 +22,7 @@ import guepardoapps.lucahome.common.controller.*;
 import guepardoapps.lucahome.common.converter.json.*;
 import guepardoapps.lucahome.common.enums.*;
 import guepardoapps.lucahome.dto.*;
+import guepardoapps.lucahome.dto.sensor.TemperatureDto;
 import guepardoapps.lucahome.services.helper.DialogService;
 import guepardoapps.lucahome.viewcontroller.BirthdayController;
 import guepardoapps.toolset.controller.DialogController;
@@ -633,17 +634,19 @@ public class MainService extends Service {
 								messageText += "&LASTUPDATE:" + entry.GetLastUpdate().toString();
 								found++;
 							}
-							/*
-							 * if (found == 1) { messageText += "&"; } if (found
-							 * == 2) { break; }
-							 */
 						}
 
-						/* if (found == 2) { */
+						_logger.Info("messageText for temperature is " + messageText);
 						if (found == 1) {
 							_serviceController.SendMessageToWear(messageText);
+						} else {
+							_logger.Warn("found " + String.valueOf(found) + " different temperatures!");
 						}
+					} else {
+						_logger.Warn("Temperaturelist has size " + String.valueOf(_temperatureList.getSize()));
 					}
+				} else {
+					_logger.Warn("newTemperatureList is null!");
 				}
 
 				if (_temperatureList != null && _currentWeather != null) {

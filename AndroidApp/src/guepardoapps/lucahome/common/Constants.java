@@ -56,6 +56,10 @@ public class Constants {
 	public static final String BUNDLE_WEATHER_CURRENT = "WEATHER_CURRENT";
 	public static final String BUNDLE_WEATHER_FORECAST = "WEATHER_FORECAST";
 	public static final String BUNDLE_WEAR_MESSAGE_TEXT = "BUNDLE_WEAR_MESSAGE_TEXT";
+	public static final String BUNDLE_AIR_PRESSURE_LIST = "AIR_PRESSURE_LIST";
+	public static final String BUNDLE_AIR_PRESSURE_SINGLE = "AIR_PRESSURE_SINGLE";
+	public static final String BUNDLE_HUMIDITY_LIST = "HUMIDITY_LIST";
+	public static final String BUNDLE_HUMIDITY_SINGLE = "HUMIDITY_SINGLE";
 	// ========== COLORS ==========
 	public static final int ACTION_BAR_COLOR = 0xff0097A7;
 	public static final int BIRTHDAY_BACKGROUND_COLOR = 0xFFD32F2F;
@@ -116,6 +120,10 @@ public class Constants {
 	public static final String BROADCAST_RELOAD_MOVIE = "guepardoapps.lucahome.broadcast.reload.movie";
 	// Temperature
 	public static final String BROADCAST_UPDATE_TEMPERATURE = "guepardoapps.lucahome.broadcast.UPDATE_TEMPERATURE";
+	// Air Pressure
+	public static final String BROADCAST_UPDATE_AIR_PRESSURE = "guepardoapps.lucahome.broadcast.UPDATE_AIR_PRESSURE";
+	// Humidity
+	public static final String BROADCAST_UPDATE_HUMIDITY = "guepardoapps.lucahome.broadcast.UPDATE_HUMIDITY";
 	// Change
 	public static final String BROADCAST_UPDATE_CHANGE = "guepardoapps.lucahome.broadcast.UPDATE_CHANGE";
 	// Information

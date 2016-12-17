@@ -122,7 +122,7 @@ public class DialogService extends DialogController {
 	private Runnable _sendMail = new Runnable() {
 		@Override
 		public void run() {
-			_mailService.SendMail("guepardoapps@gmail.com");
+			_mailService.SendMail("guepardoapps@gmail.com", false);
 		}
 	};
 

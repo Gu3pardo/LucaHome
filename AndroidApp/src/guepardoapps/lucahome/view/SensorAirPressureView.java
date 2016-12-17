@@ -20,30 +20,28 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-
+import android.widget.Toast;
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.Constants;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
-import guepardoapps.lucahome.common.controller.*;
 import guepardoapps.lucahome.common.enums.MainServiceAction;
-import guepardoapps.lucahome.common.enums.TemperatureType;
 import guepardoapps.lucahome.customadapter.*;
-import guepardoapps.lucahome.dto.*;
+import guepardoapps.lucahome.dto.sensor.AirPressureDto;
 import guepardoapps.lucahome.services.helper.NavigationService;
+
 import guepardoapps.toolset.controller.BroadcastController;
 import guepardoapps.toolset.controller.ReceiverController;
 
-import guepardoapps.toolset.openweather.model.WeatherModel;
+public class SensorAirPressureView extends Activity implements SensorEventListener {
 
-public class TemperatureView extends Activity implements SensorEventListener {
-
-	private static final String TAG = TemperatureView.class.getName();
+	private static final String TAG = SensorAirPressureView.class.getName();
 	private LucaHomeLogger _logger;
 
+	private static final int SENSOR_TYPE = Sensor.TYPE_PRESSURE;
+
 	private boolean _isInitialized;
-	private WeatherModel _currentWeather;
-	private SerializableList<TemperatureDto> _temperatureList;
+	private SerializableList<AirPressureDto> _airPressureList;
 
 	private ProgressBar _progressBar;
 	private ListView _listView;
@@ -56,23 +54,22 @@ public class TemperatureView extends Activity implements SensorEventListener {
 	private BroadcastController _broadcastController;
 	private NavigationService _navigationService;
 	private ReceiverController _receiverController;
-	private ServiceController _serviceController;
 
 	private SensorManager _sensorManager;
 	private Sensor _sensor;
-	private boolean _hasTemperatureSensor;
-	private Handler _temperatureTimeoutHandler = new Handler();
-	private int _temperatureTimeout = 10000;
+	private boolean _hasAirPressureSensor;
+	private Handler _airPressureTimeoutHandler = new Handler();
+	private int _airPressureTimeout = 5000;
 
 	private Runnable _getDataRunnable = new Runnable() {
 		public void run() {
 			_broadcastController.SendSerializableArrayBroadcast(Constants.BROADCAST_MAIN_SERVICE_COMMAND,
 					new String[] { Constants.BUNDLE_MAIN_SERVICE_ACTION },
-					new Object[] { MainServiceAction.GET_TEMPERATURE });
+					new Object[] { MainServiceAction.GET_AIR_PRESSURE });
 		}
 	};
 
-	private Runnable _temperatureTimeoutCheck = new Runnable() {
+	private Runnable _airPressureTimeoutCheck = new Runnable() {
 		public void run() {
 			checkSensorAvailability();
 		}
@@ -84,60 +81,16 @@ public class TemperatureView extends Activity implements SensorEventListener {
 		public void onReceive(Context context, Intent intent) {
 			_logger.Debug("_updateReceiver onReceive");
 
-			_temperatureList = (SerializableList<TemperatureDto>) intent
-					.getSerializableExtra(Constants.BUNDLE_TEMPERATURE_LIST);
+			_airPressureList = (SerializableList<AirPressureDto>) intent
+					.getSerializableExtra(Constants.BUNDLE_AIR_PRESSURE_LIST);
 
-			if (_temperatureList != null) {
-				_listAdapter = new TemperatureListAdapter(_context, _temperatureList);
+			if (_airPressureList != null) {
+				_listAdapter = new AirPressureListAdapter(_context, _airPressureList);
 				_listView.setAdapter(_listAdapter);
 
 				_progressBar.setVisibility(View.GONE);
 				_listView.setVisibility(View.VISIBLE);
 			}
-		}
-	};
-
-	private BroadcastReceiver _temperatureReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			_logger.Debug("_temperatureReceiver onReceive");
-
-			int id = intent.getIntExtra(Constants.BUNDLE_TEMPERATURE_ID, -1);
-			TemperatureDto updatedEntry;
-			TemperatureType temperatureType = (TemperatureType) intent
-					.getSerializableExtra(Constants.BUNDLE_TEMPERATURE_TYPE);
-
-			if (temperatureType != null) {
-				switch (temperatureType) {
-				case RASPBERRY:
-					updatedEntry = (TemperatureDto) intent.getSerializableExtra(Constants.BUNDLE_TEMPERATURE_SINGLE);
-					if (updatedEntry != null) {
-						_temperatureList.setValue(id, updatedEntry);
-					}
-					break;
-				case CITY:
-					_currentWeather = (WeatherModel) intent.getSerializableExtra(Constants.BUNDLE_TEMPERATURE_SINGLE);
-					if (_currentWeather != null) {
-						updatedEntry = new TemperatureDto(_currentWeather.GetTemperature(), _currentWeather.GetCity(),
-								_currentWeather.GetLastUpdate(), "n.a.", TemperatureType.CITY, "n.a.");
-						if (updatedEntry != null) {
-							_temperatureList.setValue(id, updatedEntry);
-						}
-					}
-					break;
-				default:
-					_logger.Warn(temperatureType.toString() + " is not supported!");
-					break;
-				}
-			}
-
-			if (_temperatureList != null && _currentWeather != null) {
-				_serviceController.StartTemperatureNotificationService(Constants.ID_NOTIFICATION_TEMPERATURE,
-						_temperatureList, _currentWeather);
-			}
-
-			_listAdapter = new TemperatureListAdapter(_context, _temperatureList);
-			_listView.setAdapter(_listAdapter);
 		}
 	};
 
@@ -155,7 +108,6 @@ public class TemperatureView extends Activity implements SensorEventListener {
 		_broadcastController = new BroadcastController(_context);
 		_navigationService = new NavigationService(_context);
 		_receiverController = new ReceiverController(_context);
-		_serviceController = new ServiceController(_context);
 
 		_listView = (ListView) findViewById(R.id.listView);
 		_progressBar = (ProgressBar) findViewById(R.id.progressBarListView);
@@ -174,10 +126,8 @@ public class TemperatureView extends Activity implements SensorEventListener {
 			if (_receiverController != null && _broadcastController != null) {
 				_isInitialized = true;
 				_receiverController.RegisterReceiver(_updateReceiver,
-						new String[] { Constants.BROADCAST_UPDATE_TEMPERATURE });
-				_hasTemperatureSensor = checkSensorAvailability();
-				_receiverController.RegisterReceiver(_temperatureReceiver,
-						new String[] { Constants.BROADCAST_UPDATE_TEMPERATURE });
+						new String[] { Constants.BROADCAST_UPDATE_AIR_PRESSURE });
+				_hasAirPressureSensor = checkSensorAvailability();
 				_getDataRunnable.run();
 			}
 		}
@@ -187,9 +137,9 @@ public class TemperatureView extends Activity implements SensorEventListener {
 	public void onPause() {
 		super.onPause();
 		_logger.Debug("onPause");
-		if (_hasTemperatureSensor) {
+		if (_hasAirPressureSensor) {
 			_sensorManager.unregisterListener(this);
-			stopTemperatureTimeout();
+			stopAirPressureTimeout();
 		}
 	}
 
@@ -198,18 +148,16 @@ public class TemperatureView extends Activity implements SensorEventListener {
 		super.onDestroy();
 		_logger.Debug("onDestroy");
 		_receiverController.UnregisterReceiver(_updateReceiver);
-		if (_hasTemperatureSensor) {
+		if (_hasAirPressureSensor) {
 			_sensorManager.unregisterListener(this);
-			stopTemperatureTimeout();
-			_receiverController.UnregisterReceiver(_temperatureReceiver);
+			stopAirPressureTimeout();
 		}
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
-			double temperature = event.values[0];
-			temperature = Math.floor(temperature * 100) / 100;
+		if (event.sensor.getType() == SENSOR_TYPE) {
+			double airpressure = event.values[0];
 
 			Calendar calendar = Calendar.getInstance();
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -218,23 +166,19 @@ public class TemperatureView extends Activity implements SensorEventListener {
 			@SuppressWarnings("deprecation")
 			Time time = new Time(hour, minute, second);
 
-			TemperatureDto newEntry = new TemperatureDto(temperature, "Ambient temperature", time, "n.a.",
-					TemperatureType.SMARTPHONE_SENSOR, "n.a.");
+			AirPressureDto newEntry = new AirPressureDto(airpressure, "Ambient air pressure", time);
 
-			if (_temperatureList != null) {
-				for (int index = 0; index < _temperatureList.getSize(); index++) {
-					if (_temperatureList.getValue(index).GetTemperatureType() == TemperatureType.SMARTPHONE_SENSOR) {
-						_temperatureList.removeValue(_temperatureList.getValue(index));
-					}
-				}
+			_airPressureList = new SerializableList<AirPressureDto>();
+			_airPressureList.addValue(newEntry);
+			
+			_listAdapter = new AirPressureListAdapter(_context, _airPressureList);
+			_listView.setAdapter(_listAdapter);
 
-				_temperatureList.addValue(newEntry);
-				_listAdapter = new TemperatureListAdapter(_context, _temperatureList);
-				_listView.setAdapter(_listAdapter);
-			}
+			_progressBar.setVisibility(View.GONE);
+			_listView.setVisibility(View.VISIBLE);
 
 			_sensorManager.unregisterListener(this);
-			startTemperatureTimeout();
+			startAirPressureTimeout();
 		}
 	}
 
@@ -253,8 +197,8 @@ public class TemperatureView extends Activity implements SensorEventListener {
 
 	private void initializeSensor() {
 		_sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		_sensor = _sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-		_hasTemperatureSensor = checkSensorAvailability();
+		_sensor = _sensorManager.getDefaultSensor(SENSOR_TYPE);
+		_hasAirPressureSensor = checkSensorAvailability();
 	}
 
 	private boolean checkSensorAvailability() {
@@ -263,17 +207,18 @@ public class TemperatureView extends Activity implements SensorEventListener {
 			_sensorManager.registerListener(this, _sensor, SensorManager.SENSOR_DELAY_NORMAL);
 			return true;
 		} else {
+			Toast.makeText(_context, "Sensor is not available", Toast.LENGTH_SHORT).show();
 			_logger.Debug("Sensor is not available");
 			return false;
 		}
 	}
 
-	private void startTemperatureTimeout() {
-		_logger.Debug("Starting temperatureTimeoutController...");
-		_temperatureTimeoutHandler.postDelayed(_temperatureTimeoutCheck, _temperatureTimeout);
+	private void startAirPressureTimeout() {
+		_logger.Debug("Starting airPressureTimeoutController...");
+		_airPressureTimeoutHandler.postDelayed(_airPressureTimeoutCheck, _airPressureTimeout);
 	}
 
-	private void stopTemperatureTimeout() {
-		_temperatureTimeoutHandler.removeCallbacks(_temperatureTimeoutCheck);
+	private void stopAirPressureTimeout() {
+		_airPressureTimeoutHandler.removeCallbacks(_airPressureTimeoutCheck);
 	}
 }

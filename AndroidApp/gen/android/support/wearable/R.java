@@ -130,16 +130,16 @@ public final class R {
 		public static final int dismiss_padding = 0x7f0c0015;
 	}
 	public static final class drawable {
-		public static final int card_background = 0x7f020019;
-		public static final int card_frame = 0x7f02001a;
-		public static final int card_frame_pressed = 0x7f02001b;
-		public static final int close_button = 0x7f02001c;
-		public static final int generic_confirmation = 0x7f020042;
-		public static final int generic_confirmation_animation = 0x7f020043;
-		public static final int ic_full_cancel = 0x7f020046;
-		public static final int ic_full_sad = 0x7f020047;
-		public static final int open_on_phone = 0x7f02005a;
-		public static final int open_on_phone_animation = 0x7f02005b;
+		public static final int card_background = 0x7f02001a;
+		public static final int card_frame = 0x7f02001b;
+		public static final int card_frame_pressed = 0x7f02001c;
+		public static final int close_button = 0x7f02001d;
+		public static final int generic_confirmation = 0x7f020043;
+		public static final int generic_confirmation_animation = 0x7f020044;
+		public static final int ic_full_cancel = 0x7f020048;
+		public static final int ic_full_sad = 0x7f020049;
+		public static final int open_on_phone = 0x7f02005c;
+		public static final int open_on_phone_animation = 0x7f02005d;
 	}
 	public static final class id {
 		public static final int alertTitle = 0x7f10002b;
@@ -166,8 +166,8 @@ public final class R {
 		public static final int parentPanel = 0x7f100029;
 		public static final int right = 0x7f100003;
 		public static final int start = 0x7f100012;
-		public static final int text = 0x7f10015b;
-		public static final int title = 0x7f10015a;
+		public static final int text = 0x7f100166;
+		public static final int title = 0x7f100165;
 		public static final int top = 0x7f100004;
 		public static final int width = 0x7f100007;
 	}
@@ -189,7 +189,7 @@ public final class R {
 		public static final int alert_dialog_wearable = 0x7f030000;
 		public static final int dismiss_overlay = 0x7f030010;
 		public static final int error_layout = 0x7f030011;
-		public static final int watch_card_content = 0x7f03002d;
+		public static final int watch_card_content = 0x7f03002f;
 	}
 	public static final class string {
 		public static final int dismiss_overlay_button_label = 0x7f0e0000;

@@ -4,7 +4,7 @@ import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.TemperatureType;
-import guepardoapps.lucahome.dto.TemperatureDto;
+import guepardoapps.lucahome.dto.sensor.TemperatureDto;
 import guepardoapps.lucahome.services.helper.DialogService;
 import guepardoapps.lucahome.viewcontroller.TemperatureController;
 import android.annotation.SuppressLint;

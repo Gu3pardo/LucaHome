@@ -22,12 +22,12 @@ import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.*;
 import guepardoapps.lucahome.common.enums.LucaObject;
 import guepardoapps.lucahome.common.enums.TemperatureType;
-import guepardoapps.lucahome.dto.TemperatureDto;
 import guepardoapps.lucahome.dto.WirelessSocketDto;
+import guepardoapps.lucahome.dto.sensor.TemperatureDto;
 import guepardoapps.lucahome.receiver.sockets.SocketActionReceiver;
 import guepardoapps.lucahome.receiver.sound.StopSoundReceiver;
 import guepardoapps.lucahome.view.BirthdayView;
-import guepardoapps.lucahome.view.TemperatureView;
+import guepardoapps.lucahome.view.SensorTemperatureView;
 import guepardoapps.lucahome.viewcontroller.SocketController;
 
 import guepardoapps.toolset.controller.SharedPrefController;
@@ -178,7 +178,7 @@ public class NotificationService extends Service {
 		}
 		body = body.substring(0, body.length() - 3);
 
-		Intent intent = new Intent(this, TemperatureView.class);
+		Intent intent = new Intent(this, SensorTemperatureView.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, Constants.ID_NOTIFICATION_TEMPERATURE * 2, intent,
 				0);
 

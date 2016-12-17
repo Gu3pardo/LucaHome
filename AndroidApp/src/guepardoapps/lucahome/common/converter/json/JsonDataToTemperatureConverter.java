@@ -6,7 +6,7 @@ import java.util.Calendar;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.common.classes.SerializableList;
 import guepardoapps.lucahome.common.enums.TemperatureType;
-import guepardoapps.lucahome.dto.TemperatureDto;
+import guepardoapps.lucahome.dto.sensor.TemperatureDto;
 
 public final class JsonDataToTemperatureConverter {
 

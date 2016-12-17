@@ -38,6 +38,8 @@ public enum MainServiceAction implements Serializable {
 	GET_SOUND_DATA("Get_Sound_data", 214),
 	GET_SOUND_LIST("Get_Sound_List", 215),
 	GET_MAP_CONTENT("Get_Map_Content", 216),
+	GET_AIR_PRESSURE("Get_AirPressure", 217),
+	GET_HUMIDITY("Get_Humidity", 218),
 	SHOW_NOTIFICATION_SOCKET("Show_Notification_Socket", 300),
 	SHOW_NOTIFICATION_WEATHER("Show_Notification_Weather", 301),
 	SHOW_NOTIFICATION_TEMPERATURE("Show_Notification_Temperature", 302);

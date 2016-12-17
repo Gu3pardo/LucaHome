@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import guepardoapps.lucahome.R;
 import guepardoapps.lucahome.common.LucaHomeLogger;
 import guepardoapps.lucahome.services.helper.NavigationService;
@@ -15,9 +16,11 @@ import guepardoapps.lucahome.view.GameView;
 import guepardoapps.lucahome.view.MediaMirrorView;
 import guepardoapps.lucahome.view.MovieView;
 import guepardoapps.lucahome.view.ScheduleView;
+import guepardoapps.lucahome.view.SensorAirPressureView;
+import guepardoapps.lucahome.view.SensorHumidityView;
 import guepardoapps.lucahome.view.SocketView;
 import guepardoapps.lucahome.view.SoundView;
-import guepardoapps.lucahome.view.TemperatureView;
+import guepardoapps.lucahome.view.SensorTemperatureView;
 import guepardoapps.lucahome.view.TimerView;
 
 public class HomeViewListButtonController {
@@ -48,6 +51,7 @@ public class HomeViewListButtonController {
 	private LinearLayout _linearLayoutButtonSensors;
 	private Button _buttonTemperature;
 	private Button _buttonHumidity;
+	private Button _buttonAirPressure;
 
 	private LinearLayout _linearLayoutButtonSocial;
 	private Button _buttonBirthdays;
@@ -199,7 +203,7 @@ public class HomeViewListButtonController {
 			@Override
 			public void onClick(View view) {
 				_logger.Warn("Security not yet implemented!");
-				Toast.makeText(_context, "Security not yet implemented!", Toast.LENGTH_LONG).show();
+				Toast.makeText(_context, "Security not yet implemented!", Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -290,7 +294,7 @@ public class HomeViewListButtonController {
 		_buttonTemperature.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				_navigationService.NavigateTo(TemperatureView.class, true);
+				_navigationService.NavigateTo(SensorTemperatureView.class, true);
 			}
 		});
 
@@ -298,8 +302,15 @@ public class HomeViewListButtonController {
 		_buttonHumidity.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				_logger.Warn("Humidity not yet implemented!");
-				Toast.makeText(_context, "Humidity not yet implemented!", Toast.LENGTH_LONG).show();
+				_navigationService.NavigateTo(SensorHumidityView.class, true);
+			}
+		});
+
+		_buttonAirPressure = (Button) ((Activity) _context).findViewById(R.id.buttonAirPressure);
+		_buttonAirPressure.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				_navigationService.NavigateTo(SensorAirPressureView.class, true);
 			}
 		});
 	}
