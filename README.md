@@ -6,6 +6,8 @@
 Project for home automation and other stuff
 
 # Based on
+
+---
 	
 an android application to control the server and receive data from the server
 
@@ -15,8 +17,9 @@ an android application to control the server and receive data from the server
 [![Build](https://img.shields.io/badge/build-success-green.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
 [![Version](https://img.shields.io/badge/version-v3.2.0.170608-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
 
-	Containing the shared library LucaHome, a wearable project and the main android client application.
-	https://github.com/Gu3pardo/LucaHome-AndroidApplication
+Containing the shared library LucaHome, a wearable project and the main android client application.
+
+https://github.com/Gu3pardo/LucaHome-AndroidApplication
 
 ---
 	
@@ -28,9 +31,10 @@ an android application to control access to the flat
 [![Build](https://img.shields.io/badge/build-success-green.svg)](https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl/blob/master/builds)
 [![Version](https://img.shields.io/badge/version-v0.7.0.170610-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl/blob/master/builds)
 
-	Android client to control the access to your home.
-	https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl
-	
+Android client to control the access to your home.
+
+https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl
+
 ---
 
 another android application running on a tablet to play youtube videos, provide informations about weather, news and more
@@ -50,7 +54,8 @@ Android application permanently displaying data
 	- surfing websites
 	- displaying custom text
 	- ...
-	https://github.com/Gu3pardo/LucaHome-MediaServer
+
+https://github.com/Gu3pardo/LucaHome-MediaServer
 	
 ---
 
@@ -60,8 +65,9 @@ a raspberry server to control
 
 [![Version](https://img.shields.io/badge/version-v2.9.0.170518-blue.svg)](https://github.com/Gu3pardo/LucaHome-RaspberryServer)
 
-	Small server running on a raspberry to control your home.
-	https://github.com/Gu3pardo/LucaHome-RaspberryServer
+Small server running on a raspberry to control your home.
+
+https://github.com/Gu3pardo/LucaHome-RaspberryServer
 	
 ---
 
@@ -71,9 +77,10 @@ a php website
 
 [![Version](https://img.shields.io/badge/version-v2.8.2.170507-blue.svg)](https://github.com/Gu3pardo/LucaHome-Website)
 
-	Website based on PHP to view some basic data about the LucaHome-Project.
-	https://github.com/Gu3pardo/LucaHome-Website
-	
+Website based on PHP to view some basic data about the LucaHome-Project.
+
+https://github.com/Gu3pardo/LucaHome-Website
+
 ---
 
 a python script logging temperature in your flat
@@ -82,11 +89,14 @@ a python script logging temperature in your flat
 
 [![Version](https://img.shields.io/badge/version-v1.0.4.170408-blue.svg)](https://github.com/Gu3pardo/LucaHome-RaspberryTemperatureLogger)
 
-	Python script to log temperature values and provide a small GUI to view as website.
-	https://github.com/Gu3pardo/LucaHome-RaspberryTemperatureLogger
+Python script to log temperature values and provide a small GUI to view as website.
+
+https://github.com/Gu3pardo/LucaHome-RaspberryTemperatureLogger
 
 ---
 
 WIP is an UWP application to control everything on a windows client
-	UWP client to remotely control sockets, view temperature and more of your home.
-	https://github.com/Gu3pardo/LucaHome-UWPApplication
+
+UWP client to remotely control sockets, view temperature and more of your home.
+
+https://github.com/Gu3pardo/LucaHome-UWPApplication
