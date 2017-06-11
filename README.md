@@ -14,8 +14,8 @@ an android application to control the server and receive data from the server
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
-[![Build](https://img.shields.io/badge/build-success-green.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v3.2.0.170608-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v3.2.1.170611-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
 
 Containing the shared library LucaHome, a wearable project and the main android client application.
 
@@ -28,7 +28,7 @@ an android application to control access to the flat
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
-[![Build](https://img.shields.io/badge/build-success-green.svg)](https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl/blob/master/builds)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl/blob/master/builds)
 [![Version](https://img.shields.io/badge/version-v0.7.0.170610-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl/blob/master/builds)
 
 Android client to control the access to your home.
@@ -42,6 +42,7 @@ another android application running on a tablet to play youtube videos, provide 
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
 <a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/Gu3pardo/LucaHome-MediaServer)
 [![Version](https://img.shields.io/badge/version-v0.19.0.170609-blue.svg)](https://github.com/Gu3pardo/LucaHome-MediaServer)
 
 Android application permanently displaying data
@@ -63,7 +64,8 @@ a raspberry server to control
 
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
-[![Version](https://img.shields.io/badge/version-v2.9.0.170518-blue.svg)](https://github.com/Gu3pardo/LucaHome-RaspberryServer)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/Gu3pardo/LucaHome-RaspberryServer)
+[![Version](https://img.shields.io/badge/version-v2.9.1.170611-blue.svg)](https://github.com/Gu3pardo/LucaHome-RaspberryServer)
 
 Small server running on a raspberry to control your home.
 
