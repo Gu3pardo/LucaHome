@@ -97,8 +97,12 @@ https://github.com/Gu3pardo/LucaHome-RaspberryTemperatureLogger
 
 ---
 
-WIP is an UWP application to control everything on a windows client
+WIP is an WPF application to control everything on a windows client
 
-UWP client to remotely control sockets, view temperature and more of your home.
+[![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
 
-https://github.com/Gu3pardo/LucaHome-UWPApplication
+[![Version](https://img.shields.io/badge/version-WIP-yellow.svg)](https://github.com/Gu3pardo/LucaHome-WPFApplication)
+
+WPF client to remotely control sockets, view temperature and more of your home.
+
+https://github.com/Gu3pardo/LucaHome-WPFApplication
