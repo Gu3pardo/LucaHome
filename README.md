@@ -15,7 +15,7 @@ an android application to control the server and receive data from the server
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v3.2.2.170613-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v3.3.1.170630-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidApplication)
 
 Containing the shared library LucaHome, a wearable project and the main android client application.
 
@@ -29,7 +29,7 @@ an android application to control access to the flat
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl/blob/master/builds)
-[![Version](https://img.shields.io/badge/version-v0.7.0.170610-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl/blob/master/builds)
+[![Version](https://img.shields.io/badge/version-v0.8.0.170630-blue.svg)](https://github.com/Gu3pardo/LucaHome-AndroidAppAccessControl/blob/master/builds)
 
 Android client to control the access to your home.
 
@@ -43,7 +43,7 @@ another android application running on a tablet to play youtube videos, provide 
 <a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/Gu3pardo/LucaHome-MediaServer)
-[![Version](https://img.shields.io/badge/version-v0.19.0.170609-blue.svg)](https://github.com/Gu3pardo/LucaHome-MediaServer)
+[![Version](https://img.shields.io/badge/version-v0.20.0.170629-blue.svg)](https://github.com/Gu3pardo/LucaHome-MediaServer)
 
 Android application permanently displaying data
 	- date and time
