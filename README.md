@@ -108,4 +108,4 @@ WIP is an WPF application to control everything on a windows client
 WPF client to remotely control sockets, view temperature and more of your home.
 
 ![alt tag](https://github.com/GuepardoApps/LucaHome-WPFApplication/blob/master/screenshots/img002.png)
-https://github.com/Gu3pardo/LucaHome-WPFApplication
+https://github.com/GuepardoApps/LucaHome-WPFApplication
