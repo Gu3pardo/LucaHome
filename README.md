@@ -15,7 +15,7 @@ an android application to control the server and receive data from the server
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v4.0.0.170812-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v4.1.0.170814-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Containing the shared library LucaHome, a wearable project and the main android client application.
 
@@ -67,7 +67,7 @@ a raspberry server to control
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
-[![Version](https://img.shields.io/badge/version-v4.0.6.170812-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
+[![Version](https://img.shields.io/badge/version-v4.0.7.170817-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
 
 Small server running on a raspberry to control your home.
 
@@ -103,7 +103,7 @@ WIP is an WPF application to control everything on a windows client
 
 [![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
 
-[![Version](https://img.shields.io/badge/version-v1.1.5.17225-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
+[![Version](https://img.shields.io/badge/version-v1.3.0.17229-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
 
 WPF client to remotely control sockets, view temperature and more of your home.
 
