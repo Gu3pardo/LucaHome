@@ -99,7 +99,7 @@ https://github.com/GuepardoApps/LucaHome-RaspberryTemperatureLogger
 
 ---
 
-WIP is an WPF application to control everything on a windows client
+a WPF application to control everything on a windows client
 
 [![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
 
