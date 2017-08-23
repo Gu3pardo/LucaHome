@@ -21,7 +21,7 @@ Containing the shared library LucaHome, a wearable project and the main android 
 
 https://github.com/GuepardoApps/LucaHome-AndroidApplication
 
-![alt tag](https://github.com/GuepardoApps/LucaHome-AndroidApplication/blob/master/screenshots/view_001.png)
+![alt tag](https://github.com/GuepardoApps/LucaHome-AndroidApplication/blob/master/screenshots/header_001.png)
 
 ---
 	
