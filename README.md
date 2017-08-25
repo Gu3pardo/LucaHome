@@ -24,6 +24,19 @@ https://github.com/GuepardoApps/LucaHome-AndroidApplication
 ![alt tag](https://github.com/GuepardoApps/LucaHome-AndroidApplication/blob/master/screenshots/header_001.png)
 
 ---
+
+a WPF application to control everything on a windows client
+
+[![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
+
+[![Version](https://img.shields.io/badge/version-v1.3.1.17237-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
+
+WPF client to remotely control sockets, view temperature and more of your home.
+
+![alt tag](https://github.com/GuepardoApps/LucaHome-WPFApplication/blob/master/screenshots/img002.png)
+https://github.com/GuepardoApps/LucaHome-WPFApplication
+
+---
 	
 an android application to control access to the flat
 
@@ -96,16 +109,3 @@ a python script logging temperature in your flat
 Python script to log temperature values and provide a small GUI to view as website.
 
 https://github.com/GuepardoApps/LucaHome-RaspberryTemperatureLogger
-
----
-
-a WPF application to control everything on a windows client
-
-[![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
-
-[![Version](https://img.shields.io/badge/version-v1.3.0.17229-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
-
-WPF client to remotely control sockets, view temperature and more of your home.
-
-![alt tag](https://github.com/GuepardoApps/LucaHome-WPFApplication/blob/master/screenshots/img002.png)
-https://github.com/GuepardoApps/LucaHome-WPFApplication
