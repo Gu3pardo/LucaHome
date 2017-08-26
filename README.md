@@ -109,3 +109,20 @@ a python script logging temperature in your flat
 Python script to log temperature values and provide a small GUI to view as website.
 
 https://github.com/GuepardoApps/LucaHome-RaspberryTemperatureLogger
+
+---
+
+a javascript running on a [PuckJS](https://www.puck-js.com/)
+
+[![Platform](https://img.shields.io/badge/platform-PuckJS-yellow.svg)](http://www.puck-js.com/)
+
+[![Build](https://img.shields.io/badge/build-na-yellow.svg)](https://github.com/GuepardoApps/LucaHome-PuckJS)
+[![Version](https://img.shields.io/badge/version-v0.0.1.170703-blue.svg)](https://github.com/GuepardoApps/LucaHome-PuckJS)
+
+JavaScript to control a PuckJS. Shall read out battery, temperature, light and magnetometer to broadcast via bluetooth LE.
+Furher plans are:
+	-	provide LucaHome Website IP via NFC and BLE
+	-	use a number of PuckJS to provide indoor navigation for an android application
+	-	possible IR control of TV
+
+https://github.com/GuepardoApps/LucaHome-PuckJS
