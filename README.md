@@ -15,7 +15,7 @@ an android application to control the server and receive data from the server
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v4.4.2.170915-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v4.4.3.170920-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Containing the shared library LucaHome, a wearable project and the main android client application.
 
@@ -57,8 +57,8 @@ another android application running on a tablet to play youtube videos, provide 
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
 <a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
-[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-MediaServer)
-[![Version](https://img.shields.io/badge/version-v0.20.0.170629-blue.svg)](https://github.com/GuepardoApps/LucaHome-MediaServer)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v2.0.0.170920-blue.svg)](https://github.com/GuepardoApps/AndroidApplication)
 
 Android application permanently displaying data
 	- date and time
@@ -66,12 +66,15 @@ Android application permanently displaying data
 	- temperature in the flat
 	- birthdays
 	- watching youtube videos
+	- listening to radio streams
 	- RSS data
 	- surfing websites
 	- displaying custom text
+	- controlling sockets
+	- display shopping lists and your weekly menu
 	- ...
 
-https://github.com/GuepardoApps/LucaHome-MediaServer
+https://github.com/GuepardoApps/AndroidApplication
 	
 ---
 
