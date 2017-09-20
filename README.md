@@ -74,7 +74,7 @@ Android application permanently displaying data
 	- display shopping lists and your weekly menu
 	- ...
 
-https://github.com/GuepardoApps/AndroidApplication
+https://github.com/GuepardoApps/LucaHome-AndroidApplication
 	
 ---
 
