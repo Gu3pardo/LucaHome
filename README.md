@@ -85,7 +85,7 @@ a raspberry server to control
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
-[![Version](https://img.shields.io/badge/version-v4.0.8.170915-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
+[![Version](https://img.shields.io/badge/version-v4.0.10.171103-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
 
 Small server running on a raspberry to control your home.
 
