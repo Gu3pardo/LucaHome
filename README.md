@@ -29,7 +29,7 @@ a WPF application to control everything on a windows client
 
 [![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
 
-[![Version](https://img.shields.io/badge/version-v1.3.4.17269-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
+[![Version](https://img.shields.io/badge/version-v1.3.5.17307-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
 
 WPF client to remotely control sockets, view temperature and more of your home.
 
