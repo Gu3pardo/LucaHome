@@ -15,7 +15,7 @@ an android application to control the server and receive data from the server
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v4.4.8.171113-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v4.4.9.171113-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Containing the shared library LucaHome, a wearable project and the main android client application.
 
@@ -29,7 +29,7 @@ a WPF application to control everything on a windows client
 
 [![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
 
-[![Version](https://img.shields.io/badge/version-v1.3.7.17308-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
+[![Version](https://img.shields.io/badge/version-v1.3.9.17317-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
 
 WPF client to remotely control sockets, view temperature and more of your home.
 
