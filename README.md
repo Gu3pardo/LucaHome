@@ -29,7 +29,7 @@ a WPF application to control everything on a windows client
 
 [![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
 
-[![Version](https://img.shields.io/badge/version-v1.3.9.17317-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
+[![Version](https://img.shields.io/badge/version-v5.0.0.17349-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
 
 WPF client to remotely control sockets, view temperature and more of your home.
 
@@ -85,7 +85,7 @@ a raspberry server to control
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
-[![Version](https://img.shields.io/badge/version-v5.0.2.171214-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
+[![Version](https://img.shields.io/badge/version-v5.0.3.171215-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
 
 Small server running on a raspberry to control your home.
 
