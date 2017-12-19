@@ -14,7 +14,7 @@ an android application to control the server and receive data from the server
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
-[![Build](https://img.shields.io/badge/build-fail-red.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 [![Version](https://img.shields.io/badge/version-v5.0.0.171219-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Containing the shared library LucaHome, a wearable project and the main android client application.
@@ -29,7 +29,7 @@ a WPF application to control everything on a windows client
 
 [![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
 
-[![Version](https://img.shields.io/badge/version-v5.0.0.17352-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
+[![Version](https://img.shields.io/badge/version-v5.0.1.17353-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
 
 WPF client to remotely control sockets, view temperature and more of your home.
 
@@ -57,7 +57,7 @@ another android application running on a tablet to play youtube videos, provide 
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
 <a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
-[![Build](https://img.shields.io/badge/build-fail-red.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 [![Version](https://img.shields.io/badge/version-v5.0.0.171219-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Android application permanently displaying data
