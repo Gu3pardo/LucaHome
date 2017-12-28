@@ -85,7 +85,7 @@ a raspberry server to control
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
-[![Version](https://img.shields.io/badge/version-v5.1.0.171228-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
+[![Version](https://img.shields.io/badge/version-v5.1.1.171228-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
 
 Small server running on a raspberry to control your home.
 
@@ -97,7 +97,7 @@ a php website
 
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
-[![Version](https://img.shields.io/badge/version-v5.1.0.171228-blue.svg)](https://github.com/GuepardoApps/LucaHome-Website)
+[![Version](https://img.shields.io/badge/version-v5.1.1.171228-blue.svg)](https://github.com/GuepardoApps/LucaHome-Website)
 
 Website based on PHP to view some basic data about the LucaHome-Project.
 
