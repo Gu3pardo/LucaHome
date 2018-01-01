@@ -15,7 +15,7 @@ an android application to control the server and receive data from the server
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v5.1.0.171229-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v5.1.0.180101-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Containing the shared library LucaHome, a wearable project and the main android client application.
 
@@ -58,7 +58,7 @@ another android application running on a tablet to play youtube videos, provide 
 <a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v5.1.0.171229-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v5.1.0.180101-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Android application permanently displaying data
 	- date and time
@@ -85,7 +85,7 @@ a raspberry server to control
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
-[![Version](https://img.shields.io/badge/version-v5.1.1.171228-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
+[![Version](https://img.shields.io/badge/version-v5.1.2.180101-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
 
 Small server running on a raspberry to control your home.
 
