@@ -12,7 +12,7 @@ Project for home automation and other stuff
 an android application to control the server and receive data from the server
 
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
-<a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
+<a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 [![Version](https://img.shields.io/badge/version-v5.2.0.180105-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
