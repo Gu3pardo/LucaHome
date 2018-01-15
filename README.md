@@ -15,7 +15,7 @@ an android application to control the server and receive data from the server
 <a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v5.2.4.180114-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v5.2.5.180115-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Containing the shared library LucaHome, a wearable project and the main android client application.
 
@@ -58,7 +58,7 @@ another android application running on a tablet to play youtube videos, provide 
 <a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
 [![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v5.2.4.180114-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v5.2.5.180115-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
 
 Android application permanently displaying data
 	- date and time
