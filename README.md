@@ -12,16 +12,14 @@ Project for home automation and other stuff
 an android application to control the server and receive data from the server
 
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
-<a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
+<a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
-[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v5.2.5.180115-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Build](https://img.shields.io/badge/build-Failed-red.svg)](https://github.com/LucaHome/LucaHome-AndroidApplication/tree/develop/mobile)
+[![Version](https://img.shields.io/badge/version-v6.0.0.180712-blue.svg)](https://github.com/LucaHome/LucaHome-AndroidApplication/tree/develop/mobile)
 
-Containing the shared library LucaHome, a wearable project and the main android client application.
+Containing a bixby library, a voice recognition library and the main android client application.
 
-https://github.com/GuepardoApps/LucaHome-AndroidApplication
-
-![alt tag](https://github.com/GuepardoApps/LucaHome-AndroidApplication/blob/master/screenshots/header_001.png)
+https://github.com/LucaHome/LucaHome-AndroidApplication
 
 ---
 
@@ -29,12 +27,12 @@ a WPF application to control everything on a windows client
 
 [![Platform](https://img.shields.io/badge/platform-Windows10-blue.svg)](https://de.wikipedia.org/wiki/Microsoft_Windows_10)
 
-[![Version](https://img.shields.io/badge/version-v5.1.0.17362-green.svg)](https://github.com/GuepardoApps/LucaHome-WPFApplication)
+[![Version](https://img.shields.io/badge/version-v5.1.0.17362-green.svg)](https://github.com/LucaHome/LucaHome-WPFApplication)
 
 WPF client to remotely control sockets, view temperature and more of your home.
 
-![alt tag](https://github.com/GuepardoApps/LucaHome-WPFApplication/blob/master/screenshots/img002.png)
-https://github.com/GuepardoApps/LucaHome-WPFApplication
+![alt tag](https://github.com/LucaHome/LucaHome-WPFApplication/blob/master/screenshots/img002.png)
+https://github.com/LucaHome/LucaHome-WPFApplication
 
 ---
 	
@@ -43,12 +41,12 @@ an android application to control access to the flat
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
 <a target="_blank" href="https://android-arsenal.com/api?level=21" title="API21+"><img src="https://img.shields.io/badge/API-21+-blue.svg" /></a>
 
-[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidAppAccessControl/blob/master/builds)
-[![Version](https://img.shields.io/badge/version-v0.8.0.170630-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidAppAccessControl/blob/master/builds)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/LucaHome/LucaHome-AndroidAppAccessControl/blob/master/builds)
+[![Version](https://img.shields.io/badge/version-v0.8.0.170630-blue.svg)](https://github.com/LucaHome/LucaHome-AndroidAppAccessControl/blob/master/builds)
 
 Android client to control the access to your home.
 
-https://github.com/GuepardoApps/LucaHome-AndroidAppAccessControl
+https://github.com/LucaHome/LucaHome-AndroidAppAccessControl
 
 ---
 
@@ -57,8 +55,8 @@ another android application running on a tablet to play youtube videos, provide 
 [![Platform](https://img.shields.io/badge/platform-Android-blue.svg)](https://www.android.com)
 <a target="_blank" href="https://android-arsenal.com/api?level=24" title="API24+"><img src="https://img.shields.io/badge/API-24+-blue.svg" /></a>
 
-[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
-[![Version](https://img.shields.io/badge/version-v5.2.5.180115-blue.svg)](https://github.com/GuepardoApps/LucaHome-AndroidApplication)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/LucaHome/LucaHome-AndroidApplication)
+[![Version](https://img.shields.io/badge/version-v5.2.5.180115-blue.svg)](https://github.com/LucaHome/LucaHome-AndroidApplication)
 
 Android application permanently displaying data
 	- date and time
@@ -74,9 +72,9 @@ Android application permanently displaying data
 	- display shopping lists and your weekly menu
 	- ...
 
-https://github.com/GuepardoApps/LucaHome-AndroidApplication
+https://github.com/LucaHome/LucaHome-AndroidApplication
 
-![alt tag](https://github.com/GuepardoApps/LucaHome-AndroidApplication/blob/master/screenshots/header_mediamirror_001.png)
+![alt tag](https://github.com/LucaHome/LucaHome-AndroidApplication/blob/master/screenshots/header_mediamirror_001.png)
 	
 ---
 
@@ -84,12 +82,12 @@ a raspberry server to control
 
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
-[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
-[![Version](https://img.shields.io/badge/version-v5.2.2.180108-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryServer)
+[![Build](https://img.shields.io/badge/build-passing-green.svg)](https://github.com/LucaHome/LucaHome-RaspberryServer)
+[![Version](https://img.shields.io/badge/version-v5.2.2.180108-blue.svg)](https://github.com/LucaHome/LucaHome-RaspberryServer)
 
 Small server running on a raspberry to control your home.
 
-https://github.com/GuepardoApps/LucaHome-RaspberryServer
+https://github.com/LucaHome/LucaHome-RaspberryServer
 	
 ---
 
@@ -97,11 +95,11 @@ a php website
 
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
-[![Version](https://img.shields.io/badge/version-v5.2.0.180103-blue.svg)](https://github.com/GuepardoApps/LucaHome-Website)
+[![Version](https://img.shields.io/badge/version-v5.2.0.180103-blue.svg)](https://github.com/LucaHome/LucaHome-Website)
 
 Website based on PHP to view some basic data about the LucaHome-Project.
 
-https://github.com/GuepardoApps/LucaHome-Website
+https://github.com/LucaHome/LucaHome-Website
 
 ---
 
@@ -109,11 +107,11 @@ a python script logging temperature in your flat
 
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 
-[![Version](https://img.shields.io/badge/version-v1.0.4.170408-blue.svg)](https://github.com/GuepardoApps/LucaHome-RaspberryTemperatureLogger)
+[![Version](https://img.shields.io/badge/version-v1.0.4.170408-blue.svg)](https://github.com/LucaHome/LucaHome-RaspberryTemperatureLogger)
 
 Python script to log temperature values and provide a small GUI to view as website.
 
-https://github.com/GuepardoApps/LucaHome-RaspberryTemperatureLogger
+https://github.com/LucaHome/LucaHome-RaspberryTemperatureLogger
 
 ---
 
@@ -121,8 +119,8 @@ a javascript running on a [PuckJS](https://www.puck-js.com/)
 
 [![Platform](https://img.shields.io/badge/platform-PuckJS-yellow.svg)](http://www.puck-js.com/)
 
-[![Build](https://img.shields.io/badge/build-na-yellow.svg)](https://github.com/GuepardoApps/LucaHome-PuckJS)
-[![Version](https://img.shields.io/badge/version-v0.0.1.170703-blue.svg)](https://github.com/GuepardoApps/LucaHome-PuckJS)
+[![Build](https://img.shields.io/badge/build-na-yellow.svg)](https://github.com/LucaHome/LucaHome-PuckJS)
+[![Version](https://img.shields.io/badge/version-v0.0.1.170703-blue.svg)](https://github.com/LucaHome/LucaHome-PuckJS)
 
 JavaScript to control a PuckJS. Shall read out battery, temperature, light and magnetometer to broadcast via bluetooth LE.
 Furher plans are:
@@ -130,4 +128,8 @@ Furher plans are:
 	-	use a number of PuckJS to provide indoor navigation for an android application
 	-	possible IR control of TV
 
-https://github.com/GuepardoApps/LucaHome-PuckJS
+https://github.com/LucaHome/LucaHome-PuckJS
+
+# License
+
+LucaHome is distributed under the MIT license. [See LICENSE](LICENSE.md) for details.
