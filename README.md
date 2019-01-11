@@ -26,7 +26,7 @@ Project for home automation and other stuff
 		- [ ] requires .db for storing data
 		- [ ] send warnings
 		- [ ] Api
-		- will be PYTHON script & C++
+		- will be [PYTHON](https://github.com/LucaHome/LucaHome-RaspberryTemperatureLogger) script & C++
 	- [ ] PuckJs Beacons Logging
 		- [ ] requires .db for storing codes and data
 		- [ ] library to connect via Bluetooth
