@@ -1,4 +1,4 @@
-- [ ] Raspberry Pi Server
+- [ ] [Raspberry Pi Server](https://github.com/LucaHome/LucaHome-RaspberryServer)
     - [ ] 433 MHz Socket & Switch Control
 		- [ ] requires .db for storing codes
 		- [ ] library to send commands 433MHz
@@ -33,23 +33,30 @@
 		- Meal, ShoppingList will be in new own project for NextCloud (available in older v5.x)
 		- BirthdayReminder  will be in NextCloud using calendar app (available in older v5.x)
 	
-- [ ] Raspberry Pi Website
+- [ ] [Raspberry Pi Website](https://github.com/LucaHome/LucaHome-Website)
 	- [ ] Display Temperature Data, PuckJs Data, Network Data, Camera Data, SmartPhone Data, About Data
 	- will be TypeScript with Angular/React & Material
 
-- [ ] Android Application
+- [ ] [Android Application](https://github.com/LucaHome/LucaHome-AndroidApplication)
 	- [ ] Display Temperature Data, PuckJs Data, Network Data, Camera Data, SmartPhone Data, About Data
 	- [ ] Control sockets & switches
 	- [ ] Manage Network Access
 	- will be Kotlin
 
-- [ ] Windows Application
+- [ ] [Windows Application](https://github.com/LucaHome/LucaHome-WPFApplication)
 	- [ ] Display Temperature Data, PuckJs Data, Network Data, Camera Data, SmartPhone Data, About Data
 	- [ ] Control sockets & switches
 	- [ ] Manage Network Access
 	- will be C#/JavaScript&Html
 
-- [ ] PuckJs Beacons
+- [ ] [PuckJs Beacons](https://github.com/LucaHome/LucaHome-PuckJS)
 	- [ ] Provide Temperature, Humidity & Light Data
 	- [ ] Send Beacon for position calculation
 	- will be JavaScript
+
+- Other ideas
+	- WakeUp with alarm (music playing) and light increasing ([old project](https://github.com/LucaHome/LucaHome-MediaServer))
+	- control NextCloud
+	- control Kodi
+	- ...
+	
