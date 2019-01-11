@@ -1,3 +1,12 @@
+<h1 align="center">
+	<br>
+	<br>
+	<img width="360" src="logo.png" alt="ulid">
+	<br>
+	<br>
+	<br>
+</h1>
+
 # LucaHome
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -7,7 +16,6 @@ Project for home automation and other stuff
 
 # Todo
 
-```
 - [ ] [Raspberry Pi Server](https://github.com/LucaHome/LucaHome-RaspberryServer)
     - [ ] 433 MHz Socket & Switch Control
 		- [ ] requires .db for storing codes
@@ -69,8 +77,6 @@ Project for home automation and other stuff
 	- control NextCloud
 	- control Kodi
 	- ...
-	
-```
 
 # License
 
