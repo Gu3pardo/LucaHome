@@ -16,7 +16,7 @@ Project for home automation and other stuff
 		- [ ] requires .db for storing codes
 		- [ ] library to send commands 433MHz
 		- [ ] Api
-		- will be C++/C#
+		- will be C++/C#/Go?
 	- [ ] Temperature Logging
 		- [ ] requires .db for storing data
 		- [ ] send warnings
@@ -27,21 +27,21 @@ Project for home automation and other stuff
 		- [ ] library to connect via Bluetooth
 		- [ ] send warnings
 		- [ ] Api
-		- will be C++/C#
+		- will be C++/C#/Go?
 	- [ ] Network Control
 		- [ ] library to monitor network
 		- [ ] send warnings
 		- [ ] Api
-		- will be C++/C#
+		- will be C++/C#/Go?
 	- [ ] Camera Monitoring with Motion Detection
 		- [ ] library for camera & motion detection
 		- [ ] send warnings
 		- [ ] Api
-		- will be C++/C#
+		- will be C++/C#/Go?
 	- [ ] SmartPhone Navigation
 		- [ ] requires PuckJs Beacon connection
 		- [ ] Api
-		- will be C++/C#
+		- will be C++/C#/Go?
 	- Further
 		- Meal, ShoppingList will be in new own project for NextCloud (available in older v5.x)
 		- BirthdayReminder  will be in NextCloud using calendar app (available in older v5.x)
