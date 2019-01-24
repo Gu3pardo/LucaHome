@@ -1,11 +1,6 @@
-<h1 align="center">
-	<br>
-	<br>
-	<img width="360" src="logo.png" alt="ulid">
-	<br>
-	<br>
-	<br>
-</h1>
+<div align="center">
+	<img width="360" src="logo.png" alt="LucaHome">
+</div>
 
 # LucaHome
 
