@@ -20,23 +20,23 @@ These projects are already implemented.
 
 - [x] Three clients exists already:
 
-	- [x] The [Website](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/src) itself, integrated in nextcloud, build with VueJs
-
+	- [x] 
 [![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
 [![PHP](https://img.shields.io/badge/lang-PHP-blue.svg)](http://php.net/)
 [![C++](https://img.shields.io/badge/lang-C++-blue.svg)](https://isocpp.org/)
+The [Website](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/src) itself, integrated in nextcloud, build with VueJs
 
-	- [x] [Android client](https://github.com/LucaHome/WirelessControl-Android) build with Flutter & Dart
-
+	- [x] 
 [![API16+](https://img.shields.io/badge/API-16+-blue.svg)](https://android-arsenal.com/api?level=16)
 [![Flutter](https://img.shields.io/badge/lang-Flutter-blue.svg)](https://flutter.dev/)
 [![Kotlin](https://img.shields.io/badge/lang-Kotlin-orange.svg)](https://kotlinlang.org/)
+[Android client](https://github.com/LucaHome/WirelessControl-Android) build with Flutter & Dart
 
-	- [x] [Desktop client](https://github.com/LucaHome/WirelessControl-Desktop) build with Electron & React using Typescript
-
+	- [x] 
 [![Typescript](https://img.shields.io/badge/lang-Typescript-yellow.svg)](https://www.typescriptlang.org/)
 [![ElectronJs](https://img.shields.io/badge/lang-ElectronJs-blue.svg)](https://electronjs.org/)
 [![ReactJs](https://img.shields.io/badge/lang-ReactJs-darkblue.svg)](https://reactjs.org/)
+[Desktop client](https://github.com/LucaHome/WirelessControl-Desktop) build with Electron & React using Typescript
 
 #### Screenshots
 
