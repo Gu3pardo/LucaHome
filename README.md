@@ -40,9 +40,9 @@ The [Website](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/
 
 #### Screenshots
 
-![alt tag](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/screenshots/wireless_control_page.jpg)
-![alt tag](https://github.com/LucaHome/WirelessControl-Android/blob/master/screenshots/wireless_control_2_dark.jpg)
-![alt tag](https://github.com/LucaHome/WirelessControl-Desktop/tree/master/screenshots/dark_3_2_wireless_socket_edit.jpg)
+| Website | Android | Desktop |
+|---------|---------|---------|
+|![alt tag](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/screenshots/wireless_control_page.jpg)|![alt tag](https://github.com/LucaHome/WirelessControl-Android/blob/master/screenshots/wireless_control_2_dark.jpg)|![alt tag](https://github.com/LucaHome/WirelessControl-Desktop/tree/master/screenshots/dark_3_2_wireless_socket_edit.jpg)
 
 ## Planned implementations
 
