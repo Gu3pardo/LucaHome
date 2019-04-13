@@ -42,7 +42,7 @@ The [Website](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/
 
 | Website | Android | Desktop |
 |---------|---------|---------|
-|![alt tag](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/screenshots/wireless_control_page.jpg)|![alt tag](https://github.com/LucaHome/WirelessControl-Android/blob/master/screenshots/wireless_control_2_dark.jpg)|![alt tag](https://github.com/LucaHome/WirelessControl-Desktop/tree/master/screenshots/dark_3_2_wireless_socket_edit.jpg)
+|![alt tag](https://github.com/LucaHome/WirelessControl-Nextcloud/blob/master/screenshots/wireless_control_page.jpg)|![alt tag](https://github.com/LucaHome/WirelessControl-Android/blob/master/screenshots/wireless_control_2_dark.jpg)|![alt tag](https://github.com/LucaHome/WirelessControl-Desktop/blob/master/screenshots/dark_3_2_wireless_socket_edit.jpg)
 
 ## Planned implementations
 
@@ -55,11 +55,26 @@ It has [Webextensions](https://github.com/nextcloud/passman-webextension) for Ch
 
 Goal is to implement a desktop client with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Desktop).
 
+### Shared Clipboard
+
+- [ ] requires Nextcloud-.db for storing data
+- [ ] Nextcloud server with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master)
+- [ ] Nextcloud website with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/src)
+- [ ] Desktop client with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Desktop)
+- [ ] Mobile client with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Android)
+
 ### Temperature Logging
 
 - [ ] requires .db for storing data
 - [ ] Nextcloud integration to call db-data and send warnings via mail using TimedJobs or push by active connection
 - [x] will be [PYTHON](https://github.com/LucaHome/LucaHome-RaspberryTemperatureLogger) script & PHP, JS/TS
+
+### Camera Monitoring with Motion Detection
+
+- [ ] library for camera & motion detection
+- [ ] send warnings via mail or push by active connection
+- [ ] Server & client
+- [ ] Technology? C++/C#/Go?
 
 ### PuckJs Beacons Logging ???
 
@@ -68,21 +83,14 @@ Goal is to implement a desktop client with the same architecture like [WirelessC
 - [ ] send warnings via mail or push by active connection
 - [ ] Server & client
 
-### SmartPhone Navigation
+### SmartPhone Navigation ???
 
 - [ ] requires PuckJs Beacon connection
 - [ ] will be implemented only for mobile clients => Kotlin or Dart
 
-### Network Control
+### Network Control ???
 
 - [ ] library to monitor network
-- [ ] send warnings via mail or push by active connection
-- [ ] Server & client
-- [ ] Technology? C++/C#/Go?
-
-### Camera Monitoring with Motion Detection
-
-- [ ] library for camera & motion detection
 - [ ] send warnings via mail or push by active connection
 - [ ] Server & client
 - [ ] Technology? C++/C#/Go?
