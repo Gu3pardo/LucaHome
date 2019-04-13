@@ -18,28 +18,31 @@ These projects are already implemented.
 
 - [x] Control 433MHz sockets using a raspberry pi running nextcloud. [WirelessControl-Nextcloud](https://github.com/LucaHome/WirelessControl-Nextcloud)
 
-- [x] Three clients exist
+- [x] Three clients exists already:
 
 	- [x] The [Website](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/src) itself, integrated in nextcloud, build with VueJs
+
 [![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
 [![PHP](https://img.shields.io/badge/lang-PHP-blue.svg)](http://php.net/)
 [![C++](https://img.shields.io/badge/lang-C++-blue.svg)](https://isocpp.org/)
 
 	- [x] [Android client](https://github.com/LucaHome/WirelessControl-Android) build with Flutter & Dart
+
 [![API16+](https://img.shields.io/badge/API-16+-blue.svg)](https://android-arsenal.com/api?level=16)
 [![Flutter](https://img.shields.io/badge/lang-Flutter-blue.svg)](https://flutter.dev/)
 [![Kotlin](https://img.shields.io/badge/lang-Kotlin-orange.svg)](https://kotlinlang.org/)
 
 	- [x] [Desktop client](https://github.com/LucaHome/WirelessControl-Desktop) build with Electron & React using Typescript
+
 [![Typescript](https://img.shields.io/badge/lang-Typescript-yellow.svg)](https://www.typescriptlang.org/)
 [![ElectronJs](https://img.shields.io/badge/lang-ElectronJs-blue.svg)](https://electronjs.org/)
 [![ReactJs](https://img.shields.io/badge/lang-ReactJs-darkblue.svg)](https://reactjs.org/)
 
 #### Screenshots
 
-![alt tag](/screenshots/wireless_control_page.jpg)
-![alt tag](/screenshots/wireless_control_2_dark.jpg)
-![alt tag](/screenshots/dark_3_2_wireless_socket_edit.jpg)
+![alt tag](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/screenshots/wireless_control_page.jpg)
+![alt tag](https://github.com/LucaHome/WirelessControl-Android/blob/master/screenshots/wireless_control_2_dark.jpg)
+![alt tag](https://github.com/LucaHome/WirelessControl-Desktop/tree/master/screenshots/dark_3_2_wireless_socket_edit.jpg)
 
 ## Planned implementations
 
