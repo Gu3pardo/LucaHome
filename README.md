@@ -38,6 +38,21 @@ The [Website](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/
 [![ReactJs](https://img.shields.io/badge/lang-ReactJs-darkblue.svg)](https://reactjs.org/)
 [Desktop client](https://github.com/LucaHome/WirelessControl-Desktop) build with Electron & React using Typescript
 
+### SharedClipboard
+
+- [x] Share your clipboard on all your devices
+
+- [x] One client exists already:
+
+	- [x] 
+[![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
+[![PHP](https://img.shields.io/badge/lang-PHP-blue.svg)](http://php.net/)
+The [Website](https://github.com/LucaHome/SharedClipboard-Nextcloud/tree/master/src) itself, integrated in nextcloud, build with VueJs
+
+- [ ] Further clients are planned
+	- [ ] Mobile client with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Android)
+	- [ ] Desktop client with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Desktop)
+
 #### Screenshots
 
 | Website | Android | Desktop |
@@ -54,14 +69,6 @@ These projects are planned to be created.
 It has [Webextensions](https://github.com/nextcloud/passman-webextension) for Chrome & Firefox and its own [Android application](https://github.com/nextcloud/passman-android).
 
 Goal is to implement a desktop client with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Desktop).
-
-### Shared Clipboard
-
-- [ ] requires Nextcloud-.db for storing data
-- [ ] Nextcloud server with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master)
-- [ ] Nextcloud website with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Nextcloud/tree/master/src)
-- [ ] Desktop client with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Desktop)
-- [ ] Mobile client with the same architecture like [WirelessControl](https://github.com/LucaHome/WirelessControl-Android)
 
 ### Temperature Logging
 
